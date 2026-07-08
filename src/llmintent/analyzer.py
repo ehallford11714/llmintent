@@ -20,6 +20,7 @@ from llmintent.models import ModelBundle, get_transformer_layers, load_model_bun
 from llmintent.morphemes import MorphemeExtractor
 from llmintent.poles import build_glove_poles, build_numerical_pole
 from llmintent.query import ConceptQueryResult, query_concept_in_trajectory, query_concepts_batch
+from llmintent.trajectory import TrajectoryMapping, build_trajectory_mapping
 from llmintent.steering import (
     analyze_steering_intensity,
     calculate_pivot_entropy,
@@ -267,6 +268,22 @@ class LLMIntentAnalyzer:
             concepts,
             prompt,
             twin_b=twin_b,
+        )
+
+    def trajectory_map(
+        self,
+        prompt: str,
+        *,
+        twin_b: str | None = None,
+        concepts: list[str] | None = None,
+    ) -> TrajectoryMapping:
+        """Build unified activation trajectory mapping across all layers."""
+        return build_trajectory_mapping(
+            self.bundle,
+            prompt,
+            twin_b=twin_b,
+            transport=self.transport,
+            concepts=concepts,
         )
 
     def compare_prompts(

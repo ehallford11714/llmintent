@@ -46,6 +46,12 @@ def main(argv: list[str] | None = None) -> int:
     query.add_argument("--twin-b", default=None, help="Twin prompt for KL-Barlow (defaults to --prompt)")
     query.add_argument("--top-k", type=int, default=5)
 
+    trajectory = sub.add_parser("trajectory", help="Unified activation trajectory mapping")
+    trajectory.add_argument("--model", required=True)
+    trajectory.add_argument("--prompt", required=True)
+    trajectory.add_argument("--twin-b", default=None)
+    trajectory.add_argument("--concepts", nargs="*", default=[], help="Concepts to annotate on trajectory")
+
     args = parser.parse_args(argv)
 
     if args.command == "analyze":
@@ -145,6 +151,21 @@ def main(argv: list[str] | None = None) -> int:
                 top_k_layers=args.top_k,
             )
             print(json.dumps(result.to_dict(), indent=2))
+        finally:
+            analyzer.cleanup()
+        return 0
+
+    if args.command == "trajectory":
+        from llmintent import LLMIntentAnalyzer
+
+        analyzer = LLMIntentAnalyzer(args.model, load_glove=False)
+        try:
+            mapping = analyzer.trajectory_map(
+                args.prompt,
+                twin_b=args.twin_b,
+                concepts=args.concepts or None,
+            )
+            print(json.dumps(mapping.to_dict(), indent=2))
         finally:
             analyzer.cleanup()
         return 0

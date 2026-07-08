@@ -37,6 +37,7 @@ llmintent trace --model gpt2 --prompt "The spider has 8 legs" --transport --trac
 llmintent layers --model gpt2 --prompt "Let's think step by step"
 llmintent cognitive --model gpt2 --twin-a "simple prompt" --twin-b "CoT prompt"
 llmintent query --model gpt2 --concept "subtraction" --prompt "Eight minus two equals" --twin-b "Let's think step by step..."
+llmintent trajectory --model gpt2 --prompt "Eight minus two equals" --twin-b "Let's think step by step..." --concepts subtraction eight
 llmintent compare-cot --model gpt2 --direct "I have ten apples..." --cot "Let's think step by step..."
 ```
 
@@ -49,6 +50,7 @@ llmintent compare-cot --model gpt2 --direct "I have ten apples..." --cot "Let's 
 | `layers` | Layer → regime, role, top intent, cognitive module |
 | `jspace` | Logit/J-lens decode, transport maps, intent traces |
 | `cognitive` | Identity, reasoning, meta-reasoning, ideation kernels |
+| `trajectory` | Unified activation trajectory mapping across layers |
 | `query` | Semantic concept → layer activation via KL-Barlow-KNN |
 | `morphemes` | Lemma/morpheme extraction (Stanza, spaCy, polyglot) |
 | `projection` | GloVe ↔ model embedding projection matrix |
@@ -233,6 +235,26 @@ report.pivot_entropy       # entropy validation at pivot
 
 ---
 
+### 9. Unified trajectory mapping (`trajectory.py`)
+
+Single API that merges all per-layer signals into one trajectory table:
+
+```python
+mapping = analyzer.trajectory_map(
+    prompt="Question: Eight minus two equals ? Answer:",
+    twin_b="... Let's think step by step ...",
+    concepts=["subtraction", "eight", "step by step"],
+)
+
+print(mapping.pivots)          # inference_pivot, workspace_peak, ...
+print(mapping.layers)          # entropy, KL, intensity, top_intent, regime, cognitive module
+print(mapping.layers_for_concept("subtraction"))
+```
+
+Each row = one layer. Columns include `entropy`, `kl_divergence`, `intensity`, `top_intent`, `regime`, `dominant_module`, `is_activation_pivot`, and optional `concept_*_activation` columns.
+
+---
+
 ### 8. Semantic concept query (KL + Barlow + KNN)
 
 Directly query a **semantic concept** (plain text) and get back which layers in the activation trajectory it activates.
@@ -298,6 +320,7 @@ sparse = sparse_intent_decomposition(bundle, hidden_state, k=16)
 | `examples/cot_intensity.py` | Direct vs CoT comparison |
 | `examples/jspace_layer_thoughts.py` | J-space trace + activation layers |
 | `examples/cognitive_kernels.py` | Identity/reasoning/meta/ideation kernels |
+| `examples/trajectory_mapping.py` | Unified activation trajectory map |
 | `examples/query_concept.py` | Semantic concept → layer activation query |
 
 ## References

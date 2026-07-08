@@ -13,6 +13,7 @@ from llmintent.jspace import (
 )
 from llmintent.kernels import minimize_twin_barlow, per_layer_kl_profile
 from llmintent.query import ConceptQueryResult, query_concept_in_trajectory, query_concepts_batch
+from llmintent.trajectory import TrajectoryMapping, build_trajectory_mapping
 from llmintent.layers import build_layer_correspondence_map, summarize_layer_bands
 from llmintent.metrics import calculate_sso_score, kl_divergence, shannon_entropy
 
@@ -23,11 +24,13 @@ __all__ = [
     "ConceptQueryResult",
     "IntentTrace",
     "LLMIntentAnalyzer",
+    "TrajectoryMapping",
     "TransportMaps",
     "activation_summary",
     "build_cognitive_module_profile",
     "build_intent_trace",
     "build_layer_correspondence_map",
+    "build_trajectory_mapping",
     "calculate_sso_score",
     "classify_layer_regimes",
     "fit_transport_maps",
@@ -41,4 +44,4 @@ __all__ = [
     "summarize_layer_bands",
 ]
 
-__version__ = "0.4.0"
+__version__ = "0.4.1"
