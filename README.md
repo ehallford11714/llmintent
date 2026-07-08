@@ -36,6 +36,7 @@ llmintent analyze --model gpt2 --prompt "Two plus two equals"
 llmintent trace --model gpt2 --prompt "The spider has 8 legs" --transport --track 8 6
 llmintent layers --model gpt2 --prompt "Let's think step by step"
 llmintent cognitive --model gpt2 --twin-a "simple prompt" --twin-b "CoT prompt"
+llmintent query --model gpt2 --concept "subtraction" --prompt "Eight minus two equals" --twin-b "Let's think step by step..."
 llmintent compare-cot --model gpt2 --direct "I have ten apples..." --cot "Let's think step by step..."
 ```
 
@@ -48,7 +49,7 @@ llmintent compare-cot --model gpt2 --direct "I have ten apples..." --cot "Let's 
 | `layers` | Layer → regime, role, top intent, cognitive module |
 | `jspace` | Logit/J-lens decode, transport maps, intent traces |
 | `cognitive` | Identity, reasoning, meta-reasoning, ideation kernels |
-| `kernels` | Twin Barlow minimization + KL-weighted kernel SVD |
+| `query` | Semantic concept → layer activation via KL-Barlow-KNN |
 | `morphemes` | Lemma/morpheme extraction (Stanza, spaCy, polyglot) |
 | `projection` | GloVe ↔ model embedding projection matrix |
 | `poles` | Semantic, grammatical, numerical reference poles |
@@ -232,6 +233,41 @@ report.pivot_entropy       # entropy validation at pivot
 
 ---
 
+### 8. Semantic concept query (KL + Barlow + KNN)
+
+Directly query a **semantic concept** (plain text) and get back which layers in the activation trajectory it activates.
+
+```python
+result = analyzer.query_concept(
+    concept="subtraction",
+    prompt="Question: Eight minus two equals ? Answer:",
+    twin_b="Question: ... Answer: Let's think step by step. Eight minus two is",
+)
+
+print(result.peak_layer)       # e.g. 5
+print(result.matched_layers)   # [5, 4, 6, 3, 7]
+print(result.knn_ranking)        # KNN + fused scores per layer
+print(result.trajectory)         # full trajectory with concept_activation column
+```
+
+**Strategy:**
+1. Build per-layer **KL + twin Barlow** feature vectors from twin prompts
+2. Embed concept text into the same space (token embeddings + contextual hidden state)
+3. **KNN (cosine)** retrieves nearest layers in Barlow-projected space
+4. Re-rank by `KNN sim × KL weight × Barlow invariance × semantic probe`
+5. Annotate full activation trajectory with `concept_similarity` and `concept_activation`
+
+```python
+# Batch query
+results = analyzer.query_concepts(
+    ["identity", "reasoning", "ideation", "numerical"],
+    prompt,
+    twin_b=cot_prompt,
+)
+```
+
+---
+
 ### 7. Low-level API
 
 For custom pipelines without the facade:
@@ -262,6 +298,7 @@ sparse = sparse_intent_decomposition(bundle, hidden_state, k=16)
 | `examples/cot_intensity.py` | Direct vs CoT comparison |
 | `examples/jspace_layer_thoughts.py` | J-space trace + activation layers |
 | `examples/cognitive_kernels.py` | Identity/reasoning/meta/ideation kernels |
+| `examples/query_concept.py` | Semantic concept → layer activation query |
 
 ## References
 

@@ -19,6 +19,7 @@ from llmintent.layers import build_layer_correspondence_map, summarize_layer_ban
 from llmintent.models import ModelBundle, get_transformer_layers, load_model_bundle
 from llmintent.morphemes import MorphemeExtractor
 from llmintent.poles import build_glove_poles, build_numerical_pole
+from llmintent.query import ConceptQueryResult, query_concept_in_trajectory, query_concepts_batch
 from llmintent.steering import (
     analyze_steering_intensity,
     calculate_pivot_entropy,
@@ -222,6 +223,51 @@ class LLMIntentAnalyzer:
     def fit_transport(self, prompts: list[str]) -> TransportMaps:
         self.transport = fit_transport_maps(self.bundle, prompts)
         return self.transport
+
+    def query_concept(
+        self,
+        concept: str,
+        prompt: str,
+        *,
+        twin_b: str | None = None,
+        top_k_layers: int = 5,
+    ) -> ConceptQueryResult:
+        """
+        Query a semantic concept against the activation trajectory.
+
+        Uses KL + twin Barlow feature space with KNN retrieval to identify
+        which layers activate for the given concept text.
+        """
+        cognitive = None
+        if twin_b:
+            cognitive = build_cognitive_module_profile(
+                self.bundle,
+                prompt,
+                twin_b,
+                transport=self.transport,
+            )
+        return query_concept_in_trajectory(
+            self.bundle,
+            concept,
+            prompt,
+            twin_b=twin_b,
+            top_k_layers=top_k_layers,
+            cognitive_profile=cognitive,
+        )
+
+    def query_concepts(
+        self,
+        concepts: list[str],
+        prompt: str,
+        *,
+        twin_b: str | None = None,
+    ) -> dict[str, ConceptQueryResult]:
+        return query_concepts_batch(
+            self.bundle,
+            concepts,
+            prompt,
+            twin_b=twin_b,
+        )
 
     def compare_prompts(
         self,

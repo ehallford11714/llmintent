@@ -12,6 +12,7 @@ from llmintent.jspace import (
     fit_transport_maps,
 )
 from llmintent.kernels import minimize_twin_barlow, per_layer_kl_profile
+from llmintent.query import ConceptQueryResult, query_concept_in_trajectory, query_concepts_batch
 from llmintent.layers import build_layer_correspondence_map, summarize_layer_bands
 from llmintent.metrics import calculate_sso_score, kl_divergence, shannon_entropy
 
@@ -19,6 +20,7 @@ __all__ = [
     "AnalysisReport",
     "CognitiveModuleProfile",
     "CompactionAnalyzer",
+    "ConceptQueryResult",
     "IntentTrace",
     "LLMIntentAnalyzer",
     "TransportMaps",
@@ -33,8 +35,10 @@ __all__ = [
     "kl_divergence",
     "minimize_twin_barlow",
     "per_layer_kl_profile",
+    "query_concept_in_trajectory",
+    "query_concepts_batch",
     "shannon_entropy",
     "summarize_layer_bands",
 ]
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
