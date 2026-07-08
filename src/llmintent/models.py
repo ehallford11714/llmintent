@@ -121,3 +121,16 @@ def get_input_embeddings(model: Any) -> torch.Tensor:
     if hasattr(model, "distilbert"):
         return model.distilbert.embeddings.word_embeddings.weight.data
     raise AttributeError("Cannot locate input embeddings")
+
+
+def get_unembedding_matrix(model: Any) -> torch.Tensor:
+    """Return unembedding / lm_head weight matrix [vocab_size, hidden_dim]."""
+    if hasattr(model, "lm_head") and hasattr(model.lm_head, "weight"):
+        return model.lm_head.weight.data
+    if hasattr(model, "cls") and hasattr(model.cls, "predictions"):
+        pred = model.cls.predictions
+        if hasattr(pred, "decoder") and hasattr(pred.decoder, "weight"):
+            return pred.decoder.weight.data
+    if hasattr(model, "vocab_projector") and hasattr(model.vocab_projector, "weight"):
+        return model.vocab_projector.weight.data
+    raise AttributeError("Cannot locate unembedding matrix")

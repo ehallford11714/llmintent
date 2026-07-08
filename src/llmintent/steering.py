@@ -6,39 +6,17 @@ import pandas as pd
 import torch
 import torch.nn.functional as F
 
+from llmintent.forward import forward_hidden_states, get_lm_head
 from llmintent.metrics import cosine_intensity, kl_divergence, shannon_entropy
 from llmintent.models import ModelBundle
 
 
-def _forward_hidden_states(bundle: ModelBundle, text: str) -> tuple[torch.Tensor, list[torch.Tensor]]:
-    inputs = bundle.tokenizer(text, return_tensors="pt").to(bundle.device)
-    with torch.no_grad():
-        if bundle.is_causal:
-            if hasattr(bundle.model, "transformer"):
-                outputs = bundle.model.transformer(
-                    inputs.input_ids,
-                    output_hidden_states=True,
-                )
-            else:
-                outputs = bundle.model(
-                    **inputs,
-                    output_hidden_states=True,
-                )
-            states = list(outputs.hidden_states)
-        else:
-            outputs = bundle.model(**inputs, output_hidden_states=True)
-            states = list(outputs.hidden_states)
-    return inputs, states
+def _forward_hidden_states(bundle: ModelBundle, text: str):
+    return forward_hidden_states(bundle, text)
 
 
-def _lm_head(bundle: ModelBundle) -> torch.nn.Module:
-    if hasattr(bundle.model, "lm_head"):
-        return bundle.model.lm_head
-    if hasattr(bundle.model, "cls"):
-        return bundle.model.cls
-    if hasattr(bundle.model, "vocab_projector"):
-        return bundle.model.vocab_projector
-    raise AttributeError("Model has no recognized language modeling head")
+def _lm_head(bundle: ModelBundle):
+    return get_lm_head(bundle)
 
 
 def analyze_steering_intensity(

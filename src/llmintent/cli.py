@@ -23,6 +23,22 @@ def main(argv: list[str] | None = None) -> int:
     compare.add_argument("--direct", required=True)
     compare.add_argument("--cot", required=True)
 
+    trace = sub.add_parser("trace", help="J-space intent trace and activation layers")
+    trace.add_argument("--model", required=True)
+    trace.add_argument("--prompt", required=True)
+    trace.add_argument("--transport", action="store_true", help="Fit J-lens transport maps")
+    trace.add_argument("--track", nargs="*", default=[], help="Tokens to track rank across layers")
+
+    layers = sub.add_parser("layers", help="Layer correspondence map")
+    layers.add_argument("--model", required=True)
+    layers.add_argument("--prompt", required=True)
+    layers.add_argument("--transport", action="store_true")
+
+    cognitive = sub.add_parser("cognitive", help="Identity/reasoning/meta/ideation kernels")
+    cognitive.add_argument("--model", required=True)
+    cognitive.add_argument("--twin-a", required=True)
+    cognitive.add_argument("--twin-b", required=True)
+
     args = parser.parse_args(argv)
 
     if args.command == "analyze":
@@ -49,6 +65,7 @@ def main(argv: list[str] | None = None) -> int:
                 "cot_comparison": report.cot_comparison,
                 "pivot_entropy": report.pivot_entropy,
                 "inference_pivot": report.inference_pivot,
+                "activation_layers": report.activation_layers,
             }
             print(json.dumps(payload, indent=2))
         finally:
@@ -63,6 +80,48 @@ def main(argv: list[str] | None = None) -> int:
             sweep = analyzer.compare_prompts({"Direct": args.direct, "CoT": args.cot})
             cot = compare_cot_from_sweep(sweep)
             print(json.dumps(cot, indent=2))
+        finally:
+            analyzer.cleanup()
+        return 0
+
+    if args.command == "trace":
+        from llmintent import LLMIntentAnalyzer
+
+        analyzer = LLMIntentAnalyzer(args.model, load_glove=False, fit_jspace_transport=args.transport)
+        try:
+            trace = analyzer.intent_trace(args.prompt, track_tokens=args.track or None)
+            payload = {
+                "prompt": trace.prompt,
+                "activation_layers": trace.activation_layers,
+                "regime_bands": trace.regime_bands,
+                "entropy": trace.entropy,
+                "occupancy": trace.occupancy,
+                "rank_curves": trace.rank_curves,
+                "layer_stats": trace.layer_stats.to_dict(orient="records"),
+            }
+            print(json.dumps(payload, indent=2))
+        finally:
+            analyzer.cleanup()
+        return 0
+
+    if args.command == "layers":
+        from llmintent import LLMIntentAnalyzer
+
+        analyzer = LLMIntentAnalyzer(args.model, load_glove=False, fit_jspace_transport=args.transport)
+        try:
+            layer_map = analyzer.layer_correspondence(args.prompt)
+            print(json.dumps(layer_map.to_dict(orient="records"), indent=2))
+        finally:
+            analyzer.cleanup()
+        return 0
+
+    if args.command == "cognitive":
+        from llmintent import LLMIntentAnalyzer
+
+        analyzer = LLMIntentAnalyzer(args.model, load_glove=False)
+        try:
+            profile = analyzer.cognitive_modules(args.twin_a, args.twin_b)
+            print(json.dumps(profile.to_dict(), indent=2))
         finally:
             analyzer.cleanup()
         return 0

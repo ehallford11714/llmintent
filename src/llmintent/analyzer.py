@@ -9,8 +9,13 @@ from dataclasses import dataclass, field
 import pandas as pd
 import torch
 
+from llmintent.activation import activation_summary, identify_activation_layers
 from llmintent.compaction import CompactionAnalyzer
 from llmintent.embeddings import EmbeddingSpace, load_glove_gensim
+from llmintent.cognitive import CognitiveModuleProfile, build_cognitive_module_profile
+from llmintent.jspace.trace import IntentTrace, build_intent_trace
+from llmintent.jspace.transport import TransportMaps, fit_transport_maps
+from llmintent.layers import build_layer_correspondence_map, summarize_layer_bands
 from llmintent.models import ModelBundle, get_transformer_layers, load_model_bundle
 from llmintent.morphemes import MorphemeExtractor
 from llmintent.poles import build_glove_poles, build_numerical_pole
@@ -36,14 +41,18 @@ class AnalysisReport:
     block_semantics: dict[int, dict[str, list[str]]] = field(default_factory=dict)
     compaction: pd.DataFrame = field(default_factory=pd.DataFrame)
     inference_pivot: int | None = None
+    activation_layers: dict[str, int] = field(default_factory=dict)
+    layer_map: pd.DataFrame = field(default_factory=pd.DataFrame)
+    intent_trace: IntentTrace | None = None
+    cognitive_profile: CognitiveModuleProfile | None = None
 
 
 class LLMIntentAnalyzer:
     """
     Unified semantic extraction analyzer.
 
-    Mirrors the SemanticExtractionLLms notebook pipeline:
-    morpheme wells → block semantics → steering intensity → compaction/SSO.
+    Combines notebook metrics (steering, compaction, morpheme wells) with
+    Anthropic J-space layer thoughts (logit/J-lens decode, activation pivots).
     """
 
     def __init__(
@@ -55,6 +64,8 @@ class LLMIntentAnalyzer:
         embedding_name: str = "glove-wiki-gigaword-100",
         load_glove: bool = True,
         pivot_layer: int | None = None,
+        fit_jspace_transport: bool = False,
+        transport_prompts: list[str] | None = None,
     ) -> None:
         self.model_name = model_name
         self.pivot_layer = pivot_layer
@@ -62,6 +73,7 @@ class LLMIntentAnalyzer:
         self.extractor = MorphemeExtractor(morpheme_backend)  # type: ignore[arg-type]
         self.embedding_space: EmbeddingSpace | None = None
         self.morpheme_freq: Counter[str] = Counter()
+        self.transport: TransportMaps | None = None
 
         if load_glove:
             self.embedding_space = load_glove_gensim(embedding_name)
@@ -70,6 +82,14 @@ class LLMIntentAnalyzer:
 
         self._numerical_pole: torch.Tensor | None = None
         self._glove_poles = build_glove_poles(self.embedding_space) if self.embedding_space else None
+
+        if fit_jspace_transport:
+            prompts = transport_prompts or [
+                "The quick brown fox jumps over the lazy dog.",
+                "Two plus two equals four.",
+                "Question: What is 12 times 2? Answer:",
+            ]
+            self.transport = fit_transport_maps(self.bundle, prompts)
 
     @property
     def numerical_pole(self) -> torch.Tensor:
@@ -84,6 +104,9 @@ class LLMIntentAnalyzer:
         cot_prompt: str | None = None,
         include_compaction: bool = False,
         include_block_semantics: bool = False,
+        include_jspace: bool = True,
+        track_tokens: list[str] | None = None,
+        twin_b: str | None = None,
     ) -> AnalysisReport:
         report = AnalysisReport(prompt=prompt, model_name=self.model_name)
         pole = self.numerical_pole
@@ -107,16 +130,98 @@ class LLMIntentAnalyzer:
                 pivot_layer=pivot,
             )
 
+        if include_jspace:
+            report.intent_trace = build_intent_trace(
+                self.bundle,
+                prompt,
+                transport=self.transport,
+                track_tokens=track_tokens,
+            )
+            report.activation_layers = report.intent_trace.activation_layers
+            if twin_b:
+                report.cognitive_profile = build_cognitive_module_profile(
+                    self.bundle,
+                    prompt,
+                    twin_b,
+                    transport=self.transport,
+                )
+                report.layer_map = build_layer_correspondence_map(
+                    self.bundle,
+                    prompt,
+                    transport=self.transport,
+                    cognitive_profile=report.cognitive_profile,
+                )
+            else:
+                report.layer_map = build_layer_correspondence_map(
+                    self.bundle,
+                    prompt,
+                    transport=self.transport,
+                )
+            report.inference_pivot = report.activation_layers.get("inference_pivot")
+
         if include_block_semantics and self.embedding_space:
             report.block_semantics = self.extract_block_semantics()
 
         if include_compaction and self.embedding_space:
             comp = CompactionAnalyzer(self.model_name, self.embedding_space)
             report.compaction = comp.analyze_compaction()
-            report.inference_pivot = comp.find_inference_pivot(report.compaction)
+            if report.inference_pivot is None:
+                report.inference_pivot = comp.find_inference_pivot(report.compaction)
             comp.cleanup()
 
         return report
+
+    def identify_activation(self, prompt: str) -> dict[str, int]:
+        """Return layer indices for inference pivot, workspace peak, motor onset."""
+        return identify_activation_layers(self.bundle, prompt)
+
+    def cognitive_modules(
+        self,
+        twin_a: str,
+        twin_b: str,
+    ) -> CognitiveModuleProfile:
+        """Identify identity, reasoning, meta-reasoning, ideation kernels."""
+        return build_cognitive_module_profile(
+            self.bundle,
+            twin_a,
+            twin_b,
+            transport=self.transport,
+        )
+
+    def layer_correspondence(
+        self,
+        prompt: str,
+        *,
+        twin_b: str | None = None,
+    ) -> pd.DataFrame:
+        """Map each transformer layer to regime, role, and top verbal intent."""
+        return build_layer_correspondence_map(
+            self.bundle,
+            prompt,
+            transport=self.transport,
+            twin_b=twin_b,
+        )
+
+    def intent_trace(
+        self,
+        prompt: str,
+        *,
+        track_tokens: list[str] | None = None,
+    ) -> IntentTrace:
+        """Build full J-space intent trace (layer thoughts)."""
+        return build_intent_trace(
+            self.bundle,
+            prompt,
+            transport=self.transport,
+            track_tokens=track_tokens,
+        )
+
+    def layer_band_summary(self, prompt: str) -> dict:
+        return summarize_layer_bands(self.bundle, prompt, transport=self.transport)
+
+    def fit_transport(self, prompts: list[str]) -> TransportMaps:
+        self.transport = fit_transport_maps(self.bundle, prompts)
+        return self.transport
 
     def compare_prompts(
         self,
@@ -127,6 +232,9 @@ class LLMIntentAnalyzer:
 
     def stress_test(self, simple: str, complex: str) -> pd.DataFrame:
         return run_stress_test(self.bundle, simple, complex)
+
+    def activation_profile(self, prompt: str) -> pd.DataFrame:
+        return activation_summary(self.bundle, prompt)
 
     def extract_block_semantics(self, max_layers: int | None = None) -> dict[int, dict[str, list[str]]]:
         if not self.embedding_space:
@@ -163,7 +271,6 @@ class LLMIntentAnalyzer:
         return pd.DataFrame(rows)
 
     def _default_pivot(self) -> int:
-        # Notebook default for GPT-2 XL; scale proportionally for other depths
         canonical = 18
         canonical_depth = 48
         scaled = int(round(canonical / canonical_depth * self.bundle.num_layers))
