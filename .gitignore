@@ -36,3 +36,9 @@ desktop.ini
 # Model caches (downloaded at runtime)
 .cache/
 models/
+
+# Jupyter
+.ipynb_checkpoints
+
+# Streamlit / secrets
+.streamlit/secrets.toml
