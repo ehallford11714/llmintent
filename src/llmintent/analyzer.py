@@ -183,11 +183,15 @@ class LLMIntentAnalyzer:
         twin_b: str,
     ) -> CognitiveModuleProfile:
         """Identify identity, reasoning, meta-reasoning, ideation kernels."""
+        from llmintent.heighten.cot_delta import compute_cot_delta
+
+        cot_delta = compute_cot_delta(self.bundle, twin_a, twin_b)
         return build_cognitive_module_profile(
             self.bundle,
             twin_a,
             twin_b,
             transport=self.transport,
+            cot_delta=cot_delta,
         )
 
     def layer_correspondence(
@@ -284,6 +288,83 @@ class LLMIntentAnalyzer:
             twin_b=twin_b,
             transport=self.transport,
             concepts=concepts,
+        )
+
+    def visualizer(self, output_dir: str = "llmintent_viz"):
+        """Return a VisualizationSuite for maps, correlations, and animations."""
+        from llmintent.viz import VisualizationSuite
+
+        return VisualizationSuite(self.bundle, output_dir=output_dir)
+
+    def visualize_report(
+        self,
+        prompt: str,
+        *,
+        twin_b: str | None = None,
+        concepts: list[str] | None = None,
+        output_dir: str = "llmintent_viz",
+        include_morphemes: bool = False,
+    ) -> dict[str, str]:
+        """Generate full visualization report (maps, correlations, animations)."""
+        viz = self.visualizer(output_dir=output_dir)
+        block_semantics = self.extract_block_semantics() if include_morphemes else None
+        return viz.render_full_report(
+            prompt,
+            twin_b=twin_b,
+            concepts=concepts,
+            block_semantics=block_semantics,
+        )
+
+    def heighten_framework(self, focus_threshold: float = 0.45):
+        """Return HeightenedReasoningFramework for retrace-based focus sharpening."""
+        from llmintent.heighten import HeightenedReasoningFramework
+
+        return HeightenedReasoningFramework(
+            self.bundle,
+            transport=self.transport,
+            focus_threshold=focus_threshold,
+        )
+
+    def diagnose_focus(
+        self,
+        prompt: str,
+        *,
+        anchor_prompt: str | None = None,
+        concepts: list[str] | None = None,
+    ):
+        """Measure how focused reasoning is for a prompt trajectory."""
+        return self.heighten_framework().diagnose_focus(
+            prompt,
+            anchor_prompt=anchor_prompt,
+            concepts=concepts,
+        )
+
+    def heighten_reasoning(
+        self,
+        prompt: str,
+        *,
+        anchor_prompt: str | None = None,
+        concepts: list[str] | None = None,
+        mode: str = "explicit_retrace",
+        apply_steering: bool = False,
+    ):
+        """
+        Heighten reasoning by forcing a self-retrace and measuring focus gain.
+
+        Uses retrace prompt scaffolding + optional activation steering at
+        reasoning layers to sharpen concept-peaked, layer-concentrated computation.
+        """
+        from llmintent.heighten import RetraceMode, heighten_reasoning
+
+        retrace_mode = RetraceMode(mode) if isinstance(mode, str) else mode
+        return heighten_reasoning(
+            self.bundle,
+            prompt,
+            anchor_prompt=anchor_prompt,
+            concepts=concepts,
+            mode=retrace_mode,
+            transport=self.transport,
+            apply_steering=apply_steering,
         )
 
     def compare_prompts(

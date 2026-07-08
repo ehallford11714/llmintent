@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "llmintent"
-version = "0.4.1"
+version = "0.8.0"
 description = "Semantic extraction and intent analysis for transformer LLMs"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -28,9 +28,10 @@ dependencies = [
 [project.optional-dependencies]
 nlp = ["stanza>=1.8", "spacy>=3.7"]
 embeddings = ["gensim>=4.3"]
-viz = ["matplotlib>=3.8", "seaborn>=0.13"]
+viz = ["matplotlib>=3.8", "seaborn>=0.13", "pillow>=10.0"]
+benchmark = ["datasets>=2.14"]
 dev = ["pytest>=8.0", "ruff>=0.4"]
-all = ["llmintent[nlp,embeddings,viz,dev]"]
+all = ["llmintent[nlp,embeddings,viz,benchmark,dev]"]
 
 [project.scripts]
 llmintent = "llmintent.cli:main"

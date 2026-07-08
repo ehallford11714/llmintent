@@ -52,6 +52,77 @@ def main(argv: list[str] | None = None) -> int:
     trajectory.add_argument("--twin-b", default=None)
     trajectory.add_argument("--concepts", nargs="*", default=[], help="Concepts to annotate on trajectory")
 
+    viz = sub.add_parser("viz", help="Visualization suite: maps, correlations, animations")
+    viz.add_argument("--model", required=True)
+    viz.add_argument("--prompt", required=True)
+    viz.add_argument("--twin-b", default=None)
+    viz.add_argument("--concepts", nargs="*", default=[])
+    viz.add_argument("--output-dir", default="llmintent_viz")
+    viz.add_argument(
+        "--type",
+        choices=["full", "trajectory-map", "morpheme-map", "subspace", "concept-corr", "reasoning-corr", "trajectory-anim", "subspace-anim", "intent-anim"],
+        default="full",
+        help="Visualization type (default: full report)",
+    )
+    viz.add_argument("--blocks", action="store_true", help="Include morpheme map (requires GloVe)")
+    viz.add_argument("--transport", action="store_true")
+
+    heighten = sub.add_parser("heighten", help="Heightened reasoning via forced retrace")
+    heighten.add_argument("--model", required=True)
+    heighten.add_argument("--prompt", required=True)
+    heighten.add_argument("--anchor", default=None, help="CoT or anchor prompt (defaults to --prompt)")
+    heighten.add_argument("--concepts", nargs="*", default=[])
+    heighten.add_argument(
+        "--mode",
+        choices=["explicit_retrace", "concept_anchor", "pivot_replay", "correction", "focused_cot"],
+        default="explicit_retrace",
+    )
+    heighten.add_argument("--steer", action="store_true", help="Apply activation focus steering")
+    heighten.add_argument("--diagnose-only", action="store_true", help="Only report focus metrics")
+    heighten.add_argument("--transport", action="store_true")
+
+    benchmark = sub.add_parser("benchmark", help="HellaSwag SLM benchmark with retrace ablations")
+    benchmark_sub = benchmark.add_subparsers(dest="benchmark_cmd", required=True)
+
+    hs = benchmark_sub.add_parser("hellaswag", help="Run HellaSwag with retrace ablations")
+    hs.add_argument("--models", nargs="+", default=["gpt2", "distilgpt2"])
+    hs.add_argument("--limit", type=int, default=20)
+    hs.add_argument("--conditions", default="fast", help="fast, default, or comma-separated")
+    hs.add_argument("--store", default="llmintent_retraces/hellaswag.jsonl")
+    hs.add_argument("--fallback", action="store_true", help="Use built-in fixture subset")
+    hs.add_argument("--no-focus", action="store_true", help="Skip focus metric measurement")
+
+    cmp = benchmark_sub.add_parser("compare", help="Summarize accuracy from retrace store")
+    cmp.add_argument("--store", default="llmintent_retraces/hellaswag.jsonl")
+    cmp.add_argument("--export-csv", default=None)
+
+    slms = benchmark_sub.add_parser("slms", help="List prepared SLM targets")
+    slms.set_defaults(benchmark_cmd="slms")
+
+    retracement = sub.add_parser("retracement", help="Retracement Transformer perplexity & ablation")
+    rt_sub = retracement.add_subparsers(dest="retracement_cmd", required=True)
+
+    rt_ppl = rt_sub.add_parser("perplexity", help="Perplexity for one retracement mode")
+    rt_ppl.add_argument("--model", default="gpt2")
+    rt_ppl.add_argument(
+        "--mode",
+        choices=[
+            "baseline",
+            "focus_gate",
+            "retrace_steer",
+            "dual_pass",
+            "workspace_loop",
+            "extreme",
+        ],
+        default="focus_gate",
+    )
+    rt_ppl.add_argument("--limit", type=int, default=24)
+
+    rt_ab = rt_sub.add_parser("ablation", help="Perplexity ablation across modes")
+    rt_ab.add_argument("--models", nargs="+", default=["gpt2", "distilgpt2"])
+    rt_ab.add_argument("--limit", type=int, default=24)
+    rt_ab.add_argument("--full", action="store_true", help="All six modes (slower)")
+
     args = parser.parse_args(argv)
 
     if args.command == "analyze":
@@ -169,6 +240,155 @@ def main(argv: list[str] | None = None) -> int:
         finally:
             analyzer.cleanup()
         return 0
+
+    if args.command == "viz":
+        from llmintent import LLMIntentAnalyzer
+
+        load_glove = args.blocks or args.type == "morpheme-map"
+        analyzer = LLMIntentAnalyzer(
+            args.model,
+            load_glove=load_glove,
+            fit_jspace_transport=args.transport,
+        )
+        try:
+            suite = analyzer.visualizer(output_dir=args.output_dir)
+            mapping = suite.trajectory_mapping(
+                args.prompt,
+                twin_b=args.twin_b,
+                concepts=args.concepts or None,
+            )
+            trace = suite.intent_trace(args.prompt)
+            paths: dict[str, str] = {}
+
+            if args.type in ("full", "trajectory-map"):
+                paths["trajectory_map"] = suite.save_trajectory_map(mapping)
+            if args.type in ("full", "subspace"):
+                paths["reasoning_subspace"] = suite.save_reasoning_subspace(
+                    args.prompt, mapping=mapping
+                )
+            if args.type in ("full", "concept-corr"):
+                paths["concept_correlation"] = suite.save_concept_correlation(mapping)
+            if args.type in ("full", "reasoning-corr"):
+                paths["reasoning_correlation"] = suite.save_reasoning_correlation(mapping)
+            if args.type in ("full", "trajectory-anim"):
+                paths["trajectory_animation"] = suite.save_trajectory_animation(mapping)
+            if args.type in ("full", "subspace-anim"):
+                paths["subspace_animation"] = suite.save_subspace_animation(
+                    args.prompt, trace=trace
+                )
+            if args.type in ("full", "intent-anim"):
+                paths["intent_animation"] = suite.save_intent_animation(trace)
+            if args.type in ("full", "morpheme-map") or args.blocks:
+                semantics = analyzer.extract_block_semantics()
+                paths["morpheme_map"] = suite.save_morpheme_map(semantics)
+
+            print(json.dumps({"output_dir": args.output_dir, "files": paths}, indent=2))
+        finally:
+            analyzer.cleanup()
+        return 0
+
+    if args.command == "heighten":
+        from llmintent import LLMIntentAnalyzer
+
+        analyzer = LLMIntentAnalyzer(
+            args.model,
+            load_glove=False,
+            fit_jspace_transport=args.transport,
+        )
+        try:
+            if args.diagnose_only:
+                focus, mapping = analyzer.diagnose_focus(
+                    args.prompt,
+                    anchor_prompt=args.anchor,
+                    concepts=args.concepts or None,
+                )
+                print(
+                    json.dumps(
+                        {
+                            "focus": focus.to_dict(),
+                            "pivots": mapping.pivots,
+                        },
+                        indent=2,
+                    )
+                )
+            else:
+                result = analyzer.heighten_reasoning(
+                    args.prompt,
+                    anchor_prompt=args.anchor,
+                    concepts=args.concepts or None,
+                    mode=args.mode,
+                    apply_steering=args.steer,
+                )
+                print(json.dumps(result.to_dict(), indent=2))
+        finally:
+            analyzer.cleanup()
+        return 0
+
+    if args.command == "benchmark":
+        if args.benchmark_cmd == "slms":
+            from llmintent.benchmark import list_slms
+
+            print(json.dumps(list_slms(), indent=2))
+            return 0
+
+        if args.benchmark_cmd == "compare":
+            from llmintent.benchmark import RetraceStore
+
+            store = RetraceStore(args.store)
+            summary = store.summarize_accuracy()
+            payload = {"summary": summary.to_dict(orient="records") if not summary.empty else []}
+            if args.export_csv:
+                path = store.export_csv(args.export_csv)
+                payload["csv"] = path
+            print(json.dumps(payload, indent=2))
+            return 0
+
+        if args.benchmark_cmd == "hellaswag":
+            from llmintent.benchmark import BenchmarkRunConfig, HellaSwagBenchmarkRunner, parse_conditions
+
+            config = BenchmarkRunConfig(
+                models=args.models,
+                conditions=parse_conditions(args.conditions),
+                limit=args.limit,
+                store_path=args.store,
+                measure_focus=not args.no_focus,
+                use_fallback=args.fallback,
+            )
+            runner = HellaSwagBenchmarkRunner(config)
+            results = runner.run_all()
+            compare = runner.compare_from_store()
+            print(
+                json.dumps(
+                    {
+                        "run_results": results.to_dict(orient="records"),
+                        "store_summary": compare.to_dict(orient="records") if not compare.empty else [],
+                        "store_path": args.store,
+                    },
+                    indent=2,
+                )
+            )
+            return 0
+
+    if args.command == "retracement":
+        if args.retracement_cmd == "perplexity":
+            from llmintent.retracement import RetracementConfig, RetracementMode, evaluate_perplexity, load_eval_texts
+
+            cfg = RetracementConfig(mode=RetracementMode(args.mode))
+            texts = load_eval_texts(limit=args.limit)
+            result = evaluate_perplexity(args.model, cfg, texts)
+            print(json.dumps(result.to_dict(), indent=2))
+            return 0
+
+        if args.retracement_cmd == "ablation":
+            from llmintent.retracement import run_retracement_ablation
+
+            df = run_retracement_ablation(
+                models=args.models,
+                fast=not args.full,
+                text_limit=args.limit,
+            )
+            print(json.dumps(df.to_dict(orient="records"), indent=2))
+            return 0
 
     return 1
 
