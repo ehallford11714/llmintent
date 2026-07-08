@@ -9,10 +9,19 @@ The reference notebook lives at `reference/SemanticExtractionLLms.ipynb` (copied
 ## Install
 
 ```powershell
-cd C:\Users\ehall\OneDrive\Desktop\research\LLMIntent
-pip install -e ".[all]"
+git clone https://github.com/ehallford11714/LLMIntent.git
+cd LLMIntent
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -e ".[all]"
 python -m spacy download en_core_web_sm
 python -c "import stanza; stanza.download('en')"
+```
+
+Or from a local checkout:
+
+```powershell
+cd C:\Users\ehall\OneDrive\Desktop\research\LLMIntent
+pip install -e ".[all]"
 ```
 
 ## Quick start
