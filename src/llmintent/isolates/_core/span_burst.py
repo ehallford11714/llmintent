@@ -310,8 +310,8 @@ class CreativeBurstHopper:
 
         typ_path = [_typ_str(self.by_id[i].typology) for i in visited if i in self.by_id]
         summary = (
-            f"{mode}: {len(hops)} hops from `{start.id}` → "
-            + " → ".join(typ_path)
+            f"{mode}: {len(hops)} hops from `{start.id}` -> "
+            + " -> ".join(typ_path)
         )
         return BurstPath(
             seed_id=start.id,
@@ -385,8 +385,13 @@ class CreativeBurstHopper:
         # creative_burst
         visited_typs = {_typ_str(self.by_id[i].typology) for i in visited if i in self.by_id}
         anchor_ids = [s.id for s in self.spans if s.protect]
+        unvisited_anchors = [s for s in candidates if s.id in set(anchor_ids)]
         visited_anchors = sum(1 for a in anchor_ids if a in visited_set)
         need_anchor = visited_anchors < min(2, len(anchor_ids)) and len(visited) >= 2
+        # Periodic forced visit so anchors stay in the creative path
+        if unvisited_anchors and (len(visited) % 2 == 0):
+            pick = max(unvisited_anchors, key=lambda s: (s.hop_weight, s.id))
+            return pick, 5.0 + pick.hop_weight, "forced_anchor_pulse"
 
         scored: list[tuple[float, SpanIsolate, str]] = []
         for s in candidates:
