@@ -27,6 +27,7 @@ Python library derived from the **SemanticExtractionLLms** research notebook. LL
 - [Source](#source)
 - [Install](#install)
 - [Quick start](#quick-start)
+- [Model suite](#model-suite-qwen--mistral--minimax--glm)
 - [Research pipeline](#research-pipeline)
 - [CLI](#cli)
 - [Modules](#modules)
@@ -62,6 +63,7 @@ The reference notebook lives at `reference/SemanticExtractionLLms.ipynb`. Code c
 pip install llmintent
 pip install "llmintent[viz]"      # maps & animations
 pip install "llmintent[live]"       # Streamlit UI + FastAPI
+pip install "llmintent[models]"     # accelerate stack for Qwen/Mistral/MiniMax/GLM suite
 pip install "llmintent[all]"        # full research stack
 ```
 
@@ -85,6 +87,7 @@ Publishing to PyPI: see [`docs/PUBLISHING.md`](docs/PUBLISHING.md).
 | `[viz]` | matplotlib, seaborn, pillow | Maps, correlation heatmaps, animations |
 | `[benchmark]` | datasets | HellaSwag loading |
 | `[live]` | fastapi, uvicorn, streamlit | Real-time Live app + API |
+| `[models]` / `[hf]` / `[slm]` | transformers, torch, accelerate | Curated Qwen/Mistral/MiniMax/GLM suite |
 | `[nlp]` | stanza, spacy | Morpheme / lemma extraction |
 | `[embeddings]` | gensim | GloVe projection & weight semantics |
 | `[all]` | everything above | Full research pipeline |
@@ -100,6 +103,37 @@ print(report.activation_layers)
 print(report.intensity_sweep.head())
 analyzer.cleanup()
 ```
+
+## Model suite (Qwen / Mistral / MiniMax / GLM)
+
+Beyond GPT-2 defaults, LLMIntent ships a curated **model suite** for larger instruct models. Full tables, VRAM guidance, and API fallbacks: [`docs/MODEL_SUITE.md`](docs/MODEL_SUITE.md).
+
+| Family | Example HF ids (tiny → medium) |
+|--------|--------------------------------|
+| **Qwen** | `Qwen/Qwen2.5-0.5B-Instruct`, `…-3B-Instruct`, `…-7B-Instruct` |
+| **Mistral** | `mistralai/Ministral-3-3B-Instruct-2512`, `…-8B-…`, `…-14B-…` |
+| **MiniMax** | `MiniMaxAI/MiniMax-M2` (MoE; API preferred on small GPUs) |
+| **GLM** | `THUDM/chatglm3-6b`, `zai-org/GLM-4-9B-0414`, `zai-org/GLM-4.7-Flash` |
+| **legacy** | `distilgpt2`, `gpt2` (offline CI) |
+
+```python
+from llmintent import LLMIntentAnalyzer, list_models, resolve_model_id
+from llmintent.suite import get_model_spec, load_suite_model
+
+list_models(family="qwen")
+hf_id = resolve_model_id(family="qwen", size="tiny")
+analyzer = LLMIntentAnalyzer.from_suite("qwen", "tiny", load_glove=False)
+# Env: LLMINTENT_FAMILY=qwen LLMINTENT_SIZE=medium LLMINTENT_DEVICE=cuda
+```
+
+```powershell
+python -m llmintent models list
+python -m llmintent models info qwen medium
+python -m llmintent run --family legacy --size tiny --text "Hello"
+python -m llmintent analyze --family qwen --size tiny --prompt "Two plus two equals"
+```
+
+Size tiers: `tiny` \| `small` \| `medium` \| `large` \| `xl`. Weights load lazily — never at import time. Multi-GB download tests stay behind `LLMINTENT_LOAD_TEST=1`.
 
 ## Research pipeline
 
@@ -167,12 +201,18 @@ flowchart LR
 
 ```powershell
 llmintent analyze --model gpt2 --prompt "Two plus two equals"
+llmintent analyze --family qwen --size tiny --prompt "Two plus two equals"
 llmintent trace --model gpt2 --prompt "The spider has 8 legs" --transport --track 8 6
 llmintent layers --model gpt2 --prompt "Let's think step by step"
 llmintent cognitive --model gpt2 --twin-a "simple prompt" --twin-b "CoT prompt"
 llmintent query --model gpt2 --concept "subtraction" --prompt "Eight minus two equals" --twin-b "Let's think step by step..."
 llmintent trajectory --model gpt2 --prompt "Eight minus two equals" --twin-b "Let's think step by step..." --concepts subtraction eight
 llmintent compare-cot --model gpt2 --direct "I have ten apples..." --cot "Let's think step by step..."
+
+# Model suite
+llmintent models list --family mistral
+llmintent models info glm medium
+llmintent run --family legacy --size small --text "The capital of France is"
 
 # Visualization — full report or single artifact
 llmintent viz --model gpt2 --prompt "Eight minus two equals" --twin-b "Let's think..." --concepts subtraction eight --blocks
@@ -201,6 +241,7 @@ llmintent viz --type subspace-anim --model gpt2 --prompt "Eight minus two equals
 
 | Module | Purpose |
 |--------|---------|
+| `suite` | Curated Qwen / Mistral / MiniMax / GLM / legacy registry + lazy load |
 | `metrics` | SSO score, Shannon entropy, KL divergence |
 | `activation` | Inference pivot, workspace peak, motor onset, intensity peak |
 | `layers` | Layer → regime, role, top intent, cognitive module |

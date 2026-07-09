@@ -35,7 +35,22 @@ class LayerAccessor(Protocol):
 
 def _is_causal_arch(name: str) -> bool:
     lowered = name.lower()
-    return any(k in lowered for k in ("gpt", "llama", "qwen", "mistral", "phi"))
+    return any(
+        k in lowered
+        for k in (
+            "gpt",
+            "llama",
+            "qwen",
+            "mistral",
+            "ministral",
+            "mixtral",
+            "phi",
+            "minimax",
+            "glm",
+            "chatglm",
+            "opt-",
+        )
+    )
 
 
 def load_model_bundle(

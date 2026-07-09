@@ -69,6 +69,22 @@ _REGISTRY: dict[str, LiveModelSpec] = {m.key: m for m in LIVE_MODELS}
 def get_live_model(key: str) -> LiveModelSpec:
     if key in _REGISTRY:
         return _REGISTRY[key]
+    # Suite keys: "qwen:medium", "mistral:small", …
+    if ":" in key and "/" not in key.split(":", 1)[0]:
+        try:
+            from llmintent.suite import get_model_spec
+
+            fam, _, sz = key.partition(":")
+            spec = get_model_spec(fam, sz or "medium")
+            return LiveModelSpec(
+                key=key,
+                hf_name=spec.hf_id,
+                params_m=spec.params_b * 1000.0,
+                description=spec.description,
+                chat_template=spec.chat_template,
+            )
+        except KeyError:
+            pass
     # Allow direct HF hub ids
     return LiveModelSpec(
         key=key,

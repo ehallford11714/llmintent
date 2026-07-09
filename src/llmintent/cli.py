@@ -7,53 +7,90 @@ import json
 import sys
 
 
+def _add_model_args(p: argparse.ArgumentParser, *, model_required: bool = False) -> None:
+    """Shared --model / --family / --size / --device flags."""
+    p.add_argument(
+        "--model",
+        default=None,
+        required=model_required,
+        help="HF model id or suite key (family:size)",
+    )
+    p.add_argument(
+        "--family",
+        default=None,
+        choices=["qwen", "mistral", "minimax", "glm", "legacy"],
+        help="Model suite family (see: llmintent models list)",
+    )
+    p.add_argument(
+        "--size",
+        default=None,
+        choices=["tiny", "small", "medium", "large", "xl"],
+        help="Suite size tier (default: medium when --family is set)",
+    )
+    p.add_argument("--device", default=None, help="Torch device (or LLMINTENT_DEVICE)")
+
+
+def _resolve_cli_model(args: argparse.Namespace, *, default: str = "gpt2") -> str:
+    from llmintent.suite import resolve_model_id
+
+    if getattr(args, "family", None):
+        return resolve_model_id(
+            model=getattr(args, "model", None),
+            family=args.family,
+            size=getattr(args, "size", None) or "medium",
+        )
+    if getattr(args, "model", None):
+        return resolve_model_id(model=args.model)
+    return resolve_model_id(default=default)
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Semantic extraction and intent analysis")
     sub = parser.add_subparsers(dest="command", required=True)
 
     analyze = sub.add_parser("analyze", help="Analyze a single prompt")
-    analyze.add_argument("--model", required=True)
+    _add_model_args(analyze)
     analyze.add_argument("--prompt", required=True)
     analyze.add_argument("--cot", default=None, help="Optional chain-of-thought prompt")
     analyze.add_argument("--compaction", action="store_true")
     analyze.add_argument("--blocks", action="store_true")
 
     compare = sub.add_parser("compare-cot", help="Compare direct vs CoT intensity")
-    compare.add_argument("--model", required=True)
+    _add_model_args(compare)
     compare.add_argument("--direct", required=True)
     compare.add_argument("--cot", required=True)
 
     trace = sub.add_parser("trace", help="J-space intent trace and activation layers")
-    trace.add_argument("--model", required=True)
+    _add_model_args(trace)
     trace.add_argument("--prompt", required=True)
     trace.add_argument("--transport", action="store_true", help="Fit J-lens transport maps")
     trace.add_argument("--track", nargs="*", default=[], help="Tokens to track rank across layers")
 
     layers = sub.add_parser("layers", help="Layer correspondence map")
-    layers.add_argument("--model", required=True)
+    _add_model_args(layers)
     layers.add_argument("--prompt", required=True)
     layers.add_argument("--transport", action="store_true")
 
     cognitive = sub.add_parser("cognitive", help="Identity/reasoning/meta/ideation kernels")
-    cognitive.add_argument("--model", required=True)
+    _add_model_args(cognitive)
     cognitive.add_argument("--twin-a", required=True)
     cognitive.add_argument("--twin-b", required=True)
 
     query = sub.add_parser("query", help="Query semantic concept in activation trajectory")
-    query.add_argument("--model", required=True)
+    _add_model_args(query)
     query.add_argument("--concept", required=True, help="Semantic concept text to locate")
     query.add_argument("--prompt", required=True, help="Anchor prompt for trajectory")
     query.add_argument("--twin-b", default=None, help="Twin prompt for KL-Barlow (defaults to --prompt)")
     query.add_argument("--top-k", type=int, default=5)
 
     trajectory = sub.add_parser("trajectory", help="Unified activation trajectory mapping")
-    trajectory.add_argument("--model", required=True)
+    _add_model_args(trajectory)
     trajectory.add_argument("--prompt", required=True)
     trajectory.add_argument("--twin-b", default=None)
     trajectory.add_argument("--concepts", nargs="*", default=[], help="Concepts to annotate on trajectory")
 
     viz = sub.add_parser("viz", help="Visualization suite: maps, correlations, animations")
-    viz.add_argument("--model", required=True)
+    _add_model_args(viz)
     viz.add_argument("--prompt", required=True)
     viz.add_argument("--twin-b", default=None)
     viz.add_argument("--concepts", nargs="*", default=[])
@@ -68,7 +105,7 @@ def main(argv: list[str] | None = None) -> int:
     viz.add_argument("--transport", action="store_true")
 
     heighten = sub.add_parser("heighten", help="Heightened reasoning via forced retrace")
-    heighten.add_argument("--model", required=True)
+    _add_model_args(heighten)
     heighten.add_argument("--prompt", required=True)
     heighten.add_argument("--anchor", default=None, help="CoT or anchor prompt (defaults to --prompt)")
     heighten.add_argument("--concepts", nargs="*", default=[])
@@ -148,12 +185,73 @@ def main(argv: list[str] | None = None) -> int:
     live_run.add_argument("--steer", action="store_true")
     live_run.add_argument("--max-tokens", type=int, default=64)
 
+    models_cmd = sub.add_parser("models", help="List / inspect curated model suite")
+    models_sub = models_cmd.add_subparsers(dest="models_cmd", required=True)
+    models_list = models_sub.add_parser("list", help="List suite models")
+    models_list.add_argument("--family", default=None, choices=["qwen", "mistral", "minimax", "glm", "legacy"])
+    models_list.add_argument("--no-legacy", action="store_true")
+    models_info = models_sub.add_parser("info", help="Show one suite entry")
+    models_info.add_argument("family", choices=["qwen", "mistral", "minimax", "glm", "legacy"])
+    models_info.add_argument("size", nargs="?", default="medium", choices=["tiny", "small", "medium", "large", "xl"])
+    models_env = models_sub.add_parser("env", help="Show LLMINTENT_* env resolution")
+
+    run_cmd = sub.add_parser("run", help="Quick text generation with a suite model")
+    _add_model_args(run_cmd)
+    run_cmd.add_argument("--text", "--prompt", dest="text", required=True, help="Prompt text")
+    run_cmd.add_argument("--max-new-tokens", type=int, default=32)
+
     args = parser.parse_args(argv)
+
+    if args.command == "models":
+        from llmintent.suite import get_model_spec, list_models, resolve_from_env
+
+        if args.models_cmd == "list":
+            rows = list_models(family=args.family, include_legacy=not args.no_legacy)
+            print(json.dumps(rows, indent=2))
+            return 0
+        if args.models_cmd == "info":
+            print(json.dumps(get_model_spec(args.family, args.size).to_dict(), indent=2))
+            return 0
+        if args.models_cmd == "env":
+            print(json.dumps(resolve_from_env(), indent=2))
+            return 0
+
+    if args.command == "run":
+        from llmintent.suite import load_suite_model
+
+        model_id = _resolve_cli_model(args, default="distilgpt2")
+        bundle = load_suite_model(model=model_id, device=args.device)
+        try:
+            import torch
+
+            tok = bundle.tokenizer
+            if tok.pad_token is None and tok.eos_token is not None:
+                tok.pad_token = tok.eos_token
+            enc = tok(args.text, return_tensors="pt")
+            enc = {k: v.to(bundle.device) for k, v in enc.items()}
+            with torch.no_grad():
+                out = bundle.model.generate(
+                    **enc,
+                    max_new_tokens=args.max_new_tokens,
+                    do_sample=False,
+                    pad_token_id=tok.pad_token_id,
+                )
+            text = tok.decode(out[0], skip_special_tokens=True)
+            print(
+                json.dumps(
+                    {"model": bundle.name, "prompt": args.text, "output": text},
+                    indent=2,
+                )
+            )
+        finally:
+            del bundle.model
+        return 0
 
     if args.command == "analyze":
         from llmintent import LLMIntentAnalyzer
 
-        analyzer = LLMIntentAnalyzer(args.model)
+        model_id = _resolve_cli_model(args)
+        analyzer = LLMIntentAnalyzer(model_id, device=args.device)
         try:
             report = analyzer.analyze_prompt(
                 args.prompt,
@@ -184,7 +282,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "compare-cot":
         from llmintent import LLMIntentAnalyzer
 
-        analyzer = LLMIntentAnalyzer(args.model)
+        analyzer = LLMIntentAnalyzer(_resolve_cli_model(args), device=args.device)
         try:
             sweep = analyzer.compare_prompts({"Direct": args.direct, "CoT": args.cot})
             cot = compare_cot_from_sweep(sweep)
@@ -196,7 +294,12 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "trace":
         from llmintent import LLMIntentAnalyzer
 
-        analyzer = LLMIntentAnalyzer(args.model, load_glove=False, fit_jspace_transport=args.transport)
+        analyzer = LLMIntentAnalyzer(
+            _resolve_cli_model(args),
+            device=args.device,
+            load_glove=False,
+            fit_jspace_transport=args.transport,
+        )
         try:
             trace = analyzer.intent_trace(args.prompt, track_tokens=args.track or None)
             payload = {
@@ -216,7 +319,12 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "layers":
         from llmintent import LLMIntentAnalyzer
 
-        analyzer = LLMIntentAnalyzer(args.model, load_glove=False, fit_jspace_transport=args.transport)
+        analyzer = LLMIntentAnalyzer(
+            _resolve_cli_model(args),
+            device=args.device,
+            load_glove=False,
+            fit_jspace_transport=args.transport,
+        )
         try:
             layer_map = analyzer.layer_correspondence(args.prompt)
             print(json.dumps(layer_map.to_dict(orient="records"), indent=2))
@@ -227,7 +335,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "cognitive":
         from llmintent import LLMIntentAnalyzer
 
-        analyzer = LLMIntentAnalyzer(args.model, load_glove=False)
+        analyzer = LLMIntentAnalyzer(_resolve_cli_model(args), device=args.device, load_glove=False)
         try:
             profile = analyzer.cognitive_modules(args.twin_a, args.twin_b)
             print(json.dumps(profile.to_dict(), indent=2))
@@ -238,7 +346,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "query":
         from llmintent import LLMIntentAnalyzer
 
-        analyzer = LLMIntentAnalyzer(args.model, load_glove=False)
+        analyzer = LLMIntentAnalyzer(_resolve_cli_model(args), device=args.device, load_glove=False)
         try:
             result = analyzer.query_concept(
                 args.concept,
@@ -254,7 +362,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "trajectory":
         from llmintent import LLMIntentAnalyzer
 
-        analyzer = LLMIntentAnalyzer(args.model, load_glove=False)
+        analyzer = LLMIntentAnalyzer(_resolve_cli_model(args), device=args.device, load_glove=False)
         try:
             mapping = analyzer.trajectory_map(
                 args.prompt,
@@ -271,7 +379,8 @@ def main(argv: list[str] | None = None) -> int:
 
         load_glove = args.blocks or args.type == "morpheme-map"
         analyzer = LLMIntentAnalyzer(
-            args.model,
+            _resolve_cli_model(args),
+            device=args.device,
             load_glove=load_glove,
             fit_jspace_transport=args.transport,
         )
@@ -316,7 +425,8 @@ def main(argv: list[str] | None = None) -> int:
         from llmintent import LLMIntentAnalyzer
 
         analyzer = LLMIntentAnalyzer(
-            args.model,
+            _resolve_cli_model(args),
+            device=args.device,
             load_glove=False,
             fit_jspace_transport=args.transport,
         )

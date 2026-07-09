@@ -68,7 +68,13 @@ class LLMIntentAnalyzer:
         pivot_layer: int | None = None,
         fit_jspace_transport: bool = False,
         transport_prompts: list[str] | None = None,
+        family: str | None = None,
+        size: str | None = None,
     ) -> None:
+        if family is not None:
+            from llmintent.suite import resolve_model_id
+
+            model_name = resolve_model_id(family=family, size=size or "medium")
         self.model_name = model_name
         self.pivot_layer = pivot_layer
         self.bundle = load_model_bundle(model_name, device=device)
@@ -92,6 +98,18 @@ class LLMIntentAnalyzer:
                 "Question: What is 12 times 2? Answer:",
             ]
             self.transport = fit_transport_maps(self.bundle, prompts)
+
+    @classmethod
+    def from_suite(
+        cls,
+        family: str,
+        size: str = "medium",
+        **kwargs: object,
+    ) -> "LLMIntentAnalyzer":
+        """Construct an analyzer from the curated model suite (Qwen/Mistral/MiniMax/GLM)."""
+        from llmintent.suite import resolve_model_id
+
+        return cls(resolve_model_id(family=family, size=size), **kwargs)  # type: ignore[arg-type]
 
     @property
     def numerical_pole(self) -> torch.Tensor:

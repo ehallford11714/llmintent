@@ -44,6 +44,12 @@ from llmintent.retracement import (
     RetracementTransformer,
     run_retracement_ablation,
 )
+from llmintent.suite import (
+    get_model_spec,
+    list_models,
+    load_suite_model,
+    resolve_model_id,
+)
 
 __all__ = [
     "AnalysisReport",
@@ -76,9 +82,12 @@ __all__ = [
     "calculate_sso_score",
     "classify_layer_regimes",
     "fit_transport_maps",
+    "get_model_spec",
     "heighten_reasoning",
     "identify_activation_layers",
     "kl_divergence",
+    "list_models",
+    "load_suite_model",
     "minimize_twin_barlow",
     "list_live_models",
     "list_slms",
@@ -87,9 +96,10 @@ __all__ = [
     "per_layer_kl_profile",
     "query_concept_in_trajectory",
     "query_concepts_batch",
+    "resolve_model_id",
     "run_retracement_ablation",
     "shannon_entropy",
     "summarize_layer_bands",
 ]
 
-__version__ = "0.9.1"
+__version__ = "1.0.0"

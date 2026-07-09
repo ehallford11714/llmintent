@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "llmintent"
-version = "0.9.1"
+version = "1.0.0"
 description = "Semantic extraction and intent analysis for transformer LLMs"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -55,8 +55,12 @@ live = [
   "seaborn>=0.13",
   "pillow>=10.0",
 ]
+# Explicit stack for the Qwen/Mistral/MiniMax/GLM model suite (accelerate helps device_map)
+models = ["transformers>=4.40", "torch>=2.0", "accelerate>=0.30", "huggingface-hub>=0.23"]
+hf = ["llmintent[models]"]
+slm = ["llmintent[models]"]
 dev = ["pytest>=8.0", "ruff>=0.4", "build>=1.0", "twine>=5.0"]
-all = ["llmintent[nlp,embeddings,viz,benchmark,live,dev]"]
+all = ["llmintent[nlp,embeddings,viz,benchmark,live,models,dev]"]
 
 [project.scripts]
 llmintent = "llmintent.cli:main"
