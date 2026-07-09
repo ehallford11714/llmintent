@@ -6,10 +6,14 @@ from llmintent.isolates._core.identify import identify_isolates
 from llmintent.isolates._core.layers import assign_layers, soft_latentintent_layers, soft_llmintent_layers
 from llmintent.isolates._core.motifs import form_motifs
 from llmintent.isolates._core.report import build_report, report_to_json, report_to_markdown
+from llmintent.isolates._core.creativity import CreativityMeter
 from llmintent.isolates._core.span_burst import (
     CreativeBurstHopper,
     burst_path_from_text,
+    filter_spans_for_burst,
     identify_span_isolates,
+    layer_path_monotonicity,
+    multi_path_burst,
     span_isolates_from_isolates,
     typology_path_entropy,
 )
@@ -18,6 +22,7 @@ from llmintent.isolates._core.types import (
     ABSTRACT_LAYERS,
     BurstHop,
     BurstPath,
+    CreativityReport,
     Isolate,
     IsolateKind,
     IsolateReport,
@@ -33,7 +38,7 @@ from llmintent.isolates._core.types import (
 from llmintent.isolates._core.typology import classify_typology
 from llmintent.isolates._core.backends import available_backends
 
-__version__ = "0.4.0"
+__version__ = "0.4.1"
 
 __all__ = [
     "__version__",
@@ -41,6 +46,8 @@ __all__ = [
     "BurstHop",
     "BurstPath",
     "CreativeBurstHopper",
+    "CreativityMeter",
+    "CreativityReport",
     "Isolate",
     "IsolateKind",
     "IsolateReport",
@@ -59,9 +66,12 @@ __all__ = [
     "build_report",
     "burst_path_from_text",
     "classify_typology",
+    "filter_spans_for_burst",
     "form_motifs",
     "identify_isolates",
     "identify_span_isolates",
+    "layer_path_monotonicity",
+    "multi_path_burst",
     "report_to_json",
     "report_to_markdown",
     "soft_latentintent_layers",

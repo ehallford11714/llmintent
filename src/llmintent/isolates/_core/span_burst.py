@@ -192,6 +192,17 @@ def span_isolates_from_isolates(
     return out
 
 
+# Default knobs for creative_burst_v2 (reasoning-trace oriented).
+_V2_DEFAULTS: dict[str, float] = {
+    "anchor_pull": 0.70,
+    "layer_bias": 0.55,
+    "novelty_weight": 1.10,
+    "motif_weight": 0.45,
+    "anchor_schedule": 3.0,
+    "side_hop_prob": 0.18,
+}
+
+
 class CreativeBurstHopper:
     """Hop span→span for linear walk, motif jumps, or creative bursts.
 
@@ -202,14 +213,17 @@ class CreativeBurstHopper:
     ``motif_jump``
         Prefer a co-member of a shared motif, else adjacent layer.
     ``creative_burst``
-        Score candidates by unused typology novelty, layer jump, burst
-        affinity, and a soft pull back toward unprotected anchors so
-        goals/constraints stay visited.
+        v1 scoring: novelty, absolute layer jump, affinity, soft anchor pull,
+        and a periodic forced-anchor pulse (every 2 hops).
+    ``creative_burst_v2``
+        Hybrid for reasoning traces: α·novelty + β·motif_link + γ·anchor_need
+        + δ·layer_progress, with scheduled protect-span visits and occasional
+        creative side-hops. See docs/CREATIVE_BURST_IMPROVEMENTS.md.
     ``random``
         Uniform among unvisited (baseline for experiments).
     """
 
-    MODES = ("linear", "motif_jump", "creative_burst", "random")
+    MODES = ("linear", "motif_jump", "creative_burst", "creative_burst_v2", "random")
 
     def __init__(
         self,
@@ -217,7 +231,12 @@ class CreativeBurstHopper:
         *,
         motifs: Sequence[Motif] | None = None,
         seed: int = 17,
-        anchor_pull: float = 0.55,
+        anchor_pull: float | None = None,
+        layer_bias: float = 0.55,
+        novelty_weight: float = 1.10,
+        motif_weight: float = 0.45,
+        anchor_schedule: int = 3,
+        side_hop_prob: float = 0.18,
     ) -> None:
         self.spans = list(spans)
         self.by_id = {s.id: s for s in self.spans}
@@ -227,8 +246,42 @@ class CreativeBurstHopper:
             # Soft motifs from projected isolates
             self.motifs = form_motifs([s.to_isolate() for s in self.spans])
         self.seed = seed
-        self.anchor_pull = anchor_pull
+        # Explicit None → v1-compatible 0.55; v2 mode applies _V2_DEFAULTS["anchor_pull"] at score time
+        # when ``_v2_anchor_explicit`` is False.
+        self._v2_anchor_explicit = anchor_pull is not None
+        self.anchor_pull = 0.55 if anchor_pull is None else float(anchor_pull)
+        self.layer_bias = float(layer_bias)
+        self.novelty_weight = float(novelty_weight)
+        self.motif_weight = float(motif_weight)
+        self.anchor_schedule = max(0, int(anchor_schedule))
+        self.side_hop_prob = min(1.0, max(0.0, float(side_hop_prob)))
         self._motif_neighbors = self._build_motif_neighbors()
+
+    def knobs(self) -> dict[str, float]:
+        """Return current scoring knobs (useful for experiment metadata)."""
+        return {
+            "anchor_pull": self.anchor_pull,
+            "layer_bias": self.layer_bias,
+            "novelty_weight": self.novelty_weight,
+            "motif_weight": self.motif_weight,
+            "anchor_schedule": float(self.anchor_schedule),
+            "side_hop_prob": self.side_hop_prob,
+        }
+
+    @classmethod
+    def for_v2(
+        cls,
+        spans: Sequence[SpanIsolate],
+        *,
+        motifs: Sequence[Motif] | None = None,
+        seed: int = 17,
+        **overrides: Any,
+    ) -> CreativeBurstHopper:
+        """Construct a hopper with ``creative_burst_v2`` recommended defaults."""
+        kwargs = dict(_V2_DEFAULTS)
+        kwargs["anchor_schedule"] = int(kwargs["anchor_schedule"])
+        kwargs.update(overrides)
+        return cls(spans, motifs=motifs, seed=seed, **kwargs)
 
     def _build_motif_neighbors(self) -> dict[str, set[str]]:
         nbrs: dict[str, set[str]] = {s.id: set() for s in self.spans}
@@ -323,8 +376,8 @@ class CreativeBurstHopper:
             metadata={
                 "n_spans": len(self.spans),
                 "n_motifs": len(self.motifs),
-                "anchor_pull": self.anchor_pull,
                 "seed": self.seed,
+                **self.knobs(),
             },
         )
 
@@ -382,7 +435,10 @@ class CreativeBurstHopper:
             reason = "motif co-member" if motif_cands else "motif fallback (layer-adjacent)"
             return pick, best_score, reason
 
-        # creative_burst
+        if mode == "creative_burst_v2":
+            return self._next_hop_v2(current, visited, candidates, visited_set, rng=rng)
+
+        # creative_burst (v1)
         visited_typs = {_typ_str(self.by_id[i].typology) for i in visited if i in self.by_id}
         anchor_ids = [s.id for s in self.spans if s.protect]
         unvisited_anchors = [s for s in candidates if s.id in set(anchor_ids)]
@@ -408,7 +464,7 @@ class CreativeBurstHopper:
                 anchor_term = self.anchor_pull * 1.8
             elif s.protect:
                 anchor_term = self.anchor_pull * 0.75
-            # Distance penalty: avoid always picking nearest (encourage burst)
+            # Distance: avoid always picking nearest (encourage burst)
             gap = abs(s.start - current.start)
             dist_term = 0.2 * math.log1p(gap / 40.0)
             score = novelty + layer_term + affinity + motif_bonus + anchor_term + dist_term
@@ -423,6 +479,126 @@ class CreativeBurstHopper:
                 reason_bits.append("motif")
             if anchor_term > 0.3:
                 reason_bits.append("anchor_pull")
+            scored.append((score, s, "+".join(reason_bits) or "affinity"))
+
+        scored.sort(key=lambda x: (-x[0], x[1].id))
+        best_score, pick, reason = scored[0]
+        return pick, best_score, reason
+
+    def _next_hop_v2(
+        self,
+        current: SpanIsolate,
+        visited: Sequence[str],
+        candidates: list[SpanIsolate],
+        visited_set: set[str],
+        *,
+        rng: random.Random,
+    ) -> tuple[SpanIsolate | None, float, str]:
+        """Hybrid novelty + motif + anchor + forward-layer scoring."""
+        alpha = self.novelty_weight
+        beta = self.motif_weight
+        gamma = (
+            self.anchor_pull
+            if self._v2_anchor_explicit
+            else float(_V2_DEFAULTS["anchor_pull"])
+        )
+        delta = self.layer_bias
+        schedule = self.anchor_schedule
+
+        visited_typs = {_typ_str(self.by_id[i].typology) for i in visited if i in self.by_id}
+        anchor_ids = [s.id for s in self.spans if s.protect]
+        unvisited_anchors = [s for s in candidates if s.protect]
+        visited_anchors = sum(1 for a in anchor_ids if a in visited_set)
+        n_visited = len(visited)
+        need_anchor = visited_anchors < min(2, len(anchor_ids)) and n_visited >= 2
+
+        # Anchor-scheduled burst: periodic forced protect visit
+        if (
+            schedule > 0
+            and unvisited_anchors
+            and n_visited >= 2
+            and (n_visited % schedule == 0)
+        ):
+            # Prefer goal/constraint over outcome when both unvisited
+            pick = max(
+                unvisited_anchors,
+                key=lambda s: (
+                    2 if _typ_str(s.typology) in ("goal", "constraint") else 1,
+                    s.hop_weight,
+                    s.id,
+                ),
+            )
+            return pick, 6.0 + pick.hop_weight, "scheduled_anchor"
+
+        # Soft urgency: if many hops left without anchors, raise need
+        if unvisited_anchors and visited_anchors == 0 and n_visited >= 3:
+            need_anchor = True
+
+        side_hop = rng.random() < self.side_hop_prob
+        cur_layer = _layer_int(current.layer)
+
+        scored: list[tuple[float, SpanIsolate, str]] = []
+        for s in candidates:
+            typ = _typ_str(s.typology)
+            novelty = 1.0 if typ not in visited_typs else 0.22
+            # Mild extra novelty for affective / lexical bridges
+            if typ in (
+                TypologyLabel.AFFECTIVE.value,
+                TypologyLabel.LEXICAL.value,
+                TypologyLabel.LATENT_FEATURE.value,
+            ) and typ not in visited_typs:
+                novelty += 0.12
+
+            s_layer = _layer_int(s.layer)
+            d_forward = s_layer - cur_layer
+            if side_hop:
+                # Creative side-hop: reward moderate absolute jumps, ignore forward bias
+                layer_term = 0.25 * min(abs(d_forward), 3)
+            else:
+                # Prefer forward layer progress; soft penalty for large backward jumps
+                layer_term = delta * max(0.0, float(d_forward))
+                if d_forward < -1:
+                    layer_term -= 0.25 * min(abs(d_forward), 3)
+                # Small bonus for staying same layer when exploring motifs
+                if d_forward == 0:
+                    layer_term += 0.08
+
+            affinity = 0.55 * s.burst_affinity * (0.5 + 0.5 * s.hop_weight)
+            motif_link = beta if s.id in self._motif_neighbors.get(current.id, ()) else 0.0
+
+            anchor_need = 0.0
+            if s.protect:
+                if need_anchor:
+                    anchor_need = gamma * 2.0
+                else:
+                    # Keep soft pull so anchors remain competitive without dominating
+                    anchor_need = gamma * 0.85
+                if _typ_str(s.typology) in ("goal", "constraint"):
+                    anchor_need += 0.15 * gamma
+
+            gap = abs(s.start - current.start)
+            dist_term = 0.15 * math.log1p(gap / 50.0)
+
+            score = (
+                alpha * novelty
+                + motif_link
+                + anchor_need
+                + layer_term
+                + affinity
+                + dist_term
+                + 0.01 * rng.random()
+            )
+            reason_bits = []
+            if novelty >= 1.0:
+                reason_bits.append("novel_typology")
+            if motif_link > 0:
+                reason_bits.append("motif")
+            if anchor_need > 0.4:
+                reason_bits.append("anchor_need")
+            if not side_hop and d_forward > 0:
+                reason_bits.append("layer_forward")
+            if side_hop:
+                reason_bits.append("side_hop")
             scored.append((score, s, "+".join(reason_bits) or "affinity"))
 
         scored.sort(key=lambda x: (-x[0], x[1].id))
@@ -445,6 +621,50 @@ def typology_path_entropy(typology_path: Sequence[str]) -> float:
     return round(ent, 4)
 
 
+def layer_path_monotonicity(
+    spans: Sequence[SpanIsolate],
+    span_ids: Sequence[str],
+) -> float:
+    """Fraction of consecutive hops with non-decreasing abstract layer.
+
+    Forward or same-layer steps count as monotonic; only strict backward
+    layer moves hurt the score. Empty / single-node paths return 1.0.
+    """
+    by_id = {s.id: s for s in spans}
+    layers = [_layer_int(by_id[i].layer) for i in span_ids if i in by_id]
+    if len(layers) < 2:
+        return 1.0
+    ok = sum(1 for a, b in zip(layers, layers[1:]) if b >= a)
+    return round(ok / (len(layers) - 1), 4)
+
+
+def filter_spans_for_burst(
+    spans: Sequence[SpanIsolate],
+    *,
+    protect_only: bool = False,
+    hot_ids: Sequence[str] | None = None,
+    drop_noise: bool = True,
+) -> list[SpanIsolate]:
+    """Filter spans for post-compaction / protect-hot-set bursting.
+
+    Use after isolate-then-compact: keep ``protect`` anchors and optional
+    ``hot_ids`` from the working set, optionally dropping noise typologies.
+    """
+    hot = set(hot_ids) if hot_ids is not None else None
+    out: list[SpanIsolate] = []
+    for s in spans:
+        typ = _typ_str(s.typology)
+        if drop_noise and typ in (TypologyLabel.NOISE.value, TypologyLabel.CONFOUNDER.value):
+            if not s.protect:
+                continue
+        if protect_only and not s.protect:
+            continue
+        if hot is not None and s.id not in hot and not s.protect:
+            continue
+        out.append(s)
+    return out
+
+
 def burst_path_from_text(
     text: str,
     *,
@@ -456,6 +676,99 @@ def burst_path_from_text(
 ) -> tuple[list[SpanIsolate], BurstPath]:
     """Convenience: identify span isolates and run a burst path."""
     spans = identify_span_isolates(text, backend=backend)
-    hopper = CreativeBurstHopper(spans, seed=rng_seed)
+    if mode == "creative_burst_v2":
+        hopper = CreativeBurstHopper.for_v2(spans, seed=rng_seed)
+    else:
+        hopper = CreativeBurstHopper(spans, seed=rng_seed)
     path = hopper.burst_path(seed=seed, n_hops=n_hops, mode=mode)
     return spans, path
+
+
+def multi_path_burst(
+    spans: Sequence[SpanIsolate],
+    *,
+    n_hops: int = 5,
+    mode: str = "creative_burst_v2",
+    k: int = 5,
+    seed: int = 17,
+    select_by: str = "tradeoff_harmonic",
+    hopper_kwargs: dict[str, Any] | None = None,
+) -> tuple[BurstPath, list[dict[str, Any]]]:
+    """ToT/GoT-style: run ``k`` burst paths and pick the best by CreativityMeter.
+
+    ``select_by`` one of: ``tradeoff_harmonic``, ``tradeoff_product``,
+    ``creativity_score``, ``reasoning_trace_score``, ``anchor_visit_rate``.
+    """
+    from llmintent.isolates._core.creativity import CreativityMeter
+
+    kwargs = dict(hopper_kwargs or {})
+    if mode == "creative_burst_v2" and not kwargs:
+        hopper = CreativeBurstHopper.for_v2(spans, seed=seed)
+    else:
+        hopper = CreativeBurstHopper(spans, seed=seed, **kwargs)
+
+    meter = CreativityMeter()
+    candidates: list[dict[str, Any]] = []
+    n_seeds = max(1, min(k, len(spans)))
+    for i in range(n_seeds):
+        h = CreativeBurstHopper(
+            spans,
+            motifs=hopper.motifs,
+            seed=seed + i * 31,
+            anchor_pull=hopper.anchor_pull if hopper._v2_anchor_explicit or mode != "creative_burst_v2" else None,
+            layer_bias=hopper.layer_bias,
+            novelty_weight=hopper.novelty_weight,
+            motif_weight=hopper.motif_weight,
+            anchor_schedule=hopper.anchor_schedule,
+            side_hop_prob=hopper.side_hop_prob,
+        )
+        if mode == "creative_burst_v2" and not hopper._v2_anchor_explicit:
+            h = CreativeBurstHopper.for_v2(
+                spans,
+                motifs=hopper.motifs,
+                seed=seed + i * 31,
+                layer_bias=hopper.layer_bias,
+                novelty_weight=hopper.novelty_weight,
+                motif_weight=hopper.motif_weight,
+                anchor_schedule=hopper.anchor_schedule,
+                side_hop_prob=hopper.side_hop_prob,
+            )
+        path = h.burst_path(seed=i % max(1, len(h.ordered)), n_hops=n_hops, mode=mode)
+        report = meter.score_burst(path, spans, motif_neighbors=h._motif_neighbors)
+        score_map = {
+            "tradeoff_harmonic": report.tradeoff_harmonic,
+            "tradeoff_product": report.tradeoff_product,
+            "creativity_score": report.creativity_score,
+            "reasoning_trace_score": report.reasoning_trace_score,
+            "anchor_visit_rate": report.anchor_visit_rate,
+        }
+        if select_by not in score_map:
+            raise ValueError(f"Unknown select_by={select_by!r}")
+        candidates.append(
+            {
+                "path": path,
+                "report": report,
+                "select_score": score_map[select_by],
+                "seed_index": i,
+            }
+        )
+
+    candidates.sort(key=lambda c: (-float(c["select_score"]), c["seed_index"]))
+    best = candidates[0]["path"]
+    best.metadata = {
+        **dict(best.metadata),
+        "multi_path_k": n_seeds,
+        "select_by": select_by,
+        "select_score": candidates[0]["select_score"],
+        "candidate_scores": [
+            {
+                "seed_index": c["seed_index"],
+                "select_score": c["select_score"],
+                "C": c["report"].creativity_score,
+                "R": c["report"].reasoning_trace_score,
+                "H": c["report"].tradeoff_harmonic,
+            }
+            for c in candidates
+        ],
+    }
+    return best, candidates

@@ -123,7 +123,7 @@ class Isolate:
 class SpanIsolate:
     """Isolate bound to a contiguous text span — a hoppable creative stepping-stone.
 
-    Used by :class:`~llmintent.isolates._core.span_burst.CreativeBurstHopper` to jump
+    Used by :class:`~intentisolates.span_burst.CreativeBurstHopper` to jump
     span→span along a trajectory while preserving structural anchors
     (goal / constraint / outcome).
     """
@@ -228,6 +228,42 @@ class BurstPath:
             "summary": self.summary,
             "metadata": dict(self.metadata),
         }
+
+
+@dataclass
+class CreativityReport:
+    """CreativityMeter output: Guilford-inspired dimensions + reasoning fidelity."""
+
+    diversity: float = 0.0
+    novelty: float = 0.0
+    flexibility: float = 0.0
+    elaboration: float = 0.0
+    constraint_fidelity: float = 0.0
+    fluency: float = 0.0
+    layer_monotonicity: float = 0.0
+    creativity_score: float = 0.0
+    reasoning_trace_score: float = 0.0
+    tradeoff_product: float = 0.0
+    tradeoff_harmonic: float = 0.0
+    n_spans_scored: int = 0
+    n_unique_typologies: int = 0
+    typology_entropy: float = 0.0
+    anchor_visit_rate: float = 0.0
+    metadata: dict[str, Any] = field(default_factory=dict)
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+    def tradeoff_points(self) -> list[dict[str, float]]:
+        """Single (C, R) point for optional tradeoff plots."""
+        return [
+            {
+                "creativity_score": self.creativity_score,
+                "reasoning_trace_score": self.reasoning_trace_score,
+                "product": self.tradeoff_product,
+                "harmonic": self.tradeoff_harmonic,
+            }
+        ]
 
 
 @dataclass

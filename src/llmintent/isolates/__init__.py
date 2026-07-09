@@ -59,6 +59,8 @@ ABSTRACT_LAYERS = _b.ABSTRACT_LAYERS
 BurstHop = getattr(_b, "BurstHop", None)
 BurstPath = getattr(_b, "BurstPath", None)
 CreativeBurstHopper = getattr(_b, "CreativeBurstHopper", None)
+CreativityMeter = getattr(_b, "CreativityMeter", None)
+CreativityReport = getattr(_b, "CreativityReport", None)
 Isolate = _b.Isolate
 IsolateKind = _b.IsolateKind
 IsolateReport = _b.IsolateReport
@@ -75,9 +77,12 @@ available_backends = _b.available_backends
 build_report = _b.build_report
 burst_path_from_text = getattr(_b, "burst_path_from_text", None)
 classify_typology = _b.classify_typology
+filter_spans_for_burst = getattr(_b, "filter_spans_for_burst", None)
 form_motifs = _b.form_motifs
 identify_isolates = _b.identify_isolates
 identify_span_isolates = getattr(_b, "identify_span_isolates", None)
+layer_path_monotonicity = getattr(_b, "layer_path_monotonicity", None)
+multi_path_burst = getattr(_b, "multi_path_burst", None)
 report_to_json = _b.report_to_json
 report_to_markdown = _b.report_to_markdown
 soft_latentintent_layers = _b.soft_latentintent_layers
@@ -92,6 +97,8 @@ __all__ = [
     "BurstHop",
     "BurstPath",
     "CreativeBurstHopper",
+    "CreativityMeter",
+    "CreativityReport",
     "Isolate",
     "IsolateKind",
     "IsolateReport",
@@ -111,9 +118,12 @@ __all__ = [
     "build_report",
     "burst_path_from_text",
     "classify_typology",
+    "filter_spans_for_burst",
     "form_motifs",
     "identify_isolates",
     "identify_span_isolates",
+    "layer_path_monotonicity",
+    "multi_path_burst",
     "report_to_json",
     "report_to_markdown",
     "soft_latentintent_layers",
