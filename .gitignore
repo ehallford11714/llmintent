@@ -26,7 +26,8 @@ htmlcov/
 
 # Environment / secrets
 .env
-.env.*
+.env.local
+!.env.example
 
 # OS
 .DS_Store
@@ -37,8 +38,16 @@ desktop.ini
 .cache/
 models/
 
+# Benchmark data (downloaded on first run)
+data/hellaswag_val.jsonl
+
 # Jupyter
 .ipynb_checkpoints
 
 # Streamlit / secrets
 .streamlit/secrets.toml
+
+# Local benchmark / retrace outputs
+llmintent_retraces/*.jsonl
+llmintent_retraces/*.out
+llmintent_retraces/*.log

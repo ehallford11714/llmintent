@@ -4,18 +4,34 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "llmintent"
-version = "0.8.0"
+version = "0.9.1"
 description = "Semantic extraction and intent analysis for transformer LLMs"
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "MIT" }
-authors = [{ name = "Kineteq Research" }]
-keywords = ["llm", "semantic-extraction", "transformers", "intent", "steering"]
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Ephraim Hallford", email = "ehallford11714@users.noreply.github.com" }]
+maintainers = [{ name = "Ephraim Hallford", email = "ehallford11714@users.noreply.github.com" }]
+keywords = [
+  "llm",
+  "semantic-extraction",
+  "transformers",
+  "intent",
+  "steering",
+  "interpretability",
+  "activation",
+]
 classifiers = [
-  "Development Status :: 3 - Alpha",
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
   "Intended Audience :: Science/Research",
+  "Operating System :: OS Independent",
   "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
   "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = [
   "numpy>=1.24",
@@ -23,6 +39,7 @@ dependencies = [
   "scikit-learn>=1.3",
   "torch>=2.0",
   "transformers>=4.40",
+  "huggingface-hub>=0.23",
 ]
 
 [project.optional-dependencies]
@@ -30,14 +47,34 @@ nlp = ["stanza>=1.8", "spacy>=3.7"]
 embeddings = ["gensim>=4.3"]
 viz = ["matplotlib>=3.8", "seaborn>=0.13", "pillow>=10.0"]
 benchmark = ["datasets>=2.14"]
-dev = ["pytest>=8.0", "ruff>=0.4"]
-all = ["llmintent[nlp,embeddings,viz,benchmark,dev]"]
+live = [
+  "fastapi>=0.110",
+  "uvicorn>=0.27",
+  "streamlit>=1.32",
+  "matplotlib>=3.8",
+  "seaborn>=0.13",
+  "pillow>=10.0",
+]
+dev = ["pytest>=8.0", "ruff>=0.4", "build>=1.0", "twine>=5.0"]
+all = ["llmintent[nlp,embeddings,viz,benchmark,live,dev]"]
 
 [project.scripts]
 llmintent = "llmintent.cli:main"
 
+[project.urls]
+Homepage = "https://github.com/ehallford11714/llmintent"
+Documentation = "https://github.com/ehallford11714/llmintent#readme"
+Repository = "https://github.com/ehallford11714/llmintent"
+Issues = "https://github.com/ehallford11714/llmintent/issues"
+Changelog = "https://github.com/ehallford11714/llmintent/releases"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+include-package-data = true
+
 [tool.setuptools.packages.find]
 where = ["src"]
+exclude = ["tests*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

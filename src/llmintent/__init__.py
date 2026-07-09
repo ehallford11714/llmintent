@@ -33,6 +33,11 @@ from llmintent.benchmark import (
     parse_conditions,
     prepare_slm_comparison,
 )
+from llmintent.live import (
+    LiveIntentPipeline,
+    LiveSessionConfig,
+    list_live_models,
+)
 from llmintent.retracement import (
     RetracementConfig,
     RetracementMode,
@@ -53,6 +58,8 @@ __all__ = [
     "HeightenedReasoningResult",
     "IntentTrace",
     "LLMIntentAnalyzer",
+    "LiveIntentPipeline",
+    "LiveSessionConfig",
     "RetraceStore",
     "RetraceMode",
     "RetracementConfig",
@@ -73,6 +80,7 @@ __all__ = [
     "identify_activation_layers",
     "kl_divergence",
     "minimize_twin_barlow",
+    "list_live_models",
     "list_slms",
     "parse_conditions",
     "prepare_slm_comparison",
@@ -84,4 +92,4 @@ __all__ = [
     "summarize_layer_bands",
 ]
 
-__version__ = "0.8.0"
+__version__ = "0.9.1"

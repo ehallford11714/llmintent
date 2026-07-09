@@ -12,17 +12,24 @@ from llmintent.models import ModelBundle
 def forward_hidden_states(bundle: ModelBundle, text: str) -> tuple[Any, list[torch.Tensor]]:
     """Run model and return (inputs, hidden_states) including embedding layer at index 0."""
     inputs = bundle.tokenizer(text, return_tensors="pt").to(bundle.device)
+    states = forward_hidden_states_from_ids(bundle, inputs.input_ids)
+    return inputs, states
+
+
+def forward_hidden_states_from_ids(
+    bundle: ModelBundle,
+    input_ids: torch.Tensor,
+) -> list[torch.Tensor]:
+    """Extract hidden states for pre-tokenized input ids."""
     with torch.no_grad():
         if bundle.is_causal:
             if hasattr(bundle.model, "transformer"):
-                outputs = bundle.model.transformer(inputs.input_ids, output_hidden_states=True)
+                outputs = bundle.model.transformer(input_ids, output_hidden_states=True)
             else:
-                outputs = bundle.model(**inputs, output_hidden_states=True)
-            states = list(outputs.hidden_states)
-        else:
-            outputs = bundle.model(**inputs, output_hidden_states=True)
-            states = list(outputs.hidden_states)
-    return inputs, states
+                outputs = bundle.model(input_ids, output_hidden_states=True)
+            return list(outputs.hidden_states)
+        outputs = bundle.model(input_ids, output_hidden_states=True)
+        return list(outputs.hidden_states)
 
 
 def get_lm_head(bundle: ModelBundle) -> torch.nn.Module:

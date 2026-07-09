@@ -221,7 +221,7 @@ class HellaSwagBenchmarkRunner:
                 focus_baselines: list[float] = []
                 focus_afters: list[float] = []
 
-                for ex in examples:
+                for ex_idx, ex in enumerate(examples):
                     prefix, retrace_prompt, chain = _build_prefix(
                         ex,
                         condition,
@@ -284,8 +284,16 @@ class HellaSwagBenchmarkRunner:
                             AblationCondition.EXTREME_STEER,
                         ),
                         ablation=condition.value,
-                        metadata={"prefix_len": len(prefix)},
+                        metadata={"prefix_len": len(prefix), "example_index": ex_idx},
                     )
+
+                    if (ex_idx + 1) % 100 == 0:
+                        print(
+                            f"[hellaswag] {slm.hf_name} {condition.value}: "
+                            f"{ex_idx + 1}/{len(examples)} "
+                            f"acc={correct / (ex_idx + 1):.3f}",
+                            flush=True,
+                        )
 
                 n = len(examples)
                 results.append(

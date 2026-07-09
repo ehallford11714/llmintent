@@ -2,12 +2,20 @@
 
 from __future__ import annotations
 
+import json
+import urllib.request
 from dataclasses import dataclass
+from pathlib import Path
 
 import torch
 import torch.nn.functional as F
 
 from llmintent.models import ModelBundle
+
+DEFAULT_HELLASWAG_VAL_URL = (
+    "https://raw.githubusercontent.com/rowanz/hellaswag/master/data/hellaswag_val.jsonl"
+)
+DEFAULT_HELLASWAG_VAL_PATH = Path(__file__).resolve().parents[3] / "data" / "hellaswag_val.jsonl"
 
 
 @dataclass
@@ -18,40 +26,78 @@ class HellaSwagExample:
     label: int
 
 
+def ensure_hellaswag_val_jsonl(path: Path | None = None) -> Path:
+    """Download validation JSONL if missing."""
+    path = path or DEFAULT_HELLASWAG_VAL_PATH
+    if path.exists() and path.stat().st_size > 0:
+        return path
+    path.parent.mkdir(parents=True, exist_ok=True)
+    urllib.request.urlretrieve(DEFAULT_HELLASWAG_VAL_URL, path)
+    return path
+
+
+def load_hellaswag_jsonl(
+    *,
+    path: Path | str | None = None,
+    limit: int | None = None,
+) -> list[HellaSwagExample]:
+    """Load HellaSwag validation examples from local JSONL (official release)."""
+    path = Path(path) if path is not None else ensure_hellaswag_val_jsonl()
+    examples: list[HellaSwagExample] = []
+    with open(path, encoding="utf-8") as f:
+        for i, line in enumerate(f):
+            if limit is not None and i >= limit:
+                break
+            row = json.loads(line)
+            examples.append(
+                HellaSwagExample(
+                    example_id=str(row.get("ind", i)),
+                    context=row["ctx"],
+                    endings=row["endings"],
+                    label=int(row["label"]),
+                )
+            )
+    return examples
+
+
 def load_hellaswag(
     *,
     split: str = "validation",
     limit: int | None = None,
 ) -> list[HellaSwagExample]:
     """
-    Load HellaSwag examples from HuggingFace datasets.
+    Load HellaSwag examples.
 
-    Requires optional dependency: pip install llmintent[benchmark]
+    Prefers local official JSONL; falls back to HuggingFace `datasets`.
     """
+    if split not in ("validation", "val"):
+        raise ValueError(f"Only validation split is supported locally, got {split!r}")
+
+    if DEFAULT_HELLASWAG_VAL_PATH.exists():
+        return load_hellaswag_jsonl(path=DEFAULT_HELLASWAG_VAL_PATH, limit=limit)
+
     try:
         from datasets import load_dataset
-    except ImportError as exc:
-        raise ImportError(
-            "HellaSwag loading requires datasets. Install with: pip install llmintent[benchmark]"
-        ) from exc
+    except ImportError:
+        return load_hellaswag_jsonl(limit=limit)
 
-    ds = load_dataset("Rowan/hellaswag", split=split, trust_remote_code=True)
-    examples: list[HellaSwagExample] = []
-    for i, row in enumerate(ds):
-        if limit is not None and i >= limit:
-            break
-        ctx = row["ctx"]
-        endings = row["endings"]
-        label = int(row["label"])
-        examples.append(
-            HellaSwagExample(
-                example_id=str(row.get("ind", i)),
-                context=ctx,
-                endings=endings,
-                label=label,
+    try:
+        ds = load_dataset("Rowan/hellaswag", split="validation")
+        examples: list[HellaSwagExample] = []
+        for i, row in enumerate(ds):
+            if limit is not None and i >= limit:
+                break
+            examples.append(
+                HellaSwagExample(
+                    example_id=str(row.get("ind", i)),
+                    context=row["ctx"],
+                    endings=row["endings"],
+                    label=int(row["label"]),
+                )
             )
-        )
-    return examples
+        return examples
+    except Exception:
+        return load_hellaswag_jsonl(limit=limit)
 
 
 def load_hellaswag_fallback(limit: int = 8) -> list[HellaSwagExample]:

@@ -80,6 +80,11 @@ def minimize_twin_barlow(
     if h_twin_a.shape != h_twin_b.shape:
         raise ValueError("Twin hidden tensors must have the same shape")
 
+    # Detach from any prior forward graph — safe for repeated live / heighten calls.
+    h_twin_a = h_twin_a.detach().float()
+    h_twin_b = h_twin_b.detach().float()
+    kl_weights = kl_weights.detach().float()
+
     hidden_dim = h_twin_a.shape[1]
     proj_dim = min(proj_dim, hidden_dim, h_twin_a.shape[0])
 
@@ -88,11 +93,11 @@ def minimize_twin_barlow(
     kl = kl_weights.float()
     if kl.sum() <= 0:
         kl = torch.ones_like(kl)
-    kl = kl / kl.sum()
+    kl = (kl / kl.sum()).detach()
 
     last_loss = 0.0
     for _ in range(steps):
-        opt.zero_grad()
+        opt.zero_grad(set_to_none=True)
         za = h_twin_a @ w
         zb = h_twin_b @ w
         za = za * kl.unsqueeze(-1)

@@ -37,17 +37,18 @@ def build_trajectory_feature_space(
     barlow_diag, barlow_off = per_layer_barlow_features(h_a, h_b)
 
     h_mean = (h_a + h_b) / 2.0
-    h_proj = h_mean @ projector  # [layers, proj_dim]
+    projector = projector.detach().float()
+    h_proj = (h_mean @ projector).detach()
 
-    kl_norm = kl_profile / (kl_profile.max() + 1e-8)
+    kl_norm = (kl_profile / (kl_profile.max() + 1e-8)).detach()
     kl_amp = (1.0 + kl_norm).unsqueeze(-1)
-    barlow_block = h_proj * kl_amp
+    barlow_block = (h_proj * kl_amp).detach()
 
     stat_block = torch.stack(
-        [kl_norm, barlow_diag, barlow_off],
+        [kl_norm, barlow_diag.detach(), barlow_off.detach()],
         dim=1,
     )
-    combined = torch.cat([barlow_block, stat_block], dim=1).numpy()
+    combined = torch.cat([barlow_block, stat_block], dim=1).cpu().numpy()
 
     # L2-normalize each layer feature row for cosine KNN
     norms = np.linalg.norm(combined, axis=1, keepdims=True)
@@ -56,10 +57,10 @@ def build_trajectory_feature_space(
     meta = pd.DataFrame(
         {
             "layer": list(range(len(kl_profile))),
-            "kl_divergence": kl_profile.numpy(),
-            "kl_weight": kl_norm.numpy(),
-            "barlow_invariance": barlow_diag.numpy(),
-            "barlow_redundancy": barlow_off.numpy(),
+            "kl_divergence": kl_profile.detach().cpu().numpy(),
+            "kl_weight": kl_norm.cpu().numpy(),
+            "barlow_invariance": barlow_diag.detach().cpu().numpy(),
+            "barlow_redundancy": barlow_off.detach().cpu().numpy(),
             "barlow_loss": barlow_metrics.get("barlow_loss", 0.0),
         }
     )
@@ -89,15 +90,15 @@ def semantic_concept_vector(
     if anchor_prompt:
         anchor = f"{anchor_prompt} [CONCEPT:{concept_text}]"
         _, states = forward_hidden_states(bundle, anchor)
-        contextual = normalize_hidden(bundle, states[-1][0, -1, :].float().cpu())
-        h_blend = 0.7 * contextual + 0.3 * embed_mean
+        contextual = normalize_hidden(bundle, states[-1][0, -1, :].float().cpu()).detach()
+        h_blend = (0.7 * contextual + 0.3 * embed_mean.detach()).float()
     else:
         _, states = forward_hidden_states(bundle, concept_text)
-        contextual = normalize_hidden(bundle, states[-1][0, -1, :].float().cpu())
-        h_blend = 0.5 * contextual + 0.5 * embed_mean
+        contextual = normalize_hidden(bundle, states[-1][0, -1, :].float().cpu()).detach()
+        h_blend = (0.5 * contextual + 0.5 * embed_mean.detach()).float()
 
     proj_dim = projector.shape[1]
-    h_proj = (h_blend @ projector).numpy()
+    h_proj = (h_blend @ projector.detach().float()).cpu().numpy()
 
     # Neutral twin-stat dims (concept query point — no twin diff at concept origin)
     stat_zeros = np.zeros(3, dtype=np.float32)

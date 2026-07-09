@@ -51,8 +51,15 @@ def collect_twin_hidden_matrix(
     _, states_b = forward_hidden_states(bundle, twin_b)
     pos = position if position >= 0 else states_a[0].shape[1] + position
 
-    rows_a = [normalize_hidden(bundle, s[0, pos, :].float().cpu()) for s in states_a]
-    rows_b = [normalize_hidden(bundle, s[0, pos, :].float().cpu()) for s in states_b]
+    with torch.no_grad():
+        rows_a = [
+            normalize_hidden(bundle, s[0, pos, :].float()).detach().cpu()
+            for s in states_a
+        ]
+        rows_b = [
+            normalize_hidden(bundle, s[0, pos, :].float()).detach().cpu()
+            for s in states_b
+        ]
     return torch.stack(rows_a), torch.stack(rows_b)
 
 

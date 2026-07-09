@@ -95,8 +95,8 @@ def _top_intents(bundle: ModelBundle, logits: torch.Tensor, top_k: int) -> list[
         IntentToken(
             token_id=int(tid),
             token=bundle.tokenizer.decode([int(tid)]).strip(),
-            probability=float(prob),
-            logit=float(log),
+            probability=float(prob.detach().item()),
+            logit=float(log.detach().item()),
             rank=i + 1,
         )
         for i, (prob, log, tid) in enumerate(zip(top_probs, top_logits, top_ids))

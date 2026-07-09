@@ -11,6 +11,7 @@
 
 <p align="center">
   <a href="https://github.com/ehallford11714/llmintent">GitHub</a> ·
+  <a href="https://pypi.org/project/llmintent/">PyPI</a> ·
   <a href="#install">Install</a> ·
   <a href="#advanced-features">Features</a> ·
   <a href="#visualization-suite">Visualization</a> ·
@@ -43,6 +44,7 @@ Python library derived from the **SemanticExtractionLLms** research notebook. LL
   - [11. Heightened Reasoning Framework](#11-heightened-reasoning-framework-heighten)
   - [12. HellaSwag benchmark & SLM ablation](#12-hellaswag-benchmark--slm-ablation-benchmark)
   - [13. Retracement Transformer](#13-retracement-transformer-retracement)
+  - [14. Live suite — real-time app](#14-live-suite--real-time-app-live)
 - [Visualization suite](#visualization-suite)
 - [Examples](#examples)
 - [Research lineage & citations](#research-lineage--citations)
@@ -54,6 +56,17 @@ The reference notebook lives at `reference/SemanticExtractionLLms.ipynb`. Code c
 
 ## Install
 
+### From PyPI
+
+```powershell
+pip install llmintent
+pip install "llmintent[viz]"      # maps & animations
+pip install "llmintent[live]"       # Streamlit UI + FastAPI
+pip install "llmintent[all]"        # full research stack
+```
+
+### From source (development)
+
 ```powershell
 git clone https://github.com/ehallford11714/llmintent.git
 cd llmintent
@@ -63,12 +76,15 @@ python -m spacy download en_core_web_sm
 python -c "import stanza; stanza.download('en')"
 ```
 
+Publishing to PyPI: see [`docs/PUBLISHING.md`](docs/PUBLISHING.md).
+
 **Optional extras:**
 
 | Extra | Packages | Use when |
 |-------|----------|----------|
 | `[viz]` | matplotlib, seaborn, pillow | Maps, correlation heatmaps, animations |
 | `[benchmark]` | datasets | HellaSwag loading |
+| `[live]` | fastapi, uvicorn, streamlit | Real-time Live app + API |
 | `[nlp]` | stanza, spacy | Morpheme / lemma extraction |
 | `[embeddings]` | gensim | GloVe projection & weight semantics |
 | `[all]` | everything above | Full research pipeline |
@@ -168,6 +184,13 @@ llmintent heighten --model gpt2 --prompt "..." --anchor "..." --mode concept_anc
 # Retracement Transformer — perplexity ablation
 llmintent retracement perplexity --model gpt2 --mode focus_gate --limit 24
 llmintent retracement ablation --models gpt2 distilgpt2 --limit 16
+
+# Live — real-time app (Phi-3, Qwen 0.5B)
+llmintent live models
+llmintent live run --model gpt2 --prompt "Eight minus two equals ?" --action analyze
+llmintent live serve --model qwen-0.5b --port 8765
+llmintent live ui
+
 llmintent viz --type trajectory-map --model gpt2 --prompt "Eight minus two equals" --output-dir out/
 llmintent viz --type subspace-anim --model gpt2 --prompt "Eight minus two equals"
 ```
@@ -189,6 +212,7 @@ llmintent viz --type subspace-anim --model gpt2 --prompt "Eight minus two equals
 | `heighten` | Focused / extreme retrace + activation steering |
 | `benchmark` | HellaSwag SLM eval, retrace store, ablation compare |
 | `retracement` | Retracement Transformer perplexity & architecture ablation |
+| `live` | Real-time Live suite — Phi-3, Qwen 0.5B, API + Streamlit UI |
 | `morphemes` | Lemma/morpheme extraction (Stanza, spaCy, polyglot) |
 | `projection` | GloVe ↔ model embedding projection matrix |
 | `poles` | Semantic, grammatical, numerical reference poles |
@@ -718,6 +742,86 @@ print(result.perplexity, result.avg_nll)
 
 ---
 
+### 14. Live suite — real-time app (`live/`)
+
+**LLMIntent Live** applies focused reasoning in **interactive latency** on loaded SLMs — Phi-3 Mini, Qwen2.5 0.5B Instruct, TinyLlama, GPT-2, etc.
+
+Architecture: [`docs/LIVE_SUITE.md`](docs/LIVE_SUITE.md)
+
+```text
+Streamlit UI / FastAPI / CLI
+         ↓
+LiveIntentPipeline (analyze · heighten · generate · probe)
+         ↓
+LiveSession (hot model + RetracementTransformer)
+         ↓
+heighten · retracement · activation (research modules)
+```
+
+#### Registered models
+
+| Key | Model | Chat |
+|-----|-------|------|
+| `qwen-0.5b` | Qwen/Qwen2.5-0.5B-Instruct | yes |
+| `phi3-mini` | microsoft/Phi-3-mini-4k-instruct | yes |
+| `phi2` | microsoft/phi-2 | no |
+| `tinyllama` | TinyLlama/TinyLlama-1.1B-Chat-v1.0 | yes |
+| `gpt2` | gpt2 | no |
+| `distilgpt2` | distilgpt2 | no |
+
+#### Install & run
+
+```powershell
+pip install -e ".[live]"
+
+llmintent live models
+llmintent live run --model qwen-0.5b --prompt "Explain photosynthesis briefly." --action generate
+llmintent live serve --model qwen-0.5b --port 8765
+llmintent live ui
+```
+
+#### Python API
+
+```python
+from llmintent import LiveIntentPipeline, LiveSessionConfig
+
+pipe = LiveIntentPipeline(LiveSessionConfig(model_key="qwen-0.5b", retracement_mode="focus_gate"))
+pipe.load()
+
+analysis = pipe.analyze("What is 12 × 2?")
+heighten = pipe.heighten("What is 12 × 2?", steer=True)
+completion = pipe.generate("What is 12 × 2?", retracement_mode="dual_pass")
+tokens = pipe.probe_next_tokens("The capital of France is")
+
+pipe.unload()
+```
+
+#### FastAPI endpoints
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| GET | `/models` | List registry + loaded model |
+| POST | `/load` | Switch model |
+| POST | `/analyze` | Pivots + focus score |
+| POST | `/heighten` | Retrace scaffold + focus delta |
+| POST | `/generate` | Completion with retracement / steer |
+| POST | `/probe` | Top-k next tokens |
+
+#### Streamlit UI tabs
+
+| Tab | Purpose |
+|-----|---------|
+| Analyze | Activation pivots + focus score |
+| Heighten | Forced retrace + focus gain |
+| Generate | Completion with Retracement Transformer |
+| Compare | Baseline vs retracement next-token probe |
+| Probe | Top-k next tokens |
+| **Visualize** | Real-time layer activation stream + maps, correlations, animations |
+
+Requires `pip install -e ".[live]"` (includes matplotlib/seaborn for viz).
+
+---
+
 ## Visualization suite
 
 The viz module (`src/llmintent/viz/`) turns analysis outputs into inspectable artifacts. Three families:
@@ -803,278 +907,6 @@ Viz outputs use consistent colors aligned with regime and module semantics:
 | `examples/heighten_reasoning.py` | Focus diagnosis, forced retrace, activation steering |
 | `examples/hellaswag_benchmark.py` | HellaSwag SLM ablation + retrace store |
 | `examples/retracement_ablation.py` | Retracement Transformer perplexity ablation |
+| `examples/live_demo.py` | Live suite — analyze, heighten, generate on SLM |
 
-## Research lineage & citations
 
-LLMIntent synthesizes mechanistic interpretability, layer-wise reasoning research, and Kineteq notebook lineage into a single analysis and intervention pipeline. This section documents **every research line** that informed design, what is **implemented** in code, empirical results from this repo, and **planned extensions** from the literature.
-
-### Research → module map
-
-| LLMIntent module | Research basis | Status |
-|------------------|----------------|--------|
-| `jspace/` — logit decode, regimes, transport, intent traces | Anthropic Global Workspace / J-lens ([Gurnee et al., 2026](#anthropic-global-workspace)); LogitLens ([nostalgebraist, 2020](#logitlens)) | Implemented (transport is LS proxy, not full Jacobian) |
-| `layers/` — sensory / workspace / motor bands | Anthropic regime classification ([Gurnee et al., 2026](#anthropic-global-workspace)) | Implemented |
-| `activation/` — inference pivot, workspace peak, motor onset | Internal CoT layer scheduling ([Yang et al., 2025](#internal-cot)); Emergent Response Planning ([Chen et al., 2025](#emergent-planning)) | Implemented |
-| `cognitive/` — identity, reasoning, meta, ideation kernels | Twin Barlow + KL divergence ([Zbontar et al., 2021](#barlow-twins)); CoT twin comparison ([Wei et al., 2022](#chain-of-thought)) | Implemented |
-| `heighten/` — focus metrics, forced retrace, steering | Internal CoT; CAA steering ([Rimsky et al., 2023](#caa)); IntSteer NBF/KL diagnostics ([Jafari et al., 2026](#intsteer)) | Implemented |
-| `retracement/` — Retracement Transformer | Workspace pivot + dual-pass merge (Anthropic bands + heighten focus) | Implemented (v0.8.0) |
-| `benchmark/` — HellaSwag ablation | HellaSwag ([Zellers et al., 2019](#hellaswag)); retrace store for causal comparison | Implemented |
-| `query/` — concept → layer activation | KL-Barlow-KNN fusion over trajectory features | Implemented |
-| `viz/` — maps, correlations, animations | Trajectory + regime visualization of above signals | Implemented |
-| `compaction/` — SSO purity | SemanticExtractionLLms notebook (Kineteq) | Implemented |
-| `steering/` (legacy) — pole intensity | SemanticExtractionLLms notebook | Measurement only |
-| SAE feature intent, CorrSteer layer ranking | CorrSteer ([Li et al., 2025](#corrsteer)); MechELK ([2026](#mechelk)) | Planned |
-| Handover gradient, planning intent, belief state | SemanticExtractionLLms; Emergent Planning; Internal CoT | Planned |
-
----
-
-### Foundational & implemented
-
-#### SemanticExtractionLLms (Kineteq)
-
-Internal research notebook — `reference/SemanticExtractionLLms.ipynb`. Origin of morpheme wells, semantic poles, SSO compaction, steering intensity sweeps, and weight-slice semantics.
-
-**LLMIntent modules:** `morphemes/`, `poles/`, `weight_semantics/`, `steering/`, `compaction/`, `projection/`
-
-#### Anthropic Global Workspace {#anthropic-global-workspace}
-
-Gurnee, Wu, Lindsey, et al. *[Verbalizable Representations Form a Global Workspace in Language Models](https://transformer-circuits.pub/2026/workspace/)*. Transformer Circuits / Anthropic, 2026.
-
-Introduces **J-space** (Jacobian lens over hidden states), **sensory → workspace → motor** layer regimes, sparse verbal intent decomposition, and transport maps between layers.
-
-**LLMIntent modules:** `jspace/decode.py`, `jspace/regimes.py`, `jspace/transport.py`, `jspace/decompose.py`, `jspace/trace.py`, `layers.py`
-
-> **Note:** `fit_transport_maps()` uses a least-squares proxy for E[∂h_final/∂h_l], not the full Anthropic `jlens` Jacobian. Upgrade path: wire real J-lens transport.
-
-#### Barlow Twins {#barlow-twins}
-
-Zbontar, Jing, Misra, LeCun, et al. *[Barlow Twins: Self-Supervised Learning via Redundancy Reduction](https://arxiv.org/abs/2103.03230)*. ICML 2021.
-
-Redundancy-reduction objective used in **twin Barlow minimization** for cognitive module separation and concept-query feature fusion.
-
-**LLMIntent modules:** `kernels/barlow.py`, `cognitive/`, `query/feature_space.py`
-
-#### LogitLens {#logitlens}
-
-nostalgebraist. *[Interpreting GPT: the logit lens](https://www.lesswrong.com/posts/AcKRB8wDpdaN6v6ru/interpreting-neural-networks-with-the-logit-lens)*. LessWrong, 2020.
-
-Projects intermediate hidden states through the unembedding matrix to read per-layer "beliefs." Basis for `decode_intents()` with J = I.
-
-**LLMIntent modules:** `jspace/decode.py`, Internal CoT cross-reference in `heighten/cot_delta.py`
-
-#### Chain-of-Thought Prompting {#chain-of-thought}
-
-Wei, Wang, Schuurmans, et al. *[Chain-of-Thought Prompting Elicits Reasoning in Large Language Models](https://arxiv.org/abs/2201.11903)*. NeurIPS 2022.
-
-Explicit CoT scaffolds are the **twin-prompt anchor** in focus diagnosis, heighten retrace, and CoT-vs-direct intensity comparison.
-
-**LLMIntent modules:** `steering.py`, `heighten/retrace.py`, `heighten/cot_delta.py`, `analyzer.compare_cot()`
-
----
-
-### Layer-wise reasoning & planning
-
-#### Internal Chain-of-Thought {#internal-cot}
-
-Yang, Li, Xia, Hu. *[Internal Chain-of-Thought: Empirical Evidence for Layer-wise Subtask Scheduling in LLMs](https://arxiv.org/abs/2505.14530)*. EMNLP 2025.
-
-Shows LLMs decompose composite tasks **across depth** — distinct subtasks at different layers, executed sequentially. Uses LogitLens and cross-task patching.
-
-**Informed:** activation pivot detection, workspace band targeting in Retracement Transformer, `cot_delta` meta-reasoning scores, focus metrics (reasoning concentration vs meta dispersion).
-
-**Planned:** subtask MRR curves, handoff timing metrics, layer-from context-masking validation.
-
-#### Emergent Response Planning {#emergent-planning}
-
-Chen, et al. *[Emergent Response Planning in LLMs](https://arxiv.org/abs/2502.06258)*. 2025.
-
-Prompt representations encode **global future attributes** (structure, content, behavior) before token generation — challenges purely local next-token views.
-
-**Informed:** `planning_intent` expansion target; motor-prematurity metric in focus diagnosis; Retracement Transformer dual-pass (snapshot at pivot replays planned workspace state).
-
-**Planned:** `planning_intent` module — short-horizon decode probes on workspace layers.
-
----
-
-### Activation steering & mechanistic control
-
-#### Contrastive Activation Addition (CAA) {#caa}
-
-Rimsky, et al. *[Steering Llama 2 via Contrastive Activation Addition](https://arxiv.org/abs/2312.06681)*. 2023.
-
-Computes steering vectors from contrastive activation pairs; adds them at inference without retraining.
-
-**LLMIntent modules:** `heighten/intervention.py` — `extract_reasoning_focus_vector()`, `apply_focus_steering()`, `steering_hooks`
-
-#### IntSteer — Mechanistic Indicators of Steering Effectiveness {#intsteer}
-
-Jafari, Xue, Salim. *[Mechanistic Indicators of Steering Effectiveness in Large Language Models](https://arxiv.org/abs/2602.01716)*. 2026. [Code](https://github.com/cruiseresearchgroup/IntSteer)
-
-Uses **Normalized Branching Factor (NBF)** and **KL divergence** between steered activations and target concepts to predict steering success — internal signals vs black-box judges.
-
-**Informed:** focus metrics use KL + entropy; `metrics.py` Shannon entropy and KL; future StALT score (structured entropy + KL alignment across decode steps).
-
-**Planned:** NBF as steering reliability predictor; layer ranking by Δfocus before intervention.
-
-#### CorrSteer — Correlation-based SAE Steering {#corrsteer}
-
-Li, et al. *[CorrSteer: Generation-Time LLM Steering via Correlated Sparse Autoencoder Features](https://arxiv.org/abs/2508.12535)*. ICML 2026.
-
-Selects SAE features by **Pearson correlation** between feature activations and task correctness at generation time; validates with causal intervention; Side Effect Ratio (SER) metric.
-
-**Planned:** `feature_intent` module; CorrSteer-style layer ranking in benchmark ablation; SER for retrace side-effects.
-
-#### MechELK — Eliciting Latent Knowledge {#mechelk}
-
-*[MechELK: A Mechanistic Interpretability Framework for Eliciting Latent Knowledge in Large Language Models](https://arxiv.org/abs/2605.28825)*. 2026.
-
-Three-stage **Locate → Verify → Elicit** pipeline: SAE features + activation patching, causal probing, representation engineering to surface hidden knowledge.
-
-**Planned:** causal ablation gate for Retracement Transformer FocusGate; verify focus vectors before steering; belief-state probes.
-
----
-
-### Benchmarks & evaluation corpora
-
-#### HellaSwag {#hellaswag}
-
-Zellers, Holtzman, Bisk, Farhadi, Choi. *[HellaSwag: Can a Machine Really Finish Your Sentence?](https://arxiv.org/abs/1905.07830)*. ACL 2019.
-
-Adversarial-filtered commonsense completion — trivial for humans (~95%), hard for SLMs. Used to test whether **focused retrace** improves completion accuracy vs baseline.
-
-**LLMIntent modules:** `benchmark/hellaswag.py`, `benchmark/runner.py`, `benchmark/retrace_store.py`
-
-#### WikiText-2
-
-Merity, et al. WikiText-2 language modeling corpus (via HuggingFace `datasets`). Used for **Retracement Transformer perplexity** ablation when `[benchmark]` extra is installed; fallback corpus otherwise.
-
-**LLMIntent modules:** `retracement/perplexity.py`, `retracement/ablation.py`
-
----
-
-### Empirical results (this repository)
-
-All results stored under `llmintent_retraces/`. Reproduce with `examples/hellaswag_benchmark.py` and `examples/retracement_ablation.py`.
-
-#### HellaSwag SLM ablation (smoke run, 2 fallback examples)
-
-| Model | Condition | Accuracy |
-|-------|-----------|----------|
-| gpt2 | baseline | 0/2 (0%) |
-| gpt2 | retrace | 1/2 (50%) |
-| gpt2 | extreme_retrace | 1/2 (50%) |
-| distilgpt2 | baseline | 0/2 (0%) |
-| distilgpt2 | retrace | 0/2 (0%) |
-| distilgpt2 | extreme_retrace | 1/2 (50%) |
-
-**Interpretation:** Forced retrace can flip incorrect commonsense completions on small SLMs, but **focus gain ≠ correctness** — long retrace prefixes sometimes break focus measurement (NaN in store). Scale to full HellaSwag validation split for significance.
-
-#### Retracement Transformer perplexity ablation (16 texts, fast modes)
-
-| Model | Mode | Perplexity | Δ vs baseline |
-|-------|------|------------|---------------|
-| gpt2 | baseline | 519.93 | — |
-| gpt2 | focus_gate | 519.57 | **−0.36** |
-| gpt2 | dual_pass | 517.46 | **−2.47** |
-| gpt2 | extreme | 517.46 | **−2.47** |
-| distilgpt2 | baseline | 922.30 | — |
-| distilgpt2 | focus_gate | 919.41 | **−2.89** |
-| distilgpt2 | dual_pass | 913.72 | **−8.58** |
-| distilgpt2 | extreme | 913.72 | **−8.58** |
-
-**Interpretation:** All retracement modes **lower perplexity** vs baseline. Smaller `distilgpt2` benefits more — consistent with retracement adding workspace structure the model lacks. Dual-pass ≈ extreme on this corpus (coefficients saturate on short texts).
-
-Full CSV: `llmintent_retraces/retracement_ablation.csv`, `llmintent_retraces/hellaswag_results.csv`
-
----
-
-### Planned extensions (literature → roadmap)
-
-| Target module | Paper / source | Rationale |
-|---------------|----------------|-----------|
-| `handover_intent` | SemanticExtractionLLms notebook | SSO density gradient + structural cliff at sensory→workspace transition |
-| `planning_intent` | Emergent Response Planning (2502.06258) | Probe workspace layers for short-horizon future-token attributes |
-| `belief_state` | MechELK (2605.28825) | Linear probes for entity/goal predicates before motor commit |
-| `steering_intent` + SAE features | CorrSteer (2508.12535) | Correlation-ranked layer intervention with SER side-effect tracking |
-| Real J-lens transport | Anthropic workspace (2026) | Replace LS proxy in `jspace/transport.py` |
-| Causal ablation verify | MechELK Verify stage | Confirm FocusGate vectors causally shift logits before merge |
-| Subtask handoff curves | Internal CoT (2505.14530) | Layer-wise subtask MRR aligned with activation pivots |
-
----
-
-### BibTeX (key references)
-
-```bibtex
-@inproceedings{zellers2019hellaswag,
-  title={HellaSwag: Can a Machine Really Finish Your Sentence?},
-  author={Zellers, Rowan and Holtzman, Ari and Bisk, Yonatan and Farhadi, Ali and Choi, Yejin},
-  booktitle={ACL},
-  year={2019}
-}
-
-@inproceedings{wei2022cot,
-  title={Chain-of-Thought Prompting Elicits Reasoning in Large Language Models},
-  author={Wei, Jason and Wang, Xuezhi and Schuurmans, Dale and others},
-  booktitle={NeurIPS},
-  year={2022}
-}
-
-@inproceedings{zbontar2021barlow,
-  title={Barlow Twins: Self-Supervised Learning via Redundancy Reduction},
-  author={Zbontar, Jure and Jing, Li and Misra, Ishan and others},
-  booktitle={ICML},
-  year={2021}
-}
-
-@article{yang2025internalcot,
-  title={Internal Chain-of-Thought: Empirical Evidence for Layer-wise Subtask Scheduling in LLMs},
-  author={Yang, Zhipeng and Li, Junzhuo and Xia, Siyu and Hu, Xuming},
-  journal={arXiv:2505.14530},
-  year={2025}
-}
-
-@article{chen2025planning,
-  title={Emergent Response Planning in LLMs},
-  journal={arXiv:2502.06258},
-  year={2025}
-}
-
-@article{rimsky2023caa,
-  title={Steering Llama 2 via Contrastive Activation Addition},
-  journal={arXiv:2312.06681},
-  year={2023}
-}
-
-@article{jafari2026intsteer,
-  title={Mechanistic Indicators of Steering Effectiveness in Large Language Models},
-  author={Jafari, Mehdi and Xue, Hao and Salim, Flora},
-  journal={arXiv:2602.01716},
-  year={2026}
-}
-
-@article{li2025corrsteer,
-  title={CorrSteer: Generation-Time LLM Steering via Correlated Sparse Autoencoder Features},
-  journal={arXiv:2508.12535},
-  year={2025}
-}
-
-@article{mechelk2026,
-  title={MechELK: A Mechanistic Interpretability Framework for Eliciting Latent Knowledge in Large Language Models},
-  journal={arXiv:2605.28825},
-  year={2026}
-}
-
-@misc{gurnee2026workspace,
-  title={Verbalizable Representations Form a Global Workspace in Language Models},
-  author={Gurnee, Wes and others},
-  howpublished={Transformer Circuits},
-  year={2026},
-  url={https://transformer-circuits.pub/2026/workspace/}
-}
-```
-
----
-
-## License
-
-MIT

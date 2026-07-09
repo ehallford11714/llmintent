@@ -87,6 +87,7 @@ def main(argv: list[str] | None = None) -> int:
     hs = benchmark_sub.add_parser("hellaswag", help="Run HellaSwag with retrace ablations")
     hs.add_argument("--models", nargs="+", default=["gpt2", "distilgpt2"])
     hs.add_argument("--limit", type=int, default=20)
+    hs.add_argument("--full", action="store_true", help="Run full validation split (10,042 examples)")
     hs.add_argument("--conditions", default="fast", help="fast, default, or comma-separated")
     hs.add_argument("--store", default="llmintent_retraces/hellaswag.jsonl")
     hs.add_argument("--fallback", action="store_true", help="Use built-in fixture subset")
@@ -122,6 +123,30 @@ def main(argv: list[str] | None = None) -> int:
     rt_ab.add_argument("--models", nargs="+", default=["gpt2", "distilgpt2"])
     rt_ab.add_argument("--limit", type=int, default=24)
     rt_ab.add_argument("--full", action="store_true", help="All six modes (slower)")
+
+    live = sub.add_parser("live", help="Real-time Live suite (Phi-3, Qwen, SLMs)")
+    live_sub = live.add_subparsers(dest="live_cmd", required=True)
+
+    live_models = live_sub.add_parser("models", help="List registered live models")
+
+    live_serve = live_sub.add_parser("serve", help="Start FastAPI server")
+    live_serve.add_argument("--model", default="qwen-0.5b")
+    live_serve.add_argument("--host", default="127.0.0.1")
+    live_serve.add_argument("--port", type=int, default=8765)
+
+    live_ui = live_sub.add_parser("ui", help="Launch Streamlit app")
+
+    live_run = live_sub.add_parser("run", help="One-shot analyze / heighten / generate")
+    live_run.add_argument("--model", default="qwen-0.5b")
+    live_run.add_argument("--prompt", required=True)
+    live_run.add_argument(
+        "--action",
+        choices=["analyze", "heighten", "generate", "probe"],
+        default="analyze",
+    )
+    live_run.add_argument("--retracement-mode", default="focus_gate")
+    live_run.add_argument("--steer", action="store_true")
+    live_run.add_argument("--max-tokens", type=int, default=64)
 
     args = parser.parse_args(argv)
 
@@ -349,7 +374,7 @@ def main(argv: list[str] | None = None) -> int:
             config = BenchmarkRunConfig(
                 models=args.models,
                 conditions=parse_conditions(args.conditions),
-                limit=args.limit,
+                limit=10042 if args.full else args.limit,
                 store_path=args.store,
                 measure_focus=not args.no_focus,
                 use_fallback=args.fallback,
@@ -388,6 +413,71 @@ def main(argv: list[str] | None = None) -> int:
                 text_limit=args.limit,
             )
             print(json.dumps(df.to_dict(orient="records"), indent=2))
+            return 0
+
+    if args.command == "live":
+        if args.live_cmd == "models":
+            from llmintent.live import list_live_models
+
+            print(json.dumps(list_live_models(), indent=2))
+            return 0
+
+        if args.live_cmd == "serve":
+            from llmintent.live.api import serve
+
+            serve(host=args.host, port=args.port, model=args.model)
+            return 0
+
+        if args.live_cmd == "ui":
+            import subprocess
+            import sys
+            from pathlib import Path
+
+            import llmintent.live.ui as ui_mod
+
+            script = Path(ui_mod.__file__).resolve()
+            subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "streamlit",
+                    "run",
+                    str(script),
+                    "--server.port",
+                    "8501",
+                ],
+                check=False,
+            )
+            return 0
+
+        if args.live_cmd == "run":
+            from llmintent.live import LiveIntentPipeline, LiveSessionConfig
+
+            pipe = LiveIntentPipeline(
+                LiveSessionConfig(
+                    model_key=args.model,
+                    retracement_mode=args.retracement_mode,
+                )
+            )
+            try:
+                pipe.load()
+                if args.action == "analyze":
+                    out = pipe.analyze(args.prompt)
+                elif args.action == "heighten":
+                    out = pipe.heighten(args.prompt, steer=args.steer)
+                elif args.action == "generate":
+                    out = pipe.generate(
+                        args.prompt,
+                        max_new_tokens=args.max_tokens,
+                        retracement_mode=args.retracement_mode,
+                        steer=args.steer,
+                    )
+                else:
+                    tokens = pipe.probe_next_tokens(args.prompt, retracement_mode=args.retracement_mode)
+                    out = {"tokens": [{"token": t, "prob": p} for t, p in tokens]}
+                print(json.dumps(out.to_dict() if hasattr(out, "to_dict") else out, indent=2))
+            finally:
+                pipe.unload()
             return 0
 
     return 1

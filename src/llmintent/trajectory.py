@@ -69,6 +69,7 @@ def build_trajectory_mapping(
     position: int = -1,
     concepts: list[str] | None = None,
     include_cognitive: bool = True,
+    include_concepts: bool = True,
 ) -> TrajectoryMapping:
     """
     Build a full activation trajectory map for a prompt.
@@ -151,7 +152,7 @@ def build_trajectory_mapping(
     )
 
     concept_hits: dict[str, ConceptQueryResult] = {}
-    if concepts:
+    if include_concepts and concepts:
         for concept in concepts:
             hit = query_concept_in_trajectory(
                 bundle,
