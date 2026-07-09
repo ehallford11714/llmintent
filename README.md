@@ -135,6 +135,25 @@ python -m llmintent analyze --family qwen --size tiny --prompt "Two plus two equ
 
 Size tiers: `tiny` \| `small` \| `medium` \| `large` \| `xl`. Weights load lazily — never at import time. Multi-GB download tests stay behind `LLMINTENT_LOAD_TEST=1`.
 
+| Env var | Purpose |
+|---------|---------|
+| `LLMINTENT_MODEL` | HF id or suite key (`qwen:medium`) |
+| `LLMINTENT_FAMILY` | `qwen` \| `mistral` \| `minimax` \| `glm` \| `legacy` |
+| `LLMINTENT_SIZE` | `tiny` \| `small` \| `medium` \| `large` \| `xl` |
+| `LLMINTENT_DEVICE` | `cpu`, `cuda`, `cuda:0`, … |
+| `LLMINTENT_LOAD_TEST` | Set `1` to enable optional weight-download tests |
+
+Optional companion: `pip install intentisolates` then `from llmintent.isolates import identify_isolates` (soft import — core package stays light).
+
+## Changelog (1.0.0)
+
+- **Model suite** — curated Qwen / Mistral / MiniMax / GLM / legacy registries with size tiers
+- **CLI** — `llmintent models list|info|env`, `llmintent run --family … --size …`
+- **API** — `list_models`, `resolve_model_id`, `get_model_spec`, `load_suite_model`, `LLMIntentAnalyzer.from_suite`
+- **Extras** — `[models]` / `[hf]` / `[slm]` add `accelerate` for larger local loads
+- **Docs** — [`docs/MODEL_SUITE.md`](docs/MODEL_SUITE.md) (HF ids, VRAM, API fallbacks)
+- **Soft hook** — `llmintent.isolates` re-exports `intentisolates` when installed
+
 ## Research pipeline
 
 LLMIntent combines three research lines into one pipeline:
@@ -950,4 +969,8 @@ Viz outputs use consistent colors aligned with regime and module semantics:
 | `examples/retracement_ablation.py` | Retracement Transformer perplexity ablation |
 | `examples/live_demo.py` | Live suite — analyze, heighten, generate on SLM |
 
+## License
 
+MIT — see [`LICENSE`](LICENSE).
+
+PyPI: [llmintent](https://pypi.org/project/llmintent/) · GitHub: [ehallford11714/llmintent](https://github.com/ehallford11714/llmintent)
