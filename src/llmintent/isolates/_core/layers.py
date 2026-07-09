@@ -108,7 +108,20 @@ def soft_llmintent_layers(prompt: str, **kwargs: Any) -> dict[str, Any] | None:
 
 
 def soft_latentintent_layers(**kwargs: Any) -> dict[str, Any] | None:
-    """Optional soft hook for LatentIntentInspect if present."""
+    """Optional soft hook for latent thought inspection (external or suite)."""
+    try:
+        from llmintent import latent as li_latent
+
+        info = li_latent.describe()
+        return {
+            "available": True,
+            "backend": info.get("backend"),
+            "external": info.get("external"),
+            "hint": "Use llmintent.latent.inspect_text for ThoughtReports",
+            **kwargs,
+        }
+    except Exception:
+        pass
     try:
         import latentintent  # type: ignore  # noqa: F401
     except Exception:
@@ -118,7 +131,7 @@ def soft_latentintent_layers(**kwargs: Any) -> dict[str, Any] | None:
             return None
     return {
         "available": True,
-        "hint": "latentintent package detected; wire activation layer ids when API stabilizes",
+        "hint": "latentintent package detected; use llmintent.latent.inspect_text",
         **kwargs,
     }
 

@@ -50,12 +50,47 @@ def test_iv_motifs_offline():
     assert "indication_by_layer" in d
 
 
-def test_latent_stub():
+def test_latent_inspect_offline():
     from llmintent import latent
 
     info = latent.describe()
-    assert "available" in info
-    assert latent.available() in (True, False)
+    assert info["available"] is True
+    assert latent.available() is True
+    assert latent.backend_name()
+    report = latent.inspect_text(
+        "I want a refund but cannot wait. What should I do?",
+        backend="rule",
+        include_sae=True,
+        include_probe_train=True,
+    )
+    d = report.to_dict()
+    assert d["hypothesized_intents"]
+    assert d["caveats"]
+    assert "disclaimer" in d
+    assert report.summary_lines()
+
+
+def test_cli_latent():
+    env = {**dict(**{k: v for k, v in __import__("os").environ.items()}), "PYTHONIOENCODING": "utf-8"}
+    proc = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "llmintent",
+            "latent",
+            "--text",
+            "Please explain gravity step by step.",
+            "--no-sae",
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
+        env=env,
+    )
+    assert proc.returncode == 0, proc.stderr
+    data = json.loads(proc.stdout)
+    assert data["backend"] == "rule"
+    assert data["hypothesized_intents"]
 
 
 def test_backend_source_documented():

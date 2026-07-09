@@ -107,6 +107,20 @@ print(report.intensity_sweep.head())
 analyzer.cleanup()
 ```
 
+## Latent thought inspection (1.2.0+)
+
+`llmintent.latent` ships **offline ThoughtReports** (rule tags, synthetic probes, SAE-lite, logit-lens stub) with mandatory epistemic caveats. Prefer extractable [`latentintent`](https://github.com/ehallford11714/latent-intent-inspect) when installed for HF residual capture; otherwise the vendored path always works.
+
+```powershell
+python -m llmintent latent --text "I want X but cannot Y. What should I do?"
+python -m llmintent latent --status
+python -c "from llmintent import latent; print(latent.inspect_text('Thanks!').summary_lines())"
+# Optional extractable + HF:
+# pip install "llmintent[latent]"   # or: pip install -e ..\LatentIntentInspect
+```
+
+Docs: [`docs/SUITE.md`](docs/SUITE.md). SOTA map: [`../docs/SOTA_LATENT_THOUGHT_INSPECTION.md`](../docs/SOTA_LATENT_THOUGHT_INSPECTION.md). Reports are **correlates/probes**, not mind-reading.
+
 ## Model suite (Qwen / Mistral / MiniMax / GLM)
 
 Beyond GPT-2 defaults, LLMIntent ships a curated **model suite** for larger instruct models. Full tables, VRAM guidance, and API fallbacks: [`docs/MODEL_SUITE.md`](docs/MODEL_SUITE.md).
@@ -165,7 +179,7 @@ flowchart LR
 | Isolates + typology | `llmintent.isolates` | Yes (vendored; prefers `intentisolates` if installed) |
 | Motifs / trajectories | `llmintent.motifs` | Yes |
 | IV / layer causal | `llmintent.iv_motifs` | Yes (stdlib Wald; soft `causaliv`/`autocausal`) |
-| Latent inspect | `llmintent.latent` | Soft stub until LatentIntentInspect publishes |
+| Latent inspect | `llmintent.latent` | Vendored ThoughtReport + soft-prefer `latentintent` |
 | Model suite | `llmintent.suite` | Registry offline; weights lazy |
 
 ```python

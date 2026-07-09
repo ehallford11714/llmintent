@@ -78,6 +78,35 @@ def add_suite_parsers(sub: argparse._SubParsersAction) -> None:
     )
     cl.add_argument("--markdown", action="store_true")
 
+    latent = sub.add_parser(
+        "latent",
+        help="Latent thought inspection (ThoughtReport; correlates/probes, not mind-reading)",
+    )
+    latent.add_argument("--text", type=str, required=True, help="Input text")
+    latent.add_argument(
+        "--backend",
+        type=str,
+        default="rule",
+        choices=["rule", "hf"],
+        help="rule=offline vendored; hf=requires latentintent[hf] or torch stack",
+    )
+    latent.add_argument("--model", type=str, default=None, help="HF model id")
+    latent.add_argument(
+        "--family",
+        type=str,
+        default=None,
+        choices=["qwen", "mistral", "minimax", "glm", "legacy"],
+        help="Suite family (soft-resolved when llmintent suite / latentintent present)",
+    )
+    latent.add_argument("--no-sae", action="store_true")
+    latent.add_argument("--no-probe", action="store_true")
+    latent.add_argument("-o", "--output", type=str, default=None)
+    latent.add_argument(
+        "--status",
+        action="store_true",
+        help="Print latent backend describe() JSON instead of inspecting",
+    )
+
 
 def _add_input_args(p: argparse.ArgumentParser) -> None:
     p.add_argument("--text", type=str, default=None, help="Input text")
@@ -113,10 +142,37 @@ def handle_suite_command(args: argparse.Namespace) -> int | None:
         return _cmd_reasoning_trajectory(args)
     if cmd in ("iv-motifs", "causal-layers"):
         return _cmd_iv_motifs(args)
+    if cmd == "latent":
+        return _cmd_latent(args)
     if cmd == "trajectory" and getattr(args, "text", None):
         # Dual-mode: trajectory --text → motif reasoning path
         return _cmd_reasoning_trajectory(args)
     return None
+
+
+def _cmd_latent(args: argparse.Namespace) -> int:
+    from llmintent import latent as li_latent
+
+    if getattr(args, "status", False):
+        print(json.dumps(li_latent.describe(), indent=2))
+        return 0
+
+    report = li_latent.inspect_text(
+        args.text,
+        backend=getattr(args, "backend", "rule") or "rule",
+        model=getattr(args, "model", None),
+        family=getattr(args, "family", None),
+        include_sae=not getattr(args, "no_sae", False),
+        include_probe_train=not getattr(args, "no_probe", False),
+    )
+    payload = report.to_dict() if hasattr(report, "to_dict") else report
+    text = json.dumps(payload, indent=2)
+    out = getattr(args, "output", None)
+    if out:
+        Path(out).write_text(text, encoding="utf-8")
+    else:
+        print(text)
+    return 0
 
 
 def maybe_patch_trajectory_parser(trajectory_parser: argparse.ArgumentParser) -> None:

@@ -1,8 +1,13 @@
-"""llmintent.latent — soft hooks for LatentIntentInspect / latentintent.
+"""llmintent.latent — latent thought inspection for the suite.
 
-LatentIntentInspect is not required. When installed, this module surfaces
-availability metadata and any stable public symbols. Otherwise it provides
-a lightweight stub so suite imports never fail.
+Resolution order
+----------------
+1. Prefer installed extractable ``latentintent`` (LatentIntentInspect) when present.
+2. Else use vendored offline API under ``llmintent.latent_vendor``.
+
+Epistemic note: inspects **activation correlates / probes / heuristics** —
+not human thoughts, and not proven ground-truth model "mind reading."
+Every ThoughtReport includes caveats.
 """
 
 from __future__ import annotations
@@ -10,28 +15,49 @@ from __future__ import annotations
 from typing import Any
 
 __all__ = [
+    "EPISTEMIC_CAVEATS",
+    "IntentHypothesis",
+    "LayerSaliency",
+    "ThoughtReport",
     "available",
     "backend_name",
+    "build_thought_report",
     "describe",
+    "inspect_text",
     "soft_latentintent_layers",
 ]
 
-_AVAILABLE = False
+_EXTERNAL = False
 _BACKEND_NAME: str | None = None
 _MOD: Any = None
 
 for _name in ("latentintent", "latentintentinspect"):
     try:
         _MOD = __import__(_name)
-        _AVAILABLE = True
+        _EXTERNAL = True
         _BACKEND_NAME = _name
         break
     except ImportError:
         continue
 
+if _MOD is None:
+    from llmintent import latent_vendor as _MOD
+
+    _BACKEND_NAME = "llmintent.latent_vendor"
+    _EXTERNAL = False
+
+# Re-export stable API from resolved backend
+EPISTEMIC_CAVEATS = getattr(_MOD, "EPISTEMIC_CAVEATS", ())
+IntentHypothesis = _MOD.IntentHypothesis
+LayerSaliency = _MOD.LayerSaliency
+ThoughtReport = _MOD.ThoughtReport
+build_thought_report = _MOD.build_thought_report
+inspect_text = _MOD.inspect_text
+
 
 def available() -> bool:
-    return _AVAILABLE
+    """True when a latent inspect backend is loaded (always True since 1.2.0)."""
+    return _MOD is not None
 
 
 def backend_name() -> str | None:
@@ -41,16 +67,18 @@ def backend_name() -> str | None:
 def describe() -> dict[str, Any]:
     """Return suite status for latent thought inspection."""
     info: dict[str, Any] = {
-        "available": _AVAILABLE,
+        "available": True,
         "backend": _BACKEND_NAME,
+        "external": _EXTERNAL,
         "note": (
-            "LatentIntentInspect is an optional extractable companion. "
-            "Install when published; until then llmintent.latent is a soft stub."
+            "Latent thought inspection reports hypothesized correlates "
+            "(rules / probes / SAE-lite stubs), not proven model minds. "
+            "Install extractable `latentintent` for HF residual capture; "
+            "vendored offline path always ships in llmintent."
         ),
     }
-    if _MOD is not None:
-        info["version"] = getattr(_MOD, "__version__", None)
-        info["exports"] = [n for n in dir(_MOD) if not n.startswith("_")][:40]
+    info["version"] = getattr(_MOD, "__version__", None)
+    info["exports"] = [n for n in dir(_MOD) if not n.startswith("_")][:40]
     return info
 
 
@@ -62,10 +90,6 @@ def soft_latentintent_layers(**kwargs: Any) -> dict[str, Any] | None:
 
 
 def __getattr__(name: str) -> Any:
-    if _MOD is not None and hasattr(_MOD, name):
+    if hasattr(_MOD, name):
         return getattr(_MOD, name)
-    raise AttributeError(
-        f"llmintent.latent has no attribute {name!r} "
-        f"(latent backend available={_AVAILABLE!r}). "
-        "Install LatentIntentInspect / latentintent when published."
-    )
+    raise AttributeError(f"module 'llmintent.latent' has no attribute {name!r}")

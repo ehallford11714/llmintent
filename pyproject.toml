@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "llmintent"
-version = "1.1.0"
-description = "LLMIntent suite: semantic extraction, model registry, isolates, motifs, trajectories, and IV layer-causal"
+version = "1.2.0"
+description = "LLMIntent suite: semantic extraction, model registry, isolates, motifs, trajectories, IV layer-causal, and latent thought inspection"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
@@ -23,6 +23,8 @@ keywords = [
   "interpretability",
   "activation",
   "causal",
+  "latent",
+  "probes",
 ]
 classifiers = [
   "Development Status :: 4 - Beta",
@@ -62,12 +64,13 @@ live = [
 models = ["transformers>=4.40", "torch>=2.0", "accelerate>=0.30", "huggingface-hub>=0.23"]
 hf = ["llmintent[models]"]
 slm = ["llmintent[models]"]
-# Prefer external extractable libs when published; vendored isolates always ship in core
+# Prefer external extractable libs when published; vendored isolates/latent always ship in core
 isolates = ["intentisolates>=0.3"]
-suite = ["llmintent[isolates]"]
+latent = ["latentintent>=0.1"]
+suite = ["llmintent[isolates,latent]"]
 causaliv = ["scipy>=1.10"]
 dev = ["pytest>=8.0", "ruff>=0.4", "build>=1.0", "twine>=5.0"]
-all = ["llmintent[nlp,embeddings,viz,benchmark,live,models,isolates,dev]"]
+all = ["llmintent[nlp,embeddings,viz,benchmark,live,models,isolates,latent,dev]"]
 
 [project.scripts]
 llmintent = "llmintent.cli:main"
