@@ -48,6 +48,10 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Semantic extraction and intent analysis")
     sub = parser.add_subparsers(dest="command", required=True)
 
+    from llmintent.suite_cli import add_suite_parsers, handle_suite_command, maybe_patch_trajectory_parser
+
+    add_suite_parsers(sub)
+
     analyze = sub.add_parser("analyze", help="Analyze a single prompt")
     _add_model_args(analyze)
     analyze.add_argument("--prompt", required=True)
@@ -83,11 +87,19 @@ def main(argv: list[str] | None = None) -> int:
     query.add_argument("--twin-b", default=None, help="Twin prompt for KL-Barlow (defaults to --prompt)")
     query.add_argument("--top-k", type=int, default=5)
 
-    trajectory = sub.add_parser("trajectory", help="Unified activation trajectory mapping")
+    trajectory = sub.add_parser(
+        "trajectory",
+        help="Activation trajectory (--prompt) or isolates reasoning trajectory (--text)",
+    )
     _add_model_args(trajectory)
-    trajectory.add_argument("--prompt", required=True)
+    trajectory.add_argument(
+        "--prompt",
+        default=None,
+        help="Prompt for activation trajectory mapping (model path)",
+    )
     trajectory.add_argument("--twin-b", default=None)
     trajectory.add_argument("--concepts", nargs="*", default=[], help="Concepts to annotate on trajectory")
+    maybe_patch_trajectory_parser(trajectory)
 
     viz = sub.add_parser("viz", help="Visualization suite: maps, correlations, animations")
     _add_model_args(viz)
@@ -201,6 +213,10 @@ def main(argv: list[str] | None = None) -> int:
     run_cmd.add_argument("--max-new-tokens", type=int, default=32)
 
     args = parser.parse_args(argv)
+
+    suite_rc = handle_suite_command(args)
+    if suite_rc is not None:
+        return suite_rc
 
     if args.command == "models":
         from llmintent.suite import get_model_spec, list_models, resolve_from_env
@@ -360,6 +376,12 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if args.command == "trajectory":
+        if not args.prompt:
+            print(
+                "trajectory requires --prompt (activation map) or --text (isolates reasoning).",
+                file=sys.stderr,
+            )
+            return 2
         from llmintent import LLMIntentAnalyzer
 
         analyzer = LLMIntentAnalyzer(_resolve_cli_model(args), device=args.device, load_glove=False)

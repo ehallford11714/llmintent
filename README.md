@@ -28,6 +28,7 @@ Python library derived from the **SemanticExtractionLLms** research notebook. LL
 - [Install](#install)
 - [Quick start](#quick-start)
 - [Model suite](#model-suite-qwen--mistral--minimax--glm)
+- [Full product suite](#full-product-suite)
 - [Research pipeline](#research-pipeline)
 - [CLI](#cli)
 - [Modules](#modules)
@@ -64,6 +65,7 @@ pip install llmintent
 pip install "llmintent[viz]"      # maps & animations
 pip install "llmintent[live]"       # Streamlit UI + FastAPI
 pip install "llmintent[models]"     # accelerate stack for Qwen/Mistral/MiniMax/GLM suite
+pip install "llmintent[suite]"      # prefer external intentisolates (vendored isolates always included)
 pip install "llmintent[all]"        # full research stack
 ```
 
@@ -88,6 +90,7 @@ Publishing to PyPI: see [`docs/PUBLISHING.md`](docs/PUBLISHING.md).
 | `[benchmark]` | datasets | HellaSwag loading |
 | `[live]` | fastapi, uvicorn, streamlit | Real-time Live app + API |
 | `[models]` / `[hf]` / `[slm]` | transformers, torch, accelerate | Curated Qwen/Mistral/MiniMax/GLM suite |
+| `[suite]` / `[isolates]` | intentisolates (optional) | Prefer extractable isolates; core already vendors offline path |
 | `[nlp]` | stanza, spacy | Morpheme / lemma extraction |
 | `[embeddings]` | gensim | GloVe projection & weight semantics |
 | `[all]` | everything above | Full research pipeline |
@@ -143,16 +146,67 @@ Size tiers: `tiny` \| `small` \| `medium` \| `large` \| `xl`. Weights load lazil
 | `LLMINTENT_DEVICE` | `cpu`, `cuda`, `cuda:0`, … |
 | `LLMINTENT_LOAD_TEST` | Set `1` to enable optional weight-download tests |
 
-Optional companion: `pip install intentisolates` then `from llmintent.isolates import identify_isolates` (soft import — core package stays light).
+## Full product suite
 
-## Changelog (1.0.0)
+LLMIntent is the **suite home** for models **and** intent-structure tooling. Architecture: [`docs/SUITE.md`](docs/SUITE.md).
+
+```mermaid
+flowchart LR
+  LI[LLMIntent]
+  LI --> Models[Models<br/>Qwen/Mistral/MiniMax/GLM]
+  LI --> Iso[Isolates + typology]
+  LI --> Mot[Motifs + trajectories]
+  LI --> Lat[Latent inspect hooks]
+  LI --> IV[IV layer causal<br/>indication vs causation]
+```
+
+| Module | Import | Offline? |
+|--------|--------|----------|
+| Isolates + typology | `llmintent.isolates` | Yes (vendored; prefers `intentisolates` if installed) |
+| Motifs / trajectories | `llmintent.motifs` | Yes |
+| IV / layer causal | `llmintent.iv_motifs` | Yes (stdlib Wald; soft `causaliv`/`autocausal`) |
+| Latent inspect | `llmintent.latent` | Soft stub until LatentIntentInspect publishes |
+| Model suite | `llmintent.suite` | Registry offline; weights lazy |
+
+```python
+from llmintent.isolates import identify_isolates, form_motifs, trajectory_from_motifs
+from llmintent.iv_motifs import LayerCausalSuite
+
+text = "I want to finish. I cannot miss the deadline. I will submit it so that it is on time."
+isos = identify_isolates(text=text)
+motifs = form_motifs(isos)
+traj = trajectory_from_motifs(motifs, isos)
+print(traj.ascii_diagram)
+
+result = LayerCausalSuite.from_text(text).run(outcome_hint="on time")
+print(result.to_markdown())
+```
+
+```powershell
+python -m llmintent isolates --text "I want X but cannot Y"
+python -m llmintent motifs --text "..."
+python -m llmintent reasoning-trajectory --text "..."
+python -m llmintent trajectory --text "..."          # isolates reasoning path
+python -m llmintent iv-motifs --text "..." --mock-iv
+python -m llmintent models list
+```
+
+Standalone extractable libs ([intent-isolates](https://github.com/ehallford11714/intent-isolates), LatentIntentInspect) may still be installed separately; the suite re-exports them when present.
+
+## Changelog (1.1.0)
+
+- **Suite unity** — isolates, motifs, reasoning trajectories, IV layer-causal, and latent hooks under `llmintent`
+- **Vendored isolates** — offline `identify_isolates` / `form_motifs` / `LayerCausalSuite` without a second package
+- **CLI umbrella** — `isolates`, `motifs`, `reasoning-trajectory`, `iv-motifs`, `models`
+- **Docs** — [`docs/SUITE.md`](docs/SUITE.md)
+
+### 1.0.0
 
 - **Model suite** — curated Qwen / Mistral / MiniMax / GLM / legacy registries with size tiers
 - **CLI** — `llmintent models list|info|env`, `llmintent run --family … --size …`
 - **API** — `list_models`, `resolve_model_id`, `get_model_spec`, `load_suite_model`, `LLMIntentAnalyzer.from_suite`
 - **Extras** — `[models]` / `[hf]` / `[slm]` add `accelerate` for larger local loads
 - **Docs** — [`docs/MODEL_SUITE.md`](docs/MODEL_SUITE.md) (HF ids, VRAM, API fallbacks)
-- **Soft hook** — `llmintent.isolates` re-exports `intentisolates` when installed
 
 ## Research pipeline
 
