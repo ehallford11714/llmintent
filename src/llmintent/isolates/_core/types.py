@@ -77,6 +77,24 @@ TYPED_MOTIF_TEMPLATES: tuple[tuple[str, ...], ...] = (
 
 
 @dataclass
+class TextSpan:
+    """Contiguous character span in a source document."""
+
+    start: int
+    end: int
+    surface: str
+    sentence_index: int | None = None
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "start": self.start,
+            "end": self.end,
+            "surface": self.surface,
+            "sentence_index": self.sentence_index,
+        }
+
+
+@dataclass
 class Isolate:
     """A separable unit of intent / meaning / activation."""
 
@@ -99,6 +117,117 @@ class Isolate:
         if self.span is not None:
             d["span"] = list(self.span)
         return d
+
+
+@dataclass
+class SpanIsolate:
+    """Isolate bound to a contiguous text span — a hoppable creative stepping-stone.
+
+    Used by :class:`~llmintent.isolates._core.span_burst.CreativeBurstHopper` to jump
+    span→span along a trajectory while preserving structural anchors
+    (goal / constraint / outcome).
+    """
+
+    id: str
+    typology: TypologyLabel | str
+    text_span: TextSpan
+    layer: int | str | None = None
+    layer_name: str | None = None
+    hop_weight: float = 1.0
+    burst_affinity: float = 0.5
+    confidence: float = 0.0
+    rationale: str = ""
+    source: str = "rule"
+    protect: bool = False
+    metadata: dict[str, Any] = field(default_factory=dict)
+
+    @property
+    def surface(self) -> str:
+        return self.text_span.surface
+
+    @property
+    def start(self) -> int:
+        return self.text_span.start
+
+    @property
+    def end(self) -> int:
+        return self.text_span.end
+
+    def to_isolate(self) -> Isolate:
+        """Project to a plain :class:`Isolate` for motif / trajectory pipelines."""
+        return Isolate(
+            id=self.id,
+            kind=IsolateKind.TEXT,
+            label=self.surface,
+            typology=self.typology,
+            confidence=self.confidence,
+            rationale=self.rationale,
+            span=(self.start, self.end),
+            layer=self.layer,
+            layer_name=self.layer_name,
+            source=self.source,
+            metadata={
+                **self.metadata,
+                "hop_weight": self.hop_weight,
+                "burst_affinity": self.burst_affinity,
+                "protect": self.protect,
+                "sentence_index": self.text_span.sentence_index,
+            },
+        )
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "id": self.id,
+            "typology": _enum_val(self.typology),
+            "text_span": self.text_span.to_dict(),
+            "layer": _layer_val(self.layer) if self.layer is not None else None,
+            "layer_name": self.layer_name,
+            "hop_weight": self.hop_weight,
+            "burst_affinity": self.burst_affinity,
+            "confidence": self.confidence,
+            "rationale": self.rationale,
+            "source": self.source,
+            "protect": self.protect,
+            "metadata": dict(self.metadata),
+        }
+
+
+@dataclass
+class BurstHop:
+    """One hop in a creative-burst path."""
+
+    from_id: str | None
+    to_id: str
+    mode: str
+    score: float
+    reason: str = ""
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass
+class BurstPath:
+    """Ordered hop trajectory for creative exploration."""
+
+    seed_id: str
+    hops: list[BurstHop] = field(default_factory=list)
+    span_ids: list[str] = field(default_factory=list)
+    typology_path: list[str] = field(default_factory=list)
+    mode: str = "creative_burst"
+    summary: str = ""
+    metadata: dict[str, Any] = field(default_factory=dict)
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "seed_id": self.seed_id,
+            "hops": [h.to_dict() for h in self.hops],
+            "span_ids": list(self.span_ids),
+            "typology_path": list(self.typology_path),
+            "mode": self.mode,
+            "summary": self.summary,
+            "metadata": dict(self.metadata),
+        }
 
 
 @dataclass

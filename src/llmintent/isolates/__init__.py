@@ -56,30 +56,42 @@ def __dir__() -> list[str]:
 _b = _load_backend()
 
 ABSTRACT_LAYERS = _b.ABSTRACT_LAYERS
+BurstHop = getattr(_b, "BurstHop", None)
+BurstPath = getattr(_b, "BurstPath", None)
+CreativeBurstHopper = getattr(_b, "CreativeBurstHopper", None)
 Isolate = _b.Isolate
 IsolateKind = _b.IsolateKind
 IsolateReport = _b.IsolateReport
 Motif = _b.Motif
 MotifTypology = _b.MotifTypology
 ReasoningTrajectory = _b.ReasoningTrajectory
+SpanIsolate = getattr(_b, "SpanIsolate", None)
+TextSpan = getattr(_b, "TextSpan", None)
 TrajectoryRole = _b.TrajectoryRole
 TrajectoryStep = _b.TrajectoryStep
 TypologyLabel = _b.TypologyLabel
 assign_layers = _b.assign_layers
 available_backends = _b.available_backends
 build_report = _b.build_report
+burst_path_from_text = getattr(_b, "burst_path_from_text", None)
 classify_typology = _b.classify_typology
 form_motifs = _b.form_motifs
 identify_isolates = _b.identify_isolates
+identify_span_isolates = getattr(_b, "identify_span_isolates", None)
 report_to_json = _b.report_to_json
 report_to_markdown = _b.report_to_markdown
 soft_latentintent_layers = _b.soft_latentintent_layers
 soft_llmintent_layers = _b.soft_llmintent_layers
+span_isolates_from_isolates = getattr(_b, "span_isolates_from_isolates", None)
 trajectory_from_motifs = _b.trajectory_from_motifs
+typology_path_entropy = getattr(_b, "typology_path_entropy", None)
 
 __all__ = [
     "__version__",
     "ABSTRACT_LAYERS",
+    "BurstHop",
+    "BurstPath",
+    "CreativeBurstHopper",
     "Isolate",
     "IsolateKind",
     "IsolateReport",
@@ -88,6 +100,8 @@ __all__ = [
     "Motif",
     "MotifTypology",
     "ReasoningTrajectory",
+    "SpanIsolate",
+    "TextSpan",
     "TrajectoryRole",
     "TrajectoryStep",
     "TypologyLabel",
@@ -95,12 +109,16 @@ __all__ = [
     "available_backends",
     "backend_source",
     "build_report",
+    "burst_path_from_text",
     "classify_typology",
     "form_motifs",
     "identify_isolates",
+    "identify_span_isolates",
     "report_to_json",
     "report_to_markdown",
     "soft_latentintent_layers",
     "soft_llmintent_layers",
+    "span_isolates_from_isolates",
     "trajectory_from_motifs",
+    "typology_path_entropy",
 ]
