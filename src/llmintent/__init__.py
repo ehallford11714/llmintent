@@ -50,10 +50,12 @@ from llmintent.suite import (
     resolve_model_id,
 )
 from llmintent.anatomy import (
+    Anatomy,
     AnatomyReport,
     compile_regions,
     draft_anatomy_report,
     map_anatomy,
+    trajectory,
     trace_prompt,
     what_region_does,
 )
@@ -102,8 +104,10 @@ __all__ = [
     "list_live_models",
     "list_slms",
     "map_anatomy",
+    "Anatomy",
     "parse_conditions",
     "trace_prompt",
+    "trajectory",
     "prepare_slm_comparison",
     "per_layer_kl_profile",
     "query_concept_in_trajectory",
@@ -124,4 +128,4 @@ def __getattr__(name: str):
     raise AttributeError(f"module 'llmintent' has no attribute {name!r}")
 
 
-__version__ = "1.4.0"
+__version__ = "1.5.0"

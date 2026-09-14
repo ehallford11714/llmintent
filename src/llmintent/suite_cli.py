@@ -141,7 +141,7 @@ def add_suite_parsers(sub: argparse._SubParsersAction) -> None:
 
     anatomy = sub.add_parser(
         "anatomy",
-        help="Map LLM anatomy: what each region does, occupancy through each span, IV, A vs B ablation",
+        help="Anatomy: per-layer intent responsibility and complete graph (weights if --model)",
     )
     anatomy.add_argument("--text", required=True)
     anatomy.add_argument("--region-a", default="vision", dest="region_a")
@@ -236,9 +236,10 @@ def handle_suite_command(args: argparse.Namespace) -> int | None:
         return mcp_main(flags)
     if cmd == "guide":
         return _cmd_guide(args)
-    if cmd == "trajectory" and getattr(args, "text", None):
-        # Dual-mode: trajectory --text → motif reasoning path
-        return _cmd_reasoning_trajectory(args)
+    if cmd == "trajectory" and getattr(args, "text", None) and not getattr(args, "prompt", None):
+        if getattr(args, "isolates", False):
+            return _cmd_reasoning_trajectory(args)
+        return _cmd_anatomy_trajectory(args)
     return None
 
 
@@ -374,12 +375,59 @@ def _cmd_guide(args: argparse.Namespace) -> int:
 
 
 def maybe_patch_trajectory_parser(trajectory_parser: argparse.ArgumentParser) -> None:
-    """Allow activation trajectory to also accept --text for suite mode."""
+    """Allow activation trajectory to also accept --text for anatomy trajectory."""
     trajectory_parser.add_argument(
         "--text",
         default=None,
-        help="If set (without requiring a model), build isolates reasoning trajectory",
+        help="Build Anatomy trajectory from correlates (all layers × all intents)",
     )
+    trajectory_parser.add_argument(
+        "--isolates",
+        action="store_true",
+        help="Use isolates motif trajectory instead of Anatomy trajectory",
+    )
+    trajectory_parser.add_argument(
+        "--format",
+        choices=["json", "markdown"],
+        default="markdown",
+        dest="fmt",
+    )
+    trajectory_parser.add_argument(
+        "--no-flag",
+        action="store_true",
+        help="Do not print the MisAlign Flag to stderr",
+    )
+    trajectory_parser.add_argument(
+        "--4bit",
+        dest="load_in_4bit",
+        action="store_true",
+    )
+
+
+def _cmd_anatomy_trajectory(args: argparse.Namespace) -> int:
+    from llmintent.anatomy import trajectory as anatomy_trajectory
+    from llmintent.models import load_model_bundle
+    from llmintent.suite import resolve_model_spec
+
+    bundle = None
+    model = getattr(args, "model", None)
+    if model:
+        spec = resolve_model_spec(model=model, use_env=False)
+        hf_id = spec.hf_id if spec is not None else model
+        fourbit = bool(getattr(args, "load_in_4bit", False))
+        if spec is not None and getattr(spec, "size", None) == "27b":
+            fourbit = True
+        bundle = load_model_bundle(hf_id, load_in_4bit=fourbit)
+    traj = anatomy_trajectory(
+        args.text,
+        bundle=bundle,
+        print_flag=not getattr(args, "no_flag", False),
+        all_layers=True,
+    )
+    if getattr(args, "fmt", "markdown") == "json":
+        return _emit(traj.to_dict(), getattr(args, "output", None))
+    _safe_print(traj.to_markdown())
+    return 0
 
 
 def _parse_inputs(args: argparse.Namespace):

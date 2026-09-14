@@ -257,15 +257,40 @@ def get_transformer_layers(model: Any) -> list[Any]:
 
 
 def get_ffn_weight(layer: Any) -> torch.Tensor:
-    """Extract the primary FFN up-projection weight matrix from a layer."""
-    if hasattr(layer, "mlp"):
-        w_attr = "up_proj" if hasattr(layer.mlp, "up_proj") else "c_fc"
-        return getattr(layer.mlp, w_attr).weight.data
-    if hasattr(layer, "ffn"):
-        return layer.ffn.lin1.weight.data
+    """Extract the primary FFN up-projection weight matrix from a layer.
+
+    Covers GPT-2 ``c_fc``, LLaMA/Qwen ``up_proj``, GLM ``dense_h_to_4h``,
+    BERT ``intermediate.dense``, and a few MoE / T5 aliases — any model
+    whose blocks expose a feed-forward weight can be anatomized.
+    """
+    modules = [
+        getattr(layer, name, None)
+        for name in ("mlp", "ffn", "feed_forward", "feedforward", "moe", "block_sparse_moe")
+    ]
+    modules = [m for m in modules if m is not None]
     if hasattr(layer, "intermediate"):
+        modules.append(layer.intermediate)
+    names = (
+        "up_proj", "gate_proj", "c_fc", "fc1", "w1", "wi_0", "wi",
+        "dense_h_to_4h", "dense", "lin1", "experts",
+    )
+    for mod in modules:
+        for name in names:
+            sub = getattr(mod, name, None)
+            if sub is None:
+                continue
+            if name == "experts" and hasattr(sub, "__iter__"):
+                try:
+                    first = next(iter(sub))
+                except TypeError:
+                    first = sub[0] if hasattr(sub, "__getitem__") else None
+                if first is not None:
+                    return get_ffn_weight(first)
+            if hasattr(sub, "weight"):
+                return sub.weight.data
+    if hasattr(layer, "intermediate") and hasattr(layer.intermediate, "dense"):
         return layer.intermediate.dense.weight.data
-    raise AttributeError("Layer has no recognized FFN module")
+    raise AttributeError("Layer has no recognized FFN weight")
 
 
 def get_input_embeddings(model: Any) -> torch.Tensor:

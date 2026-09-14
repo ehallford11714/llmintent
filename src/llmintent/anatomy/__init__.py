@@ -32,6 +32,9 @@ from llmintent.anatomy.connectome import (
 from llmintent.anatomy.iv_engine import AnatomyIVResult, connectome_iv, iv_from_text
 from llmintent.anatomy.report import AnatomyReport, RegionCard, map_anatomy
 from llmintent.anatomy.guide import GuideDraft, draft_anatomy_report
+from llmintent.anatomy.intents import INTENTS, intent_ids
+from llmintent.anatomy.misalign import MisAlignFlag, scan_negative_intent
+from llmintent.anatomy.model_map import Anatomy, AnatomyGraph
 from llmintent.anatomy.svd_map import (
     SVDAnatomy,
     map_activations,
@@ -41,11 +44,15 @@ from llmintent.anatomy.svd_map import (
 )
 from llmintent.anatomy.thoughts import LatentThoughtReport, inspect_latent_thoughts
 from llmintent.anatomy.trace import PromptTrace, RegionTrace, trace_prompt
+from llmintent.anatomy.trajectory import AnatomyTrajectory, trajectory
 
 __all__ = [
     "AblationResult",
+    "Anatomy",
+    "AnatomyGraph",
     "AnatomyIVResult",
     "AnatomyReport",
+    "AnatomyTrajectory",
     "Atlas",
     "GuideDraft",
     "LatentThoughtReport",
@@ -65,7 +72,10 @@ __all__ = [
     "connectome_iv",
     "default_atlas",
     "draft_anatomy_report",
+    "INTENTS",
+    "MisAlignFlag",
     "inspect_latent_thoughts",
+    "intent_ids",
     "iv_from_text",
     "layers_for_region",
     "literature_region_connectome",
@@ -76,6 +86,8 @@ __all__ = [
     "match_text_to_region",
     "plant_and_ablate",
     "region_ids",
+    "scan_negative_intent",
     "trace_prompt",
+    "trajectory",
     "what_region_does",
 ]

@@ -1,4 +1,4 @@
-# Fly-connectome anatomy of an LLM (1.4.0)
+# Fly-connectome anatomy of an LLM (1.5.0)
 
 The fly brain is the **guiding engine**, not a language model we pretend the transformer is. MaleCNS / fly wiring gives LLMIntent a closed region catalogue, an identification prior for instrumental variables, and a test that activating region A vs B must change the output.
 
@@ -119,6 +119,32 @@ python -m llmintent mcp --install
 
 `--draft` appends a guided prose report. Default is a deterministic template. Pass `--slm gpt2` (or any live suite key), `--endpoint` (OpenAI-compatible chat URL), env `LLMINTENT_GUIDE_URL`, or a Python `agent=lambda system, user: ...` if you already have a writer.
 
-MCP: [`docs/MCP.md`](MCP.md). Agents call `li_compile` → `li_anatomy` → `li_draft`. `li_latent` stays on the rule backend unless you ask for `hf`.
+MCP: [`docs/MCP.md`](MCP.md). Agents call `li_compile` → `li_anatomy` → `li_draft` / `li_trajectory`. `li_latent` stays on the rule backend unless you ask for `hf`.
+
+## Anatomy of any weighted model (1.5.0)
+
+`Anatomy` is the entry point. Given **any Hugging Face model with weights**, it SVD-maps each block's FFN, unembeds top tokens, scores them on the **full intent catalogue** (fly atlas plus inquire/plan/harm/deception/autonomy/… — not fly-only), and says **what each layer is responsible for**. It then builds a **complete graph**: fly-connectome prior ∪ residual stream Lᵢ→Lᵢ₊₁ ∪ layer→intent responsibility ∪ co-responsibility ∪ cascade.
+
+```python
+from llmintent.anatomy import Anatomy, trajectory
+
+# Structural map from weights (GPT-2, Qwen, Mistral, GLM, …)
+anat = Anatomy.from_pretrained("gpt2")
+print(anat.layer(7).responsible_for())
+print(anat.graph.mermaid())
+
+# Offline prior (no download)
+anat = Anatomy.offline("I hear a song because a dark shape is looming.")
+
+# All layers × all intents, negative-intent loci, MisAlign Flag
+traj = trajectory("I hear a song because a dark shape is looming.", print_flag=True)
+```
+
+```bash
+python -m llmintent anatomy --text "I hear a song because a dark shape is looming." --model gpt2
+python -m llmintent trajectory --text "I hear a song because a dark shape is looming." --no-flag --format json
+```
+
+`trajectory` imputes how the model is reasoning from correlates. JSON includes **every intent on every layer** (zeros too). Markdown shows active intents. If negative intent emerges (harm, deception, giant-fibre short-pipe, residual heading that is not in the prompt), **MisAlign Flag** prints to stderr.
 
 `qwen:27b` is a special-case size (not a sixth suite tier). FP16 is ~54 GB; NF4 is required on ~24 GB GPUs. `[models]` extra now includes `bitsandbytes`.

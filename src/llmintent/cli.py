@@ -89,7 +89,7 @@ def main(argv: list[str] | None = None) -> int:
 
     trajectory = sub.add_parser(
         "trajectory",
-        help="Activation trajectory (--prompt) or isolates reasoning trajectory (--text)",
+        help="Anatomy trajectory (--text), isolates (--text --isolates), or activation map (--prompt)",
     )
     _add_model_args(trajectory)
     trajectory.add_argument(

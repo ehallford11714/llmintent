@@ -1,4 +1,4 @@
-# LLMIntent MCP (1.4.0)
+# LLMIntent MCP (1.5.0)
 
 Stdio MCP so Cursor, VS Code, Claude Code, or any other agent can drive the suite without loading Qwen 27B.
 
@@ -25,15 +25,16 @@ This repo already ships [`.cursor/mcp.json`](../.cursor/mcp.json). Point `PYTHON
 | `li_install` | Host JSON snippets |
 | `li_models` | Curated suite registry (offline) |
 | `li_compile` | Closed region catalogue; unmatched English is dropped |
-| `li_anatomy` | What each region **does**, occupancy **through each prompt span**, connectome IV, A vs B ablation. `draft=true` appends a guided report |
+| `li_anatomy` | Anatomy: layer responsibility, complete graph (offline prior unless a model is loaded in-process), span occupancy, IV, ablation |
 | `li_draft` | Prose report: template, or `slm` / `endpoint` |
-| `li_isolates` / `li_motifs` / `li_trajectory` | Offline isolates path |
+| `li_isolates` / `li_motifs` | Offline isolates path |
+| `li_trajectory` | Anatomy trajectory (all layers × all intents + MisAlign Flag). `isolates=true` for the motif path |
 | `li_iv` | Indication vs IV (mock by default) |
 | `li_latent` | ThoughtReport; default `backend=rule` |
 
 Resource `anatomy://atlas` and prompt `anatomy_report` are also advertised.
 
-Typical agent loop: `li_compile` → `li_anatomy` → `li_draft`.
+Typical agent loop: `li_compile` → `li_anatomy` → `li_trajectory` → `li_draft`.
 
 ## SLM / agent guide
 

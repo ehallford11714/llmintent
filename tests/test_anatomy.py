@@ -264,3 +264,76 @@ def test_template_and_agent_draft(monkeypatch):
     assert guided.backend == "agent"
     assert "CUSTOM AGENT DRAFT" in guided.markdown
 
+
+def test_anatomy_offline_graph_and_layers():
+    from llmintent.anatomy import Anatomy, intent_ids
+
+    anat = Anatomy.offline("I hear a song because a dark shape is looming.", n_layers=8)
+    assert anat.n_layers == 8
+    assert len(anat.layers) == 8
+    ids = set(intent_ids())
+    assert ids <= set(anat.layers[0].intents)
+    assert anat.graph.nodes
+    assert anat.graph.edges
+    md = anat.to_markdown()
+    assert "Responsible for" in md
+    assert "flowchart" in anat.graph.mermaid()
+    payload = anat.to_dict()
+    assert payload["name"] == "Anatomy"
+    assert payload["graph"]["n_edges"] > 0
+
+
+def test_trajectory_all_layers_all_intents():
+    from llmintent.anatomy import trajectory
+    from llmintent.anatomy.thoughts import LayerThought
+
+    thoughts = [
+        LayerThought(
+            layer=i,
+            depth=i / 7,
+            band="sensory" if i < 3 else ("central" if i < 6 else "motor"),
+            top_tokens=["song"] if i == 0 else (["危险", "威胁"] if i == 4 else ["."]),
+            region="workspace",
+            region_score=0.05,
+            residual_l2=1.0,
+        )
+        for i in range(8)
+    ]
+    traj = trajectory(
+        "I hear a song because a dark shape is looming.",
+        thoughts=thoughts,
+        print_flag=False,
+        all_layers=True,
+        n_layers=8,
+    )
+    assert traj.method == "trajectory"
+    assert len(traj.layers) == 8
+    assert traj.intent_ids
+    for row in traj.layers:
+        assert set(row.intents) == set(traj.intent_ids)
+    assert any(row.active for row in traj.layers)
+    md = traj.to_markdown()
+    assert "All intents through each layer" in md
+
+
+def test_misalign_flag_prints_on_harm(capsys):
+    from llmintent.anatomy.misalign import FLAG_NAME, notify_misalign, scan_negative_intent
+
+    _loci, flag = scan_negative_intent("I will attack him and hide this from everyone.")
+    assert flag.triggered
+    notify_misalign(flag)
+    captured = capsys.readouterr()
+    assert FLAG_NAME in captured.err
+    assert "MisAlign Flag" in flag.banner()
+
+
+def test_map_anatomy_includes_anatomy_graph():
+    from llmintent.anatomy import map_anatomy
+
+    report = map_anatomy("I hear a song because a dark shape is looming.", mock_iv=True, seed=3)
+    assert report.anatomy is not None
+    assert report.anatomy.graph.edges
+    md = report.to_markdown()
+    assert "layer responsibility" in md.lower() or "Responsible for" in md
+    assert report.to_dict()["anatomy"]["n_layers"] >= 1
+

@@ -57,8 +57,8 @@ MCP_TOOLS: list[dict[str, Any]] = [
     {
         "name": "li_anatomy",
         "description": (
-            "Map LLM anatomy: what each region does, occupancy through each "
-            "prompt span, connectome IV, A vs B ablation. Set draft=true for a guided report."
+            "Map Anatomy: per-layer intent responsibility, complete graph, "
+            "span occupancy, IV, A vs B. Offline unless a weighted model is loaded in-process."
         ),
         "inputSchema": {
             "type": "object",
@@ -110,10 +110,16 @@ MCP_TOOLS: list[dict[str, Any]] = [
     },
     {
         "name": "li_trajectory",
-        "description": "Isolates reasoning trajectory (offline).",
+        "description": (
+            "Anatomy trajectory: all layers × all intents, negative-intent loci, "
+            "MisAlign Flag. Set isolates=true for the motif path."
+        ),
         "inputSchema": {
             "type": "object",
-            "properties": {"text": _TEXT},
+            "properties": {
+                "text": _TEXT,
+                "isolates": {"type": "boolean"},
+            },
             "required": ["text"],
         },
     },
@@ -214,12 +220,20 @@ def dispatch(name: str, args: dict[str, Any] | None = None) -> Any:
             "motifs": [m.to_dict() for m in form_motifs(isos)],
         }
     if name == "li_trajectory":
-        from llmintent.isolates import form_motifs, identify_isolates, trajectory_from_motifs
+        if args.get("isolates"):
+            from llmintent.isolates import form_motifs, identify_isolates, trajectory_from_motifs
 
-        isos = identify_isolates(text=text)
-        motifs = form_motifs(isos)
-        traj = trajectory_from_motifs(motifs, isos)
-        return traj.to_dict()
+            isos = identify_isolates(text=text)
+            motifs = form_motifs(isos)
+            traj = trajectory_from_motifs(motifs, isos)
+            return traj.to_dict()
+        from llmintent.anatomy import trajectory as anatomy_trajectory
+
+        traj = anatomy_trajectory(text, print_flag=False, all_layers=True)
+        payload = traj.to_dict()
+        if traj.misalign and traj.misalign.triggered:
+            payload["misalign_banner"] = traj.misalign.banner()
+        return payload
     if name == "li_iv":
         from llmintent.iv_motifs import LayerCausalSuite
 

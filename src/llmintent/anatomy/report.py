@@ -10,6 +10,7 @@ from llmintent.anatomy.atlas import REGIONS, Atlas, what_region_does
 from llmintent.anatomy.compile import RegionPlan
 from llmintent.anatomy.connectome import default_atlas, literature_region_connectome
 from llmintent.anatomy.iv_engine import AnatomyIVResult, iv_from_text
+from llmintent.anatomy.model_map import Anatomy
 from llmintent.anatomy.svd_map import SVDAnatomy, map_activations, map_weights
 from llmintent.anatomy.trace import PromptTrace, RegionTrace, trace_prompt
 
@@ -63,6 +64,7 @@ class AnatomyReport:
     notes: list[str] = field(default_factory=list)
     trace: PromptTrace | None = None
     draft: str | None = None
+    anatomy: Anatomy | None = None
 
     def to_dict(self) -> dict:
         return {
@@ -75,6 +77,7 @@ class AnatomyReport:
             "plan": self.plan.to_dict(),
             "regions": [c.to_dict() for c in self.cards],
             "trace": self.trace.to_dict() if self.trace else None,
+            "anatomy": self.anatomy.to_dict() if self.anatomy else None,
             "draft": self.draft,
             "integration": self.atlas.to_dict()["integrates"],
             "iv": self.iv.to_dict(),
@@ -168,6 +171,27 @@ class AnatomyReport:
             lines.append(f"- KL(A‖B) = {a.kl_ab:.4f}")
             lines.append(f"- output changed: **{'yes' if a.changed else 'no'}**")
             lines.append("")
+        if self.anatomy is not None:
+            lines.append("## Anatomy — layer responsibility")
+            lines.append("")
+            lines.append(
+                f"`{self.anatomy.model_name}` · {self.anatomy.n_layers} layers · "
+                f"source `{self.anatomy.source}`"
+            )
+            lines.append("")
+            lines.append("| Layer | Band | Responsible for |")
+            lines.append("|------:|------|-----------------|")
+            for row in self.anatomy.layers:
+                tops = row.top[:5]
+                cell = ", ".join(f"`{i}` {s:.2f}" for i, s in tops) or "—"
+                lines.append(f"| {row.layer} | {row.band} | {cell} |")
+            lines.append("")
+            lines.append("### Complete graph")
+            lines.append("")
+            lines.append("```mermaid")
+            lines.append(self.anatomy.graph.mermaid())
+            lines.append("```")
+            lines.append("")
         lines.append("## Caveats")
         for n in self.to_dict()["caveats"]:
             lines.append(f"- {n}")
@@ -255,6 +279,16 @@ def map_anatomy(
     notes.append(
         f"Connectome source: {literature_region_connectome().source}."
     )
+    if bundle is not None:
+        try:
+            anatomy_map = Anatomy.from_bundle(bundle, text=text)
+        except Exception as exc:  # noqa: BLE001
+            notes.append(f"weight_anatomy_failed: {exc}")
+            anatomy_map = Anatomy.offline(text)
+        notes.extend(anatomy_map.notes)
+    else:
+        anatomy_map = Anatomy.offline(text)
+        notes.extend(anatomy_map.notes)
     report = AnatomyReport(
         text=text,
         atlas=atlas,
@@ -263,9 +297,10 @@ def map_anatomy(
         svd=svd,
         ablation=ablation,
         cards=cards,
-        model_name=model_name,
+        model_name=model_name or anatomy_map.model_name,
         notes=notes,
         trace=trace,
+        anatomy=anatomy_map,
     )
     if draft or agent is not None or slm or endpoint:
         from llmintent.anatomy.guide import draft_anatomy_report

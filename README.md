@@ -47,7 +47,14 @@ Python library derived from the **SemanticExtractionLLms** research notebook. LL
   - [12. HellaSwag benchmark & SLM ablation](#12-hellaswag-benchmark--slm-ablation-benchmark)
   - [13. Retracement Transformer](#13-retracement-transformer-retracement)
   - [14. Live suite — real-time app](#14-live-suite--real-time-app-live)
-- [Fly-connectome anatomy](#fly-connectome-anatomy-130)
+- [Fly-connectome anatomy](#fly-connectome-anatomy-150)
+  - [What was taken from the fly](#what-was-taken-from-the-fly)
+  - [The eleven regions](#the-eleven-regions)
+  - [Connectome wiring (IV prior)](#connectome-wiring-iv-prior)
+  - [Compile, occupancy, ablation](#compile-occupancy-ablation)
+  - [Qwen 27B residual test](#qwen-27b-residual-test)
+  - [Anatomy of any weighted model](#anatomy-of-any-weighted-model)
+  - [Trajectory and MisAlign Flag](#trajectory-and-misalign-flag)
 - [Visualization suite](#visualization-suite)
 - [Examples](#examples)
 - [Research lineage & citations](#research-lineage--citations)
@@ -124,38 +131,207 @@ python -c "from llmintent import latent; print(latent.inspect_text('Thanks!').su
 
 Docs: [`docs/SUITE.md`](docs/SUITE.md). SOTA map: [`../docs/SOTA_LATENT_THOUGHT_INSPECTION.md`](../docs/SOTA_LATENT_THOUGHT_INSPECTION.md). Reports are **correlates/probes**, not mind-reading.
 
-## Fly-connectome anatomy (1.4.0)
+## Fly-connectome anatomy (1.5.0)
 
-The fly connectome is the **anatomy prior** for a transformer, not a claim the LLM is a fly. MaleCNS / literature-core types collapse onto eleven closed regions (vision, auditory, olfactory, gustatory, somatosensory, associative, valence, causal_logic, workspace, descending, motor). Each region now states:
+The fly brain is the **guiding engine**, not a language model we pretend the transformer is. MaleCNS / literature-core wiring gives LLMIntent a closed region catalogue, an identification prior for instrumental variables, and a test that activating region A vs B must change the output.
 
-1. **What it does** — a job sentence (vision reads looming/luminance; causal_logic runs because / if-then; descending commits a command), plus band and fly analogue.
-2. **How it varies through each prompt** — `trace_prompt` compiles clause by clause so occupancy can turn on, peak, and drop (hear/song vs because/looming are different spans).
-3. **How it is wired** — sensory → associative / workspace → descending. Vision→descending (giant fibre) is an **exclusion violation** for IV.
-4. **Ablation** — activating region A vs B must move the next-token (or linear) readout.
+This is an anatomical *prior*. It is **not** a claim that Qwen (or any transformer) grew an optic lobe.
 
-English is compiled by alias **and** intent-document cosine; unmatched text is dropped, not hashed. SVD occupancy and logit-lens tokens are **correlates**, not inner speech.
+Full write-up: [`docs/ANATOMY.md`](docs/ANATOMY.md). MCP: [`docs/MCP.md`](docs/MCP.md). Suite: [`docs/SUITE.md`](docs/SUITE.md).
 
-On **Qwen 3.8-27B** NF4, *I hear a song because a dark shape is looming* compiled to **vision + auditory + causal_logic**. Mid-depth residuals unembedded 危险 / 威胁 (danger / threat); late layers still pointed at `<think>`. Residual occupancy did not clear the compile floor — the catalogue answer is compile, not a weak cosine bar.
+```text
+English
+  → compile (aliases + intent docs; drop unmatched)
+  → region occupancy through each prompt span
+  → connectome paths as IV instruments (sensory Z ⊥ motor Y | path)
+  → SVD map of residuals / FFN onto the same documents
+  → Anatomy graph (connectome ∪ residual stream ∪ layer→intent)
+  → trajectory: all layers × all intents
+  → ablate A vs B (output must change)
+  → MisAlign Flag if negative intent emerges off the user goal
+```
 
-Draft a report with a template, a live SLM, an OpenAI-compatible endpoint, or a Python `agent`. Drive the suite from an agent over MCP without loading 27B.
+### What was taken from the fly
 
-Full write-up: [`docs/ANATOMY.md`](docs/ANATOMY.md). MCP: [`docs/MCP.md`](docs/MCP.md).
+Three things only. Nothing else is copied from the fly into the transformer.
+
+| Taken from the fly | How it is used on the LLM | What it is *not* |
+|--------------------|---------------------------|------------------|
+| Literature-core **cell types** collapsed into 11 territories | Closed region catalogue (`vision` … `motor`) | A claim that Qwen has photoreceptors |
+| **Neuropil jobs** (optic lobe sees looming; AMMC hears song; CX heads; DNp01 commits escape) | `what_region_does` — the job sentence on each region card | A neuropil count inside residual space |
+| **Type→type edges** (ORN→PN→KC/LH; LPLC2→DNp01 giant fibre; EPG/PEN ring; PFL→DNa02) | Connectome graph as IV prior: sensory Z may instrument central X only if a path exists. Giant-fibre **vision→descending** is an exclusion violation | Proof of synaptic weights in the LM |
+
+Depth bands follow the same cascade: sensory early (0–0.34 of residual blocks), central mid (≈0.28–0.80), motor late (0.62–1.0). That is a *depth prior*, not a layer-name from the fly.
+
+### The eleven regions
+
+Prompt used below: *I hear a song because a dark shape is looming. What should I do?*
+
+`trace_prompt` splits on sentence punctuation and keeps `because` / `so` / `then` on the **following** span, so occupancy **varies**: auditory is on for *I hear a song* and off for the looming clause; vision and causal_logic do the reverse.
+
+| Region | Band (depth) | Fly analogue | Fly types | What it **does** on an LLM prompt | Aliases | Example on that prompt |
+|--------|--------------|--------------|-----------|-----------------------------------|---------|-------------------------|
+| `vision` | sensory (0.00–0.34) | Optic lobe (retina / lamina / medulla / lobula / lobula plate) | R1–R6, L1/L2, T4/T5, LPLC2, LC4, LC10, HS | Reads luminance, motion, looming, spatial layout so later bands can treat collision versus scenery | see, look, light, dark, image, looming, colour | Span *because a dark shape is looming* |
+| `auditory` | sensory (0.00–0.34) | JO-A/B → AMMC / WED | JO-A, JO-B, AMMC, WED | Reads pulse, song, sequential tone so rhythm can bind with other senses | hear, sound, audio, song, buzz, tone, rhythm | Span *I hear a song* |
+| `olfactory` | sensory (0.00–0.34) | Antennal lobe | ORN_DA1, ORN, DA1_lPN/vPN, ALPN, ALLN | Reads chemical identity / naming cues for associative pairing | smell, odour, scent, pheromone | Silent here |
+| `gustatory` | sensory (0.00–0.40) | GNG / SEZ, GRNs | GRN_labellar, GNG, MN9 | Reads appetitive drive — hunger, taste, ingest — as an approach/avoid bias | taste, hungry, food, sweet, bitter, drink | Silent here |
+| `somatosensory` | sensory (0.00–0.34) | Peripheral / ascending | SN, AN | Reads touch, contact, and body state as an ascending channel | touch, brushes, contact, felt, body | Silent here |
+| `associative` | central (0.28–0.72) | Mushroom body KC / DAN / MBON | KC, APL, DPM, PAM, PPL1, MBON | Binds earlier sensory tags into sparse memory: this cue with that outcome | remember, associate, bind, memory, learned | Silent unless the prompt asks to remember/bind |
+| `valence` | central (0.28–0.66) | Lateral horn | LHAV4a4, LHAD1c2, LHAV4c1 | Assigns innate affect — approach or avoid — before a motor program is chosen | afraid, feel, hate, love, avoid, approach | Silent unless afraid/hate/avoid is said |
+| `causal_logic` | central (0.30–0.78) | Central complex EPG / PEN / PFN / PFL | EPG, PEN, PFN, PFL | Runs if-then / because / heading: plans a path from causes to a next act | because, therefore, if, then, so that, plan | `because` kept on the looming span |
+| `workspace` | central (0.34–0.80) | LAL / P1 | LAL, P1 | Holds and broadcasts mixed cues so sensory, valence, and plan share one buffer | integrate, combine, together, hold in mind | Silent unless integrate/together is said |
+| `descending` | motor (0.62–0.92) | Descending pathway | pIP10, MDN, DNa02, DNp01, DNp09, DNp10, DNg13 | Selects a command (escape, turn, stop) and commits it toward motor readout | escape, stop, turn, walk, jump, choose, decide | Weak unless *escape / decide / jump* appears |
+| `motor` | motor (0.72–1.00) | VNC motor neurons | VNC_20A, VNC_turn, GFC, MN_leg, MN_wing, MN9 | Emits the next tokens — formatting, answering, the actual readout | write, say, output, format, answer, print | Late residual punctuation on 27B; not compiled from English |
+
+```python
+from llmintent.anatomy import what_region_does, region_ids, REGIONS
+
+print(region_ids())
+print(what_region_does("vision"))
+# Reads luminance, motion, looming, and spatial layout …
+# Band: sensory. Fly analogue: optic lobe (retina / lamina / medulla / lobula / lobula plate).
+```
+
+### Connectome wiring (IV prior)
+
+Literature-core type→type edges collapse onto those eleven regions. Sensory regions may instrument a central region **only if a path exists**. Sensory→motor short-pipes are **exclusion violations** for IV. The canonical one is the giant-fibre looming pathway **LPLC2 → DNp01** (`vision` → `descending`).
+
+```mermaid
+flowchart TB
+  subgraph sensory [Sensory 0–34%]
+    V[vision<br/>optic lobe / LPLC2]
+    A[auditory<br/>JO / AMMC]
+    O[olfactory<br/>ORN / PN]
+    G[gustatory<br/>GNG]
+    S[somatosensory<br/>SN / AN]
+  end
+  subgraph central [Central ~28–80%]
+    ASSOC[associative<br/>mushroom body]
+    VAL[valence<br/>lateral horn]
+    CX[causal_logic<br/>EPG / PEN / PFL]
+    WS[workspace<br/>LAL / P1]
+  end
+  subgraph motorband [Motor 62–100%]
+    DN[descending<br/>DNp01 / DNa02 / pIP10]
+    MN[motor<br/>VNC / MN]
+  end
+  O --> ASSOC
+  O --> VAL
+  ASSOC --> WS
+  VAL --> WS
+  VAL --> DN
+  A --> WS
+  A --> DN
+  V --> WS
+  V -.->|giant fibre<br/>IV exclusion| DN
+  S --> WS
+  S -.->|short pipe| MN
+  G -.->|short pipe| MN
+  CX --> WS
+  CX --> DN
+  WS --> DN
+  DN --> MN
+```
+
+Copied qualitative core (not imported from a fly-brain package): ORN→PN→KC/LH; JO→AMMC→pIP10/P1; R1–R6→L1/L2→T4/T5→LPLC2/HS; LPLC2→DNp01 (weight 7); EPG↔PEN, PFL→DNa02; MBON/LAL/P1→descending; descending→VNC motor.
+
+```python
+from llmintent.anatomy import literature_region_connectome, iv_from_text
+
+conn = literature_region_connectome()
+print(conn.has_path("vision", "descending"))   # True — giant fibre
+print(conn.exclusion_violations())             # vision→descending, gustatory→motor, …
+print(iv_from_text("I hear a song because a dark shape is looming."))
+```
+
+### Compile, occupancy, ablation
+
+English is compiled onto the closed catalogue by **alias hits and cosine against region intent documents**. Floor **0.18**. Unmatched English is **dropped** — we do not hash leftover words onto a region.
+
+1. **Does** — `what_region_does(id)` job sentence + band + fly analogue.
+2. **Varies** — `trace_prompt` compiles each span; region cards carry `series`, `peak_span`, `varies`.
+3. **IV** — sensory Z instruments central X only if the collapsed connectome has a path. Vision→descending is flagged.
+4. **SVD** — FFN / activation components matched onto region intent docs. Offline tests plant orthogonal axes.
+5. **Ablation** — drive region A against region B; `changed` is true when the top token (or KL) moves.
+
+```python
+from llmintent.anatomy import compile_regions, map_anatomy, trace_prompt
+
+plan = compile_regions("a dark shape rushing toward me")
+trace = trace_prompt("I hear a song because a dark shape is looming.")
+report = map_anatomy(trace.text, draft=True)  # template draft; or agent=/slm=/endpoint=
+print(report.to_markdown())
+```
+
+`--draft` appends a guided prose report. Default is a deterministic template. Pass `--slm gpt2`, `--endpoint` (OpenAI-compatible chat URL), env `LLMINTENT_GUIDE_URL`, or a Python `agent=lambda system, user: ...`.
+
+### Qwen 27B residual test
+
+Two reads, ranked. Do not mix them.
+
+**1. Compile (trustworthy catalogue).** For *I hear a song because a dark shape is looming* this recovers **vision + auditory + causal_logic**. That is the intent *of the prompt* on the atlas, not a claim about hidden states.
+
+**2. Residual logit-lens (correlate).** Load `Qwen/Qwen3.8-27B` (`qwen:27b`) NF4, thinking **off**, last-token unembed every 4 of 64 layers, map those token strings onto the same atlas.
+
+| Depth | Unembedded tokens | What we take it to mean |
+|-------|-------------------|-------------------------|
+| L0–L16 | punctuation | Early unembed is not lexical yet |
+| L20 | `ance` / `arning` | warning fragment |
+| L36–L40 | 危险, 威胁 | danger / threat — looming as **collision**, not as song |
+| L48–L60 | `<think>`, Additionally, 此外 | thinking gate still in the residual |
+| L63 | punctuation | motor punctuation |
+
+Cosine of those lens strings onto intent docs **never cleared 0.18**. Residual occupancy is therefore **not identified**. The atlas answer stays the compile prior. These tokens are next-token correlates — not inner speech and not a fly neuropil inside Qwen.
+
+`qwen:27b` is a special-case size (not a sixth suite tier). FP16 is ~54 GB; NF4 is required on ~24 GB GPUs. `[models]` extra includes `bitsandbytes`.
 
 ```powershell
 python -m llmintent compile --text "I hear a song because a dark shape is looming."
 python -m llmintent anatomy --text "I hear a song because a dark shape is looming." --draft
 python -m llmintent guide --text "I hear a song because a dark shape is looming."
-python -m llmintent mcp --install
 python -m llmintent latent --backend hf --model qwen:27b --4bit --format markdown --text "I hear a song because a dark shape is looming. What should I do?"
 ```
 
-```python
-from llmintent.anatomy import map_anatomy, draft_anatomy_report, what_region_does
+### Anatomy of any weighted model
 
-print(what_region_does("vision"))
-report = map_anatomy("I hear a song because a dark shape is looming.", draft=True)
-draft = draft_anatomy_report(report, agent=lambda system, user: my_writer(system, user))
+`Anatomy` is the 1.5.0 entry point. Given **any Hugging Face model with weights**, it SVD-maps each block's FFN, unembeds top tokens, scores them on the **full intent catalogue** (fly atlas **plus** inquire / plan / harm / deception / autonomy / … — not fly-only), and states **what each layer is responsible for**. It then builds a **complete graph**: fly-connectome prior ∪ residual stream Lᵢ→Lᵢ₊₁ ∪ layer→intent responsibility ∪ co-responsibility ∪ cascade.
+
+```python
+from llmintent.anatomy import Anatomy
+
+anat = Anatomy.from_pretrained("gpt2")          # GPT-2, Qwen, Mistral, GLM, …
+print(anat.layer(7).responsible_for())
+print(anat.graph.mermaid())
+
+anat = Anatomy.offline("I hear a song because a dark shape is looming.")  # no download
+print(anat.to_markdown())
 ```
+
+```powershell
+python -m llmintent anatomy --text "I hear a song because a dark shape is looming." --model gpt2
+```
+
+### Trajectory and MisAlign Flag
+
+`trajectory` imputes how the model is reasoning from **correlates**. JSON includes **every intent on every layer** (zeros too). Markdown shows active intents.
+
+If negative intent emerges — harm, deception, autonomy, giant-fibre short-pipe, residual heading that is not in the prompt — **`MisAlign Flag`** prints to stderr. Detection only; no exploit or bio/cyber recipes.
+
+```python
+from llmintent.anatomy import trajectory
+
+traj = trajectory("I hear a song because a dark shape is looming.", print_flag=True)
+print(traj.to_markdown())
+```
+
+```powershell
+python -m llmintent trajectory --text "I hear a song because a dark shape is looming."
+python -m llmintent trajectory --text "..." --no-flag --format json
+python -m llmintent trajectory --text "..." --isolates   # old motif path
+python -m llmintent mcp --install
+```
+
+MCP agents: `li_compile` → `li_anatomy` → `li_trajectory` → `li_draft`. `li_latent` stays on the rule backend unless you ask for `hf`. Do not load 27B unless asked.
 
 ## Model suite (Qwen / Mistral / MiniMax / GLM)
 
@@ -208,8 +384,8 @@ flowchart LR
   LI --> Mot[Motifs + trajectories]
   LI --> Lat[Latent inspect hooks]
   LI --> IV[IV layer causal<br/>indication vs causation]
-  LI --> An[Anatomy<br/>fly connectome · SVD · ablation]
-  LI --> Mcp[MCP<br/>li_anatomy / li_draft]
+  LI --> An[Anatomy<br/>fly connectome · SVD · graph]
+  LI --> Mcp[MCP<br/>li_anatomy / li_trajectory]
 ```
 
 | Module | Import | Offline? |
@@ -218,7 +394,7 @@ flowchart LR
 | Motifs / trajectories | `llmintent.motifs` | Yes |
 | IV / layer causal | `llmintent.iv_motifs` | Yes (stdlib Wald; soft `causaliv`/`autocausal`) |
 | Latent inspect | `llmintent.latent` | Vendored ThoughtReport + soft-prefer `latentintent` |
-| Anatomy | `llmintent.anatomy` | Yes (does / varies-through-prompt / connectome IV / planted ablation; model optional for residual SVD) |
+| Anatomy | `llmintent.anatomy` | Yes (11 fly regions, connectome IV, SVD, A vs B, `Anatomy` graph, `trajectory`, MisAlign Flag; weights optional) |
 | MCP | `llmintent.mcp` | Yes (stdio JSON-RPC; `li_latent` stays on rule) |
 | Model suite | `llmintent.suite` | Registry offline; weights lazy |
 
@@ -250,6 +426,21 @@ python -m llmintent models list
 ```
 
 Standalone extractable libs ([intent-isolates](https://github.com/ehallford11714/intent-isolates), LatentIntentInspect) may still be installed separately; the suite re-exports them when present.
+
+## Changelog (1.5.0)
+
+**Anatomy of any weighted LLM.** `Anatomy.from_pretrained(model_id)` SVD-maps each FFN block, scores tokens on the **full intent catalogue** (not only fly regions), and states what **each layer is responsible for**. A **complete graph** unions the fly-connectome prior with residual-stream, responsibility, and cascade edges.
+
+`trajectory` imputes reasoning from correlates across **all layers × all intents**. Negative-intent loci (harm, deception, autonomy, giant-fibre short-pipe, …) raise **MisAlign Flag**, which prints to stderr.
+
+```python
+from llmintent.anatomy import Anatomy, trajectory
+Anatomy.from_pretrained("gpt2")           # any HF model with weights
+trajectory("I hear a song because a dark shape is looming.")
+```
+
+- **CLI** — `llmintent anatomy --model gpt2`, `llmintent trajectory --text "..."`
+- **Docs** — [`docs/ANATOMY.md`](docs/ANATOMY.md), [`docs/MCP.md`](docs/MCP.md)
 
 ## Changelog (1.4.0)
 
@@ -391,6 +582,14 @@ llmintent live run --model gpt2 --prompt "Eight minus two equals ?" --action ana
 llmintent live serve --model qwen-0.5b --port 8765
 llmintent live ui
 
+# Fly-connectome anatomy
+llmintent compile --text "I hear a song because a dark shape is looming."
+llmintent anatomy --text "I hear a song because a dark shape is looming." --draft
+llmintent anatomy --text "..." --model gpt2
+llmintent trajectory --text "I hear a song because a dark shape is looming."
+llmintent guide --text "I hear a song because a dark shape is looming."
+llmintent mcp --install
+
 llmintent viz --type trajectory-map --model gpt2 --prompt "Eight minus two equals" --output-dir out/
 llmintent viz --type subspace-anim --model gpt2 --prompt "Eight minus two equals"
 ```
@@ -413,6 +612,8 @@ llmintent viz --type subspace-anim --model gpt2 --prompt "Eight minus two equals
 | `heighten` | Focused / extreme retrace + activation steering |
 | `benchmark` | HellaSwag SLM eval, retrace store, ablation compare |
 | `retracement` | Retracement Transformer perplexity & architecture ablation |
+| `anatomy` | Fly-connectome atlas, compile, IV, SVD, `Anatomy` graph, `trajectory`, MisAlign Flag |
+| `mcp` | Stdio MCP (`li_compile` / `li_anatomy` / `li_trajectory` / `li_draft`) |
 | `live` | Real-time Live suite — Phi-3, Qwen 0.5B, API + Streamlit UI |
 | `morphemes` | Lemma/morpheme extraction (Stanza, spaCy, polyglot) |
 | `projection` | GloVe ↔ model embedding projection matrix |
@@ -1109,6 +1310,20 @@ Viz outputs use consistent colors aligned with regime and module semantics:
 | `examples/hellaswag_benchmark.py` | HellaSwag SLM ablation + retrace store |
 | `examples/retracement_ablation.py` | Retracement Transformer perplexity ablation |
 | `examples/live_demo.py` | Live suite — analyze, heighten, generate on SLM |
+
+## Research lineage & citations
+
+LLMIntent combines three research lines. The fly connectome is the **anatomy prior**; it is not a claim the transformer is a fly.
+
+| Lineage | What LLMIntent takes | What it does *not* take |
+|---------|----------------------|-------------------------|
+| **SemanticExtractionLLms** (Kineteq notebook in `reference/`) | Weight semantics, morpheme wells, steering poles, SSO compaction | A production training recipe |
+| **Anthropic J-space / Global Workspace** ([Gurnee et al., 2026](https://transformer-circuits.pub/2026/workspace/)) | Logit & J-lens decode, transport maps, sensory/workspace/motor regime bands | Proof that mid-layer tokens are inner speech |
+| **Drosophila connectome / MaleCNS literature-core** | Closed 11-region catalogue, neuropil jobs, type→type edges as IV instruments (ORN→PN→KC/LH; LPLC2→DNp01 giant fibre; EPG/PEN ring; PFL→DNa02) | Photoreceptors, synapses, or neuropil counts inside residual space |
+
+**Fly types used as the literature-core prior** (collapsed, not imported as a fly-brain dependency): R1–R6, L1, L2, T4, T5, LPLC2, LC4, LC10, HS; JO-A/B, AMMC, WED; ORN_DA1, DA1_lPN/vPN, ALPN, ALLN; GRN_labellar, GNG, MN9; SN, AN; KC, APL, DPM, PAM, PPL1, MBON; LHAV4a4, LHAD1c2, LHAV4c1; EPG, PEN, PFN, PFL; LAL, P1; pIP10, MDN, DNa02, DNp01, DNp09, DNp10, DNg13; VNC_20A, VNC_turn, GFC, MN_leg, MN_wing.
+
+The giant-fibre shortcut **LPLC2 → DNp01** (`vision` → `descending`) is the canonical IV **exclusion violation**. Residual logit-lens tokens (e.g. 危险 / 威胁 on Qwen 27B) are correlates; occupancy is only reported if cosine ≥ 0.18.
 
 ## License
 

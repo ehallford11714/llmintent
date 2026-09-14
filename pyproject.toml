@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "llmintent"
-version = "1.4.0"
-description = "LLMIntent suite: fly-connectome LLM anatomy, isolates, motifs, IV layer-causal, latent inspect, and model registry"
+version = "1.5.0"
+description = "LLMIntent suite: Anatomy of any weighted LLM, fly-connectome prior, trajectory, MisAlign Flag, isolates, IV, latent inspect"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"

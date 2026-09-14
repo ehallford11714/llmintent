@@ -71,7 +71,13 @@ def test_latent_inspect_offline():
 
 
 def test_cli_latent():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
     env = {**dict(**{k: v for k, v in __import__("os").environ.items()}), "PYTHONIOENCODING": "utf-8"}
+    env["PYTHONPATH"] = str(root / "src") + (
+        __import__("os").pathsep + env["PYTHONPATH"] if env.get("PYTHONPATH") else ""
+    )
     proc = subprocess.run(
         [
             sys.executable,
@@ -101,8 +107,14 @@ def test_backend_source_documented():
 
 
 def test_cli_isolates_motifs_iv():
+    from pathlib import Path
+
     text = "I want coffee. I cannot wait. I will brew it so that I wake up."
+    root = Path(__file__).resolve().parents[1]
     env = {**dict(**{k: v for k, v in __import__("os").environ.items()}), "PYTHONIOENCODING": "utf-8"}
+    env["PYTHONPATH"] = str(root / "src") + (
+        __import__("os").pathsep + env["PYTHONPATH"] if env.get("PYTHONPATH") else ""
+    )
     cases = [
         ([sys.executable, "-m", "llmintent", "isolates", "--text", text], True),
         ([sys.executable, "-m", "llmintent", "motifs", "--text", text], True),
@@ -123,7 +135,7 @@ def test_cli_isolates_motifs_iv():
             ],
             True,
         ),
-        ([sys.executable, "-m", "llmintent", "trajectory", "--text", text], True),
+        ([sys.executable, "-m", "llmintent", "trajectory", "--text", text, "--isolates"], True),
         ([sys.executable, "-m", "llmintent", "models", "list", "--family", "legacy"], True),
     ]
     for argv, expect_json in cases:
