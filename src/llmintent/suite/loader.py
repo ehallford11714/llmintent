@@ -27,6 +27,8 @@ def load_suite_model(
     device: str | None = None,
     dtype: str | None = None,
     trust_remote_code: bool | None = None,
+    load_in_4bit: bool | None = None,
+    device_map: str | None = None,
 ) -> Any:
     """
     Soft-load a suite model via :func:`llmintent.models.load_model_bundle`.
@@ -47,9 +49,17 @@ def load_suite_model(
         trc = True if trust_remote_code is None else trust_remote_code
 
     resolved_device = resolve_device(device)
-    # dtype reserved for future float16/bfloat16 path; load_model_bundle uses float32 today
-    _ = dtype
-    return load_model_bundle(hf_id, device=resolved_device, trust_remote_code=trc)
+    fourbit = bool(load_in_4bit)
+    if load_in_4bit is None and spec is not None and spec.size == "27b":
+        fourbit = True
+    return load_model_bundle(
+        hf_id,
+        device=resolved_device,
+        trust_remote_code=trc,
+        dtype=dtype,
+        load_in_4bit=fourbit,
+        device_map=device_map,
+    )
 
 
 def soft_pipeline(

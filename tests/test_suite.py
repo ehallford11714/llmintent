@@ -52,6 +52,16 @@ def test_get_model_spec_ids():
     assert get_model_spec("legacy", "tiny").hf_id == "distilgpt2"
 
 
+def test_qwen_27b_is_special_case():
+    spec = get_model_spec("qwen", "27b")
+    assert spec.hf_id == "Qwen/Qwen3.8-27B"
+    assert spec.params_b == 27.0
+    assert "Qwen/Qwen3.6-27B" in spec.alternates
+    # Five-tier list is unchanged.
+    assert len(list_models(family="qwen")) == 5
+    assert resolve_model_id(model="qwen:27b") == "Qwen/Qwen3.8-27B"
+
+
 def test_aliases():
     assert get_model_spec("Qwen3", "md").hf_id == get_model_spec("qwen", "medium").hf_id
     assert get_model_spec("ministral", "sm").family == "mistral"

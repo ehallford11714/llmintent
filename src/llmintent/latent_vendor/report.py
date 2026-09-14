@@ -86,8 +86,37 @@ def build_thought_report(
     """
     backend = (backend or "rule").lower().strip()
     meta_note: str | None = None
+    if backend in ("hf", "residual", "anatomy"):
+        try:
+            return _inspect_hf_residuals(
+                text,
+                model=model,
+                family=family,
+                include_sae=include_sae,
+                include_probe_train=include_probe_train,
+                **_kwargs,
+            )
+        except Exception as exc:
+            # Do not silently stub a 27B / explicit HF request.
+            mid = str(model or family or "")
+            if _kwargs.get("require_hf") or "27" in mid.lower() or "qwen3.8" in mid.lower():
+                raise
+            try:
+                import latentintent as ext  # type: ignore
+
+                return ext.inspect_text(
+                    text,
+                    backend=backend,
+                    model=model,
+                    family=family,
+                    include_sae=include_sae,
+                    include_probe_train=include_probe_train,
+                )
+            except Exception as ext_exc:
+                meta_note = f"hf_unavailable_fallback_rule: {exc}; latentintent={ext_exc}"
+                backend = "rule"
+
     if backend not in ("rule", "heuristic"):
-        # Soft: try external package for HF; else fall back to rule with note
         try:
             import latentintent as ext  # type: ignore
 
@@ -164,3 +193,68 @@ def build_thought_report(
 
 def inspect_text(text: str, **kwargs: Any) -> ThoughtReport:
     return build_thought_report(text, **kwargs)
+
+
+def _inspect_hf_residuals(
+    text: str,
+    *,
+    model: str | None,
+    family: str | None,
+    include_sae: bool,
+    include_probe_train: bool,
+    **kwargs: Any,
+) -> ThoughtReport:
+    from llmintent.anatomy.thoughts import inspect_latent_thoughts
+    from llmintent.models import load_model_bundle
+    from llmintent.suite import resolve_model_spec
+    from llmintent.suite.resolve import resolve_model_id
+
+    size = kwargs.get("size")
+    fourbit = kwargs.get("load_in_4bit")
+    spec = None
+    if model:
+        spec = resolve_model_spec(model=model, use_env=False)
+    elif family:
+        spec = resolve_model_spec(family=family, size=size or "medium", use_env=False)
+    else:
+        spec = resolve_model_spec(model="qwen:27b", use_env=False)
+
+    if spec is not None:
+        model_id = spec.hf_id
+        candidates = (spec.hf_id,) + tuple(spec.alternates)
+        if fourbit is None and spec.size == "27b":
+            fourbit = True
+    else:
+        model_id = resolve_model_id(model=model, family=family, size=size, default="gpt2")
+        candidates = (model_id,)
+        if fourbit is None and "27B" in str(model_id):
+            fourbit = True
+
+    last_exc: Exception | None = None
+    for mid in candidates:
+        if not mid or ("/" not in str(mid) and ":" in str(mid)):
+            continue
+        if fourbit and "fp8" in str(mid).lower():
+            continue
+        try:
+            bundle = load_model_bundle(str(mid), load_in_4bit=bool(fourbit))
+            lat = inspect_latent_thoughts(
+                bundle,
+                text,
+                layer_stride=int(kwargs.get("layer_stride") or 4),
+                include_sae=include_sae,
+            )
+            report = lat.to_thought_report()
+            report.metadata["requested_model"] = model
+            report.metadata["resolved_model"] = str(mid)
+            report.metadata["load_in_4bit"] = bool(fourbit)
+            if include_probe_train:
+                report.metadata["probe_skipped"] = (
+                    "Skipped synthetic probe train on HF residual path."
+                )
+            return report
+        except Exception as exc:
+            last_exc = exc
+            continue
+    assert last_exc is not None
+    raise last_exc

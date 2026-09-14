@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "llmintent"
-version = "1.2.0"
+version = "1.3.0"
 description = "LLMIntent suite: semantic extraction, model registry, isolates, motifs, trajectories, IV layer-causal, and latent thought inspection"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -61,7 +61,7 @@ live = [
   "pillow>=10.0",
 ]
 # Explicit stack for the Qwen/Mistral/MiniMax/GLM model suite (accelerate helps device_map)
-models = ["transformers>=4.40", "torch>=2.0", "accelerate>=0.30", "huggingface-hub>=0.23"]
+models = ["transformers>=4.40", "torch>=2.0", "accelerate>=0.30", "huggingface-hub>=0.23", "bitsandbytes>=0.43"]
 hf = ["llmintent[models]"]
 slm = ["llmintent[models]"]
 # Prefer external extractable libs when published; vendored isolates/latent always ship in core

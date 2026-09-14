@@ -357,6 +357,24 @@ _BY_FAMILY: dict[str, dict[str, ModelSpec]] = {}
 for _spec in _ALL:
     _BY_FAMILY.setdefault(_spec.family, {})[_spec.size] = _spec
 
+# Special-case 27B: not a 6th suite size (list_models(family="qwen") stays 5).
+_QWEN_27B = ModelSpec(
+    family="qwen",
+    size="27b",
+    hf_id="Qwen/Qwen3.8-27B",
+    params_b=27.0,
+    vram_gb_fp16=54.0,
+    description="Qwen3.8 27B dense VL — latent-thought / anatomy target (4-bit on 24GB)",
+    alternates=("Qwen/Qwen3.6-27B", "Qwen/Qwen3.8-27B-FP8"),
+    api_alternative="DashScope / OpenRouter qwen3.8-27b",
+    notes=(
+        "64 layers, hidden 5120, Gated DeltaNet hybrid. Thinking on by default; "
+        "disable enable_thinking for a clean residual stream. FP16 ~54GB — use NF4."
+    ),
+)
+_BY_KEY["qwen:27b"] = _QWEN_27B
+_BY_FAMILY.setdefault("qwen", {})["27b"] = _QWEN_27B
+
 
 def _norm_family(family: str) -> str:
     f = family.strip().lower()
@@ -388,6 +406,10 @@ def _norm_size(size: str) -> str:
         "xxl": "xl",
         "extra-large": "xl",
         "extralarge": "xl",
+        "27": "27b",
+        "qwen27": "27b",
+        "qwen3.8-27b": "27b",
+        "qwen3.8": "27b",
     }
     return aliases.get(s, s)
 
@@ -398,11 +420,14 @@ def get_model_spec(family: str, size: str = "medium") -> ModelSpec:
     sz = _norm_size(size)
     if fam not in _BY_FAMILY:
         raise KeyError(f"Unknown family {family!r}. Available: {list(FAMILIES)}")
-    if sz not in _BY_FAMILY[fam]:
+    table = _BY_FAMILY[fam]
+    if sz not in table:
+        extra = " (also 27b for qwen)" if fam == "qwen" else ""
         raise KeyError(
-            f"Unknown size {size!r} for family {fam!r}. Available: {list(SIZES)}"
+            f"Unknown size {size!r} for family {fam!r}. "
+            f"Available: {list(SIZES)}{extra}"
         )
-    return _BY_FAMILY[fam][sz]
+    return table[sz]
 
 
 def list_models(

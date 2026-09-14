@@ -90,7 +90,7 @@ def add_suite_parsers(sub: argparse._SubParsersAction) -> None:
         choices=["rule", "hf"],
         help="rule=offline vendored; hf=requires latentintent[hf] or torch stack",
     )
-    latent.add_argument("--model", type=str, default=None, help="HF model id")
+    latent.add_argument("--model", type=str, default=None, help="HF model id or suite key (qwen:27b)")
     latent.add_argument(
         "--family",
         type=str,
@@ -98,13 +98,70 @@ def add_suite_parsers(sub: argparse._SubParsersAction) -> None:
         choices=["qwen", "mistral", "minimax", "glm", "legacy"],
         help="Suite family (soft-resolved when llmintent suite / latentintent present)",
     )
+    latent.add_argument(
+        "--size",
+        type=str,
+        default=None,
+        help="Suite size (tiny/small/medium/large/xl, or 27b for Qwen)",
+    )
+    latent.add_argument(
+        "--4bit",
+        dest="load_in_4bit",
+        action="store_true",
+        help="Load NF4 (required for 27B on ~24 GB GPUs)",
+    )
+    latent.add_argument("--layer-stride", type=int, default=4, dest="layer_stride")
     latent.add_argument("--no-sae", action="store_true")
     latent.add_argument("--no-probe", action="store_true")
     latent.add_argument("-o", "--output", type=str, default=None)
     latent.add_argument(
+        "--format",
+        choices=["json", "markdown"],
+        default="json",
+        dest="fmt",
+    )
+    latent.add_argument(
         "--status",
         action="store_true",
         help="Print latent backend describe() JSON instead of inspecting",
+    )
+
+    compile_p = sub.add_parser(
+        "compile",
+        help="Compile English onto closed LLM-region catalogue (fly intent docs)",
+    )
+    compile_p.add_argument("--text", required=True)
+    compile_p.add_argument("-o", "--output", default=None)
+    compile_p.add_argument(
+        "--format",
+        choices=["json", "markdown"],
+        default="json",
+        dest="fmt",
+    )
+
+    anatomy = sub.add_parser(
+        "anatomy",
+        help="Map LLM anatomy: region handles, connectome IV, SVD occupancy, A vs B ablation",
+    )
+    anatomy.add_argument("--text", required=True)
+    anatomy.add_argument("--region-a", default="vision", dest="region_a")
+    anatomy.add_argument("--region-b", default="auditory", dest="region_b")
+    anatomy.add_argument("--model", default=None, help="HF id or suite key; omit for offline planted ablation")
+    anatomy.add_argument(
+        "--4bit",
+        dest="load_in_4bit",
+        action="store_true",
+        help="Load NF4 (needed for 27B on ~24 GB GPUs)",
+    )
+    anatomy.add_argument("--no-ablate", action="store_true")
+    anatomy.add_argument("--weights", action="store_true", help="Also SVD-map FFN weights (needs --model)")
+    anatomy.add_argument("--seed", type=int, default=17)
+    anatomy.add_argument("-o", "--output", default=None)
+    anatomy.add_argument(
+        "--format",
+        choices=["json", "markdown"],
+        default="markdown",
+        dest="fmt",
     )
 
 
@@ -144,6 +201,10 @@ def handle_suite_command(args: argparse.Namespace) -> int | None:
         return _cmd_iv_motifs(args)
     if cmd == "latent":
         return _cmd_latent(args)
+    if cmd == "compile":
+        return _cmd_compile(args)
+    if cmd == "anatomy":
+        return _cmd_anatomy(args)
     if cmd == "trajectory" and getattr(args, "text", None):
         # Dual-mode: trajectory --text → motif reasoning path
         return _cmd_reasoning_trajectory(args)
@@ -162,16 +223,102 @@ def _cmd_latent(args: argparse.Namespace) -> int:
         backend=getattr(args, "backend", "rule") or "rule",
         model=getattr(args, "model", None),
         family=getattr(args, "family", None),
+        size=getattr(args, "size", None),
         include_sae=not getattr(args, "no_sae", False),
         include_probe_train=not getattr(args, "no_probe", False),
+        load_in_4bit=bool(getattr(args, "load_in_4bit", False)),
+        layer_stride=int(getattr(args, "layer_stride", 4) or 4),
+        require_hf=getattr(args, "backend", "rule") == "hf",
     )
+    if getattr(args, "fmt", "json") == "markdown" and hasattr(report, "summary_lines"):
+        md_bits = ["# Latent thoughts", ""]
+        meta = getattr(report, "metadata", {}) or {}
+        if getattr(report, "model_name", None):
+            md_bits.append(f"**Model:** `{report.model_name}`")
+        md_bits.append(f"**Prompt:** {args.text}")
+        compiled = meta.get("compiled_regions")
+        if compiled:
+            md_bits.append(f"**Compile prior:** {', '.join(compiled)}")
+        md_bits.extend(["", "## Layer logit lens", ""])
+        for row in getattr(report, "logit_lens", []) or []:
+            toks = ", ".join(
+                (t.get("token") if isinstance(t, dict) else str(t))
+                for t in (row.get("top_tokens") or [])[:4]
+            )
+            md_bits.append(
+                f"- L{row.get('layer')}: `{row.get('region', '')}` — {toks}"
+            )
+        occ = meta.get("occupancy") or {}
+        if occ:
+            md_bits.extend(["", "## Occupancy", ""])
+            for rid, v in sorted(occ.items(), key=lambda kv: -float(kv[1])):
+                md_bits.append(f"- `{rid}`: {float(v):.3f}")
+        md_bits.extend(["", "## Caveats"])
+        for c in getattr(report, "caveats", [])[:6]:
+            md_bits.append(f"- {c}")
+        text = "\n".join(md_bits) + "\n"
+        out = getattr(args, "output", None)
+        if out:
+            Path(out).write_text(text, encoding="utf-8")
+            print(f"Wrote {out}")
+        else:
+            _safe_print(text)
+        return 0
     payload = report.to_dict() if hasattr(report, "to_dict") else report
     text = json.dumps(payload, indent=2)
     out = getattr(args, "output", None)
     if out:
         Path(out).write_text(text, encoding="utf-8")
+        print(f"Wrote {out}")
     else:
         print(text)
+    return 0
+
+
+def _cmd_compile(args: argparse.Namespace) -> int:
+    from llmintent.anatomy import compile_regions
+
+    plan = compile_regions(args.text)
+    if getattr(args, "fmt", "json") == "markdown":
+        lines = ["# Region compile", "", f"**Text:** {plan.text}", ""]
+        for h in plan.hits:
+            lines.append(f"- `{h.region}` ({h.via}, {h.score:.3f}): {h.handles}")
+        if plan.dropped:
+            lines.append("")
+            lines.append("Dropped: " + "; ".join(plan.dropped))
+        _safe_print("\n".join(lines))
+        return 0
+    return _emit(plan.to_dict(), getattr(args, "output", None))
+
+
+def _cmd_anatomy(args: argparse.Namespace) -> int:
+    from llmintent.anatomy import map_anatomy
+
+    bundle = None
+    model = getattr(args, "model", None)
+    if model:
+        from llmintent.models import load_model_bundle
+        from llmintent.suite import resolve_model_spec
+
+        spec = resolve_model_spec(model=model, use_env=False)
+        hf_id = spec.hf_id if spec is not None else model
+        fourbit = bool(getattr(args, "load_in_4bit", False))
+        if spec is not None and spec.size == "27b":
+            fourbit = True
+        bundle = load_model_bundle(hf_id, load_in_4bit=fourbit)
+    report = map_anatomy(
+        args.text,
+        bundle=bundle,
+        region_a=args.region_a,
+        region_b=args.region_b,
+        ablate=not getattr(args, "no_ablate", False),
+        include_weights=bool(getattr(args, "weights", False)),
+        seed=int(getattr(args, "seed", 17)),
+        mock_iv=bundle is None,
+    )
+    if getattr(args, "fmt", "markdown") == "json":
+        return _emit(report.to_dict(), getattr(args, "output", None))
+    _safe_print(report.to_markdown())
     return 0
 
 

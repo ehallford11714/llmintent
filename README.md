@@ -47,6 +47,7 @@ Python library derived from the **SemanticExtractionLLms** research notebook. LL
   - [12. HellaSwag benchmark & SLM ablation](#12-hellaswag-benchmark--slm-ablation-benchmark)
   - [13. Retracement Transformer](#13-retracement-transformer-retracement)
   - [14. Live suite — real-time app](#14-live-suite--real-time-app-live)
+- [Fly-connectome anatomy](#fly-connectome-anatomy-130)
 - [Visualization suite](#visualization-suite)
 - [Examples](#examples)
 - [Research lineage & citations](#research-lineage--citations)
@@ -115,11 +116,27 @@ analyzer.cleanup()
 python -m llmintent latent --text "I want X but cannot Y. What should I do?"
 python -m llmintent latent --status
 python -c "from llmintent import latent; print(latent.inspect_text('Thanks!').summary_lines())"
+# Residual capture on Qwen 27B (NF4, ~24 GB GPU):
+# python -m llmintent latent --backend hf --model qwen:27b --4bit --format markdown --text "I hear a song because a dark shape is looming. What should I do?"
 # Optional extractable + HF:
 # pip install "llmintent[latent]"   # or: pip install -e ..\LatentIntentInspect
 ```
 
 Docs: [`docs/SUITE.md`](docs/SUITE.md). SOTA map: [`../docs/SOTA_LATENT_THOUGHT_INSPECTION.md`](../docs/SOTA_LATENT_THOUGHT_INSPECTION.md). Reports are **correlates/probes**, not mind-reading.
+
+## Fly-connectome anatomy (1.3.0)
+
+The fly connectome is an **IV / depth-band prior**, not a claim the LLM is a fly. Literature-core types collapse onto closed regions. Each region records (1) what it handles, (2) how it integrates, (3) that activating A vs B changes the output. English is compiled by alias and intent-document cosine; unmatched text is dropped.
+
+On **Qwen 3.8-27B** NF4, *I hear a song because a dark shape is looming* compiled to **vision + auditory + causal_logic**. Mid-depth residuals unembedded 危险 / 威胁 (danger / threat); late layers still pointed at `<think>`. Residual occupancy did not clear the compile floor.
+
+Full write-up: [`docs/ANATOMY.md`](docs/ANATOMY.md).
+
+```powershell
+python -m llmintent compile --text "I hear a song because a dark shape is looming."
+python -m llmintent anatomy --text "I hear a song because a dark shape is looming."
+python -m llmintent latent --backend hf --model qwen:27b --4bit --format markdown --text "I hear a song because a dark shape is looming. What should I do?"
+```
 
 ## Model suite (Qwen / Mistral / MiniMax / GLM)
 
@@ -172,6 +189,7 @@ flowchart LR
   LI --> Mot[Motifs + trajectories]
   LI --> Lat[Latent inspect hooks]
   LI --> IV[IV layer causal<br/>indication vs causation]
+  LI --> An[Anatomy<br/>fly connectome · SVD · ablation]
 ```
 
 | Module | Import | Offline? |
@@ -180,6 +198,7 @@ flowchart LR
 | Motifs / trajectories | `llmintent.motifs` | Yes |
 | IV / layer causal | `llmintent.iv_motifs` | Yes (stdlib Wald; soft `causaliv`/`autocausal`) |
 | Latent inspect | `llmintent.latent` | Vendored ThoughtReport + soft-prefer `latentintent` |
+| Anatomy | `llmintent.anatomy` | Yes (compile + connectome IV + planted ablation; model optional for residual SVD) |
 | Model suite | `llmintent.suite` | Registry offline; weights lazy |
 
 ```python
@@ -202,10 +221,25 @@ python -m llmintent motifs --text "..."
 python -m llmintent reasoning-trajectory --text "..."
 python -m llmintent trajectory --text "..."          # isolates reasoning path
 python -m llmintent iv-motifs --text "..." --mock-iv
+python -m llmintent compile --text "a dark shape rushing toward me"
+python -m llmintent anatomy --text "I hear a song because a dark shape is looming."
 python -m llmintent models list
 ```
 
 Standalone extractable libs ([intent-isolates](https://github.com/ehallford11714/intent-isolates), LatentIntentInspect) may still be installed separately; the suite re-exports them when present.
+
+## Changelog (1.3.0)
+
+How we use the **fly connectome to map LLM anatomy**, and how that was tested on **Qwen 27B**:
+
+1. Collapse literature-core fly types onto a closed region catalogue (vision, auditory, causal_logic, …). Each region states what it handles, how it is wired, and that activating A vs B must change the output.
+2. Compile English by alias **and** intent-document cosine; unmatched text is dropped, not hashed.
+3. Use connectome paths as IV instruments (sensory Z only if a path exists; vision→descending is an exclusion violation).
+4. SVD-map residuals/FFN onto those documents; ablate region A vs B.
+5. On **Qwen/Qwen3.8-27B** NF4 (`qwen:27b`), prompt *I hear a song because a dark shape is looming*: compile recovered vision + auditory + causal_logic. Mid-depth residuals unembedded 危险 / 威胁 (danger / threat); late layers still pointed at `<think>`. Residual occupancy stayed below the compile floor — the catalogue answer is compile, not a weak cosine bar.
+
+- **CLI** — `llmintent compile`, `llmintent anatomy`, `latent --backend hf --model qwen:27b --4bit`
+- **Docs** — [`docs/ANATOMY.md`](docs/ANATOMY.md), [`docs/SUITE.md`](docs/SUITE.md)
 
 ## Changelog (1.1.0)
 
@@ -230,7 +264,7 @@ LLMIntent combines three research lines into one pipeline:
 |---------|---------------------|
 | **SemanticExtractionLLms** (Kineteq) | Weight semantics, morpheme wells, steering poles, SSO compaction |
 | **Anthropic J-space / Global Workspace** | Logit & J-lens decode, transport maps, regime bands, intent traces |
-| **Cognitive kernels** (novel) | KL + twin Barlow minimization → identity / reasoning / meta / ideation |
+| **Fly connectome anatomy** | Closed region catalogue, literature-core IV instruments, SVD map, A vs B ablation |
 
 ```mermaid
 flowchart LR

@@ -42,8 +42,11 @@ if ($TestPyPI) {
     $Target = "TestPyPI"
 } else {
     if (-not $env:TWINE_USERNAME) { $env:TWINE_USERNAME = "__token__" }
+    if (-not $env:TWINE_PASSWORD -and $env:TWINE) {
+        $env:TWINE_PASSWORD = $env:TWINE
+    }
     if (-not $env:TWINE_PASSWORD) {
-        throw "Set TWINE_PASSWORD in .env"
+        throw "Set TWINE_PASSWORD (or TWINE) in .env"
     }
     if ($env:TWINE_USERNAME -ne "__token__") {
         Write-Warning "TWINE_USERNAME should be __token__ for API tokens (got $($env:TWINE_USERNAME))"

@@ -26,8 +26,11 @@ def _load_backend():
         _SOURCE = "intentisolates"
         return _BACKEND
     except ImportError:
-        from llmintent.isolates import _core as vendored
+        import importlib
 
+        # import_module avoids `from llmintent.isolates import _core`, which
+        # re-enters __getattr__ while this package is still initializing.
+        vendored = importlib.import_module("llmintent.isolates._core")
         _BACKEND = vendored
         _SOURCE = "vendored"
         return _BACKEND

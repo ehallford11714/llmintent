@@ -23,7 +23,6 @@ from llmintent.layers import build_layer_correspondence_map, summarize_layer_ban
 from llmintent.metrics import calculate_sso_score, kl_divergence, shannon_entropy
 from llmintent.query import ConceptQueryResult, query_concept_in_trajectory, query_concepts_batch
 from llmintent.trajectory import TrajectoryMapping, build_trajectory_mapping
-from llmintent.viz import VisualizationSuite
 from llmintent.benchmark import (
     AblationCondition,
     BenchmarkRunConfig,
@@ -50,9 +49,15 @@ from llmintent.suite import (
     load_suite_model,
     resolve_model_id,
 )
+from llmintent.anatomy import (
+    AnatomyReport,
+    compile_regions,
+    map_anatomy,
+)
 
 __all__ = [
     "AnalysisReport",
+    "AnatomyReport",
     "CognitiveModuleProfile",
     "AblationCondition",
     "BenchmarkRunConfig",
@@ -81,6 +86,7 @@ __all__ = [
     "build_trajectory_mapping",
     "calculate_sso_score",
     "classify_layer_regimes",
+    "compile_regions",
     "fit_transport_maps",
     "get_model_spec",
     "heighten_reasoning",
@@ -91,6 +97,7 @@ __all__ = [
     "minimize_twin_barlow",
     "list_live_models",
     "list_slms",
+    "map_anatomy",
     "parse_conditions",
     "prepare_slm_comparison",
     "per_layer_kl_profile",
@@ -102,4 +109,13 @@ __all__ = [
     "summarize_layer_bands",
 ]
 
-__version__ = "1.2.0"
+
+def __getattr__(name: str):
+    if name == "VisualizationSuite":
+        from llmintent.viz import VisualizationSuite as _VisualizationSuite
+
+        return _VisualizationSuite
+    raise AttributeError(f"module 'llmintent' has no attribute {name!r}")
+
+
+__version__ = "1.3.0"
