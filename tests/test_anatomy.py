@@ -118,14 +118,20 @@ def test_map_anatomy_offline_report():
     assert report.cards
     vision = next(c for c in report.cards if c.id == "vision")
     assert vision.handles
+    assert vision.does
+    assert vision.varies
+    assert vision.series
     assert vision.integrates_with
     assert report.ablation is not None
     assert report.ablation.changed
+    assert report.trace is not None
     md = report.to_markdown()
-    assert "Handles" in md
+    assert "Does" in md
+    assert "Through the prompt" in md
     assert "Ablation" in md
     payload = report.to_dict()
     assert payload["ablation"]["changed"] is True
+    assert payload["trace"]["spans"]
 
 
 def test_cli_compile_and_anatomy():
@@ -172,6 +178,8 @@ def test_cli_compile_and_anatomy():
     payload = json.loads(anat.stdout)
     assert payload["regions"]
     assert payload["ablation"]["changed"] is True
+    assert any(r.get("does") for r in payload["regions"])
+    assert payload["trace"]["spans"]
 
 
 def test_latent_thought_report_maps_to_thought_report():
@@ -206,3 +214,53 @@ def test_latent_thought_report_maps_to_thought_report():
     assert d["logit_lens"][0]["region"] == "auditory"
     assert "disclaimer" in d
     assert d["metadata"]["compiled_regions"] == ["auditory", "causal_logic", "vision"]
+
+
+def test_what_region_does():
+    from llmintent.anatomy import what_region_does
+
+    vision = what_region_does("vision")
+    assert "looming" in vision.lower() or "luminance" in vision.lower()
+    assert "Band:" in vision
+    assert "Fly analogue:" in vision
+
+
+def test_trace_prompt_varies_through_spans():
+    from llmintent.anatomy import trace_prompt
+
+    trace = trace_prompt("I hear a song because a dark shape is looming.")
+    assert len(trace.spans) >= 2
+    vision = next(r for r in trace.regions if r.id == "vision")
+    auditory = next(r for r in trace.regions if r.id == "auditory")
+    assert max(vision.series) > 0
+    assert max(auditory.series) > 0
+    assert vision.series != auditory.series
+    assert vision.peak_span != auditory.peak_span
+    assert vision.varies
+    assert auditory.varies
+    assert "silent" not in vision.varies.lower() or vision.peak_span is not None
+
+
+def test_template_and_agent_draft(monkeypatch):
+    from llmintent.anatomy import draft_anatomy_report, map_anatomy
+
+    monkeypatch.delenv("LLMINTENT_GUIDE_URL", raising=False)
+    monkeypatch.delenv("LLMINTENT_GUIDE_KEY", raising=False)
+    report = map_anatomy(
+        "I hear a song because a dark shape is looming.",
+        draft=True,
+        mock_iv=True,
+        seed=5,
+    )
+    assert report.draft
+    lowered = report.draft.lower()
+    assert "vision" in lowered
+    assert "auditory" in lowered
+    assert "because" in report.draft.lower() or "causal" in lowered
+
+    guided = draft_anatomy_report(
+        report, agent=lambda system, user: "CUSTOM AGENT DRAFT for vision"
+    )
+    assert guided.backend == "agent"
+    assert "CUSTOM AGENT DRAFT" in guided.markdown
+

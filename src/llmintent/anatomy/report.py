@@ -6,34 +6,47 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from llmintent.anatomy.ablation import AblationResult, ablate_model, plant_and_ablate
-from llmintent.anatomy.atlas import REGIONS, Atlas
-from llmintent.anatomy.compile import RegionPlan, compile_regions
+from llmintent.anatomy.atlas import REGIONS, Atlas, what_region_does
+from llmintent.anatomy.compile import RegionPlan
 from llmintent.anatomy.connectome import default_atlas, literature_region_connectome
 from llmintent.anatomy.iv_engine import AnatomyIVResult, iv_from_text
 from llmintent.anatomy.svd_map import SVDAnatomy, map_activations, map_weights
+from llmintent.anatomy.trace import PromptTrace, RegionTrace, trace_prompt
 
 
 @dataclass
 class RegionCard:
     id: str
     handles: str
+    does: str
     fly_neuropil: str
     band: str
     integrates_with: list[str]
     occupancy: float
     compiled: bool
     depth: tuple[float, float]
+    series: list[float] = field(default_factory=list)
+    peak_span: int | None = None
+    peak_text: str = ""
+    variation: float = 0.0
+    varies: str = ""
 
     def to_dict(self) -> dict:
         return {
             "id": self.id,
             "handles": self.handles,
+            "does": self.does,
             "fly_neuropil": self.fly_neuropil,
             "band": self.band,
             "integrates_with": list(self.integrates_with),
             "occupancy": round(self.occupancy, 4),
             "compiled": self.compiled,
             "depth": list(self.depth),
+            "series": [round(x, 4) for x in self.series],
+            "peak_span": self.peak_span,
+            "peak_text": self.peak_text,
+            "variation": round(self.variation, 4),
+            "varies": self.varies,
         }
 
 
@@ -48,6 +61,8 @@ class AnatomyReport:
     cards: list[RegionCard] = field(default_factory=list)
     model_name: str | None = None
     notes: list[str] = field(default_factory=list)
+    trace: PromptTrace | None = None
+    draft: str | None = None
 
     def to_dict(self) -> dict:
         return {
@@ -59,6 +74,8 @@ class AnatomyReport:
             ),
             "plan": self.plan.to_dict(),
             "regions": [c.to_dict() for c in self.cards],
+            "trace": self.trace.to_dict() if self.trace else None,
+            "draft": self.draft,
             "integration": self.atlas.to_dict()["integrates"],
             "iv": self.iv.to_dict(),
             "svd": self.svd.to_dict() if self.svd else None,
@@ -81,17 +98,47 @@ class AnatomyReport:
             "",
             "## Regions",
             "",
-            "| Region | Handles | Band | Integrates with | Occupancy | Compiled |",
-            "|--------|---------|------|-----------------|-----------|----------|",
+            "| Region | Does | Band | Occupancy | Varies through prompt |",
+            "|--------|------|------|-----------|-----------------------|",
         ]
         for c in self.cards:
-            integ = ", ".join(c.integrates_with) or "—"
-            flag = "yes" if c.compiled else ""
+            if not c.compiled and c.occupancy <= 0:
+                continue
+            job = c.does.split(" Band:")[0]
+            varies = c.varies.split(". ")[0] if c.varies else "—"
             lines.append(
-                f"| `{c.id}` | {c.handles} | {c.band} | {integ} | "
-                f"{c.occupancy:.3f} | {flag} |"
+                f"| `{c.id}` | {job} | {c.band} | "
+                f"{c.occupancy:.3f} | {varies} |"
             )
+        silent = [c.id for c in self.cards if not c.compiled and c.occupancy <= 0]
         lines.append("")
+        if self.trace and self.trace.spans:
+            lines.append("## Through the prompt")
+            lines.append("")
+            for s in self.trace.spans:
+                regs = ", ".join(f"`{r}`" for r in s.regions) or "—"
+                lines.append(f"- **[{s.index}]** {s.text} → {regs}")
+            lines.append("")
+        if silent:
+            lines.append("Silent regions: " + ", ".join(f"`{x}`" for x in silent))
+            lines.append("")
+        active = [c for c in self.cards if c.compiled or c.occupancy > 0]
+        if active:
+            lines.append("## What each active region does")
+            lines.append("")
+            for c in active:
+                lines.append(f"### `{c.id}`")
+                lines.append("")
+                lines.append(c.does)
+                lines.append("")
+                if c.varies:
+                    lines.append(c.varies)
+                    lines.append("")
+        if self.draft:
+            lines.append("## Guided draft")
+            lines.append("")
+            lines.append(self.draft)
+            lines.append("")
         if self.iv.causation_edges:
             lines.append("## Connectome-guided IV")
             lines.append("")
@@ -128,19 +175,31 @@ class AnatomyReport:
         return "\n".join(lines)
 
 
-def _cards(atlas: Atlas, occupancy: dict[str, float], compiled: set[str]) -> list[RegionCard]:
+def _cards(
+    atlas: Atlas,
+    occupancy: dict[str, float],
+    compiled: set[str],
+    traces: dict[str, RegionTrace] | None = None,
+) -> list[RegionCard]:
     out: list[RegionCard] = []
     for r in REGIONS:
+        tr = (traces or {}).get(r.id)
         out.append(
             RegionCard(
                 id=r.id,
                 handles=r.handles,
+                does=what_region_does(r.id),
                 fly_neuropil=r.fly_neuropil,
                 band=r.band,
                 integrates_with=list(atlas.integrates.get(r.id, ())),
                 occupancy=float(occupancy.get(r.id, 0.0)),
                 compiled=r.id in compiled,
                 depth=r.depth,
+                series=list(tr.series) if tr else [],
+                peak_span=tr.peak_span if tr else None,
+                peak_text=tr.peak_text if tr else "",
+                variation=tr.variation if tr else 0.0,
+                varies=tr.varies if tr else "",
             )
         )
     return out
@@ -156,6 +215,10 @@ def map_anatomy(
     include_weights: bool = False,
     ablate: bool = True,
     seed: int = 17,
+    draft: bool = False,
+    agent: Any | None = None,
+    slm: str | None = None,
+    endpoint: str | None = None,
 ) -> AnatomyReport:
     """
     Map LLM anatomy for ``text``.
@@ -166,6 +229,7 @@ def map_anatomy(
     atlas = default_atlas()
     plan, iv = iv_from_text(text, mock_iv=mock_iv, seed=seed)
     occupancy = dict(plan.occupancy())
+    trace = trace_prompt(text)
     svd: SVDAnatomy | None = None
     ablation: AblationResult | None = None
     model_name = None
@@ -187,11 +251,11 @@ def map_anatomy(
         ablation, _axes = plant_and_ablate(region_a, region_b, seed=seed)
         notes.append("Offline ablation uses planted orthogonal axes and a linear readout.")
 
-    cards = _cards(atlas, occupancy, set(plan.regions))
+    cards = _cards(atlas, occupancy, set(plan.regions), {t.id: t for t in trace.regions})
     notes.append(
         f"Connectome source: {literature_region_connectome().source}."
     )
-    return AnatomyReport(
+    report = AnatomyReport(
         text=text,
         atlas=atlas,
         plan=plan,
@@ -201,4 +265,15 @@ def map_anatomy(
         cards=cards,
         model_name=model_name,
         notes=notes,
+        trace=trace,
     )
+    if draft or agent is not None or slm or endpoint:
+        from llmintent.anatomy.guide import draft_anatomy_report
+
+        guide = draft_anatomy_report(
+            report, agent=agent, slm=slm, endpoint=endpoint
+        )
+        report.draft = guide.markdown
+        notes.extend(guide.notes)
+        report.notes = notes
+    return report

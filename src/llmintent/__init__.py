@@ -52,7 +52,10 @@ from llmintent.suite import (
 from llmintent.anatomy import (
     AnatomyReport,
     compile_regions,
+    draft_anatomy_report,
     map_anatomy,
+    trace_prompt,
+    what_region_does,
 )
 
 __all__ = [
@@ -87,6 +90,7 @@ __all__ = [
     "calculate_sso_score",
     "classify_layer_regimes",
     "compile_regions",
+    "draft_anatomy_report",
     "fit_transport_maps",
     "get_model_spec",
     "heighten_reasoning",
@@ -99,6 +103,7 @@ __all__ = [
     "list_slms",
     "map_anatomy",
     "parse_conditions",
+    "trace_prompt",
     "prepare_slm_comparison",
     "per_layer_kl_profile",
     "query_concept_in_trajectory",
@@ -107,6 +112,7 @@ __all__ = [
     "run_retracement_ablation",
     "shannon_entropy",
     "summarize_layer_bands",
+    "what_region_does",
 ]
 
 
@@ -118,4 +124,4 @@ def __getattr__(name: str):
     raise AttributeError(f"module 'llmintent' has no attribute {name!r}")
 
 
-__version__ = "1.3.0"
+__version__ = "1.4.0"

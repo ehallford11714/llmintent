@@ -21,6 +21,7 @@ from llmintent.anatomy.atlas import (
     abstract_layer,
     layers_for_region,
     region_ids,
+    what_region_does,
 )
 from llmintent.anatomy.compile import RegionPlan, compile_regions
 from llmintent.anatomy.connectome import (
@@ -30,6 +31,7 @@ from llmintent.anatomy.connectome import (
 )
 from llmintent.anatomy.iv_engine import AnatomyIVResult, connectome_iv, iv_from_text
 from llmintent.anatomy.report import AnatomyReport, RegionCard, map_anatomy
+from llmintent.anatomy.guide import GuideDraft, draft_anatomy_report
 from llmintent.anatomy.svd_map import (
     SVDAnatomy,
     map_activations,
@@ -38,18 +40,23 @@ from llmintent.anatomy.svd_map import (
     match_text_to_region,
 )
 from llmintent.anatomy.thoughts import LatentThoughtReport, inspect_latent_thoughts
+from llmintent.anatomy.trace import PromptTrace, RegionTrace, trace_prompt
 
 __all__ = [
     "AblationResult",
     "AnatomyIVResult",
     "AnatomyReport",
     "Atlas",
+    "GuideDraft",
+    "LatentThoughtReport",
+    "PromptTrace",
     "REGIONS",
     "REGION_BY_ID",
     "Region",
     "RegionCard",
     "RegionConnectome",
     "RegionPlan",
+    "RegionTrace",
     "SVDAnatomy",
     "ablate_linear",
     "ablate_model",
@@ -57,9 +64,9 @@ __all__ = [
     "compile_regions",
     "connectome_iv",
     "default_atlas",
+    "draft_anatomy_report",
     "inspect_latent_thoughts",
     "iv_from_text",
-    "LatentThoughtReport",
     "layers_for_region",
     "literature_region_connectome",
     "map_activations",
@@ -69,4 +76,6 @@ __all__ = [
     "match_text_to_region",
     "plant_and_ablate",
     "region_ids",
+    "trace_prompt",
+    "what_region_does",
 ]

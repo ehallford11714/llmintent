@@ -141,7 +141,7 @@ def add_suite_parsers(sub: argparse._SubParsersAction) -> None:
 
     anatomy = sub.add_parser(
         "anatomy",
-        help="Map LLM anatomy: region handles, connectome IV, SVD occupancy, A vs B ablation",
+        help="Map LLM anatomy: what each region does, occupancy through each span, IV, A vs B ablation",
     )
     anatomy.add_argument("--text", required=True)
     anatomy.add_argument("--region-a", default="vision", dest="region_a")
@@ -157,7 +157,29 @@ def add_suite_parsers(sub: argparse._SubParsersAction) -> None:
     anatomy.add_argument("--weights", action="store_true", help="Also SVD-map FFN weights (needs --model)")
     anatomy.add_argument("--seed", type=int, default=17)
     anatomy.add_argument("-o", "--output", default=None)
+    anatomy.add_argument("--draft", action="store_true", help="Append a guided prose report (template, or --slm / --endpoint)")
+    anatomy.add_argument("--slm", default=None, help="Live SLM key to draft the report (gpt2, qwen-0.5b, …)")
+    anatomy.add_argument("--endpoint", default=None, help="OpenAI-compatible chat URL for the draft")
     anatomy.add_argument(
+        "--format",
+        choices=["json", "markdown"],
+        default="markdown",
+        dest="fmt",
+    )
+
+    mcp = sub.add_parser("mcp", help="Stdio MCP server so agents can drive the suite")
+    mcp.add_argument("--install", action="store_true", help="Print host MCP JSON and exit")
+
+    guide = sub.add_parser(
+        "guide",
+        help="Draft a prose anatomy report (template, --slm, or --endpoint)",
+    )
+    guide.add_argument("--text", required=True)
+    guide.add_argument("--slm", default=None, help="Live SLM key (gpt2, qwen-0.5b, …)")
+    guide.add_argument("--endpoint", default=None, help="OpenAI-compatible chat URL")
+    guide.add_argument("--endpoint-model", default=None, dest="endpoint_model")
+    guide.add_argument("-o", "--output", default=None)
+    guide.add_argument(
         "--format",
         choices=["json", "markdown"],
         default="markdown",
@@ -205,6 +227,15 @@ def handle_suite_command(args: argparse.Namespace) -> int | None:
         return _cmd_compile(args)
     if cmd == "anatomy":
         return _cmd_anatomy(args)
+    if cmd == "mcp":
+        from llmintent.mcp.server import main as mcp_main
+
+        flags: list[str] = []
+        if getattr(args, "install", False):
+            flags.append("--install")
+        return mcp_main(flags)
+    if cmd == "guide":
+        return _cmd_guide(args)
     if cmd == "trajectory" and getattr(args, "text", None):
         # Dual-mode: trajectory --text → motif reasoning path
         return _cmd_reasoning_trajectory(args)
@@ -315,10 +346,30 @@ def _cmd_anatomy(args: argparse.Namespace) -> int:
         include_weights=bool(getattr(args, "weights", False)),
         seed=int(getattr(args, "seed", 17)),
         mock_iv=bundle is None,
+        draft=bool(getattr(args, "draft", False) or getattr(args, "slm", None) or getattr(args, "endpoint", None)),
+        slm=getattr(args, "slm", None),
+        endpoint=getattr(args, "endpoint", None),
     )
     if getattr(args, "fmt", "markdown") == "json":
         return _emit(report.to_dict(), getattr(args, "output", None))
     _safe_print(report.to_markdown())
+    return 0
+
+
+def _cmd_guide(args: argparse.Namespace) -> int:
+    from llmintent.anatomy import map_anatomy
+    from llmintent.anatomy.guide import draft_anatomy_report
+
+    report = map_anatomy(args.text, mock_iv=True)
+    draft = draft_anatomy_report(
+        report,
+        slm=getattr(args, "slm", None),
+        endpoint=getattr(args, "endpoint", None),
+        endpoint_model=getattr(args, "endpoint_model", None),
+    )
+    if getattr(args, "fmt", "markdown") == "json":
+        return _emit(draft.to_dict(), getattr(args, "output", None))
+    _safe_print(draft.markdown)
     return 0
 
 

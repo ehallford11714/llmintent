@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "llmintent": {
+      "command": "python",
+      "args": ["-m", "llmintent.mcp"],
+      "env": {
+        "PYTHONUTF8": "1",
+        "PYTHONPATH": "${workspaceFolder}/src"
+      }
+    }
+  }
+}

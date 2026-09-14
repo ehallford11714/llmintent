@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "llmintent"
-version = "1.3.0"
-description = "LLMIntent suite: semantic extraction, model registry, isolates, motifs, trajectories, IV layer-causal, and latent thought inspection"
+version = "1.4.0"
+description = "LLMIntent suite: fly-connectome LLM anatomy, isolates, motifs, IV layer-causal, latent inspect, and model registry"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
@@ -25,6 +25,8 @@ keywords = [
   "causal",
   "latent",
   "probes",
+  "anatomy",
+  "mcp",
 ]
 classifiers = [
   "Development Status :: 4 - Beta",
@@ -74,6 +76,7 @@ all = ["llmintent[nlp,embeddings,viz,benchmark,live,models,isolates,latent,dev]"
 
 [project.scripts]
 llmintent = "llmintent.cli:main"
+llmintent-mcp = "llmintent.mcp.server:main"
 
 [project.urls]
 Homepage = "https://github.com/ehallford11714/llmintent"

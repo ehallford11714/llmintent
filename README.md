@@ -124,18 +124,37 @@ python -c "from llmintent import latent; print(latent.inspect_text('Thanks!').su
 
 Docs: [`docs/SUITE.md`](docs/SUITE.md). SOTA map: [`../docs/SOTA_LATENT_THOUGHT_INSPECTION.md`](../docs/SOTA_LATENT_THOUGHT_INSPECTION.md). Reports are **correlates/probes**, not mind-reading.
 
-## Fly-connectome anatomy (1.3.0)
+## Fly-connectome anatomy (1.4.0)
 
-The fly connectome is an **IV / depth-band prior**, not a claim the LLM is a fly. Literature-core types collapse onto closed regions. Each region records (1) what it handles, (2) how it integrates, (3) that activating A vs B changes the output. English is compiled by alias and intent-document cosine; unmatched text is dropped.
+The fly connectome is the **anatomy prior** for a transformer, not a claim the LLM is a fly. MaleCNS / literature-core types collapse onto eleven closed regions (vision, auditory, olfactory, gustatory, somatosensory, associative, valence, causal_logic, workspace, descending, motor). Each region now states:
 
-On **Qwen 3.8-27B** NF4, *I hear a song because a dark shape is looming* compiled to **vision + auditory + causal_logic**. Mid-depth residuals unembedded 危险 / 威胁 (danger / threat); late layers still pointed at `<think>`. Residual occupancy did not clear the compile floor.
+1. **What it does** — a job sentence (vision reads looming/luminance; causal_logic runs because / if-then; descending commits a command), plus band and fly analogue.
+2. **How it varies through each prompt** — `trace_prompt` compiles clause by clause so occupancy can turn on, peak, and drop (hear/song vs because/looming are different spans).
+3. **How it is wired** — sensory → associative / workspace → descending. Vision→descending (giant fibre) is an **exclusion violation** for IV.
+4. **Ablation** — activating region A vs B must move the next-token (or linear) readout.
 
-Full write-up: [`docs/ANATOMY.md`](docs/ANATOMY.md).
+English is compiled by alias **and** intent-document cosine; unmatched text is dropped, not hashed. SVD occupancy and logit-lens tokens are **correlates**, not inner speech.
+
+On **Qwen 3.8-27B** NF4, *I hear a song because a dark shape is looming* compiled to **vision + auditory + causal_logic**. Mid-depth residuals unembedded 危险 / 威胁 (danger / threat); late layers still pointed at `<think>`. Residual occupancy did not clear the compile floor — the catalogue answer is compile, not a weak cosine bar.
+
+Draft a report with a template, a live SLM, an OpenAI-compatible endpoint, or a Python `agent`. Drive the suite from an agent over MCP without loading 27B.
+
+Full write-up: [`docs/ANATOMY.md`](docs/ANATOMY.md). MCP: [`docs/MCP.md`](docs/MCP.md).
 
 ```powershell
 python -m llmintent compile --text "I hear a song because a dark shape is looming."
-python -m llmintent anatomy --text "I hear a song because a dark shape is looming."
+python -m llmintent anatomy --text "I hear a song because a dark shape is looming." --draft
+python -m llmintent guide --text "I hear a song because a dark shape is looming."
+python -m llmintent mcp --install
 python -m llmintent latent --backend hf --model qwen:27b --4bit --format markdown --text "I hear a song because a dark shape is looming. What should I do?"
+```
+
+```python
+from llmintent.anatomy import map_anatomy, draft_anatomy_report, what_region_does
+
+print(what_region_does("vision"))
+report = map_anatomy("I hear a song because a dark shape is looming.", draft=True)
+draft = draft_anatomy_report(report, agent=lambda system, user: my_writer(system, user))
 ```
 
 ## Model suite (Qwen / Mistral / MiniMax / GLM)
@@ -190,6 +209,7 @@ flowchart LR
   LI --> Lat[Latent inspect hooks]
   LI --> IV[IV layer causal<br/>indication vs causation]
   LI --> An[Anatomy<br/>fly connectome · SVD · ablation]
+  LI --> Mcp[MCP<br/>li_anatomy / li_draft]
 ```
 
 | Module | Import | Offline? |
@@ -198,7 +218,8 @@ flowchart LR
 | Motifs / trajectories | `llmintent.motifs` | Yes |
 | IV / layer causal | `llmintent.iv_motifs` | Yes (stdlib Wald; soft `causaliv`/`autocausal`) |
 | Latent inspect | `llmintent.latent` | Vendored ThoughtReport + soft-prefer `latentintent` |
-| Anatomy | `llmintent.anatomy` | Yes (compile + connectome IV + planted ablation; model optional for residual SVD) |
+| Anatomy | `llmintent.anatomy` | Yes (does / varies-through-prompt / connectome IV / planted ablation; model optional for residual SVD) |
+| MCP | `llmintent.mcp` | Yes (stdio JSON-RPC; `li_latent` stays on rule) |
 | Model suite | `llmintent.suite` | Registry offline; weights lazy |
 
 ```python
@@ -222,11 +243,29 @@ python -m llmintent reasoning-trajectory --text "..."
 python -m llmintent trajectory --text "..."          # isolates reasoning path
 python -m llmintent iv-motifs --text "..." --mock-iv
 python -m llmintent compile --text "a dark shape rushing toward me"
-python -m llmintent anatomy --text "I hear a song because a dark shape is looming."
+python -m llmintent anatomy --text "I hear a song because a dark shape is looming." --draft
+python -m llmintent guide --text "I hear a song because a dark shape is looming."
+python -m llmintent mcp --install
 python -m llmintent models list
 ```
 
 Standalone extractable libs ([intent-isolates](https://github.com/ehallford11714/intent-isolates), LatentIntentInspect) may still be installed separately; the suite re-exports them when present.
+
+## Changelog (1.4.0)
+
+**Fly connectome → LLM anatomics.** The fly wiring diagram is an identification prior: it tells the suite *which closed territories exist*, *what each one does on a prompt*, *how occupancy moves from clause to clause*, and *which sensory region may instrument which central region*. It is not a claim that Qwen (or any transformer) grew an optic lobe.
+
+1. **Does** — each of the eleven regions has a job sentence (`what_region_does`): vision reads looming/luminance; auditory reads pulse/song; causal_logic runs because / if-then; descending commits a command; motor emits tokens.
+2. **Varies** — `trace_prompt` compiles each span. On *I hear a song because a dark shape is looming*, auditory peaks on the hearing clause and vision/causal_logic on the looming clause.
+3. **Compile** — aliases + intent-document cosine; unmatched English is dropped.
+4. **IV / ablation** — connectome paths as instruments (vision→descending is an exclusion violation); activating A vs B must change the readout.
+5. **Guide** — template, `--slm`, OpenAI-compatible `--endpoint`, or a Python `agent` drafts the prose report from those facts only.
+6. **MCP** — `python -m llmintent.mcp` so an agent can call `li_compile` → `li_anatomy` → `li_draft` without loading 27B.
+
+The Qwen 27B residual test from 1.3.0 still stands: compile recovered vision + auditory + causal_logic; mid-depth unembed showed 危险 / 威胁; residual occupancy stayed below the 0.18 floor.
+
+- **CLI** — `llmintent anatomy --draft`, `llmintent guide`, `llmintent mcp`
+- **Docs** — [`docs/ANATOMY.md`](docs/ANATOMY.md), [`docs/MCP.md`](docs/MCP.md)
 
 ## Changelog (1.3.0)
 

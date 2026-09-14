@@ -30,6 +30,7 @@ class Region:
         return {
             "id": self.id,
             "handles": self.handles,
+            "does": what_region_does(self.id),
             "fly_neuropil": self.fly_neuropil,
             "fly_types": list(self.fly_types),
             "band": self.band,
@@ -209,6 +210,51 @@ REGIONS: tuple[Region, ...] = (
 
 REGION_BY_ID: dict[str, Region] = {r.id: r for r in REGIONS}
 
+# Prose job of each region — what it *does* on a prompt, not just alias words.
+_DOES: dict[str, str] = {
+    "vision": (
+        "Reads luminance, motion, looming, and spatial layout so later bands "
+        "can treat collision versus scenery."
+    ),
+    "auditory": (
+        "Reads pulse, song, and sequential tone so rhythm can bind with other senses."
+    ),
+    "olfactory": (
+        "Reads chemical identity and naming cues (who/what is present) for associative pairing."
+    ),
+    "gustatory": (
+        "Reads appetitive drive — hunger, taste, ingest — as an approach/avoid bias."
+    ),
+    "somatosensory": (
+        "Reads touch, contact, and body state as an ascending sensory channel."
+    ),
+    "associative": (
+        "Binds earlier sensory tags into sparse memory: this cue with that outcome."
+    ),
+    "valence": (
+        "Assigns innate affect — approach or avoid — before a motor program is chosen."
+    ),
+    "causal_logic": (
+        "Runs if-then / because / heading: plans a path from causes to a next act."
+    ),
+    "workspace": (
+        "Holds and broadcasts mixed cues so sensory, valence, and plan share one buffer."
+    ),
+    "descending": (
+        "Selects a command (escape, turn, stop) and commits it toward motor readout."
+    ),
+    "motor": (
+        "Emits the next tokens — formatting, answering, the actual readout."
+    ),
+}
+
+
+def what_region_does(region_id: str) -> str:
+    """Return the job description for a region (handles + how it acts on a prompt)."""
+    r = REGION_BY_ID[region_id]
+    job = _DOES.get(region_id, f"Handles {r.handles}.")
+    return f"{job} Band: {r.band}. Fly analogue: {r.fly_neuropil}."
+
 # Fly cell type → atlas region (literature-core names).
 TYPE_TO_REGION: dict[str, str] = {}
 for _region in REGIONS:
@@ -257,6 +303,7 @@ class Atlas:
         return {
             "n_regions": len(self.regions),
             "regions": [r.to_dict() for r in self.regions],
+            "does": {r.id: what_region_does(r.id) for r in self.regions},
             "integrates": {k: list(v) for k, v in self.integrates.items()},
             "caveat": (
                 "Fly neuropils are an identification prior for LLM depth bands "

@@ -83,27 +83,35 @@ SOTA research map (sibling tree): `research/docs/SOTA_LATENT_THOUGHT_INSPECTION.
 
 Full write-up (how the fly map works, and the Qwen 27B residual test): [`docs/ANATOMY.md`](ANATOMY.md).
 
-## Fly-connectome anatomy (1.3.0+)
+## Fly-connectome anatomy (1.4.0)
 
-`llmintent.anatomy` maps a transformer as if it had fly-like territories. Each region records (1) what it handles, (2) how literature-core wiring integrates it, (3) whether activating region A vs B changes the next-token (or linear) output.
+`llmintent.anatomy` maps a transformer as if it had fly-like territories. Each region records (1) **what it does**, (2) **how occupancy varies through each prompt span**, (3) how literature-core wiring integrates it, (4) whether activating region A vs B changes the next-token (or linear) output.
 
 ```python
-from llmintent.anatomy import compile_regions, map_anatomy
+from llmintent.anatomy import compile_regions, map_anatomy, trace_prompt, what_region_does
 
 plan = compile_regions("a dark shape rushing toward me")
-report = map_anatomy("I hear a song because a dark shape is looming.")
+print(what_region_does("vision"))
+trace = trace_prompt("I hear a song because a dark shape is looming.")
+report = map_anatomy(trace.text, draft=True)  # template draft; or agent=/slm=/endpoint=
 print(report.to_markdown())
 ```
 
+- **Does** — job sentence + band + fly analogue (`what_region_does`).
+- **Varies** — `trace_prompt` compiles each span; region cards carry `series`, `peak_span`, `varies`.
 - **Compile** — intent documents, not catalogue wording; unmatched English is dropped.
 - **IV** — sensory regions instrument central regions only if the collapsed connectome has a path. Vision→descending is flagged as an exclusion violation (giant-fibre shortcut).
 - **SVD** — FFN/activation components matched onto region intent docs. Offline tests plant orthogonal axes.
 - **Ablation** — drive region A against region B; `changed` is true when the top token (or KL) moves.
+- **Guide** — template, live `--slm`, OpenAI-compatible `--endpoint`, or a Python `agent`.
+- **MCP** — `python -m llmintent.mcp` so an agent can call `li_anatomy` / `li_draft` without loading 27B. See [`docs/MCP.md`](MCP.md).
 
 ```bash
 python -m llmintent compile --text "a dark shape rushing toward me"
-python -m llmintent anatomy --text "I hear a song because a dark shape is looming."
+python -m llmintent anatomy --text "I hear a song because a dark shape is looming." --draft
+python -m llmintent guide --text "I hear a song because a dark shape is looming."
 python -m llmintent anatomy --text "..." --model gpt2 --region-a vision --region-b auditory
+python -m llmintent mcp --install
 ```
 
 ## One install
@@ -140,7 +148,9 @@ python -m llmintent trajectory --prompt "..."        # activation trajectory (mo
 python -m llmintent iv-motifs --text "..." --mock-iv
 python -m llmintent latent --text "..."              # ThoughtReport (offline)
 python -m llmintent compile --text "a dark shape rushing toward me"
-python -m llmintent anatomy --text "I hear a song because a dark shape is looming."
+python -m llmintent anatomy --text "I hear a song because a dark shape is looming." --draft
+python -m llmintent guide --text "I hear a song because a dark shape is looming."
+python -m llmintent mcp --install
 python -m llmintent models list
 ```
 
