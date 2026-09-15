@@ -162,8 +162,26 @@ def ablate_model(
     layers_a = layers_for_region(region_a, n)
     layers_b = layers_for_region(region_b, n)
     dim = int(bundle.hidden_size)
-    v_a = region_axis_from_anatomy(anatomy, region_a, dim)
-    v_b = region_axis_from_anatomy(anatomy, region_b, dim)
+    v_a, src_a = region_axis_from_anatomy(anatomy, region_a, dim)
+    v_b, src_b = region_axis_from_anatomy(anatomy, region_b, dim)
+    if v_a is None or v_b is None:
+        return AblationResult(
+            region_a=region_a,
+            region_b=region_b,
+            handles_a=REGION_BY_ID[region_a].handles,
+            handles_b=REGION_BY_ID[region_b].handles,
+            top_a=[],
+            top_b=[],
+            kl_ab=0.0,
+            changed=False,
+            gain=gain,
+            method="unidentified",
+            layers_a=layers_a,
+            layers_b=layers_b,
+            notes=[
+                f"Axis source A={src_a} B={src_b}. Missing axes are unidentified, not random fills.",
+            ],
+        )
     t_a = torch.from_numpy(v_a.astype(np.float32))
     t_b = torch.from_numpy(v_b.astype(np.float32))
 

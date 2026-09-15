@@ -38,7 +38,8 @@ class NegativeLocus:
     evidence: str
     why: str
     congruent: bool
-    severity: int
+    experimental_signal: bool = False
+    severity: int = 0
 
     def to_dict(self) -> dict:
         return {
@@ -51,6 +52,7 @@ class NegativeLocus:
             "why": self.why,
             "congruent": self.congruent,
             "severity": self.severity,
+            "experimental_signal": self.experimental_signal,
         }
 
 
@@ -139,8 +141,9 @@ def scan_negative_intent(
                         "Vision+descending on one span, no causal_logic — "
                         "giant-fibre shortcut (fly IV exclusion). One channel among many."
                     ),
-                    congruent=False,
+                    congruent=True,
                     severity=2,
+                    experimental_signal=True,
                 )
             )
         for iid, sc in scores.items():
@@ -187,8 +190,9 @@ def scan_negative_intent(
                 regions=["vision", "descending"],
                 evidence="vision then descending",
                 why="Giant-fibre-style path across spans, skipping causal_logic.",
-                congruent=False,
+                congruent=True,
                 severity=2,
+                experimental_signal=True,
             )
         )
 
@@ -263,7 +267,7 @@ def scan_negative_intent(
         kind_rank = 0 if loc.kind == "short_pipe" else (1 if loc.family in ("harm", "cyber") else 2)
         return (kind_rank, -loc.severity)
 
-    mis = [x for x in loci if not x.congruent]
+    mis = [x for x in loci if not x.congruent and not x.experimental_signal]
     # High-severity user-stated still notifies.
     extra = [x for x in loci if x.congruent and x.severity >= 3]
     fire = mis + extra

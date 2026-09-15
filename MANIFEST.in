@@ -3,6 +3,7 @@ include README.md
 include pyproject.toml
 
 recursive-include src/llmintent *.py
+recursive-include src/llmintent/anatomy/data *.json
 recursive-include docs *.md
 
 global-exclude __pycache__

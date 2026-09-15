@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "llmintent"
-version = "1.5.0"
+version = "1.7.0"
 description = "LLMIntent suite: Anatomy of any weighted LLM, fly-connectome prior, trajectory, MisAlign Flag, isolates, IV, latent inspect"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -89,9 +89,8 @@ Changelog = "https://github.com/ehallford11714/llmintent/releases"
 package-dir = { "" = "src" }
 include-package-data = true
 
-[tool.setuptools.packages.find]
-where = ["src"]
-exclude = ["tests*"]
+[tool.setuptools.package-data]
+llmintent = ["anatomy/data/*.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

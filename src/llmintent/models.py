@@ -22,9 +22,23 @@ class ModelBundle:
     @property
     def hidden_size(self) -> int:
         cfg = self.model.config
-        for attr in ("hidden_size", "n_embd", "d_model"):
-            if hasattr(cfg, attr):
-                return int(getattr(cfg, attr))
+        for obj in (cfg, getattr(cfg, "text_config", None), getattr(cfg, "llm_config", None)):
+            if obj is None:
+                continue
+            for attr in ("hidden_size", "n_embd", "d_model", "n_embed"):
+                v = getattr(obj, attr, None)
+                if v:
+                    return int(v)
+        try:
+            layers = get_transformer_layers(self.model)
+            mlp = getattr(layers[0], "mlp", None)
+            for name in ("down_proj", "c_proj", "dense_4h_to_h"):
+                sub = getattr(mlp, name, None) if mlp is not None else None
+                w = getattr(sub, "weight", None) if sub is not None else None
+                if w is not None and getattr(w, "ndim", 0) == 2:
+                    return int(w.shape[0])
+        except Exception:
+            pass
         raise AttributeError(f"Cannot infer hidden size for {self.name}")
 
 

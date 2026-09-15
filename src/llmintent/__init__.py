@@ -59,6 +59,13 @@ from llmintent.anatomy import (
     trace_prompt,
     what_region_does,
 )
+from llmintent.entity import PersistenceReport, persist_entities
+from llmintent.persistbind import BindReport, BoundState, PersistenceBinder, persistence_bind
+from llmintent.instream import bind_positions, bind_within_stream, forward_within
+from llmintent.memslot import attach_memory_slot
+from llmintent.worldfile import WorldFile, apply_world
+from llmintent.predictbind import bayes_inform, greedy_generate, predict_from_bind
+from llmintent.spike import SpikeConfig, SpikePotentialBank, node_adjoint
 
 __all__ = [
     "AnalysisReport",
@@ -106,6 +113,24 @@ __all__ = [
     "map_anatomy",
     "Anatomy",
     "parse_conditions",
+    "persist_entities",
+    "PersistenceReport",
+    "persistence_bind",
+    "PersistenceBinder",
+    "BindReport",
+    "BoundState",
+    "bind_positions",
+    "bind_within_stream",
+    "forward_within",
+    "attach_memory_slot",
+    "WorldFile",
+    "apply_world",
+    "predict_from_bind",
+    "bayes_inform",
+    "greedy_generate",
+    "SpikeConfig",
+    "SpikePotentialBank",
+    "node_adjoint",
     "trace_prompt",
     "trajectory",
     "prepare_slm_comparison",
@@ -128,4 +153,4 @@ def __getattr__(name: str):
     raise AttributeError(f"module 'llmintent' has no attribute {name!r}")
 
 
-__version__ = "1.5.0"
+__version__ = "1.7.0"

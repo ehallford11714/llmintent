@@ -167,6 +167,35 @@ def add_suite_parsers(sub: argparse._SubParsersAction) -> None:
         dest="fmt",
     )
 
+    atlas = sub.add_parser(
+        "atlas",
+        help="Function-first fly assay → SVD/logit localization → region test (v1.6)",
+    )
+    atlas.add_argument("--model", default=None, help="HF id or suite key (default qwen:27b; omit with --no-model)")
+    atlas.add_argument("--no-model", action="store_true", help="Fly assay + contracts only")
+    atlas.add_argument("--4bit", action="store_true", dest="fourbit", help="NF4 load (default on for 27B)")
+    atlas.add_argument("--out", default="artifacts/atlas_v16", dest="out")
+    atlas.add_argument("--max-layers", type=int, default=6, dest="max_layers")
+    atlas.add_argument("--top-k", type=int, default=4, dest="top_k")
+    atlas.add_argument("--format", choices=["json", "markdown"], default="markdown", dest="fmt")
+
+    itrack = sub.add_parser(
+        "intent-track",
+        help="Derive latent intent at every layer and track how it changes",
+    )
+    itrack.add_argument("--text", required=False, default=None)
+    itrack.add_argument("--model", default=None, help="HF id or suite key (qwen:27b). Omit for compile-span track")
+    itrack.add_argument("--4bit", action="store_true", dest="load_in_4bit", help="NF4 load (default on for 27B)")
+    itrack.add_argument("--max-probes", type=int, default=22, dest="max_probes")
+    itrack.add_argument("--no-lens", action="store_true", dest="no_lens")
+    itrack.add_argument(
+        "--battery",
+        action="store_true",
+        help="Run the hidden-intent prompt battery (shared residual probes)",
+    )
+    itrack.add_argument("-o", "--output", default=None)
+    itrack.add_argument("--format", choices=["json", "markdown"], default="markdown", dest="fmt")
+
     mcp = sub.add_parser("mcp", help="Stdio MCP server so agents can drive the suite")
     mcp.add_argument("--install", action="store_true", help="Print host MCP JSON and exit")
 
@@ -227,6 +256,10 @@ def handle_suite_command(args: argparse.Namespace) -> int | None:
         return _cmd_compile(args)
     if cmd == "anatomy":
         return _cmd_anatomy(args)
+    if cmd == "atlas":
+        return _cmd_atlas(args)
+    if cmd == "intent-track":
+        return _cmd_intent_track(args)
     if cmd == "mcp":
         from llmintent.mcp.server import main as mcp_main
 
@@ -357,6 +390,79 @@ def _cmd_anatomy(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_atlas(args: argparse.Namespace) -> int:
+    from llmintent.anatomy.experiment import render_markdown, run_atlas_experiment
+
+    model = None if getattr(args, "no_model", False) else (getattr(args, "model", None) or "qwen:27b")
+    four = True if getattr(args, "fourbit", False) else None
+    report = run_atlas_experiment(
+        model=model,
+        out_dir=getattr(args, "out", None),
+        max_layers=int(getattr(args, "max_layers", 6) or 6),
+        top_k=int(getattr(args, "top_k", 4) or 4),
+        load_in_4bit=four,
+    )
+    if getattr(args, "fmt", "markdown") == "json":
+        return _emit(report, getattr(args, "out", None) and str(Path(args.out) / "atlas_experiment.json"))
+    _safe_print(render_markdown(report))
+    return 0
+
+
+def _cmd_intent_track(args: argparse.Namespace) -> int:
+    from llmintent.anatomy.intent_battery import render_markdown, run_intent_battery
+    from llmintent.anatomy.intent_track import track_latent_intent, track_prompt_compile
+    from llmintent.models import load_model_bundle
+    from llmintent.suite import resolve_model_spec
+
+    model = getattr(args, "model", None)
+    bundle = None
+    if model:
+        spec = resolve_model_spec(model=model, use_env=False)
+        hf_id = spec.hf_id if spec is not None else model
+        fourbit = bool(getattr(args, "load_in_4bit", False))
+        if spec is not None and getattr(spec, "size", None) == "27b":
+            fourbit = True
+        bundle = load_model_bundle(hf_id, load_in_4bit=fourbit)
+
+    if getattr(args, "battery", False):
+        out = getattr(args, "output", None)
+        report = run_intent_battery(
+            bundle,
+            lens=not getattr(args, "no_lens", False),
+            out_dir=out if out and not str(out).endswith((".json", ".md")) else (
+                str(Path(out).parent) if out else None
+            ),
+        )
+        if out and str(out).endswith(".json"):
+            return _emit(report, out)
+        if getattr(args, "fmt", "markdown") == "json":
+            return _emit(report, out)
+        _safe_print(render_markdown(report))
+        return 0
+
+    text = getattr(args, "text", None)
+    if not text:
+        print("intent-track: --text is required unless --battery is set", file=sys.stderr)
+        return 2
+    if bundle is None:
+        track = track_prompt_compile(text)
+    else:
+        track = track_latent_intent(
+            bundle,
+            text,
+            max_probes=int(getattr(args, "max_probes", 22) or 22),
+            lens=not getattr(args, "no_lens", False),
+        )
+    if getattr(args, "fmt", "markdown") == "json":
+        return _emit(track.to_dict(), getattr(args, "output", None))
+    _safe_print(track.to_markdown())
+    out = getattr(args, "output", None)
+    if out and getattr(args, "fmt", "markdown") != "json":
+        Path(out).write_text(track.to_markdown(), encoding="utf-8")
+        print(f"Wrote {out}")
+    return 0
+
+
 def _cmd_guide(args: argparse.Namespace) -> int:
     from llmintent.anatomy import map_anatomy
     from llmintent.anatomy.guide import draft_anatomy_report
@@ -402,6 +508,18 @@ def maybe_patch_trajectory_parser(trajectory_parser: argparse.ArgumentParser) ->
         dest="load_in_4bit",
         action="store_true",
     )
+    trajectory_parser.add_argument(
+        "--no-track",
+        action="store_true",
+        dest="no_track",
+        help="Skip residual-probe latent intent (old compile-paint + logit-lens path)",
+    )
+    trajectory_parser.add_argument(
+        "--max-probes",
+        type=int,
+        default=22,
+        dest="max_probes",
+    )
 
 
 def _cmd_anatomy_trajectory(args: argparse.Namespace) -> int:
@@ -423,6 +541,8 @@ def _cmd_anatomy_trajectory(args: argparse.Namespace) -> int:
         bundle=bundle,
         print_flag=not getattr(args, "no_flag", False),
         all_layers=True,
+        measure_latent=not getattr(args, "no_track", False),
+        max_probes=int(getattr(args, "max_probes", 22) or 22),
     )
     if getattr(args, "fmt", "markdown") == "json":
         return _emit(traj.to_dict(), getattr(args, "output", None))

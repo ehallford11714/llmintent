@@ -70,15 +70,20 @@ def _intent_space() -> tuple[LexicalSpace, dict[str, np.ndarray]]:
     return space, mat
 
 
-def match_text_to_region(text: str) -> tuple[str, float]:
+def match_text_to_region(text: str, *, floor: float | None = None) -> tuple[str, float]:
+    from llmintent.anatomy.evidence import ACCEPTANCE_FLOOR, UNIDENTIFIED
+
     space, mat = _intent_space()
     q = space.encode(text)
-    best_id = "workspace"
+    best_id = UNIDENTIFIED
     best = -1.0
     for rid, vec in mat.items():
         s = float(q @ vec)
         if s > best:
             best, best_id = s, rid
+    thresh = ACCEPTANCE_FLOOR if floor is None else float(floor)
+    if best < thresh:
+        return UNIDENTIFIED, best
     return best_id, best
 
 
@@ -275,11 +280,23 @@ def _probe_centroids(bundle: Any) -> dict[str, np.ndarray]:
     return out
 
 
-def region_axis_from_anatomy(anatomy: SVDAnatomy, region_id: str, dim: int) -> np.ndarray:
+def region_axis_from_anatomy(
+    anatomy: SVDAnatomy,
+    region_id: str,
+    dim: int,
+    *,
+    allow_random_control: bool = False,
+    control_seed: int = 0,
+) -> tuple[np.ndarray | None, str]:
+    """Return (axis, source). Missing axes are unidentified, not silent random fills."""
+    from llmintent.anatomy.evidence import UNIDENTIFIED
+    from llmintent.anatomy.spaces import random_control_axis
+
     if region_id in anatomy.axes and anatomy.axes[region_id].shape[-1] == dim:
-        return _unit(anatomy.axes[region_id])
-    rng = np.random.default_rng(abs(hash(region_id)) % (2**32))
-    return _unit(rng.normal(size=dim))
+        return _unit(anatomy.axes[region_id]), "measured"
+    if allow_random_control:
+        return random_control_axis(dim, control_seed), "random_control"
+    return None, UNIDENTIFIED
 
 
 def _unit(v: np.ndarray) -> np.ndarray:

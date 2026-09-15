@@ -20,6 +20,7 @@ _BAND = {"sensory": 0, "central": 1, "motor": 2}
 
 
 def _layer_band(i: int, n: int) -> str:
+    """Optional depth prior/baseline — not a discovered functional organization."""
     if n <= 1:
         return "central"
     d = i / max(n - 1, 1)
@@ -36,6 +37,7 @@ class GraphEdge:
     target: str
     weight: float
     kind: str
+    evidence: str = ""
 
     def to_dict(self) -> dict:
         return {
@@ -43,6 +45,7 @@ class GraphEdge:
             "target": self.target,
             "weight": round(self.weight, 4),
             "kind": self.kind,
+            "evidence": self.evidence or self.kind,
         }
 
 
@@ -68,7 +71,12 @@ class LayerResponsibility:
         if not tops:
             return f"Layer {self.layer} ({self.band}) has no identified intent from weights."
         bits = ", ".join(f"`{i}` {s:.2f}" for i, s in tops)
-        return f"Layer {self.layer} ({self.band}) is responsible for {bits}."
+        if self.source in {"prior", "weights"}:
+            return (
+                f"Layer {self.layer} ({self.band}) is associated with {bits} "
+                "(token-projection candidate; unvalidated)."
+            )
+        return f"Layer {self.layer} ({self.band}) is associated with {bits}."
 
     def to_dict(self) -> dict:
         return {
@@ -246,27 +254,28 @@ def complete_graph(layers: list[LayerResponsibility]) -> AnatomyGraph:
                 f"atlas.{e.target}",
                 float(e.weight),
                 "connectome_prior",
+                evidence="literature_prior (not measured MaleCNS synapses)",
             )
         )
     for a, b in zip(layers, layers[1:]):
-        edges.append(GraphEdge(f"L{a.layer}", f"L{b.layer}", 1.0, "stream"))
+        edges.append(GraphEdge(f"L{a.layer}", f"L{b.layer}", 1.0, "stream", evidence="architecture residual order"))
 
     peak_layer: dict[str, int] = {}
     for row in layers:
         for iid, sc in row.top[:6]:
-            edges.append(GraphEdge(f"L{row.layer}", iid, sc, "responsible"))
+            edges.append(GraphEdge(f"L{row.layer}", iid, sc, "responsible", evidence="inferred token-projection association"))
             prev = peak_layer.get(iid)
             if prev is None or sc > (layers[prev].intents.get(iid, 0) if prev < len(layers) else 0):
                 peak_layer[iid] = row.layer
         tops = [i for i, _ in row.top[:4]]
         for i, src in enumerate(tops):
             for tgt in tops[i + 1 :]:
-                edges.append(GraphEdge(src, tgt, 0.4, "co_responsible"))
+                edges.append(GraphEdge(src, tgt, 0.4, "co_responsible", evidence="inferred co-occurrence of top associations"))
 
     ordered = sorted(peak_layer.items(), key=lambda kv: kv[1])
     for (a, la), (b, lb) in zip(ordered, ordered[1:]):
         if lb > la:
-            edges.append(GraphEdge(a, b, 0.6, "cascade"))
+            edges.append(GraphEdge(a, b, 0.6, "cascade", evidence="inferred depth order of peak associations; not a causal cascade"))
 
     return AnatomyGraph(nodes=nodes, edges=edges)
 
@@ -315,8 +324,9 @@ class Anatomy:
         name = getattr(bundle, "name", None) or "model"
         notes = [
             f"Anatomy from FFN weights of `{name}` ({len(layers)} layers).",
-            "Each layer's responsibility is SVD-unembed tokens scored on the full intent catalogue.",
-            "Graph = fly connectome prior ∪ residual stream ∪ co-responsibility ∪ cascade.",
+            "Each layer's association is SVD-unembed tokens scored on the intent catalogue (unvalidated).",
+            "Graph = literature-prior connectome ∪ residual stream ∪ co-responsibility ∪ cascade.",
+            "Depth bands are an optional prior, not a discovered organization.",
             "Not a claim the weights contain fly neuropils.",
         ]
         if text:
@@ -343,8 +353,8 @@ class Anatomy:
             text=text or "",
             source="prior",
             notes=[
-                "Offline Anatomy paints compile/intent scores onto depth bands.",
-                "Pass a model with weights (Anatomy.from_pretrained) for FFN-true responsibilities.",
+                "Offline Anatomy paints compile/intent scores onto depth-band priors (not discovered organization).",
+                "Pass a model with weights (Anatomy.from_pretrained) for FFN SVD associations.",
             ],
         )
 

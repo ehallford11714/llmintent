@@ -238,11 +238,9 @@ def inspect_latent_thoughts(
         l2 = float(torch.linalg.vector_norm(hidden.float()).cpu())
         tokens = _decode_hidden(bundle, hidden, top_k)
         blob = " ".join(tokens)
-        rid, score = match_text_to_region(blob) if blob else ("workspace", 0.0)
+        rid, score = match_text_to_region(blob) if blob else ("unidentified", 0.0)
         # Weak cosine onto intent docs is not occupancy — same floor as compile.
-        if score < 0.18:
-            rid = "workspace"
-        else:
+        if rid != "unidentified":
             occupancy[rid] += max(score, 0.0)
         depth = li / max(n_blocks - 1, 1)
         thoughts.append(

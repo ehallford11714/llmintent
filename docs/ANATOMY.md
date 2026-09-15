@@ -1,8 +1,29 @@
-# Fly-connectome anatomy of an LLM (1.5.0)
+# Fly-connectome anatomy of an LLM (1.7.0)
 
 The fly brain is the **guiding engine**, not a language model we pretend the transformer is. MaleCNS / fly wiring gives LLMIntent a closed region catalogue, an identification prior for instrumental variables, and a test that activating region A vs B must change the output.
 
 This is an anatomical *prior*. It is not a claim that Qwen grew an optic lobe.
+
+## v1.6 function-first atlas
+
+The 1.6 path is **not** another catalogue of fly-inspired labels. Sequence:
+
+1. Fly functional assay (LPLC2 → DNp01 looming/escape rate model; proposed simulation reproducing published *direction* on held-out speeds).
+2. Weight SVD of `W_down` with signed logit profiles and FFN unit localization.
+3. Matched LLM tasks (approaching-object language → action; causal consequence).
+4. Analogous-region test in that shared operation space.
+5. Cascade interventions with no-op / random / rescue controls.
+
+```bash
+python -m llmintent atlas --no-model --out artifacts/atlas_v16
+python -m llmintent atlas --model gpt2 --out artifacts/atlas_v16
+```
+
+See [`ATLAS.md`](ATLAS.md) for evidence modes, SVD convention, and what was *not* retrieved (MaleCNS volumes, Lappalainen 2024 network, living-fly recordings).
+
+Depth bands remain an **optional prior**, not a discovered organization. Token projections are **associations**, not “responsible for” until a function test lands. Missing SVD axes return **unidentified**, not random fills.
+
+Latent inspection still resolves as `latentintent` / `latentintentinspect` if installed, else `llmintent.latent_vendor`.
 
 ## How the mapping works
 
@@ -67,7 +88,20 @@ Two reads, ranked. Do not mix them.
 
 Cosine of those lens strings onto intent docs **never cleared 0.18**. Residual occupancy is therefore **not identified**. The atlas answer stays the compile prior. A gustatory bar from a weak match is an artifact; we do not report it as intent.
 
-So “deciphering 27B intent” here means: (a) compile the prompt onto fly territories, (b) look at what the residual would say next at each depth, (c) only accept a residual→region assignment if it clears the same floor as compile. We did (a) and (b). (c) failed — which is a result, not a miss.
+So “deciphering 27B intent” here means: (a) compile the prompt onto fly territories, (b) look at what the residual would say next at each depth, (c) only accept a residual→region assignment if it clears the same floor as compile. We did (a) and (b). (c) failed on logit-lens — which is a result, not a miss.
+
+## Latent intent through each layer (1.7.0)
+
+Logit-lens needs the residual dim to match the unembedding. On Qwen 3.8-27B it does not. **Residual-probe tracking** does not use the unembed: at every layer, the prompt's last-token hidden state is compared (cosine) to last-token hidden states of a fixed bank of intent-prototype prompts run through the *same* layer.
+
+Three channels, never mixed: **compile** (prompt prior), **residual probe** (latent ranking), **logit-lens** (optional; unidentified on dim mismatch). Depth bands are labels, not a discovered sensory→motor map.
+
+```bash
+python -m llmintent intent-track --text "I hear a song because a dark shape is looming."
+python -m llmintent intent-track --battery --model qwen:27b --no-lens
+```
+
+On 27B with a shared 32-probe bank, ranking (not the raw 0.7 floor) is the signal: many short English probes sit near each other in last-token space. Hear→see→ask on the mixed looming prompt; stop-action vs parked-static dissociate; dopamine-the-word is not value-gain.
 
 These tokens are next-token correlates. They are not inner speech and not a fly neuropil inside Qwen.
 

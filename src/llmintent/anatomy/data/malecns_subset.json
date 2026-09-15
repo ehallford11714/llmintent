@@ -1,0 +1,101 @@
+{
+  "dataset": "MaleCNS",
+  "version_retrieved": "not-retrieved",
+  "retrieval": "bundled_literature_subset",
+  "specimen": "not a FlyWire/MaleCNS body",
+  "edge_weight_meaning": "Bundled edges are qualitative literature-core weights. They are not MaleCNS synapse counts and are not LLM parameters.",
+  "literature_prior_separate": true,
+  "notes": [
+    "Official MaleCNS / neuPrint was not fetched. Set NEUPRINT_SERVER to enable the adapter.",
+    "Existing anatomy.connectome graph is retained as an explicit literature prior.",
+    "Dorkenwald et al. 2024 Nature: neuronal wiring diagram of an adult brain (MaleCNS)."
+  ],
+  "neurons": [
+    {
+      "type_id": "LPLC2",
+      "region": "lobula plate / lobula",
+      "fly_atlas_region": "vision",
+      "citations": ["Klapoetke et al. 2017 Nature 543:96-100"],
+      "inputs": ["T4", "T5"],
+      "outputs": ["DNp01", "DNp10"],
+      "supported_function": "Looming-object feature discrimination (expanding dark objects).",
+      "proposed_function": "May contribute to other object expansion statistics.",
+      "unresolved": "Exact MaleCNS synapse counts not retrieved in this workspace.",
+      "nt_prediction": "ACh (prediction)",
+      "nt_confidence": "literature_not_measured_here",
+      "evidence_mode": "literature_prior"
+    },
+    {
+      "type_id": "LC4",
+      "region": "lobula",
+      "fly_atlas_region": "vision",
+      "citations": ["Klapoetke et al. 2017 Nature 543:96-100"],
+      "inputs": ["T4", "T5"],
+      "outputs": ["DNp01"],
+      "supported_function": "Looming / object-approach visual projection.",
+      "proposed_function": "Partial overlap with LPLC2; not interchangeable.",
+      "unresolved": "Relative weight vs LPLC2 on MaleCNS not retrieved.",
+      "nt_prediction": null,
+      "nt_confidence": null,
+      "evidence_mode": "literature_prior"
+    },
+    {
+      "type_id": "DNp01",
+      "region": "descending / giant fibre",
+      "fly_atlas_region": "descending",
+      "citations": ["von Reyn et al. 2014 Nat Neurosci 17:962-970"],
+      "inputs": ["LPLC2", "LC4"],
+      "outputs": ["GFC"],
+      "supported_function": "Short-latency escape jump when activated.",
+      "proposed_function": "Action selection / command.",
+      "unresolved": "Living-fly silencing of LPLC2 vs DNp01 not re-run here.",
+      "nt_prediction": null,
+      "nt_confidence": null,
+      "evidence_mode": "literature_prior"
+    },
+    {
+      "type_id": "KC",
+      "region": "mushroom body",
+      "fly_atlas_region": "associative",
+      "citations": ["Aso et al. 2014 eLife 3:e04577"],
+      "inputs": ["ALPN"],
+      "outputs": ["MBON"],
+      "supported_function": "Sparse associative binding of cues to outcomes.",
+      "proposed_function": "Episodic-like association analogue.",
+      "unresolved": "Not the circuit of the first assay.",
+      "nt_prediction": null,
+      "nt_confidence": null,
+      "evidence_mode": "literature_prior"
+    }
+  ],
+  "edges": [
+    {
+      "source": "LPLC2",
+      "target": "DNp01",
+      "weight": 7.0,
+      "source_kind": "literature_prior",
+      "weight_meaning": "qualitative literature-core type weight, not a synapse count"
+    },
+    {
+      "source": "LC4",
+      "target": "DNp01",
+      "weight": 3.0,
+      "source_kind": "literature_prior",
+      "weight_meaning": "qualitative literature-core type weight, not a synapse count"
+    },
+    {
+      "source": "T4",
+      "target": "LPLC2",
+      "weight": 3.0,
+      "source_kind": "literature_prior",
+      "weight_meaning": "qualitative literature-core type weight, not a synapse count"
+    },
+    {
+      "source": "T5",
+      "target": "LPLC2",
+      "weight": 3.0,
+      "source_kind": "literature_prior",
+      "weight_meaning": "qualitative literature-core type weight, not a synapse count"
+    }
+  ]
+}

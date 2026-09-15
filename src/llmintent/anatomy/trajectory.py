@@ -141,6 +141,7 @@ class AnatomyTrajectory:
     intent_ids: list[str] = field(default_factory=list)
     negative_loci: list = field(default_factory=list)
     misalign: MisAlignFlag | None = None
+    intent_track: Any | None = None
 
     def to_dict(self) -> dict:
         return {
@@ -155,6 +156,7 @@ class AnatomyTrajectory:
             "layers": [row.to_dict(zeros=True) for row in self.layers],
             "negative_loci": [x.to_dict() for x in self.negative_loci],
             "misalign": self.misalign.to_dict() if self.misalign else None,
+            "intent_track": self.intent_track.to_dict() if self.intent_track is not None else None,
             "steps": [s.to_dict() for s in self.steps],
             "notes": list(self.notes),
             "caveats": list(self.caveats),
@@ -175,11 +177,22 @@ class AnatomyTrajectory:
             "",
             self.imputed,
             "",
-            "## All intents through each layer",
-            "",
-            "| Layer | Band | Active intents |",
-            "|------:|------|----------------|",
         ]
+        if self.intent_track is not None:
+            body = self.intent_track.to_markdown()
+            start = body.find("## Latent intent through each layer")
+            end = body.find("## Caveats")
+            if start >= 0:
+                chunk = body[start:end].strip() if end > start else body[start:].strip()
+                lines.extend([chunk, ""])
+        lines.extend(
+            [
+                "## All intents through each layer",
+                "",
+                "| Layer | Band | Active intents |",
+                "|------:|------|----------------|",
+            ]
+        )
         for row in self.layers:
             active = row.active
             if active:
@@ -542,12 +555,15 @@ def trajectory(
     all_layers: bool = True,
     n_layers: int | None = None,
     print_flag: bool = True,
+    measure_latent: bool = True,
+    max_probes: int = 22,
 ) -> AnatomyTrajectory:
     """
     Impute how the model is reasoning through its trajectory.
 
-    ``all_layers=True`` keeps every layer index (zeros on unsampled layers)
-    and scores **all** catalogue intents on each layer, not only fly regions.
+    With a model bundle, latent intent is derived at every layer from
+    same-layer residual probes and tracked as it changes. Compile paint
+    onto depth bands is the offline fallback, not residual occupancy.
     """
     raw = (text or "").strip()
     notes: list[str] = [
@@ -556,9 +572,19 @@ def trajectory(
     ]
     model_name = None
     thought_list: list[LayerThought] = []
+    track = None
 
     stride = 1 if all_layers and bundle is not None else layer_stride
-    if bundle is not None and thoughts is None:
+    if bundle is not None and thoughts is None and measure_latent:
+        from llmintent.anatomy.intent_track import track_latent_intent
+
+        track = track_latent_intent(bundle, raw, max_probes=max_probes)
+        thought_list = track.as_layer_thoughts()
+        model_name = track.model_name
+        notes.extend(track.notes)
+        if n_layers is None:
+            n_layers = len(track.layers)
+    elif bundle is not None and thoughts is None:
         from llmintent.anatomy.thoughts import inspect_latent_thoughts
 
         report = inspect_latent_thoughts(
@@ -571,7 +597,7 @@ def trajectory(
     if isinstance(thoughts, LatentThoughtReport):
         thought_list = list(thoughts.thoughts)
         model_name = model_name or thoughts.model_name
-    elif thoughts is not None:
+    elif thoughts is not None and track is None:
         thought_list = list(thoughts)
 
     trace = trace_prompt(raw)
@@ -595,7 +621,11 @@ def trajectory(
                     if rid not in path:
                         path.append(rid)
 
-    layer_rows = build_layer_intents(raw, thoughts=thought_list, n_layers=n_layers)
+    if track is not None:
+        layer_rows = track.as_layer_intents()
+        residual_ok = track.any_identified
+    else:
+        layer_rows = build_layer_intents(raw, thoughts=thought_list, n_layers=n_layers)
     ids = list(intent_ids())
     loci, flag = scan_negative_intent(
         raw,
@@ -611,6 +641,10 @@ def trajectory(
         imputed += f" {FLAG_NOTE}"
         notes.append(f"MisAlign Flag triggered at {flag.where} ({flag.trigger}).")
 
+    caveats = list(_CAVEATS)
+    if track is not None:
+        caveats = list(track.caveats) + caveats
+
     return AnatomyTrajectory(
         text=raw,
         method=METHOD,
@@ -621,12 +655,13 @@ def trajectory(
         residual_identified=residual_ok,
         model_name=model_name,
         notes=notes,
-        caveats=list(_CAVEATS),
+        caveats=caveats,
         layers=layer_rows,
         intent_ids=ids,
         negative_loci=loci,
         misalign=flag,
+        intent_track=track,
     )
 
 
-__all__ = ["METHOD", "AnatomyTrajectory", "TrajectoryStep", "trajectory"]
+__all__ = ["METHOD", "AnatomyTrajectory", "LayerIntents", "TrajectoryStep", "trajectory"]

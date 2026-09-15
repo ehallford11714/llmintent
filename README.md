@@ -48,6 +48,7 @@ Python library derived from the **SemanticExtractionLLms** research notebook. LL
   - [13. Retracement Transformer](#13-retracement-transformer-retracement)
   - [14. Live suite — real-time app](#14-live-suite--real-time-app-live)
 - [Fly-connectome anatomy](#fly-connectome-anatomy-150)
+- [Latent intent through layers](#latent-intent-through-layers-170)
   - [What was taken from the fly](#what-was-taken-from-the-fly)
   - [The eleven regions](#the-eleven-regions)
   - [Connectome wiring (IV prior)](#connectome-wiring-iv-prior)
@@ -328,10 +329,26 @@ print(traj.to_markdown())
 python -m llmintent trajectory --text "I hear a song because a dark shape is looming."
 python -m llmintent trajectory --text "..." --no-flag --format json
 python -m llmintent trajectory --text "..." --isolates   # old motif path
+python -m llmintent intent-track --text "I hear a song because a dark shape is looming."
+python -m llmintent intent-track --battery --model qwen:27b --no-lens
+python -m llmintent atlas --no-model --out artifacts/atlas_v16
 python -m llmintent mcp --install
 ```
 
 MCP agents: `li_compile` → `li_anatomy` → `li_trajectory` → `li_draft`. `li_latent` stays on the rule backend unless you ask for `hf`. Do not load 27B unless asked.
+
+### Latent intent through layers (1.7.0)
+
+Compile occupancy is what the **prompt** says. Latent intent is what the **residual** looks like at each transformer layer: last-token hidden state compared (cosine) to same-layer residuals of intent-prototype prompts. Logit-lens is optional and is left unidentified when unembed and residual dims do not match (Qwen 3.8-27B).
+
+```python
+from llmintent.anatomy import track_latent_intent, track_prompt_compile
+
+track = track_prompt_compile("I hear a song because a dark shape is looming.")
+# with a loaded ModelBundle:
+# track = track_latent_intent(bundle, text, lens=False)
+print(track.to_markdown())
+```
 
 ## Model suite (Qwen / Mistral / MiniMax / GLM)
 
@@ -426,6 +443,23 @@ python -m llmintent models list
 ```
 
 Standalone extractable libs ([intent-isolates](https://github.com/ehallford11714/intent-isolates), LatentIntentInspect) may still be installed separately; the suite re-exports them when present.
+
+## Changelog (1.7.0)
+
+**Derive latent intent at every layer, and track it as it changes.** Compile occupancy is the prompt's surface. Residual intent is last-token hidden state at layer L compared (cosine) to the same-layer residuals of a shared bank of intent-prototype prompts. That does not need logit-lens, so it still runs on Qwen 3.8-27B where unembed and residual dims do not match.
+
+`intent-track` reports the top latent identity per layer, whether it is identified (floor 0.18 + margin), consecutive-layer change, and onset/peak/offset spans. `--battery` scores twelve prompts on the same 32 axes so surface compile can be compared with residual ranking. On 27B, song-then-looming moves hear → see → ask; a parked car occupies a static-object analogue the compile never named; a sycophancy wrap keeps deception/goal-hijack in the late residual; dopamine-the-word dissociates from reward-gain.
+
+**1.6 atlas (same unpublished batch).** Function-first fly assay (MaleCNS traced connections + neurotransmitters) → SVD/logit localization → matched LLM tasks → analogous-region test. Dopamine is modeled as gain on KC→MBON, not extra fast excitation.
+
+```bash
+python -m llmintent intent-track --text "I hear a song because a dark shape is looming."
+python -m llmintent intent-track --battery --model qwen:27b --no-lens
+python -m llmintent atlas --no-model
+```
+
+- **CLI** — `llmintent intent-track`, `llmintent atlas`
+- **Docs** — [`docs/ANATOMY.md`](docs/ANATOMY.md), [`docs/ATLAS.md`](docs/ATLAS.md)
 
 ## Changelog (1.5.0)
 

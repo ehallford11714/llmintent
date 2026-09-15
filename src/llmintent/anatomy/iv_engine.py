@@ -89,7 +89,8 @@ def occupancy_table(
         column_meta=meta,
         notes=[
             "Bootstrap rows jitter region occupancy from one compiled/SVD map.",
-            "Exploratory — not population inference.",
+            "Simulation fixture only — not independent observations, not population inference.",
+            "Do not treat resulting IV edges as empirical intervention-supported pathways.",
         ],
     )
     return table
@@ -155,6 +156,7 @@ def connectome_iv(
     notes = [
         "Instruments = sensory regions with a literature-core path into central X.",
         "Outcome Y defaults to motor occupancy (token emission analogue).",
+        "IV table is a simulation fixture (jittered occupancy), not a designed intervention.",
         *iv_notes,
     ]
     return AnatomyIVResult(

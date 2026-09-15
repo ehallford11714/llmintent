@@ -1,0 +1,36 @@
+{
+  "dataset": "MaleCNS v1.0",
+  "edge_set": "traced-only minconf-0.5",
+  "retrieval": "fly-brain/data connectome cache + body neurotransmitter table",
+  "specimen": "adult male Drosophila, one fixed brain+VNC",
+  "n_neurons_full": 166700,
+  "n_edges_full": 25558671,
+  "extracted_at_source": "c:\\Users\\ehall\\Desktop\\research\\fly-brain",
+  "weight_meaning": "Signed synapse counts. Sign = presynaptic consensus_nt (ACh/DA/OA/5HT +1; GABA/glutamate/histamine -1). Not volts.",
+  "nt_meaning": "Per-body consensus_nt from body-neurotransmitters-male-cns-v1.0.feather, majority-voted at type collapse.",
+  "glutamate_assumption": "inhibitory (Shiu et al. 2024 default)",
+  "monoamine_note": "Dopamine/octopamine/serotonin are neuromodulators. Fast-excitation sign is used only on the signed adjacency. Functional assays treat PAM/PPL1 as gain on KC→MBON, not extra ACh current.",
+  "populations": {
+    "LPLC2": {"n": 185, "nt": {"acetylcholine": 185}},
+    "LC4": {"n": 126, "nt": {"acetylcholine": 126}},
+    "DNp01": {"n": 2, "nt": {"acetylcholine": 2}},
+    "T4": {"n": 6861, "nt": {"acetylcholine": 6861}, "types": ["T4a", "T4b", "T4c", "T4d"]},
+    "T5": {"n": 6719, "nt": {"acetylcholine": 6719}, "types": ["T5a", "T5b", "T5c", "T5d"]},
+    "PAM": {"n": 316, "nt": {"dopamine": 316}},
+    "PPL1": {"n": 16, "nt": {"dopamine": 16}},
+    "KC": {"n": 4064, "nt": {"acetylcholine": 4064}},
+    "MBON": {"n": 97, "nt": {"acetylcholine": 50, "glutamate": 26, "gaba": 21}},
+    "APL": {"n": 2, "nt": {"gaba": 2}}
+  },
+  "edges": [
+    {"pre": "T4", "post": "LPLC2", "weight": 46067.0, "n_edges": 15087, "pre_nt": "acetylcholine", "sign": 1},
+    {"pre": "T5", "post": "LPLC2", "weight": 66874.0, "n_edges": 18322, "pre_nt": "acetylcholine", "sign": 1},
+    {"pre": "LPLC2", "post": "DNp01", "weight": 4862.0, "n_edges": 185, "pre_nt": "acetylcholine", "sign": 1},
+    {"pre": "LC4", "post": "DNp01", "weight": 6362.0, "n_edges": 126, "pre_nt": "acetylcholine", "sign": 1},
+    {"pre": "PAM", "post": "KC", "weight": 173789.0, "n_edges": 110450, "pre_nt": "dopamine", "sign": 1, "role": "modulatory_not_fast_current"},
+    {"pre": "PPL1", "post": "KC", "weight": 49256.0, "n_edges": 17149, "pre_nt": "dopamine", "sign": 1, "role": "modulatory_not_fast_current"},
+    {"pre": "KC", "post": "MBON", "weight": 463640.0, "n_edges": 61210, "pre_nt": "acetylcholine", "sign": 1},
+    {"pre": "APL", "post": "KC", "weight": -196200.0, "n_edges": 4633, "pre_nt": "gaba", "sign": -1},
+    {"pre": "KC", "post": "APL", "weight": 210352.0, "n_edges": 4693, "pre_nt": "acetylcholine", "sign": 1}
+  ]
+}
