@@ -28,7 +28,7 @@ from llmintent.anatomy.region_test import (
     validate_analogous_region_test,
 )
 from llmintent.anatomy.spaces import pin_versions
-from llmintent.anatomy.tasks import by_split, family_baseline
+from llmintent.anatomy.tasks import by_split, family_baseline, holdout_items
 from llmintent.anatomy.functions import functions_to_dict
 from llmintent import latent as li_latent
 
@@ -104,57 +104,51 @@ def run_atlas_experiment(
     baseline_causal = None
     cascade = None
     region_test = None
+    da_region = None
     priors = None
     second_arch = None
-    conf = by_split("looming_language", "confirmation")
+    component_trace = None
+    conf = holdout_items("looming_language")
     disc = by_split("looming_language", "discovery")
-    region_test = test_analogous_region(assay, None if bundle is None else bundle, conf)
+    da_conf = holdout_items("value_modulation")
+    if not conf:
+        missing.append("looming confirmation holdout is empty")
     validation = validate_analogous_region_test(assay=assay)
     value_mod = score_value_modulation(bundle)
-    da_region = test_analogous_region(
-        da_assay, None if bundle is None else bundle,
-        by_split("value_modulation", "confirmation"),
-        prior_condition="dopamine_gain",
-    )
     if bundle is not None:
         index = index_bundle(bundle)
         cands = discover_from_weights(
             bundle, disc, function_id="feature_discrimination", top_k=top_k, max_layers=max_layers
+        )
+        region_test = test_analogous_region(
+            assay, bundle, conf, candidate=cands[0] if cands else None,
+        )
+        da_region = test_analogous_region(
+            da_assay, bundle, da_conf, prior_condition="dopamine_gain",
         )
         try:
             baseline_loom = family_baseline(bundle, "looming_language", "discovery")
             baseline_causal = family_baseline(bundle, "causal_consequence", "discovery")
         except Exception as exc:
             missing.append(f"forced-choice baseline: {exc}")
-        from llmintent.anatomy.discover import _ffn_down_specs, _get_module
-        from llmintent.anatomy.spaces import decompose_ffn_down
-
-        specs = _ffn_down_specs(index)
-        vecs, layers = [], []
-        for spec in specs[:2]:
+        if len(cands) >= 2:
             try:
-                mod = _get_module(bundle.model, spec.component.module_path)
-                weight = mod.data if hasattr(mod, "data") else mod.weight.data
-                comps = decompose_ffn_down(
-                    weight,
-                    layout=spec.layout,
-                    layer=int(spec.component.layer or 0),
-                    module_path=spec.component.module_path,
-                    top_k=1,
+                from llmintent.anatomy.component import capture_ffn_coefficient
+
+                prompt = (conf or disc)[0].prompt
+                cascade = run_cascade(
+                    bundle, cands[0], cands[1], prompt, task_item=(conf or disc)[0],
                 )
-                vecs.append(comps[0].u)
-                layers.append(int(spec.component.layer or 0))
-            except Exception:
-                continue
-        if len(vecs) >= 2:
-            cascade = run_cascade(
-                bundle,
-                (conf or disc)[0].prompt,
-                vecs[0],
-                vecs[1],
-                [layers[0]],
-                [layers[1]],
-            )
+                component_trace = capture_ffn_coefficient(bundle, prompt, cands[0])
+            except Exception as exc:
+                missing.append(f"nominated cascade: {exc}")
+        elif cands:
+            try:
+                from llmintent.anatomy.component import capture_ffn_coefficient
+
+                component_trace = capture_ffn_coefficient(bundle, (conf or disc)[0].prompt, cands[0])
+            except Exception as exc:
+                missing.append(f"component capture: {exc}")
         import numpy as np
 
         n_layers = index.n_layers
@@ -193,6 +187,11 @@ def run_atlas_experiment(
             "executed_on_checkpoint": True,
             "note": "Qwen 27B uses the Llama/Qwen Linear adapter (down_proj = W_down).",
         }
+    else:
+        region_test = test_analogous_region(assay, None, conf)
+        da_region = test_analogous_region(
+            da_assay, None, da_conf, prior_condition="dopamine_gain",
+        )
 
     rows = []
     if cands:
@@ -259,6 +258,7 @@ def run_atlas_experiment(
         "candidates": [c.to_dict() for c in cands[:12]],
         "correspondence_table": [r.to_dict() for r in rows],
         "cascade": cascade.to_dict() if cascade else None,
+        "nominated_component": component_trace.to_dict() if component_trace else None,
         "analogous_region_test": region_test.to_dict() if region_test else None,
         "dopamine_region_test": da_region.to_dict() if da_region else None,
         "value_modulation": value_mod,

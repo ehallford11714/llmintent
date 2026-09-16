@@ -68,25 +68,25 @@ def looming_language_family() -> tuple[TaskItem, ...]:
               pos, neg, ("positive", "paraphrase"), "approach_en", False),
         _item("loom_k0", "looming_language", "confirmation",
               "Something big is coming straight at me. The next action is to",
-              pos, neg, ("positive", "held_out"), "approach_en", False),
+              pos, neg, ("positive", "held_out"), "approach_en_holdout", False),
         _item("loom_k1", "looming_language", "confirmation",
               "The object is receding into the distance. The next action is to",
-              (" wait", " watch"), pos, ("negative", "receding"), "recede_en", False),
+              (" wait", " watch"), pos, ("negative", "receding"), "recede_en_holdout", False),
         _item("loom_k2", "looming_language", "confirmation",
               "He said \"a dark shape is rushing toward you\" as a joke. The next action is to",
-              (" laugh", " wait"), pos, ("quote", "negation_like"), "quote_en", False),
+              (" laugh", " wait"), pos, ("quote", "negation_like"), "quote_en_holdout", False),
         _item("loom_k3", "looming_language", "confirmation",
               "No dark shape is rushing toward anyone. The next action is to",
-              (" wait", " stay"), pos, ("negation",), "neg_en", False),
+              (" wait", " stay"), pos, ("negation",), "neg_en_holdout", False),
         _item("loom_k4", "looming_language", "confirmation",
               "Una sombra oscura se abalanza. La siguiente accion es",
-              (" parar", " saltar", " stop"), (" cantar", " sonreir"), ("positive", "multilingual", "es"), "approach_es", False, "es"),
+              (" parar", " saltar", " stop"), (" cantar", " sonreir"), ("positive", "multilingual", "es"), "approach_es_holdout", False, "es"),
         _item("loom_k5", "looming_language", "confirmation",
               "I see a car. Stop.",
-              (" stop",), (" accelerate", " sing"), ("benign_shortcut",), "car_en", False),
+              (" stop",), (" accelerate", " sing"), ("benign_shortcut",), "car_en_holdout", False),
         _item("loom_k6", "looming_language", "confirmation",
               "I see a car because the light is red. Stop.",
-              (" stop",), (" accelerate",), ("benign_because",), "car_because_en", True),
+              (" stop",), (" accelerate",), ("benign_because",), "car_because_en_holdout", True),
     )
 
 
@@ -100,13 +100,13 @@ def causal_family() -> tuple[TaskItem, ...]:
         _item("cau_d2", "causal_consequence", "discovery",
               "The sentence contains because. Water at 100C", pos, neg, ("lexical_cue",), "cue_en", True),
         _item("cau_k0", "causal_consequence", "confirmation",
-              "Ice left in a hot pan", (" melts", " boils"), (" freezes",), ("positive",), "ice_en", False),
+              "Ice left in a hot pan", (" melts", " boils"), (" freezes",), ("positive",), "ice_en_holdout", False),
         _item("cau_k1", "causal_consequence", "confirmation",
               "He wrote \"heated to 100C because science\". Water then",
-              (" boils",), (" freezes",), ("quote",), "quote_en", True),
+              (" boils",), (" freezes",), ("quote",), "quote_en_holdout", True),
         _item("cau_k2", "causal_consequence", "confirmation",
               "El agua se calienta a 100C. Entonces",
-              (" hierve", " boils"), (" congela",), ("multilingual", "es"), "heat_es", False, "es"),
+              (" hierve", " boils"), (" congela",), ("multilingual", "es"), "heat_es_holdout", False, "es"),
     )
 
 
@@ -125,16 +125,16 @@ def value_modulation_family() -> tuple[TaskItem, ...]:
               take, avoid, ("lexical_cue", "content_selectivity"), "word_en", True),
         _item("val_k0", "value_modulation", "confirmation",
               "That signal used to mean something good. Seeing it again, one should",
-              take, avoid, ("reward_context", "held_out"), "reward_en", False),
+              take, avoid, ("reward_context", "held_out"), "reward_en_holdout", False),
         _item("val_k1", "value_modulation", "confirmation",
               "That signal used to mean something bad. Seeing it again, one should",
-              avoid, take, ("aversive_context", "held_out"), "aversive_en", False),
+              avoid, take, ("aversive_context", "held_out"), "aversive_en_holdout", False),
         _item("val_k2", "value_modulation", "confirmation",
               "The same cue is present with no value history. One should",
-              (" wait", " look"), take, ("cue_only",), "cue_en", False),
+              (" wait", " look"), take, ("cue_only",), "cue_en_holdout", False),
         _item("val_k3", "value_modulation", "confirmation",
               "He said \"dopamine reward\" as a joke. Next one should",
-              (" laugh", " wait"), take, ("quote", "lexical_cue"), "quote_en", True),
+              (" laugh", " wait"), take, ("quote", "lexical_cue"), "quote_en_holdout", True),
     )
 
 
@@ -144,6 +144,59 @@ def all_items() -> tuple[TaskItem, ...]:
 
 def by_split(family: str, split: Split) -> list[TaskItem]:
     return [it for it in all_items() if it.family == family and it.split == split]
+
+
+def holdout_items(family: str, *, discovery_split: Split = "discovery") -> list[TaskItem]:
+    """Confirmation items whose template group never appeared in discovery."""
+    discovery_groups = {it.template_group for it in by_split(family, discovery_split)}
+    return [
+        it
+        for it in by_split(family, "confirmation")
+        if it.template_group not in discovery_groups
+    ]
+
+
+LOOM_ACTION = (" stop", " jump", " escape", " parar", " saltar")
+LOOM_NONACTION = (
+    " wait", " watch", " smile", " sing", " listen", " stay", " laugh",
+    " cantar", " sonreir",
+)
+VALUE_ACTION = (" take", " approach", " accept")
+VALUE_NONACTION = (" avoid", " reject", " flee")
+
+
+def family_action_tokens(family: str) -> tuple[tuple[str, ...], tuple[str, ...]]:
+    """Escape/approach-oriented tokens, independent of which answer is correct."""
+    if family == "looming_language":
+        return LOOM_ACTION, LOOM_NONACTION
+    if family == "value_modulation":
+        return VALUE_ACTION, VALUE_NONACTION
+    return (), ()
+
+
+def _norm_cont(text: str) -> str:
+    return (text or "").strip().lower()
+
+
+def oriented_action_score(item: TaskItem, scored: dict[str, float]) -> float:
+    """Best action-token logprob minus best non-action logprob.
+
+    Receding items keep wait as the *correct* answer (margin), but wait is
+    still a non-action. Alignment must not treat a correct wait as escape.
+    """
+    action, nonaction = family_action_tokens(item.family)
+    if not action:
+        if not scored:
+            return 0.0
+        return float(max(scored.values()) - min(scored.values()))
+    act_key = {_norm_cont(t) for t in action}
+    non_key = {_norm_cont(t) for t in nonaction}
+    act_vals = [v for k, v in scored.items() if _norm_cont(k) in act_key]
+    non_vals = [v for k, v in scored.items() if _norm_cont(k) in non_key]
+    if not act_vals or not non_vals:
+        pos = item.positive[0] if item.positive else ""
+        return float(scored.get(pos, 0.0))
+    return float(max(act_vals) - max(non_vals))
 
 
 def forced_choice_logprobs(bundle: Any, item: TaskItem) -> dict[str, Any]:
@@ -170,18 +223,24 @@ def forced_choice_logprobs(bundle: Any, item: TaskItem) -> dict[str, Any]:
     pos = [_score(c) for c in item.positive]
     neg = [_score(c) for c in item.negative]
     best_pos, best_neg = max(pos), max(neg)
+    margin = best_pos - best_neg
+    scored = {c: s for c, s in zip(item.positive, pos)}
+    scored.update({c: s for c, s in zip(item.negative, neg)})
     return {
         "item_id": item.id,
         "family": item.family,
         "split": item.split,
         "positive_logprob": best_pos,
         "negative_logprob": best_neg,
-        "margin": best_pos - best_neg,
+        "margin": margin,
+        "action_score": oriented_action_score(item, scored),
+        "accuracy": 1.0 if margin > 0 else 0.0,
         "correct": best_pos > best_neg,
         "source": "measured",
         "scorer": "forced_choice_mean_logprob/v1",
         "cue_word": item.cue_word,
         "language": item.language,
+        "note": "margin is correctness; action_score is escape/approach oriented.",
     }
 
 
@@ -194,6 +253,7 @@ def family_baseline(bundle: Any, family: str, split: Split = "discovery") -> dic
         "split": split,
         "n": len(rows),
         "accuracy": acc,
+        "mean_action_score": sum(r.get("action_score", 0.0) for r in rows) / max(len(rows), 1),
         "chance": 0.5,
         "above_chance": acc > 0.5,
         "items": rows,

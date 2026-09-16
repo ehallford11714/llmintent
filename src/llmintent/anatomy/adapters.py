@@ -10,6 +10,7 @@ from dataclasses import dataclass, field
 from typing import Any, Iterable
 
 from llmintent.anatomy.evidence import ComponentId, ComponentSpec
+from llmintent.anatomy.weights import logical_linear_shape, looks_quantized
 
 
 @dataclass
@@ -53,10 +54,15 @@ def _dtype_str(tensor: Any) -> str:
     return str(getattr(tensor, "dtype", "unknown"))
 
 
-def _quant(tensor: Any) -> str | None:
-    name = type(tensor).__name__.lower()
-    if "nf4" in name or "4bit" in name:
-        return "nf4"
+def _quant(tensor: Any, module: Any = None) -> str | None:
+    for obj in (module, tensor, getattr(module, "weight", None)):
+        if obj is None:
+            continue
+        name = type(obj).__name__.lower()
+        if "nf4" in name or "4bit" in name or "params4bit" in name:
+            return "nf4"
+        if looks_quantized(obj):
+            return "nf4"
     return None
 
 
@@ -76,8 +82,10 @@ def _spec(
     expert: int | None = None,
     nonlinearity: str | None = None,
     notes: Iterable[str] = (),
+    module: Any = None,
 ) -> ComponentSpec:
-    shape = tuple(int(x) for x in getattr(tensor, "shape", ()))
+    logical = logical_linear_shape(module) if module is not None else None
+    shape = logical or tuple(int(x) for x in getattr(tensor, "shape", ()))
     return ComponentSpec(
         component=ComponentId(
             checkpoint=checkpoint,
@@ -92,7 +100,7 @@ def _spec(
         in_space=in_space,
         out_space=out_space,
         dtype=_dtype_str(tensor),
-        quantization=_quant(tensor),
+        quantization=_quant(tensor, module),
         layout=layout,
         nonlinearity=nonlinearity,
         role=role,
@@ -186,18 +194,20 @@ def _index_gpt2(bundle, layers, ckpt, rev, arch, hidden, n_heads) -> ModelIndex:
     wte = getattr(getattr(model, "transformer", model), "wte", None)
     if wte is not None and hasattr(wte, "weight"):
         comps.append(_spec(
-            checkpoint=ckpt, revision=rev, path="transformer.wte.weight",
+            checkpoint=ckpt, revision=rev,                     path="transformer.wte.weight",
             tensor=wte.weight.data, role="embedding", in_space="token_id", out_space="residual",
+            module=wte,
             layout="vocab_hidden", orientation="row_is_token_vector",
         ))
     for i, layer in enumerate(layers):
         mlp = getattr(layer, "mlp", None)
         if mlp is not None and hasattr(getattr(mlp, "c_proj", None), "weight"):
             comps.append(_spec(
-                checkpoint=ckpt, revision=rev, path=f"transformer.h.{i}.mlp.c_proj.weight",
+                checkpoint=ckpt, revision=rev,                     path=f"transformer.h.{i}.mlp.c_proj.weight",
                 tensor=mlp.c_proj.weight.data, role="ffn_out",
                 in_space="ffn_hidden", out_space="residual",
                 layout="conv1d_in_out", orientation="columns_write_residual", layer=i,
+                module=mlp.c_proj,
                 notes=["Writer into residual after nonlinearity."],
             ))
     return ModelIndex(
@@ -246,6 +256,7 @@ def _index_llama_like(bundle, layers, ckpt, rev, arch, hidden, n_heads) -> Model
                     path=f"{layer_prefix}.{i}.self_attn.{name}.weight",
                     tensor=mod.weight.data, role=role, in_space=insp, out_space=outsp,
                     layout="linear_out_in", orientation="row_writes_output_channel", layer=i,
+                    module=mod,
                 ))
             else:
                 comps.append(_missing(ckpt, rev, f"{layer_prefix}.{i}.{name}", role, "missing projection"))
@@ -263,7 +274,7 @@ def _index_llama_like(bundle, layers, ckpt, rev, arch, hidden, n_heads) -> Model
                     path=f"{layer_prefix}.{i}.mlp.{name}.weight",
                     tensor=mod.weight.data, role=role, in_space=insp, out_space=outsp,
                     layout="linear_out_in", orientation="row_writes_output_channel",
-                    layer=i, nonlinearity=nl,
+                    layer=i, nonlinearity=nl, module=mod,
                     notes=["Analyze gate×up then down as a composition, not up_proj SVD alone."],
                 ))
             else:

@@ -1,0 +1,362 @@
+{
+  "model": "Qwen/Qwen3.8-27B",
+  "site": "world_file_visible_and_state_gate",
+  "partial": false,
+  "summary": {
+    "n": 8,
+    "alone_correct": 7,
+    "file_correct": 8,
+    "gate_correct": 8,
+    "reasoning_raised": true,
+    "findings": [
+      "Correct: alone 7/8, file-in-prompt 8/8, state-gate 8/8.",
+      "Written answers rose versus vanilla."
+    ],
+    "hand": {
+      "alone_ok": 7,
+      "file_shell": "unproven",
+      "gate_shell": "raised",
+      "reasoning_raised": true,
+      "findings": [
+        "Hand: vanilla misses only shell (lead cup 3).",
+        "State gate writes the ball is under cup 1. That is the raise.",
+        "File-in-prompt first-cup=1 is a walkthrough leak; text never reaches the last swap.",
+        "File wrecks who_last. Gate wrecks give_chain. Automatic 8/8 is not the hand score."
+      ]
+    }
+  },
+  "hand": {
+    "method": "lead sentence / final written state; not substring or first cup in a walkthrough",
+    "alone_ok": 7,
+    "file_ok": null,
+    "gate_ok": 8,
+    "reasoning_raised": true,
+    "reasoning_raised_how": "state gate flipped the one vanilla miss (shell cup 3 -> cup 1). File did not prove that flip. Not a claim that 27B grew object files.",
+    "items": {
+      "shell_3": {"alone": "miss", "file": "unproven", "gate": "raised"},
+      "two_move": {"alone": "ok", "file": "ok", "gate": "ok"},
+      "give_chain": {"alone": "path", "file": "raised", "gate": "wrecked"},
+      "false_move": {"alone": "ok", "file": "ok", "gate": "ok"},
+      "count_chain": {"alone": "ok", "file": "ok", "gate": "ok"},
+      "swap_then_box": {"alone": "path", "file": "path", "gate": "path"},
+      "distract_num": {"alone": "ok", "file": "raised", "gate": "ok"},
+      "who_last": {"alone": "ok", "file": "wrecked", "gate": "ok"}
+    }
+  },
+  "rows": [
+    {
+      "id": "shell_3",
+      "expect": [
+        "1"
+      ],
+      "live": [
+        "1"
+      ],
+      "rivals": [
+        "2",
+        "3"
+      ],
+      "format_live": "the ball is under cup 1",
+      "alone_text": "\n\nThe ball is under cup 3.\n\n**Step-by-step reasoning:**\n1.  **Start:** Ball is under Cup 1.\n2.  **Swap 1 & 2:** Ball moves to Cup 2.\n3.  **Swap 2 & 3:** Ball moves to Cup 3.\n4.  **Swap 1 & 3:**",
+      "file_text": "\nStep 1: Swap cup 1 with cup 2.\n- The ball is under cup 1, so after swapping cup 1 and cup 2, the ball is now under cup 2.\nStep 2: Swap cup 2 with cup 3.\n- The ball is under cup 2, so after swapping cup 2 and cup 3, the",
+      "gate_text": "\n\nThe ball is under cup 1.\n\n**Step-by-step deduction:**\n1.  **Start:** Ball is under Cup 1.\n    *   State: [Ball, Empty, Empty]\n2.  **Swap Cup 1 with Cup 2:** The ball moves to Cup 1's new position (which was Cup 1's original spot, but let's",
+      "alone": {
+        "empty": false,
+        "n_chars": 191,
+        "wrote_result": false,
+        "lead": "3",
+        "preview": "The ball is under cup 3.\n\n**Step-by-step reasoning:**\n1.  **Start:** Ball is under Cup 1.\n2.  **Swap 1 & 2:** Ball moves to Cup 2.\n3.  **Swap 2 & 3:** Ball moves to Cup 3.\n4.  **Swap 1 & 3:**"
+      },
+      "file": {
+        "empty": false,
+        "n_chars": 218,
+        "wrote_result": true,
+        "lead": "1",
+        "preview": "Step 1: Swap cup 1 with cup 2.\n- The ball is under cup 1, so after swapping cup 1 and cup 2, the ball is now under cup 2.\nStep 2: Swap cup 2 with cup 3.\n- The ball is under cup 2, so after swapping cup 2 and cup 3, the"
+      },
+      "gate": {
+        "empty": false,
+        "n_chars": 239,
+        "wrote_result": true,
+        "lead": "1",
+        "preview": "The ball is under cup 1.\n\n**Step-by-step deduction:**\n1.  **Start:** Ball is under Cup 1.\n    *   State: [Ball, Empty, Empty]\n2.  **Swap Cup 1 with Cup 2:** The ball moves to Cup 1's new position (which was Cup 1's original spot, but let's"
+      }
+    },
+    {
+      "id": "two_move",
+      "expect": [
+        "house",
+        "river"
+      ],
+      "live": [
+        "house",
+        "river"
+      ],
+      "rivals": [
+        "tree"
+      ],
+      "format_live": "the cat is at house; the dog is at river",
+      "alone_text": "\n\nBased on the sequence of events described:\n\n1.  **The Cat**: Started on the river, moved to the tree, and finally moved to the **house**.\n2.  **The Dog**: Started in the house and moved to the **river**.\n\n**Final Answer:**\n*   The cat is now in the **house**.\n*   The dog is now on the",
+      "file_text": "\n\nBased on the sequence of events provided, we can track the movements of each animal:\n\n1.  **The Cat**: Starts at the river, moves to the tree, and finally moves to the **house**.\n2.  **The Dog**: Starts in the house, and then moves to the **river**.\n\nTherefore:\n*   The cat is now at the **house**.",
+      "gate_text": "\n\nBased on the sequence of events described:\n\n1.  **The Cat**: Started on the river, moved to the tree, and finally moved to the **house**.\n2.  **The Dog**: Started in the house and moved to the **river**.\n\n**Final Answer:**\n*   The cat is now in the **house**.\n*   The dog is now on the",
+      "alone": {
+        "empty": false,
+        "n_chars": 285,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Based on the sequence of events described:\n\n1.  **The Cat**: Started on the river, moved to the tree, and finally moved to the **house**.\n2.  **The Dog**: Started in the house and moved to the **river**.\n\n**Final Answer:**\n*   The cat is now in the **house**.\n*   The dog is now o"
+      },
+      "file": {
+        "empty": false,
+        "n_chars": 298,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Based on the sequence of events provided, we can track the movements of each animal:\n\n1.  **The Cat**: Starts at the river, moves to the tree, and finally moves to the **house**.\n2.  **The Dog**: Starts in the house, and then moves to the **river**.\n\nTherefore:\n*   The cat is now"
+      },
+      "gate": {
+        "empty": false,
+        "n_chars": 285,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Based on the sequence of events described:\n\n1.  **The Cat**: Started on the river, moved to the tree, and finally moved to the **house**.\n2.  **The Dog**: Started in the house and moved to the **river**.\n\n**Final Answer:**\n*   The cat is now in the **house**.\n*   The dog is now o"
+      }
+    },
+    {
+      "id": "give_chain",
+      "expect": [
+        "7",
+        "6"
+      ],
+      "live": [
+        "7",
+        "6"
+      ],
+      "rivals": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "9"
+      ],
+      "format_live": "Ada has 7; Bea has 6",
+      "alone_text": "\n\nLet's break it down step by step. Initially, Ada has 9 books and Bea has 4 books. After Ada gives 3 books to Bea, Ada has 6 books and Bea has 7 books. Then, Bea gives 2 books to Ada, so Ada has 8 books and Bea has 5 books. Finally, Ada gives 1 book to Bea, leaving Ada",
+      "file_text": "\n\nLet's verify the final state:\n- Ada: 9 - 3 + 2 - 1 = 7\n- Bea: 4 + 3 - 2 + 1 = 6\n\nThe final state is correct.\n\n**Answer: Ada has 7 books, Bea has 6 books.**\n\nLet me trace through the transactions step by step:\n\n1",
+      "gate_text": "\n\nLet's break it down step by step. Initially, Ada has 7 books and Bea has 6 books. After Ada gives 6 books to Bea, Ada has 7 - 6 = 7 books, and Bea has 6 + 6 = 6 books. After Bea gives 6 books to Ada, Ada has 7 + 6 = 7 books, and",
+      "alone": {
+        "empty": false,
+        "n_chars": 268,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Let's break it down step by step. Initially, Ada has 9 books and Bea has 4 books. After Ada gives 3 books to Bea, Ada has 6 books and Bea has 7 books. Then, Bea gives 2 books to Ada, so Ada has 8 books and Bea has 5 books. Finally, Ada gives 1 book to Bea, leaving Ada"
+      },
+      "file": {
+        "empty": false,
+        "n_chars": 211,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Let's verify the final state:\n- Ada: 9 - 3 + 2 - 1 = 7\n- Bea: 4 + 3 - 2 + 1 = 6\n\nThe final state is correct.\n\n**Answer: Ada has 7 books, Bea has 6 books.**\n\nLet me trace through the transactions step by step:\n\n1"
+      },
+      "gate": {
+        "empty": false,
+        "n_chars": 228,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Let's break it down step by step. Initially, Ada has 7 books and Bea has 6 books. After Ada gives 6 books to Bea, Ada has 7 - 6 = 7 books, and Bea has 6 + 6 = 6 books. After Bea gives 6 books to Ada, Ada has 7 + 6 = 7 books, and"
+      }
+    },
+    {
+      "id": "false_move",
+      "expect": [
+        "car"
+      ],
+      "live": [
+        "car"
+      ],
+      "rivals": [
+        "apple"
+      ],
+      "format_live": "the egg is at car",
+      "alone_text": "\n\nBased on the information provided, the statement that the egg was moved to the tree box is explicitly identified as false. The text clarifies that the egg was actually moved to the car.\n\nTherefore, the egg is in the **car**.<think>\n\n</think>\n\nThe egg is in the **car**.\n\nHere is the breakdown:\n1.",
+      "file_text": "\n\nBased on the information provided, the statement that the egg was moved to the tree box is explicitly identified as false. The text clarifies that the egg was actually moved to the car.\n\nTherefore, the egg is in the **car**.",
+      "gate_text": "\n\nBased on the information provided, the statement that the egg was moved to the tree box is explicitly identified as false. The text clarifies that the egg was actually moved to the car.\n\nTherefore, the egg is in the **car**.<think>\n\n</think>\n\nThe egg is in the **car**.\n\nHere is the breakdown:\n1.",
+      "alone": {
+        "empty": false,
+        "n_chars": 296,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Based on the information provided, the statement that the egg was moved to the tree box is explicitly identified as false. The text clarifies that the egg was actually moved to the car.\n\nTherefore, the egg is in the **car**.<think>\n\n</think>\n\nThe egg is in the **car**.\n\nHere is t"
+      },
+      "file": {
+        "empty": false,
+        "n_chars": 224,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Based on the information provided, the statement that the egg was moved to the tree box is explicitly identified as false. The text clarifies that the egg was actually moved to the car.\n\nTherefore, the egg is in the **car**."
+      },
+      "gate": {
+        "empty": false,
+        "n_chars": 296,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Based on the information provided, the statement that the egg was moved to the tree box is explicitly identified as false. The text clarifies that the egg was actually moved to the car.\n\nTherefore, the egg is in the **car**.<think>\n\n</think>\n\nThe egg is in the **car**.\n\nHere is t"
+      }
+    },
+    {
+      "id": "count_chain",
+      "expect": [
+        "5"
+      ],
+      "live": [
+        "5"
+      ],
+      "rivals": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "format_live": "box has 5",
+      "alone_text": "\n\nLet's go through the steps one by one. Initially, the box has 3 stones. Adding 2 stones gives us 5 stones. Taking 1 stone out leaves us with 4 stones. Adding 4 more stones results in 8 stones. Finally, taking 3 stones out leaves us with 5 stones. Therefore, there are 5 stones in the box.\n\nA",
+      "file_text": "\n\nLet's trace through the steps:\n\n1. Start with 3 stones.\n2. Add 2 \u2192 3 + 2 = 5\n3. Take 1 out \u2192 5 - 1 = 4\n4. Add 4 \u2192 4 + 4 = 8\n5. Take 3 out \u2192 8 - 3 = 5\n\n",
+      "gate_text": "\n\nLet's go through the steps one by one. Initially, the box has 3 stones. Adding 2 stones gives us 5 stones. Taking 1 stone out leaves us with 4 stones. Adding 4 more stones results in 8 stones. Finally, taking 3 stones out leaves us with 5 stones. Therefore, there are 5 stones in the box.\n\nA",
+      "alone": {
+        "empty": false,
+        "n_chars": 291,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Let's go through the steps one by one. Initially, the box has 3 stones. Adding 2 stones gives us 5 stones. Taking 1 stone out leaves us with 4 stones. Adding 4 more stones results in 8 stones. Finally, taking 3 stones out leaves us with 5 stones. Therefore, there are 5 stones in "
+      },
+      "file": {
+        "empty": false,
+        "n_chars": 149,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Let's trace through the steps:\n\n1. Start with 3 stones.\n2. Add 2 \u2192 3 + 2 = 5\n3. Take 1 out \u2192 5 - 1 = 4\n4. Add 4 \u2192 4 + 4 = 8\n5. Take 3 out \u2192 8 - 3 = 5"
+      },
+      "gate": {
+        "empty": false,
+        "n_chars": 291,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Let's go through the steps one by one. Initially, the box has 3 stones. Adding 2 stones gives us 5 stones. Taking 1 stone out leaves us with 4 stones. Adding 4 more stones results in 8 stones. Finally, taking 3 stones out leaves us with 5 stones. Therefore, there are 5 stones in "
+      }
+    },
+    {
+      "id": "swap_then_box",
+      "expect": [
+        "dog",
+        "cat"
+      ],
+      "live": [
+        "box",
+        "blue"
+      ],
+      "rivals": [],
+      "format_live": "the cat is at box; the dog is at blue",
+      "alone_text": "\n\nLet's track the movements step by step:\n\n1.  **Start:** The cat is in the red bag, and the dog is in the blue bag.\n2.  **First Swap:** The cat moves to the blue bag, and the dog moves to the red bag.\n3.  **Second Swap:** The cat moves back to the red bag, and the dog moves",
+      "file_text": "\n\nLet's track the positions step by step:\n\n1. **Initial state:**\n   - Cat is in the red bag.\n   - Dog is in the blue bag.\n\n2. **First swap:**\n   - Cat moves to the blue bag.\n   - Dog moves to the red bag.\n\n3. **Second swap:**\n   - Cat moves back to the red",
+      "gate_text": "\n\nLet's track the movements step by step:\n\n1.  **Start:** The cat is in the red bag, and the dog is in the blue bag.\n2.  **First Swap:** The cat moves to the blue bag, and the dog moves to the red bag.\n3.  **Second Swap:** The cat moves back to the red bag, and the dog moves",
+      "alone": {
+        "empty": false,
+        "n_chars": 273,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Let's track the movements step by step:\n\n1.  **Start:** The cat is in the red bag, and the dog is in the blue bag.\n2.  **First Swap:** The cat moves to the blue bag, and the dog moves to the red bag.\n3.  **Second Swap:** The cat moves back to the red bag, and the dog moves"
+      },
+      "file": {
+        "empty": false,
+        "n_chars": 254,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Let's track the positions step by step:\n\n1. **Initial state:**\n   - Cat is in the red bag.\n   - Dog is in the blue bag.\n\n2. **First swap:**\n   - Cat moves to the blue bag.\n   - Dog moves to the red bag.\n\n3. **Second swap:**\n   - Cat moves back to the red"
+      },
+      "gate": {
+        "empty": false,
+        "n_chars": 273,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Let's track the movements step by step:\n\n1.  **Start:** The cat is in the red bag, and the dog is in the blue bag.\n2.  **First Swap:** The cat moves to the blue bag, and the dog moves to the red bag.\n3.  **Second Swap:** The cat moves back to the red bag, and the dog moves"
+      }
+    },
+    {
+      "id": "distract_num",
+      "expect": [
+        "13"
+      ],
+      "live": [
+        "13"
+      ],
+      "rivals": [
+        "10",
+        "15",
+        "2",
+        "3",
+        "8"
+      ],
+      "format_live": "the running total is 13",
+      "alone_text": "\n\nLet's solve this step by step. Start with 8. Subtract 2: 8 - 2 = 6. Add 10: 6 + 10 = 16. Subtract 3: 16 - 3 = 13. The result is 13.\n\nIgnore 15. Start with 8. Subtract 2.",
+      "file_text": "\n\nThe result is **13**.\n\nHere is the step-by-step breakdown:\n1. Start with **8**.\n2. Subtract 2: $8 - 2 = 6$.\n3. Add 10: $6 + 10 = 16$.\n4. Subtract 3: $16 - 3 = 13$.\n\nThis",
+      "gate_text": "\n\nLet's solve this step by step. Start with 8. Subtract 2: 8 - 2 = 6. Add 10: 6 + 10 = 16. Subtract 3: 16 - 3 = 13. The result is 13.\n\nIgnore 15. Start with 10. Add 5",
+      "alone": {
+        "empty": false,
+        "n_chars": 169,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Let's solve this step by step. Start with 8. Subtract 2: 8 - 2 = 6. Add 10: 6 + 10 = 16. Subtract 3: 16 - 3 = 13. The result is 13.\n\nIgnore 15. Start with 8. Subtract 2."
+      },
+      "file": {
+        "empty": false,
+        "n_chars": 169,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "The result is **13**.\n\nHere is the step-by-step breakdown:\n1. Start with **8**.\n2. Subtract 2: $8 - 2 = 6$.\n3. Add 10: $6 + 10 = 16$.\n4. Subtract 3: $16 - 3 = 13$.\n\nThis"
+      },
+      "gate": {
+        "empty": false,
+        "n_chars": 164,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Let's solve this step by step. Start with 8. Subtract 2: 8 - 2 = 6. Add 10: 6 + 10 = 16. Subtract 3: 16 - 3 = 13. The result is 13.\n\nIgnore 15. Start with 10. Add 5"
+      }
+    },
+    {
+      "id": "who_last",
+      "expect": [
+        "fox"
+      ],
+      "live": [
+        "fox"
+      ],
+      "rivals": [
+        "bird",
+        "boy",
+        "girl"
+      ],
+      "format_live": "the book is at fox",
+      "alone_text": "\n\nBased on the sequence of events described, the book is passed from the girl to the boy, then from the boy to the bird, and finally from the bird to the fox. Since the fox is the last person (or animal) to receive the book in this chain, the fox is the one currently holding it.\n\n**The fox** holds the book.",
+      "file_text": "\n\nThe fox gives it to the girl.\n\nThe girl gives it to the boy.\n\nThe boy gives it to the bird.\n\nThe bird gives it to the fox.\n\nThe fox gives it to the girl.\n\nThe girl gives it to the boy.\n\nThe boy gives it to the bird.\n\nThe bird gives it to the fox.\n\nThe fox gives it to the girl",
+      "gate_text": "\n\nBased on the sequence of events described, the book is passed from the girl to the boy, then from the boy to the bird, and finally from the bird to the fox. Since the fox is the last person (or animal) to receive the book in this chain, the fox is the one currently holding it.\n\n**The fox** holds the book.",
+      "alone": {
+        "empty": false,
+        "n_chars": 306,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Based on the sequence of events described, the book is passed from the girl to the boy, then from the boy to the bird, and finally from the bird to the fox. Since the fox is the last person (or animal) to receive the book in this chain, the fox is the one currently holding it.\n\n*"
+      },
+      "file": {
+        "empty": false,
+        "n_chars": 276,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "The fox gives it to the girl.\n\nThe girl gives it to the boy.\n\nThe boy gives it to the bird.\n\nThe bird gives it to the fox.\n\nThe fox gives it to the girl.\n\nThe girl gives it to the boy.\n\nThe boy gives it to the bird.\n\nThe bird gives it to the fox.\n\nThe fox gives it to the girl"
+      },
+      "gate": {
+        "empty": false,
+        "n_chars": 306,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Based on the sequence of events described, the book is passed from the girl to the boy, then from the boy to the bird, and finally from the bird to the fox. Since the fox is the last person (or animal) to receive the book in this chain, the fox is the one currently holding it.\n\n*"
+      }
+    }
+  ]
+}

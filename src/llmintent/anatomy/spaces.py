@@ -26,12 +26,12 @@ from llmintent.anatomy.evidence import ACCEPTANCE_FLOOR, UNIDENTIFIED, package_v
 
 def down_weight_d_by_m(weight: Any, layout: str) -> np.ndarray:
     """Return W_down with shape [d, m] (residual × FFN units)."""
-    import torch
+    from llmintent.anatomy.weights import extract_dense_weight
 
-    if hasattr(weight, "detach"):
-        w = weight.detach().float().cpu().numpy()
-    else:
+    if isinstance(weight, np.ndarray):
         w = np.asarray(weight, dtype=np.float64)
+    else:
+        w = extract_dense_weight(weight)
     w = np.asarray(w, dtype=np.float64)
     if w.ndim != 2:
         raise ValueError("weight must be 2D")

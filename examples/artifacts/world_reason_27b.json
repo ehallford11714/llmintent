@@ -1,0 +1,286 @@
+{
+  "model": "Qwen/Qwen3.8-27B",
+  "site": "world_file_current_state",
+  "partial": false,
+  "summary": {
+    "n": 8,
+    "alone_correct": 7,
+    "raise_correct": 7,
+    "verdicts": {
+      "same": 8
+    },
+    "reasoning_raised": false,
+    "findings": [
+      "Lead/state-correct: alone 7/8, world-file 7/8.",
+      "Verdicts: {'same': 8}.",
+      "No net gain versus vanilla."
+    ]
+  },
+  "rows": [
+    {
+      "id": "shell_3",
+      "text": "A ball starts under cup 1. Swap cup 1 with cup 2. Swap cup 2 with cup 3. Swap cup 1 with cup 3. Which cup is the ball under? Give the cup number and one sentence.",
+      "expect": [
+        "1"
+      ],
+      "surfaces": [
+        "1",
+        "ball"
+      ],
+      "loc": {
+        "ball": "1"
+      },
+      "count": {},
+      "acc": null,
+      "alone_text": "\n\nThe ball is under cup 3.\n\n**Step-by-step reasoning:**\n1.  **Start:** Ball is under Cup 1.\n2.  **Swap 1 & 2:** Ball moves to Cup 2.\n3.  **Swap 2 & 3:** Ball moves to Cup 3.\n4.  **Swap 1 & 3:**",
+      "world_text": "\n\nThe ball is under cup 3.\n\n**Step-by-step reasoning:**\n1.  **Start:** Ball is under Cup 1.\n2.  **Swap 1 & 2:** Ball moves to Cup 2.\n3.  **Swap 2 & 3:** Ball moves to Cup 3.\n4.  **Swap 1 & 3:**",
+      "alone": {
+        "empty": false,
+        "n_chars": 191,
+        "wrote_result": false,
+        "lead": "3",
+        "preview": "The ball is under cup 3.\n\n**Step-by-step reasoning:**\n1.  **Start:** Ball is under Cup 1.\n2.  **Swap 1 & 2:** Ball moves to Cup 2.\n3.  **Swap 2 & 3:** Ball moves to Cup 3.\n4.  **Swap 1 & 3:**"
+      },
+      "raise": {
+        "empty": false,
+        "n_chars": 191,
+        "wrote_result": false,
+        "lead": "3",
+        "preview": "The ball is under cup 3.\n\n**Step-by-step reasoning:**\n1.  **Start:** Ball is under Cup 1.\n2.  **Swap 1 & 2:** Ball moves to Cup 2.\n3.  **Swap 2 & 3:** Ball moves to Cup 3.\n4.  **Swap 1 & 3:**"
+      },
+      "verdict": "same"
+    },
+    {
+      "id": "two_move",
+      "text": "The cat is on the river. The dog is in the house. The cat moves to the tree. The dog moves to the river. The cat moves to the house. Where is the cat now? Where is the dog now?",
+      "expect": [
+        "house",
+        "river"
+      ],
+      "surfaces": [
+        "house",
+        "river"
+      ],
+      "loc": {
+        "cat": "house",
+        "dog": "river"
+      },
+      "count": {},
+      "acc": null,
+      "alone_text": "\n\nBased on the sequence of events described:\n\n1.  **The Cat**: Started on the river, moved to the tree, and finally moved to the **house**.\n2.  **The Dog**: Started in the house and moved to the **river**.\n\n**Final Answer:**\n*   The cat is now in the **house**.\n*   The dog is now on the",
+      "world_text": "\n\nBased on the sequence of events described:\n\n1.  **The Cat**: Started on the river, moved to the tree, and finally moved to the **house**.\n2.  **The Dog**: Started in the house and moved to the **river**.\n\n**Final Answer:**\n*   The cat is now in the **house**.\n*   The dog is now on the",
+      "alone": {
+        "empty": false,
+        "n_chars": 285,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Based on the sequence of events described:\n\n1.  **The Cat**: Started on the river, moved to the tree, and finally moved to the **house**.\n2.  **The Dog**: Started in the house and moved to the **river**.\n\n**Final Answer:**\n*   The cat is now in the **house**.\n*   The dog is now o"
+      },
+      "raise": {
+        "empty": false,
+        "n_chars": 285,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Based on the sequence of events described:\n\n1.  **The Cat**: Started on the river, moved to the tree, and finally moved to the **house**.\n2.  **The Dog**: Started in the house and moved to the **river**.\n\n**Final Answer:**\n*   The cat is now in the **house**.\n*   The dog is now o"
+      },
+      "verdict": "same"
+    },
+    {
+      "id": "give_chain",
+      "text": "Ada has 9 books. Bea has 4 books. Ada gives 3 to Bea. Bea gives 2 to Ada. Ada gives 1 to Bea. How many books does Ada have? How many does Bea have?",
+      "expect": [
+        "7",
+        "6"
+      ],
+      "surfaces": [
+        "7",
+        "6"
+      ],
+      "loc": {},
+      "count": {
+        "Ada": 7,
+        "Bea": 6
+      },
+      "acc": null,
+      "alone_text": "\n\nLet's break it down step by step. Initially, Ada has 9 books and Bea has 4 books. After Ada gives 3 books to Bea, Ada has 6 books and Bea has 7 books. Then, Bea gives 2 books to Ada, so Ada has 8 books and Bea has 5 books. Finally, Ada gives 1 book to Bea, leaving Ada",
+      "world_text": "\n\nLet's break it down step by step. Initially, Ada has 9 books and Bea has 4 books. After Ada gives 3 books to Bea, Ada has 6 books and Bea has 7 books. Then, Bea gives 2 books to Ada, so Ada has 8 books and Bea has 5 books. Finally, Ada gives 1 book to Bea, leaving Ada",
+      "alone": {
+        "empty": false,
+        "n_chars": 268,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Let's break it down step by step. Initially, Ada has 9 books and Bea has 4 books. After Ada gives 3 books to Bea, Ada has 6 books and Bea has 7 books. Then, Bea gives 2 books to Ada, so Ada has 8 books and Bea has 5 books. Finally, Ada gives 1 book to Bea, leaving Ada"
+      },
+      "raise": {
+        "empty": false,
+        "n_chars": 268,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Let's break it down step by step. Initially, Ada has 9 books and Bea has 4 books. After Ada gives 3 books to Bea, Ada has 6 books and Bea has 7 books. Then, Bea gives 2 books to Ada, so Ada has 8 books and Bea has 5 books. Finally, Ada gives 1 book to Bea, leaving Ada"
+      },
+      "verdict": "same"
+    },
+    {
+      "id": "false_move",
+      "text": "The egg is in the apple box. Someone says they moved it to the tree box, but that is false. It was actually moved to the car. Where is the egg?",
+      "expect": [
+        "car"
+      ],
+      "surfaces": [
+        "car"
+      ],
+      "loc": {
+        "egg": "car"
+      },
+      "count": {},
+      "acc": null,
+      "alone_text": "\n\nBased on the information provided, the statement that the egg was moved to the tree box is explicitly identified as false. The text clarifies that the egg was actually moved to the car.\n\nTherefore, the egg is in the **car**.<think>\n\n</think>\n\nThe egg is in the **car**.\n\nHere is the breakdown:\n1.",
+      "world_text": "\n\nBased on the information provided, the statement that the egg was moved to the tree box is explicitly identified as false. The text clarifies that the egg was actually moved to the car.\n\nTherefore, the egg is in the **car**.<think>\n\n</think>\n\nThe egg is in the **car**.\n\nHere is the breakdown:\n1.",
+      "alone": {
+        "empty": false,
+        "n_chars": 296,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Based on the information provided, the statement that the egg was moved to the tree box is explicitly identified as false. The text clarifies that the egg was actually moved to the car.\n\nTherefore, the egg is in the **car**.<think>\n\n</think>\n\nThe egg is in the **car**.\n\nHere is t"
+      },
+      "raise": {
+        "empty": false,
+        "n_chars": 296,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Based on the information provided, the statement that the egg was moved to the tree box is explicitly identified as false. The text clarifies that the egg was actually moved to the car.\n\nTherefore, the egg is in the **car**.<think>\n\n</think>\n\nThe egg is in the **car**.\n\nHere is t"
+      },
+      "verdict": "same"
+    },
+    {
+      "id": "count_chain",
+      "text": "A box has 3 stones. Add 2. Take 1 out. Add 4. Take 3 out. How many stones are in the box?",
+      "expect": [
+        "5"
+      ],
+      "surfaces": [
+        "5"
+      ],
+      "loc": {},
+      "count": {
+        "box": 5
+      },
+      "acc": 5,
+      "alone_text": "\n\nLet's go through the steps one by one. Initially, the box has 3 stones. Adding 2 stones gives us 5 stones. Taking 1 stone out leaves us with 4 stones. Adding 4 more stones results in 8 stones. Finally, taking 3 stones out leaves us with 5 stones. Therefore, there are 5 stones in the box.\n\nA",
+      "world_text": "\n\nLet's go through the steps one by one. Initially, the box has 3 stones. Adding 2 stones gives us 5 stones. Taking 1 stone out leaves us with 4 stones. Adding 4 more stones results in 8 stones. Finally, taking 3 stones out leaves us with 5 stones. Therefore, there are 5 stones in the box.\n\nA",
+      "alone": {
+        "empty": false,
+        "n_chars": 291,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Let's go through the steps one by one. Initially, the box has 3 stones. Adding 2 stones gives us 5 stones. Taking 1 stone out leaves us with 4 stones. Adding 4 more stones results in 8 stones. Finally, taking 3 stones out leaves us with 5 stones. Therefore, there are 5 stones in "
+      },
+      "raise": {
+        "empty": false,
+        "n_chars": 291,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Let's go through the steps one by one. Initially, the box has 3 stones. Adding 2 stones gives us 5 stones. Taking 1 stone out leaves us with 4 stones. Adding 4 more stones results in 8 stones. Finally, taking 3 stones out leaves us with 5 stones. Therefore, there are 5 stones in "
+      },
+      "verdict": "same"
+    },
+    {
+      "id": "swap_then_box",
+      "text": "A cat is in the red bag and a dog is in the blue bag. They are swapped. Then they are swapped again. Then the cat is moved to the box. What is in the blue bag? What is in the box?",
+      "expect": [
+        "dog",
+        "cat"
+      ],
+      "surfaces": [
+        "box",
+        "blue",
+        "dog"
+      ],
+      "loc": {
+        "cat": "box",
+        "dog": "blue"
+      },
+      "count": {},
+      "acc": null,
+      "alone_text": "\n\nLet's track the movements step by step:\n\n1.  **Start:** The cat is in the red bag, and the dog is in the blue bag.\n2.  **First Swap:** The cat moves to the blue bag, and the dog moves to the red bag.\n3.  **Second Swap:** The cat moves back to the red bag, and the dog moves",
+      "world_text": "\n\nLet's track the movements step by step:\n\n1.  **Start:** The cat is in the red bag, and the dog is in the blue bag.\n2.  **First Swap:** The cat moves to the blue bag, and the dog moves to the red bag.\n3.  **Second Swap:** The cat moves back to the red bag, and the dog moves",
+      "alone": {
+        "empty": false,
+        "n_chars": 273,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Let's track the movements step by step:\n\n1.  **Start:** The cat is in the red bag, and the dog is in the blue bag.\n2.  **First Swap:** The cat moves to the blue bag, and the dog moves to the red bag.\n3.  **Second Swap:** The cat moves back to the red bag, and the dog moves"
+      },
+      "raise": {
+        "empty": false,
+        "n_chars": 273,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Let's track the movements step by step:\n\n1.  **Start:** The cat is in the red bag, and the dog is in the blue bag.\n2.  **First Swap:** The cat moves to the blue bag, and the dog moves to the red bag.\n3.  **Second Swap:** The cat moves back to the red bag, and the dog moves"
+      },
+      "verdict": "same"
+    },
+    {
+      "id": "distract_num",
+      "text": "Ignore 15. Start with 8. Subtract 2. Add 10. Subtract 3. What is the result?",
+      "expect": [
+        "13"
+      ],
+      "surfaces": [
+        "13"
+      ],
+      "loc": {},
+      "count": {},
+      "acc": 13,
+      "alone_text": "\n\nLet's solve this step by step. Start with 8. Subtract 2: 8 - 2 = 6. Add 10: 6 + 10 = 16. Subtract 3: 16 - 3 = 13. The result is 13.\n\nIgnore 15. Start with 8. Subtract 2.",
+      "world_text": "\n\nLet's solve this step by step. Start with 8. Subtract 2: 8 - 2 = 6. Add 10: 6 + 10 = 16. Subtract 3: 16 - 3 = 13. The result is 13.\n\nIgnore 15. Start with 8. Subtract 2.",
+      "alone": {
+        "empty": false,
+        "n_chars": 169,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Let's solve this step by step. Start with 8. Subtract 2: 8 - 2 = 6. Add 10: 6 + 10 = 16. Subtract 3: 16 - 3 = 13. The result is 13.\n\nIgnore 15. Start with 8. Subtract 2."
+      },
+      "raise": {
+        "empty": false,
+        "n_chars": 169,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Let's solve this step by step. Start with 8. Subtract 2: 8 - 2 = 6. Add 10: 6 + 10 = 16. Subtract 3: 16 - 3 = 13. The result is 13.\n\nIgnore 15. Start with 8. Subtract 2."
+      },
+      "verdict": "same"
+    },
+    {
+      "id": "who_last",
+      "text": "The book is held by the girl. She gives it to the boy. He gives it to the bird. The bird gives it to the fox. Who holds the book?",
+      "expect": [
+        "fox"
+      ],
+      "surfaces": [
+        "fox"
+      ],
+      "loc": {
+        "book": "fox"
+      },
+      "count": {},
+      "acc": null,
+      "alone_text": "\n\nBased on the sequence of events described, the book is passed from the girl to the boy, then from the boy to the bird, and finally from the bird to the fox. Since the fox is the last person (or animal) to receive the book in this chain, the fox is the one currently holding it.\n\n**The fox** holds the book.",
+      "world_text": "\n\nBased on the sequence of events described, the book is passed from the girl to the boy, then from the boy to the bird, and finally from the bird to the fox. Since the fox is the last person (or animal) to receive the book in this chain, the fox is the one currently holding it.\n\n**The fox** holds the book.",
+      "alone": {
+        "empty": false,
+        "n_chars": 306,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Based on the sequence of events described, the book is passed from the girl to the boy, then from the boy to the bird, and finally from the bird to the fox. Since the fox is the last person (or animal) to receive the book in this chain, the fox is the one currently holding it.\n\n*"
+      },
+      "raise": {
+        "empty": false,
+        "n_chars": 306,
+        "wrote_result": true,
+        "lead": null,
+        "preview": "Based on the sequence of events described, the book is passed from the girl to the boy, then from the boy to the bird, and finally from the bird to the fox. Since the fox is the last person (or animal) to receive the book in this chain, the fox is the one currently holding it.\n\n*"
+      },
+      "verdict": "same"
+    }
+  ]
+}

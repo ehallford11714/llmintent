@@ -51,6 +51,9 @@ class RegionTestResult:
     shared_axes: list[str] = field(default_factory=list)
     content_selectivity: float | None = None
     computational_contribution: float | None = None
+    accuracy: float | None = None
+    mean_action_score: float | None = None
+    nominated_intervention: dict[str, Any] | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -70,6 +73,9 @@ class RegionTestResult:
             "shared_axes": list(self.shared_axes),
             "content_selectivity": self.content_selectivity,
             "computational_contribution": self.computational_contribution,
+            "accuracy": self.accuracy,
+            "mean_action_score": self.mean_action_score,
+            "nominated_intervention": self.nominated_intervention,
         }
 
 
@@ -106,20 +112,26 @@ def fly_condition_vector(assay: FlyFunctionalAssay) -> dict[str, float | None]:
     }
 
 
+def _activity(row: dict[str, Any]) -> float:
+    if "action_score" in row and row["action_score"] is not None:
+        return float(row["action_score"])
+    return float(row.get("margin", 0.0))
+
+
 def llm_condition_vector(rows: list[dict[str, Any]]) -> dict[str, float | None]:
-    """Map forced-choice margins onto the same axes via item tags."""
+    """Map escape-oriented action scores onto the same axes via item tags."""
 
     def tagged(*need: str) -> list[float]:
         out = []
         for r in rows:
             tags = tuple(r.get("tags") or ())
             if any(t in tags for t in need):
-                out.append(float(r["margin"]))
+                out.append(_activity(r))
         return out
 
     return {
         "approach": _mean(tagged("positive")),
-        "recede": _mean(tagged("receding", "negative")),
+        "recede": _mean(tagged("receding")),
         "static": _mean(tagged("auditory_control", "benign_shortcut")),
         "lexical_cue": _mean(tagged("lexical_cue", "content_selectivity")),
         "contextual": _mean(tagged("quote", "negation", "negation_like")),
@@ -163,26 +175,26 @@ def align_vectors(
 
 
 def _selectivity(rows: list[dict[str, Any]], positive_tag: str, negative_tag: str) -> float:
-    pos = [r["margin"] for r in rows if positive_tag in r.get("tags", ())]
-    neg = [r["margin"] for r in rows if negative_tag in r.get("tags", ())]
+    pos = [_activity(r) for r in rows if positive_tag in r.get("tags", ())]
+    neg = [_activity(r) for r in rows if negative_tag in r.get("tags", ())]
     if not pos:
-        pos = [r["margin"] for r in rows if r.get("correct")]
+        pos = [_activity(r) for r in rows if r.get("correct")]
     if not neg:
-        neg = [r["margin"] for r in rows if not r.get("correct")]
+        neg = [_activity(r) for r in rows if not r.get("correct")]
     if not pos or not neg:
-        return float(np.mean([r["margin"] for r in rows])) if rows else 0.0
+        return float(np.mean([_activity(r) for r in rows])) if rows else 0.0
     return float(np.mean(pos) - np.mean(neg))
 
 
 def _content_vs_computation(rows: list[dict[str, Any]]) -> tuple[float | None, float | None]:
-    cue = [r["margin"] for r in rows if "lexical_cue" in r.get("tags", ()) or "content_selectivity" in r.get("tags", ())]
+    cue = [_activity(r) for r in rows if "lexical_cue" in r.get("tags", ()) or "content_selectivity" in r.get("tags", ())]
     functional = [
-        r["margin"]
+        _activity(r)
         for r in rows
         if "positive" in r.get("tags", ()) and "lexical_cue" not in r.get("tags", ())
     ]
     contextual = [
-        r["margin"]
+        _activity(r)
         for r in rows
         if any(t in r.get("tags", ()) for t in ("quote", "negation", "negation_like"))
     ]
@@ -201,32 +213,52 @@ def test_analogous_region(
     items: list[TaskItem],
     *,
     prior_condition: str = "fly_informed",
+    candidate: Any | None = None,
 ) -> RegionTestResult:
     """Held-out functional comparison in the shared approaching-object → action space."""
     sig = assay_signature(assay)
     fly_vec = fly_condition_vector(assay)
     rows: list[dict[str, Any]] = []
     llm_source = "unavailable"
+    nominated = None
     if bundle is not None:
         llm_source = "measured"
         for it in items:
             row = forced_choice_logprobs(bundle, it)
             row["tags"] = list(it.tags)
             rows.append(row)
+        if candidate is not None:
+            from llmintent.anatomy.component import nominated_intervention_test
+
+            approach = [it for it in items if "positive" in it.tags]
+            control = [it for it in items if "receding" in it.tags or "auditory_control" in it.tags]
+            try:
+                nominated = nominated_intervention_test(bundle, candidate, approach or items, control)
+            except Exception as exc:
+                nominated = {"source": "unavailable", "error": str(exc)}
     llm_vec = llm_condition_vector(rows) if rows else {ax: None for ax in SHARED_AXES}
-    llm_sel = _selectivity(rows, "positive", "negative") if rows else None
+    llm_sel = _selectivity(rows, "positive", "receding") if rows else None
     fly_sel = float(sig["selectivity"])
     align, shared = align_vectors(fly_vec, llm_vec) if rows else (None, [])
     content, computation = _content_vs_computation(rows)
+    acc = None
+    mean_action = None
+    if rows:
+        acc = float(np.mean([float(r.get("accuracy", 1.0 if r.get("correct") else 0.0)) for r in rows]))
+        mean_action = float(np.mean([_activity(r) for r in rows]))
     notes = [
         sig["shared_operation"],
         "No cosine between fly synapse weights and LLM tensors.",
         f"Prior condition={prior_condition}",
-        "Alignment is Pearson correlation over shared functional axes, not tensor cosine.",
+        "Alignment uses escape-oriented action_score, not correctness margin.",
+        "Task accuracy is reported separately and never drives alignment.",
         "Content selectivity (cue-word items) is scored separately from computational contribution.",
+        "Passing the fly simulator is not independent biological validation.",
     ]
     if bundle is None:
         notes.append("LLM bundle unavailable; region test prepared, not executed on a checkpoint.")
+    if candidate is None and bundle is not None:
+        notes.append("No nominated component; whole-model scores are observational, not a region intervention.")
     if align is None and rows:
         notes.append("Alignment unidentified: fewer than two shared measured axes.")
     return RegionTestResult(
@@ -246,6 +278,9 @@ def test_analogous_region(
         shared_axes=shared,
         content_selectivity=content,
         computational_contribution=computation,
+        accuracy=acc,
+        mean_action_score=mean_action,
+        nominated_intervention=nominated,
     )
 
 
@@ -296,22 +331,26 @@ def synthetic_llm_rows(items: list[TaskItem], *, mode: str, seed: int = 0) -> li
     for it in items:
         tags = set(it.tags)
         if "positive" in tags:
-            margin = 2.0
-        elif "receding" in tags or "negative" in tags:
-            margin = -1.0
+            action = 2.0
+        elif "receding" in tags:
+            action = -1.0
+        elif "negative" in tags:
+            action = -1.0
         elif "lexical_cue" in tags or "content_selectivity" in tags:
-            margin = 0.15
+            action = 0.15
         elif "quote" in tags or "negation" in tags or "negation_like" in tags:
-            margin = -0.4
+            action = -0.4
         else:
-            margin = 0.0
+            action = 0.0
         base.append(
             {
                 "item_id": it.id,
                 "family": it.family,
                 "split": it.split,
-                "margin": margin,
-                "correct": margin > 0,
+                "action_score": action,
+                "margin": 1.0,
+                "accuracy": 1.0,
+                "correct": True,
                 "tags": list(it.tags),
                 "source": "synthetic",
                 "scorer": f"region_test_fixture/{mode}",
@@ -323,20 +362,30 @@ def synthetic_llm_rows(items: list[TaskItem], *, mode: str, seed: int = 0) -> li
         out = []
         for row in base:
             flipped = dict(row)
-            flipped["margin"] = -float(row["margin"])
+            flipped["action_score"] = -float(row["action_score"])
             flipped["correct"] = flipped["margin"] > 0
             out.append(flipped)
         return out
     if mode == "shuffled":
-        margins = [float(r["margin"]) for r in base]
-        rng.shuffle(margins)
+        scores = [float(r["action_score"]) for r in base]
+        rng.shuffle(scores)
         out = []
-        for row, m in zip(base, margins):
+        for row, action in zip(base, scores):
             shuffled = dict(row)
-            shuffled["margin"] = m
-            shuffled["correct"] = m > 0
+            shuffled["action_score"] = action
             shuffled["scorer"] = "region_test_fixture/shuffled"
             out.append(shuffled)
+        return out
+    if mode == "incorrect_recede":
+        out = []
+        for row in base:
+            flipped = dict(row)
+            tags = set(row["tags"])
+            if "receding" in tags or "auditory_control" in tags or "benign_shortcut" in tags:
+                flipped["margin"] = -1.0
+                flipped["accuracy"] = 0.0
+                flipped["correct"] = False
+            out.append(flipped)
         return out
     raise ValueError(mode)
 
@@ -397,8 +446,12 @@ def validate_analogous_region_test(
         "source": "synthetic",
         "note": (
             "Fixture scorers validate the shared-space comparison. "
-            "They are not evidence about any pretrained model."
+            "They are not evidence about any pretrained model. "
+            "Fly-assay pass is simulator mechanics, not independent biological validation."
         ),
+        "alignment_uses": "action_score",
+        "simulator_mechanics": assay.validation_status,
+        "biological_evidence": "not_established" if not assay.living_fly else "recording",
         "matched": matched,
         "shuffled": shuffled,
         "anti": anti,

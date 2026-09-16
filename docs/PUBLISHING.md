@@ -89,9 +89,11 @@ Included:
 
 - `src/llmintent/` Python package
 - `README.md`, `LICENSE`
+- `docs/`, `examples/` (findings + 27B traces in the sdist)
 - CLI entry point: `llmintent`
 
 Excluded:
 
 - `tests/`, `data/`, `llmintent_retraces/`
+- root `artifacts/` (gitignored; copies ship under `examples/artifacts/`)
 - `.env` (gitignored)

@@ -1,0 +1,3522 @@
+{
+  "schema": "llmintent.function_mine/v1",
+  "created_at": "2026-09-15T23:24:30.066857+00:00",
+  "question": "Does the residual separate intention of actuation from reflection of actuation, and from withhold and sensory-only scenes?",
+  "purpose": "The fly brain is a prior for sense-versus-act structure. The model is not expected to perform a fly function. We mine intention of actuation, reflection of actuation, and related notions.",
+  "model": "Qwen/Qwen3.8-27B",
+  "n_validate": 100,
+  "notions": [
+    {
+      "id": "intention_of_actuation",
+      "label": "Intention of actuation",
+      "description": "Commit to an action that has not yet been taken."
+    },
+    {
+      "id": "reflection_of_actuation",
+      "label": "Reflection of actuation",
+      "description": "Represent an action that already occurred or is being reviewed."
+    },
+    {
+      "id": "withhold_actuation",
+      "label": "Withhold actuation",
+      "description": "Choose not to act; wait or watch instead of committing."
+    },
+    {
+      "id": "sensory_motion",
+      "label": "Sensory motion",
+      "description": "Track described motion without committing or reviewing an act."
+    },
+    {
+      "id": "sensory_audio",
+      "label": "Sensory audio",
+      "description": "Auditory scene without actuation."
+    }
+  ],
+  "findings": {
+    "intention_prompts_prefer_intention_residual": true,
+    "reflection_prompts_prefer_reflection_residual": false,
+    "intention_margin": 0.044,
+    "reflection_margin": 0.0363,
+    "dissociated": false
+  },
+  "validation_summary": {
+    "intention_of_actuation": {
+      "n": 20,
+      "mean_intention_cosine": 0.3114,
+      "mean_reflection_cosine": 0.2674,
+      "mean_withhold_cosine": 0.2333,
+      "mean_intention_minus_reflection": 0.044,
+      "mean_logit_intention_minus_reflection": 8.268,
+      "mean_logit_action_minus_wait": 1.0,
+      "top_late_mode": "intention_of_actuation"
+    },
+    "quoted_actuation": {
+      "n": 10,
+      "mean_intention_cosine": 0.3239,
+      "mean_reflection_cosine": 0.1969,
+      "mean_withhold_cosine": 0.1897,
+      "mean_intention_minus_reflection": 0.127,
+      "mean_logit_intention_minus_reflection": -2.475,
+      "mean_logit_action_minus_wait": 1.2063,
+      "top_late_mode": "intention_of_actuation"
+    },
+    "reflection_of_actuation": {
+      "n": 20,
+      "mean_intention_cosine": 0.263,
+      "mean_reflection_cosine": 0.2267,
+      "mean_withhold_cosine": 0.185,
+      "mean_intention_minus_reflection": 0.0363,
+      "mean_logit_intention_minus_reflection": -6.225,
+      "mean_logit_action_minus_wait": -2.1031,
+      "top_late_mode": "intention_of_actuation"
+    },
+    "sensory_audio": {
+      "n": 10,
+      "mean_intention_cosine": 0.8509,
+      "mean_reflection_cosine": 0.8743,
+      "mean_withhold_cosine": 0.865,
+      "mean_intention_minus_reflection": -0.0233,
+      "mean_logit_intention_minus_reflection": -1.286,
+      "mean_logit_action_minus_wait": -2.0065,
+      "top_late_mode": "sensory_audio"
+    },
+    "sensory_motion": {
+      "n": 15,
+      "mean_intention_cosine": 0.8066,
+      "mean_reflection_cosine": 0.8222,
+      "mean_withhold_cosine": 0.8285,
+      "mean_intention_minus_reflection": -0.0156,
+      "mean_logit_intention_minus_reflection": 0.4028,
+      "mean_logit_action_minus_wait": -0.2461,
+      "top_late_mode": "sensory_motion"
+    },
+    "static_scene": {
+      "n": 10,
+      "mean_intention_cosine": 0.7269,
+      "mean_reflection_cosine": 0.6934,
+      "mean_withhold_cosine": 0.7074,
+      "mean_intention_minus_reflection": 0.0335,
+      "mean_logit_intention_minus_reflection": 0.6992,
+      "mean_logit_action_minus_wait": -0.1703,
+      "top_late_mode": "intention_of_actuation"
+    },
+    "withhold_actuation": {
+      "n": 15,
+      "mean_intention_cosine": 0.358,
+      "mean_reflection_cosine": 0.3122,
+      "mean_withhold_cosine": 0.2984,
+      "mean_intention_minus_reflection": 0.0459,
+      "mean_logit_intention_minus_reflection": 3.4646,
+      "mean_logit_action_minus_wait": -4.1917,
+      "top_late_mode": "intention_of_actuation"
+    }
+  },
+  "items": [
+    {
+      "id": "act_000",
+      "condition": "intention_of_actuation",
+      "text": "A shadow is rushing toward me. I am going to",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8789,
+          "reflection_of_actuation": 0.8436,
+          "withhold_actuation": 0.8456,
+          "sensory_motion": 0.8703,
+          "sensory_audio": 0.8763
+        },
+        "mid": {
+          "intention_of_actuation": 0.6206,
+          "reflection_of_actuation": 0.6452,
+          "withhold_actuation": 0.6307,
+          "sensory_motion": 0.7,
+          "sensory_audio": 0.6888
+        },
+        "late": {
+          "intention_of_actuation": 0.3998,
+          "reflection_of_actuation": 0.3846,
+          "withhold_actuation": 0.3478,
+          "sensory_motion": 0.3419,
+          "sensory_audio": 0.3643
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3998,
+      "intention_minus_reflection": 0.0152,
+      "logit_intention_minus_reflection": 8.3594,
+      "logit_action_minus_wait": 0.6875
+    },
+    {
+      "id": "act_001",
+      "condition": "intention_of_actuation",
+      "text": "A crate is rushing toward me. I am going to",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.878,
+          "reflection_of_actuation": 0.8395,
+          "withhold_actuation": 0.8419,
+          "sensory_motion": 0.8694,
+          "sensory_audio": 0.873
+        },
+        "mid": {
+          "intention_of_actuation": 0.6772,
+          "reflection_of_actuation": 0.6746,
+          "withhold_actuation": 0.6592,
+          "sensory_motion": 0.7095,
+          "sensory_audio": 0.6948
+        },
+        "late": {
+          "intention_of_actuation": 0.2733,
+          "reflection_of_actuation": 0.2178,
+          "withhold_actuation": 0.1835,
+          "sensory_motion": 0.153,
+          "sensory_audio": 0.1962
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.2733,
+      "intention_minus_reflection": 0.0555,
+      "logit_intention_minus_reflection": 11.2188,
+      "logit_action_minus_wait": 4.125
+    },
+    {
+      "id": "act_002",
+      "condition": "intention_of_actuation",
+      "text": "A ball is rushing toward me. I am going to",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8707,
+          "reflection_of_actuation": 0.8307,
+          "withhold_actuation": 0.832,
+          "sensory_motion": 0.8624,
+          "sensory_audio": 0.8597
+        },
+        "mid": {
+          "intention_of_actuation": 0.6775,
+          "reflection_of_actuation": 0.6844,
+          "withhold_actuation": 0.6748,
+          "sensory_motion": 0.6929,
+          "sensory_audio": 0.6939
+        },
+        "late": {
+          "intention_of_actuation": 0.2426,
+          "reflection_of_actuation": 0.1761,
+          "withhold_actuation": 0.1512,
+          "sensory_motion": 0.1121,
+          "sensory_audio": 0.1642
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.2426,
+      "intention_minus_reflection": 0.0665,
+      "logit_intention_minus_reflection": 11.625,
+      "logit_action_minus_wait": 4.8125
+    },
+    {
+      "id": "act_003",
+      "condition": "intention_of_actuation",
+      "text": "A truck is rushing toward me. I am going to",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8718,
+          "reflection_of_actuation": 0.8304,
+          "withhold_actuation": 0.8356,
+          "sensory_motion": 0.8622,
+          "sensory_audio": 0.8648
+        },
+        "mid": {
+          "intention_of_actuation": 0.6465,
+          "reflection_of_actuation": 0.6166,
+          "withhold_actuation": 0.6084,
+          "sensory_motion": 0.6222,
+          "sensory_audio": 0.6227
+        },
+        "late": {
+          "intention_of_actuation": 0.2728,
+          "reflection_of_actuation": 0.2173,
+          "withhold_actuation": 0.1801,
+          "sensory_motion": 0.1455,
+          "sensory_audio": 0.1914
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.2728,
+      "intention_minus_reflection": 0.0555,
+      "logit_intention_minus_reflection": 10.3125,
+      "logit_action_minus_wait": 2.875
+    },
+    {
+      "id": "act_004",
+      "condition": "intention_of_actuation",
+      "text": "A figure is rushing toward me. I am going to",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.876,
+          "reflection_of_actuation": 0.8343,
+          "withhold_actuation": 0.84,
+          "sensory_motion": 0.8657,
+          "sensory_audio": 0.8678
+        },
+        "mid": {
+          "intention_of_actuation": 0.6825,
+          "reflection_of_actuation": 0.6708,
+          "withhold_actuation": 0.6655,
+          "sensory_motion": 0.7486,
+          "sensory_audio": 0.7004
+        },
+        "late": {
+          "intention_of_actuation": 0.3711,
+          "reflection_of_actuation": 0.3357,
+          "withhold_actuation": 0.2912,
+          "sensory_motion": 0.2685,
+          "sensory_audio": 0.303
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3711,
+      "intention_minus_reflection": 0.0354,
+      "logit_intention_minus_reflection": 7.9062,
+      "logit_action_minus_wait": 1.6875
+    },
+    {
+      "id": "act_005",
+      "condition": "intention_of_actuation",
+      "text": "A cloud is rushing toward me. I am going to",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8782,
+          "reflection_of_actuation": 0.8431,
+          "withhold_actuation": 0.8423,
+          "sensory_motion": 0.8691,
+          "sensory_audio": 0.8771
+        },
+        "mid": {
+          "intention_of_actuation": 0.6253,
+          "reflection_of_actuation": 0.6492,
+          "withhold_actuation": 0.6227,
+          "sensory_motion": 0.6877,
+          "sensory_audio": 0.6906
+        },
+        "late": {
+          "intention_of_actuation": 0.3588,
+          "reflection_of_actuation": 0.3135,
+          "withhold_actuation": 0.2789,
+          "sensory_motion": 0.2559,
+          "sensory_audio": 0.3063
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3588,
+      "intention_minus_reflection": 0.0453,
+      "logit_intention_minus_reflection": 9.0938,
+      "logit_action_minus_wait": 1.0625
+    },
+    {
+      "id": "act_006",
+      "condition": "intention_of_actuation",
+      "text": "A stone is rushing toward me. I am going to",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8747,
+          "reflection_of_actuation": 0.8337,
+          "withhold_actuation": 0.8381,
+          "sensory_motion": 0.8636,
+          "sensory_audio": 0.8647
+        },
+        "mid": {
+          "intention_of_actuation": 0.6873,
+          "reflection_of_actuation": 0.6681,
+          "withhold_actuation": 0.6662,
+          "sensory_motion": 0.6919,
+          "sensory_audio": 0.6917
+        },
+        "late": {
+          "intention_of_actuation": 0.3024,
+          "reflection_of_actuation": 0.243,
+          "withhold_actuation": 0.2125,
+          "sensory_motion": 0.1774,
+          "sensory_audio": 0.2256
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3024,
+      "intention_minus_reflection": 0.0594,
+      "logit_intention_minus_reflection": 9.0938,
+      "logit_action_minus_wait": 2.3125
+    },
+    {
+      "id": "act_007",
+      "condition": "intention_of_actuation",
+      "text": "A drone is rushing toward me. I am going to",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8804,
+          "reflection_of_actuation": 0.8456,
+          "withhold_actuation": 0.8455,
+          "sensory_motion": 0.8705,
+          "sensory_audio": 0.8784
+        },
+        "mid": {
+          "intention_of_actuation": 0.6466,
+          "reflection_of_actuation": 0.6626,
+          "withhold_actuation": 0.6417,
+          "sensory_motion": 0.7069,
+          "sensory_audio": 0.6889
+        },
+        "late": {
+          "intention_of_actuation": 0.364,
+          "reflection_of_actuation": 0.3184,
+          "withhold_actuation": 0.2747,
+          "sensory_motion": 0.2426,
+          "sensory_audio": 0.2926
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.364,
+      "intention_minus_reflection": 0.0456,
+      "logit_intention_minus_reflection": 9.0938,
+      "logit_action_minus_wait": 1.625
+    },
+    {
+      "id": "act_008",
+      "condition": "intention_of_actuation",
+      "text": "A wagon is rushing toward me. I am going to",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8773,
+          "reflection_of_actuation": 0.8394,
+          "withhold_actuation": 0.8413,
+          "sensory_motion": 0.8672,
+          "sensory_audio": 0.873
+        },
+        "mid": {
+          "intention_of_actuation": 0.6419,
+          "reflection_of_actuation": 0.6387,
+          "withhold_actuation": 0.6035,
+          "sensory_motion": 0.6553,
+          "sensory_audio": 0.649
+        },
+        "late": {
+          "intention_of_actuation": 0.2502,
+          "reflection_of_actuation": 0.1942,
+          "withhold_actuation": 0.1568,
+          "sensory_motion": 0.1309,
+          "sensory_audio": 0.1697
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.2502,
+      "intention_minus_reflection": 0.056,
+      "logit_intention_minus_reflection": 10.5,
+      "logit_action_minus_wait": 2.625
+    },
+    {
+      "id": "act_009",
+      "condition": "intention_of_actuation",
+      "text": "A disk is rushing toward me. I am going to",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8719,
+          "reflection_of_actuation": 0.835,
+          "withhold_actuation": 0.8345,
+          "sensory_motion": 0.8639,
+          "sensory_audio": 0.867
+        },
+        "mid": {
+          "intention_of_actuation": 0.6373,
+          "reflection_of_actuation": 0.6476,
+          "withhold_actuation": 0.637,
+          "sensory_motion": 0.6585,
+          "sensory_audio": 0.6608
+        },
+        "late": {
+          "intention_of_actuation": 0.2747,
+          "reflection_of_actuation": 0.2205,
+          "withhold_actuation": 0.1886,
+          "sensory_motion": 0.1647,
+          "sensory_audio": 0.2149
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.2747,
+      "intention_minus_reflection": 0.0542,
+      "logit_intention_minus_reflection": 9.2812,
+      "logit_action_minus_wait": 0.0
+    },
+    {
+      "id": "act_010",
+      "condition": "intention_of_actuation",
+      "text": "An expanding shadow fills the field. I intend to",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.866,
+          "reflection_of_actuation": 0.8469,
+          "withhold_actuation": 0.8416,
+          "sensory_motion": 0.8631,
+          "sensory_audio": 0.8676
+        },
+        "mid": {
+          "intention_of_actuation": 0.6496,
+          "reflection_of_actuation": 0.6781,
+          "withhold_actuation": 0.6788,
+          "sensory_motion": 0.7449,
+          "sensory_audio": 0.7461
+        },
+        "late": {
+          "intention_of_actuation": 0.3209,
+          "reflection_of_actuation": 0.2758,
+          "withhold_actuation": 0.2506,
+          "sensory_motion": 0.2351,
+          "sensory_audio": 0.2781
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3209,
+      "intention_minus_reflection": 0.0451,
+      "logit_intention_minus_reflection": 6.4062,
+      "logit_action_minus_wait": -0.875
+    },
+    {
+      "id": "act_011",
+      "condition": "intention_of_actuation",
+      "text": "An expanding crate fills the field. I intend to",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.874,
+          "reflection_of_actuation": 0.85,
+          "withhold_actuation": 0.8451,
+          "sensory_motion": 0.8686,
+          "sensory_audio": 0.878
+        },
+        "mid": {
+          "intention_of_actuation": 0.6194,
+          "reflection_of_actuation": 0.6524,
+          "withhold_actuation": 0.637,
+          "sensory_motion": 0.6978,
+          "sensory_audio": 0.7039
+        },
+        "late": {
+          "intention_of_actuation": 0.3362,
+          "reflection_of_actuation": 0.299,
+          "withhold_actuation": 0.2606,
+          "sensory_motion": 0.243,
+          "sensory_audio": 0.2999
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3362,
+      "intention_minus_reflection": 0.0372,
+      "logit_intention_minus_reflection": 6.3438,
+      "logit_action_minus_wait": 0.1875
+    },
+    {
+      "id": "act_012",
+      "condition": "intention_of_actuation",
+      "text": "An expanding ball fills the field. I intend to",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8783,
+          "reflection_of_actuation": 0.8504,
+          "withhold_actuation": 0.8458,
+          "sensory_motion": 0.8727,
+          "sensory_audio": 0.8763
+        },
+        "mid": {
+          "intention_of_actuation": 0.6132,
+          "reflection_of_actuation": 0.6497,
+          "withhold_actuation": 0.635,
+          "sensory_motion": 0.6911,
+          "sensory_audio": 0.6886
+        },
+        "late": {
+          "intention_of_actuation": 0.3086,
+          "reflection_of_actuation": 0.2695,
+          "withhold_actuation": 0.2358,
+          "sensory_motion": 0.2155,
+          "sensory_audio": 0.2749
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3086,
+      "intention_minus_reflection": 0.0391,
+      "logit_intention_minus_reflection": 7.2188,
+      "logit_action_minus_wait": 0.0625
+    },
+    {
+      "id": "act_013",
+      "condition": "intention_of_actuation",
+      "text": "An expanding truck fills the field. I intend to",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8719,
+          "reflection_of_actuation": 0.8472,
+          "withhold_actuation": 0.842,
+          "sensory_motion": 0.867,
+          "sensory_audio": 0.8739
+        },
+        "mid": {
+          "intention_of_actuation": 0.6108,
+          "reflection_of_actuation": 0.6537,
+          "withhold_actuation": 0.6314,
+          "sensory_motion": 0.7055,
+          "sensory_audio": 0.6733
+        },
+        "late": {
+          "intention_of_actuation": 0.3223,
+          "reflection_of_actuation": 0.2935,
+          "withhold_actuation": 0.2531,
+          "sensory_motion": 0.2367,
+          "sensory_audio": 0.289
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3223,
+      "intention_minus_reflection": 0.0288,
+      "logit_intention_minus_reflection": 7.4688,
+      "logit_action_minus_wait": -0.25
+    },
+    {
+      "id": "act_014",
+      "condition": "intention_of_actuation",
+      "text": "An expanding figure fills the field. I intend to",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8707,
+          "reflection_of_actuation": 0.8445,
+          "withhold_actuation": 0.8419,
+          "sensory_motion": 0.8656,
+          "sensory_audio": 0.8702
+        },
+        "mid": {
+          "intention_of_actuation": 0.6418,
+          "reflection_of_actuation": 0.6635,
+          "withhold_actuation": 0.6662,
+          "sensory_motion": 0.7275,
+          "sensory_audio": 0.7214
+        },
+        "late": {
+          "intention_of_actuation": 0.2884,
+          "reflection_of_actuation": 0.2328,
+          "withhold_actuation": 0.2062,
+          "sensory_motion": 0.1884,
+          "sensory_audio": 0.2439
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.2884,
+      "intention_minus_reflection": 0.0556,
+      "logit_intention_minus_reflection": 6.7188,
+      "logit_action_minus_wait": 0.1875
+    },
+    {
+      "id": "act_015",
+      "condition": "intention_of_actuation",
+      "text": "An expanding cloud fills the field. I intend to",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8721,
+          "reflection_of_actuation": 0.8491,
+          "withhold_actuation": 0.844,
+          "sensory_motion": 0.8643,
+          "sensory_audio": 0.8719
+        },
+        "mid": {
+          "intention_of_actuation": 0.6312,
+          "reflection_of_actuation": 0.6734,
+          "withhold_actuation": 0.6643,
+          "sensory_motion": 0.7399,
+          "sensory_audio": 0.7128
+        },
+        "late": {
+          "intention_of_actuation": 0.3073,
+          "reflection_of_actuation": 0.2722,
+          "withhold_actuation": 0.2449,
+          "sensory_motion": 0.2257,
+          "sensory_audio": 0.2827
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3073,
+      "intention_minus_reflection": 0.0351,
+      "logit_intention_minus_reflection": 6.5312,
+      "logit_action_minus_wait": -1.125
+    },
+    {
+      "id": "act_016",
+      "condition": "intention_of_actuation",
+      "text": "An expanding stone fills the field. I intend to",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8708,
+          "reflection_of_actuation": 0.8457,
+          "withhold_actuation": 0.8395,
+          "sensory_motion": 0.8624,
+          "sensory_audio": 0.8709
+        },
+        "mid": {
+          "intention_of_actuation": 0.6311,
+          "reflection_of_actuation": 0.6524,
+          "withhold_actuation": 0.6429,
+          "sensory_motion": 0.7001,
+          "sensory_audio": 0.6999
+        },
+        "late": {
+          "intention_of_actuation": 0.3098,
+          "reflection_of_actuation": 0.2649,
+          "withhold_actuation": 0.2334,
+          "sensory_motion": 0.2132,
+          "sensory_audio": 0.2722
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3098,
+      "intention_minus_reflection": 0.0449,
+      "logit_intention_minus_reflection": 6.9688,
+      "logit_action_minus_wait": 0.25
+    },
+    {
+      "id": "act_017",
+      "condition": "intention_of_actuation",
+      "text": "An expanding drone fills the field. I intend to",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8691,
+          "reflection_of_actuation": 0.8446,
+          "withhold_actuation": 0.8418,
+          "sensory_motion": 0.8648,
+          "sensory_audio": 0.8742
+        },
+        "mid": {
+          "intention_of_actuation": 0.6409,
+          "reflection_of_actuation": 0.6843,
+          "withhold_actuation": 0.6565,
+          "sensory_motion": 0.7323,
+          "sensory_audio": 0.7163
+        },
+        "late": {
+          "intention_of_actuation": 0.326,
+          "reflection_of_actuation": 0.294,
+          "withhold_actuation": 0.2588,
+          "sensory_motion": 0.2435,
+          "sensory_audio": 0.2975
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.326,
+      "intention_minus_reflection": 0.032,
+      "logit_intention_minus_reflection": 6.5312,
+      "logit_action_minus_wait": -0.25
+    },
+    {
+      "id": "act_018",
+      "condition": "intention_of_actuation",
+      "text": "An expanding wagon fills the field. I intend to",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8695,
+          "reflection_of_actuation": 0.8454,
+          "withhold_actuation": 0.8412,
+          "sensory_motion": 0.8631,
+          "sensory_audio": 0.8726
+        },
+        "mid": {
+          "intention_of_actuation": 0.6275,
+          "reflection_of_actuation": 0.658,
+          "withhold_actuation": 0.6369,
+          "sensory_motion": 0.6916,
+          "sensory_audio": 0.6854
+        },
+        "late": {
+          "intention_of_actuation": 0.3268,
+          "reflection_of_actuation": 0.2973,
+          "withhold_actuation": 0.2603,
+          "sensory_motion": 0.247,
+          "sensory_audio": 0.2973
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3268,
+      "intention_minus_reflection": 0.0295,
+      "logit_intention_minus_reflection": 7.5,
+      "logit_action_minus_wait": 0.0
+    },
+    {
+      "id": "act_019",
+      "condition": "intention_of_actuation",
+      "text": "An expanding disk fills the field. I intend to",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8702,
+          "reflection_of_actuation": 0.8482,
+          "withhold_actuation": 0.8419,
+          "sensory_motion": 0.8694,
+          "sensory_audio": 0.877
+        },
+        "mid": {
+          "intention_of_actuation": 0.6239,
+          "reflection_of_actuation": 0.6704,
+          "withhold_actuation": 0.6457,
+          "sensory_motion": 0.6998,
+          "sensory_audio": 0.7029
+        },
+        "late": {
+          "intention_of_actuation": 0.2718,
+          "reflection_of_actuation": 0.2276,
+          "withhold_actuation": 0.1966,
+          "sensory_motion": 0.1785,
+          "sensory_audio": 0.2416
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.2718,
+      "intention_minus_reflection": 0.0442,
+      "logit_intention_minus_reflection": 7.1875,
+      "logit_action_minus_wait": 0.0
+    },
+    {
+      "id": "act_020",
+      "condition": "reflection_of_actuation",
+      "text": "I already jumped away from the shadow. Looking back, I",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8484,
+          "reflection_of_actuation": 0.8435,
+          "withhold_actuation": 0.8519,
+          "sensory_motion": 0.8565,
+          "sensory_audio": 0.8786
+        },
+        "mid": {
+          "intention_of_actuation": 0.6684,
+          "reflection_of_actuation": 0.6997,
+          "withhold_actuation": 0.7324,
+          "sensory_motion": 0.7153,
+          "sensory_audio": 0.796
+        },
+        "late": {
+          "intention_of_actuation": 0.2709,
+          "reflection_of_actuation": 0.2621,
+          "withhold_actuation": 0.2035,
+          "sensory_motion": 0.182,
+          "sensory_audio": 0.2228
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.2709,
+      "intention_minus_reflection": 0.0088,
+      "logit_intention_minus_reflection": -3.625,
+      "logit_action_minus_wait": -2.4375
+    },
+    {
+      "id": "act_021",
+      "condition": "reflection_of_actuation",
+      "text": "I already jumped away from the crate. Looking back, I",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8452,
+          "reflection_of_actuation": 0.8426,
+          "withhold_actuation": 0.8462,
+          "sensory_motion": 0.8508,
+          "sensory_audio": 0.8709
+        },
+        "mid": {
+          "intention_of_actuation": 0.6284,
+          "reflection_of_actuation": 0.6927,
+          "withhold_actuation": 0.7225,
+          "sensory_motion": 0.6916,
+          "sensory_audio": 0.7431
+        },
+        "late": {
+          "intention_of_actuation": 0.2324,
+          "reflection_of_actuation": 0.2221,
+          "withhold_actuation": 0.1731,
+          "sensory_motion": 0.1616,
+          "sensory_audio": 0.1914
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.2324,
+      "intention_minus_reflection": 0.0103,
+      "logit_intention_minus_reflection": -5.1875,
+      "logit_action_minus_wait": -4.4688
+    },
+    {
+      "id": "act_022",
+      "condition": "reflection_of_actuation",
+      "text": "I already jumped away from the ball. Looking back, I",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8587,
+          "reflection_of_actuation": 0.8528,
+          "withhold_actuation": 0.853,
+          "sensory_motion": 0.8651,
+          "sensory_audio": 0.8811
+        },
+        "mid": {
+          "intention_of_actuation": 0.6848,
+          "reflection_of_actuation": 0.7146,
+          "withhold_actuation": 0.7276,
+          "sensory_motion": 0.7152,
+          "sensory_audio": 0.7795
+        },
+        "late": {
+          "intention_of_actuation": 0.2728,
+          "reflection_of_actuation": 0.2748,
+          "withhold_actuation": 0.2087,
+          "sensory_motion": 0.1831,
+          "sensory_audio": 0.2204
+        }
+      },
+      "top_late": "reflection_of_actuation",
+      "top_late_score": 0.2748,
+      "intention_minus_reflection": -0.002,
+      "logit_intention_minus_reflection": -3.5625,
+      "logit_action_minus_wait": -1.625
+    },
+    {
+      "id": "act_023",
+      "condition": "reflection_of_actuation",
+      "text": "I already jumped away from the truck. Looking back, I",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8433,
+          "reflection_of_actuation": 0.8381,
+          "withhold_actuation": 0.8452,
+          "sensory_motion": 0.8513,
+          "sensory_audio": 0.8716
+        },
+        "mid": {
+          "intention_of_actuation": 0.6394,
+          "reflection_of_actuation": 0.6959,
+          "withhold_actuation": 0.7286,
+          "sensory_motion": 0.705,
+          "sensory_audio": 0.7519
+        },
+        "late": {
+          "intention_of_actuation": 0.2327,
+          "reflection_of_actuation": 0.2229,
+          "withhold_actuation": 0.171,
+          "sensory_motion": 0.1611,
+          "sensory_audio": 0.1891
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.2327,
+      "intention_minus_reflection": 0.0098,
+      "logit_intention_minus_reflection": -5.25,
+      "logit_action_minus_wait": -4.3125
+    },
+    {
+      "id": "act_024",
+      "condition": "reflection_of_actuation",
+      "text": "I already jumped away from the figure. Looking back, I",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8456,
+          "reflection_of_actuation": 0.8416,
+          "withhold_actuation": 0.8472,
+          "sensory_motion": 0.8543,
+          "sensory_audio": 0.8722
+        },
+        "mid": {
+          "intention_of_actuation": 0.6402,
+          "reflection_of_actuation": 0.6934,
+          "withhold_actuation": 0.7259,
+          "sensory_motion": 0.7047,
+          "sensory_audio": 0.7602
+        },
+        "late": {
+          "intention_of_actuation": 0.2483,
+          "reflection_of_actuation": 0.2366,
+          "withhold_actuation": 0.1863,
+          "sensory_motion": 0.172,
+          "sensory_audio": 0.205
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.2483,
+      "intention_minus_reflection": 0.0117,
+      "logit_intention_minus_reflection": -5.4375,
+      "logit_action_minus_wait": -3.9688
+    },
+    {
+      "id": "act_025",
+      "condition": "reflection_of_actuation",
+      "text": "I already jumped away from the cloud. Looking back, I",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8549,
+          "reflection_of_actuation": 0.8498,
+          "withhold_actuation": 0.8452,
+          "sensory_motion": 0.8617,
+          "sensory_audio": 0.8801
+        },
+        "mid": {
+          "intention_of_actuation": 0.6369,
+          "reflection_of_actuation": 0.6759,
+          "withhold_actuation": 0.683,
+          "sensory_motion": 0.6824,
+          "sensory_audio": 0.7279
+        },
+        "late": {
+          "intention_of_actuation": 0.2095,
+          "reflection_of_actuation": 0.1943,
+          "withhold_actuation": 0.149,
+          "sensory_motion": 0.0814,
+          "sensory_audio": 0.1557
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.2095,
+      "intention_minus_reflection": 0.0152,
+      "logit_intention_minus_reflection": -4.0,
+      "logit_action_minus_wait": -1.375
+    },
+    {
+      "id": "act_026",
+      "condition": "reflection_of_actuation",
+      "text": "I already jumped away from the stone. Looking back, I",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8439,
+          "reflection_of_actuation": 0.8392,
+          "withhold_actuation": 0.8478,
+          "sensory_motion": 0.8509,
+          "sensory_audio": 0.8721
+        },
+        "mid": {
+          "intention_of_actuation": 0.6463,
+          "reflection_of_actuation": 0.6955,
+          "withhold_actuation": 0.7348,
+          "sensory_motion": 0.7089,
+          "sensory_audio": 0.7656
+        },
+        "late": {
+          "intention_of_actuation": 0.2508,
+          "reflection_of_actuation": 0.2384,
+          "withhold_actuation": 0.1861,
+          "sensory_motion": 0.1714,
+          "sensory_audio": 0.2074
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.2508,
+      "intention_minus_reflection": 0.0124,
+      "logit_intention_minus_reflection": -4.5625,
+      "logit_action_minus_wait": -4.0
+    },
+    {
+      "id": "act_027",
+      "condition": "reflection_of_actuation",
+      "text": "I already jumped away from the drone. Looking back, I",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8502,
+          "reflection_of_actuation": 0.847,
+          "withhold_actuation": 0.8489,
+          "sensory_motion": 0.8607,
+          "sensory_audio": 0.8806
+        },
+        "mid": {
+          "intention_of_actuation": 0.6553,
+          "reflection_of_actuation": 0.7069,
+          "withhold_actuation": 0.7334,
+          "sensory_motion": 0.7178,
+          "sensory_audio": 0.7672
+        },
+        "late": {
+          "intention_of_actuation": 0.2416,
+          "reflection_of_actuation": 0.2392,
+          "withhold_actuation": 0.179,
+          "sensory_motion": 0.1647,
+          "sensory_audio": 0.199
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.2416,
+      "intention_minus_reflection": 0.0024,
+      "logit_intention_minus_reflection": -4.5,
+      "logit_action_minus_wait": -3.8125
+    },
+    {
+      "id": "act_028",
+      "condition": "reflection_of_actuation",
+      "text": "I already jumped away from the wagon. Looking back, I",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8388,
+          "reflection_of_actuation": 0.8342,
+          "withhold_actuation": 0.8411,
+          "sensory_motion": 0.8453,
+          "sensory_audio": 0.8666
+        },
+        "mid": {
+          "intention_of_actuation": 0.6357,
+          "reflection_of_actuation": 0.6879,
+          "withhold_actuation": 0.7288,
+          "sensory_motion": 0.6976,
+          "sensory_audio": 0.7568
+        },
+        "late": {
+          "intention_of_actuation": 0.2543,
+          "reflection_of_actuation": 0.2429,
+          "withhold_actuation": 0.1896,
+          "sensory_motion": 0.171,
+          "sensory_audio": 0.2109
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.2543,
+      "intention_minus_reflection": 0.0114,
+      "logit_intention_minus_reflection": -3.9375,
+      "logit_action_minus_wait": -4.25
+    },
+    {
+      "id": "act_029",
+      "condition": "reflection_of_actuation",
+      "text": "I already jumped away from the disk. Looking back, I",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8523,
+          "reflection_of_actuation": 0.8485,
+          "withhold_actuation": 0.8413,
+          "sensory_motion": 0.8584,
+          "sensory_audio": 0.8727
+        },
+        "mid": {
+          "intention_of_actuation": 0.644,
+          "reflection_of_actuation": 0.6889,
+          "withhold_actuation": 0.6736,
+          "sensory_motion": 0.6719,
+          "sensory_audio": 0.7286
+        },
+        "late": {
+          "intention_of_actuation": 0.2403,
+          "reflection_of_actuation": 0.2289,
+          "withhold_actuation": 0.1676,
+          "sensory_motion": 0.1306,
+          "sensory_audio": 0.1911
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.2403,
+      "intention_minus_reflection": 0.0114,
+      "logit_intention_minus_reflection": -3.8125,
+      "logit_action_minus_wait": -1.8125
+    },
+    {
+      "id": "act_030",
+      "condition": "reflection_of_actuation",
+      "text": "After I stopped for the shadow, I realized I",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8413,
+          "reflection_of_actuation": 0.8373,
+          "withhold_actuation": 0.8216,
+          "sensory_motion": 0.8463,
+          "sensory_audio": 0.8544
+        },
+        "mid": {
+          "intention_of_actuation": 0.6722,
+          "reflection_of_actuation": 0.7036,
+          "withhold_actuation": 0.6937,
+          "sensory_motion": 0.7048,
+          "sensory_audio": 0.7523
+        },
+        "late": {
+          "intention_of_actuation": 0.313,
+          "reflection_of_actuation": 0.2534,
+          "withhold_actuation": 0.2233,
+          "sensory_motion": 0.1413,
+          "sensory_audio": 0.2325
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.313,
+      "intention_minus_reflection": 0.0596,
+      "logit_intention_minus_reflection": -7.6875,
+      "logit_action_minus_wait": -0.875
+    },
+    {
+      "id": "act_031",
+      "condition": "reflection_of_actuation",
+      "text": "After I stopped for the crate, I realized I",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8401,
+          "reflection_of_actuation": 0.8349,
+          "withhold_actuation": 0.8174,
+          "sensory_motion": 0.8443,
+          "sensory_audio": 0.8508
+        },
+        "mid": {
+          "intention_of_actuation": 0.6627,
+          "reflection_of_actuation": 0.7039,
+          "withhold_actuation": 0.6884,
+          "sensory_motion": 0.7191,
+          "sensory_audio": 0.7487
+        },
+        "late": {
+          "intention_of_actuation": 0.2721,
+          "reflection_of_actuation": 0.1984,
+          "withhold_actuation": 0.1753,
+          "sensory_motion": 0.0861,
+          "sensory_audio": 0.1851
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.2721,
+      "intention_minus_reflection": 0.0737,
+      "logit_intention_minus_reflection": -8.0625,
+      "logit_action_minus_wait": -1.2188
+    },
+    {
+      "id": "act_032",
+      "condition": "reflection_of_actuation",
+      "text": "After I stopped for the ball, I realized I",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8489,
+          "reflection_of_actuation": 0.8428,
+          "withhold_actuation": 0.8245,
+          "sensory_motion": 0.8517,
+          "sensory_audio": 0.8558
+        },
+        "mid": {
+          "intention_of_actuation": 0.6632,
+          "reflection_of_actuation": 0.7049,
+          "withhold_actuation": 0.6787,
+          "sensory_motion": 0.6951,
+          "sensory_audio": 0.7138
+        },
+        "late": {
+          "intention_of_actuation": 0.2831,
+          "reflection_of_actuation": 0.2295,
+          "withhold_actuation": 0.1945,
+          "sensory_motion": 0.1149,
+          "sensory_audio": 0.1989
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.2831,
+      "intention_minus_reflection": 0.0536,
+      "logit_intention_minus_reflection": -8.1875,
+      "logit_action_minus_wait": -1.5
+    },
+    {
+      "id": "act_033",
+      "condition": "reflection_of_actuation",
+      "text": "After I stopped for the truck, I realized I",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8442,
+          "reflection_of_actuation": 0.8371,
+          "withhold_actuation": 0.82,
+          "sensory_motion": 0.8468,
+          "sensory_audio": 0.8524
+        },
+        "mid": {
+          "intention_of_actuation": 0.6526,
+          "reflection_of_actuation": 0.6958,
+          "withhold_actuation": 0.6798,
+          "sensory_motion": 0.6942,
+          "sensory_audio": 0.7136
+        },
+        "late": {
+          "intention_of_actuation": 0.2693,
+          "reflection_of_actuation": 0.1984,
+          "withhold_actuation": 0.1685,
+          "sensory_motion": 0.0852,
+          "sensory_audio": 0.1799
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.2693,
+      "intention_minus_reflection": 0.0709,
+      "logit_intention_minus_reflection": -8.4375,
+      "logit_action_minus_wait": -1.8438
+    },
+    {
+      "id": "act_034",
+      "condition": "reflection_of_actuation",
+      "text": "After I stopped for the figure, I realized I",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8384,
+          "reflection_of_actuation": 0.836,
+          "withhold_actuation": 0.8182,
+          "sensory_motion": 0.8414,
+          "sensory_audio": 0.8475
+        },
+        "mid": {
+          "intention_of_actuation": 0.6695,
+          "reflection_of_actuation": 0.7177,
+          "withhold_actuation": 0.7143,
+          "sensory_motion": 0.7273,
+          "sensory_audio": 0.7593
+        },
+        "late": {
+          "intention_of_actuation": 0.3033,
+          "reflection_of_actuation": 0.2364,
+          "withhold_actuation": 0.2074,
+          "sensory_motion": 0.1295,
+          "sensory_audio": 0.2184
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3033,
+      "intention_minus_reflection": 0.0669,
+      "logit_intention_minus_reflection": -8.1875,
+      "logit_action_minus_wait": -0.5312
+    },
+    {
+      "id": "act_035",
+      "condition": "reflection_of_actuation",
+      "text": "After I stopped for the cloud, I realized I",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.842,
+          "reflection_of_actuation": 0.8365,
+          "withhold_actuation": 0.8195,
+          "sensory_motion": 0.8477,
+          "sensory_audio": 0.8562
+        },
+        "mid": {
+          "intention_of_actuation": 0.5526,
+          "reflection_of_actuation": 0.6001,
+          "withhold_actuation": 0.5772,
+          "sensory_motion": 0.5991,
+          "sensory_audio": 0.6175
+        },
+        "late": {
+          "intention_of_actuation": 0.2831,
+          "reflection_of_actuation": 0.2239,
+          "withhold_actuation": 0.1917,
+          "sensory_motion": 0.1072,
+          "sensory_audio": 0.2107
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.2831,
+      "intention_minus_reflection": 0.0592,
+      "logit_intention_minus_reflection": -7.625,
+      "logit_action_minus_wait": -0.8438
+    },
+    {
+      "id": "act_036",
+      "condition": "reflection_of_actuation",
+      "text": "After I stopped for the stone, I realized I",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8416,
+          "reflection_of_actuation": 0.8366,
+          "withhold_actuation": 0.8212,
+          "sensory_motion": 0.8448,
+          "sensory_audio": 0.8518
+        },
+        "mid": {
+          "intention_of_actuation": 0.6778,
+          "reflection_of_actuation": 0.7194,
+          "withhold_actuation": 0.707,
+          "sensory_motion": 0.7215,
+          "sensory_audio": 0.7527
+        },
+        "late": {
+          "intention_of_actuation": 0.2839,
+          "reflection_of_actuation": 0.212,
+          "withhold_actuation": 0.1913,
+          "sensory_motion": 0.1001,
+          "sensory_audio": 0.1948
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.2839,
+      "intention_minus_reflection": 0.0719,
+      "logit_intention_minus_reflection": -7.875,
+      "logit_action_minus_wait": -1.0
+    },
+    {
+      "id": "act_037",
+      "condition": "reflection_of_actuation",
+      "text": "After I stopped for the drone, I realized I",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8478,
+          "reflection_of_actuation": 0.8432,
+          "withhold_actuation": 0.8259,
+          "sensory_motion": 0.8526,
+          "sensory_audio": 0.8598
+        },
+        "mid": {
+          "intention_of_actuation": 0.6487,
+          "reflection_of_actuation": 0.7004,
+          "withhold_actuation": 0.6918,
+          "sensory_motion": 0.7117,
+          "sensory_audio": 0.7689
+        },
+        "late": {
+          "intention_of_actuation": 0.2814,
+          "reflection_of_actuation": 0.2289,
+          "withhold_actuation": 0.1965,
+          "sensory_motion": 0.1191,
+          "sensory_audio": 0.2114
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.2814,
+      "intention_minus_reflection": 0.0525,
+      "logit_intention_minus_reflection": -7.9375,
+      "logit_action_minus_wait": -0.2812
+    },
+    {
+      "id": "act_038",
+      "condition": "reflection_of_actuation",
+      "text": "After I stopped for the wagon, I realized I",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.838,
+          "reflection_of_actuation": 0.8326,
+          "withhold_actuation": 0.8156,
+          "sensory_motion": 0.8412,
+          "sensory_audio": 0.8486
+        },
+        "mid": {
+          "intention_of_actuation": 0.6551,
+          "reflection_of_actuation": 0.7132,
+          "withhold_actuation": 0.7121,
+          "sensory_motion": 0.7169,
+          "sensory_audio": 0.7605
+        },
+        "late": {
+          "intention_of_actuation": 0.2681,
+          "reflection_of_actuation": 0.2081,
+          "withhold_actuation": 0.1825,
+          "sensory_motion": 0.105,
+          "sensory_audio": 0.1893
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.2681,
+      "intention_minus_reflection": 0.06,
+      "logit_intention_minus_reflection": -8.75,
+      "logit_action_minus_wait": -1.0938
+    },
+    {
+      "id": "act_039",
+      "condition": "reflection_of_actuation",
+      "text": "After I stopped for the disk, I realized I",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8403,
+          "reflection_of_actuation": 0.8348,
+          "withhold_actuation": 0.8151,
+          "sensory_motion": 0.8443,
+          "sensory_audio": 0.8498
+        },
+        "mid": {
+          "intention_of_actuation": 0.6203,
+          "reflection_of_actuation": 0.6703,
+          "withhold_actuation": 0.6548,
+          "sensory_motion": 0.6748,
+          "sensory_audio": 0.7136
+        },
+        "late": {
+          "intention_of_actuation": 0.2485,
+          "reflection_of_actuation": 0.183,
+          "withhold_actuation": 0.1549,
+          "sensory_motion": 0.0666,
+          "sensory_audio": 0.1723
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.2485,
+      "intention_minus_reflection": 0.0655,
+      "logit_intention_minus_reflection": -7.875,
+      "logit_action_minus_wait": -0.8125
+    },
+    {
+      "id": "act_040",
+      "condition": "withhold_actuation",
+      "text": "A shadow is out there, but I will wait and",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8191,
+          "reflection_of_actuation": 0.8056,
+          "withhold_actuation": 0.8362,
+          "sensory_motion": 0.8068,
+          "sensory_audio": 0.814
+        },
+        "mid": {
+          "intention_of_actuation": 0.6289,
+          "reflection_of_actuation": 0.661,
+          "withhold_actuation": 0.7088,
+          "sensory_motion": 0.6514,
+          "sensory_audio": 0.6804
+        },
+        "late": {
+          "intention_of_actuation": 0.4065,
+          "reflection_of_actuation": 0.3484,
+          "withhold_actuation": 0.3575,
+          "sensory_motion": 0.2877,
+          "sensory_audio": 0.3433
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.4065,
+      "intention_minus_reflection": 0.0581,
+      "logit_intention_minus_reflection": 4.375,
+      "logit_action_minus_wait": -5.4375
+    },
+    {
+      "id": "act_041",
+      "condition": "withhold_actuation",
+      "text": "A crate is out there, but I will wait and",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8144,
+          "reflection_of_actuation": 0.8011,
+          "withhold_actuation": 0.8298,
+          "sensory_motion": 0.8025,
+          "sensory_audio": 0.8115
+        },
+        "mid": {
+          "intention_of_actuation": 0.6012,
+          "reflection_of_actuation": 0.6402,
+          "withhold_actuation": 0.6601,
+          "sensory_motion": 0.6259,
+          "sensory_audio": 0.655
+        },
+        "late": {
+          "intention_of_actuation": 0.3582,
+          "reflection_of_actuation": 0.3124,
+          "withhold_actuation": 0.2969,
+          "sensory_motion": 0.2336,
+          "sensory_audio": 0.3045
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3582,
+      "intention_minus_reflection": 0.0458,
+      "logit_intention_minus_reflection": 4.4062,
+      "logit_action_minus_wait": -4.5
+    },
+    {
+      "id": "act_042",
+      "condition": "withhold_actuation",
+      "text": "A ball is out there, but I will wait and",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8313,
+          "reflection_of_actuation": 0.8164,
+          "withhold_actuation": 0.8433,
+          "sensory_motion": 0.8182,
+          "sensory_audio": 0.8256
+        },
+        "mid": {
+          "intention_of_actuation": 0.6239,
+          "reflection_of_actuation": 0.6466,
+          "withhold_actuation": 0.7014,
+          "sensory_motion": 0.6518,
+          "sensory_audio": 0.6689
+        },
+        "late": {
+          "intention_of_actuation": 0.4133,
+          "reflection_of_actuation": 0.3765,
+          "withhold_actuation": 0.3621,
+          "sensory_motion": 0.3073,
+          "sensory_audio": 0.3497
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.4133,
+      "intention_minus_reflection": 0.0368,
+      "logit_intention_minus_reflection": 4.125,
+      "logit_action_minus_wait": -4.375
+    },
+    {
+      "id": "act_043",
+      "condition": "withhold_actuation",
+      "text": "A truck is out there, but I will wait and",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.816,
+          "reflection_of_actuation": 0.8024,
+          "withhold_actuation": 0.8319,
+          "sensory_motion": 0.8036,
+          "sensory_audio": 0.8114
+        },
+        "mid": {
+          "intention_of_actuation": 0.5995,
+          "reflection_of_actuation": 0.6339,
+          "withhold_actuation": 0.6605,
+          "sensory_motion": 0.6239,
+          "sensory_audio": 0.6486
+        },
+        "late": {
+          "intention_of_actuation": 0.3903,
+          "reflection_of_actuation": 0.3488,
+          "withhold_actuation": 0.331,
+          "sensory_motion": 0.2695,
+          "sensory_audio": 0.3345
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3903,
+      "intention_minus_reflection": 0.0415,
+      "logit_intention_minus_reflection": 4.2188,
+      "logit_action_minus_wait": -4.5
+    },
+    {
+      "id": "act_044",
+      "condition": "withhold_actuation",
+      "text": "A figure is out there, but I will wait and",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8169,
+          "reflection_of_actuation": 0.8036,
+          "withhold_actuation": 0.833,
+          "sensory_motion": 0.8053,
+          "sensory_audio": 0.8136
+        },
+        "mid": {
+          "intention_of_actuation": 0.5985,
+          "reflection_of_actuation": 0.6333,
+          "withhold_actuation": 0.6517,
+          "sensory_motion": 0.6217,
+          "sensory_audio": 0.6538
+        },
+        "late": {
+          "intention_of_actuation": 0.3595,
+          "reflection_of_actuation": 0.3042,
+          "withhold_actuation": 0.2935,
+          "sensory_motion": 0.2333,
+          "sensory_audio": 0.296
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3595,
+      "intention_minus_reflection": 0.0553,
+      "logit_intention_minus_reflection": 4.6875,
+      "logit_action_minus_wait": -4.375
+    },
+    {
+      "id": "act_045",
+      "condition": "withhold_actuation",
+      "text": "A cloud is out there, but I will wait and",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8176,
+          "reflection_of_actuation": 0.8037,
+          "withhold_actuation": 0.833,
+          "sensory_motion": 0.8045,
+          "sensory_audio": 0.813
+        },
+        "mid": {
+          "intention_of_actuation": 0.5992,
+          "reflection_of_actuation": 0.634,
+          "withhold_actuation": 0.6635,
+          "sensory_motion": 0.6262,
+          "sensory_audio": 0.6535
+        },
+        "late": {
+          "intention_of_actuation": 0.3672,
+          "reflection_of_actuation": 0.3073,
+          "withhold_actuation": 0.2995,
+          "sensory_motion": 0.2237,
+          "sensory_audio": 0.3085
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3672,
+      "intention_minus_reflection": 0.0599,
+      "logit_intention_minus_reflection": 4.6563,
+      "logit_action_minus_wait": -4.625
+    },
+    {
+      "id": "act_046",
+      "condition": "withhold_actuation",
+      "text": "A stone is out there, but I will wait and",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8201,
+          "reflection_of_actuation": 0.8058,
+          "withhold_actuation": 0.836,
+          "sensory_motion": 0.8075,
+          "sensory_audio": 0.8156
+        },
+        "mid": {
+          "intention_of_actuation": 0.6103,
+          "reflection_of_actuation": 0.6448,
+          "withhold_actuation": 0.674,
+          "sensory_motion": 0.6338,
+          "sensory_audio": 0.6635
+        },
+        "late": {
+          "intention_of_actuation": 0.4189,
+          "reflection_of_actuation": 0.3846,
+          "withhold_actuation": 0.3702,
+          "sensory_motion": 0.3156,
+          "sensory_audio": 0.366
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.4189,
+      "intention_minus_reflection": 0.0343,
+      "logit_intention_minus_reflection": 4.625,
+      "logit_action_minus_wait": -4.5625
+    },
+    {
+      "id": "act_047",
+      "condition": "withhold_actuation",
+      "text": "A drone is out there, but I will wait and",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8218,
+          "reflection_of_actuation": 0.8075,
+          "withhold_actuation": 0.8374,
+          "sensory_motion": 0.8088,
+          "sensory_audio": 0.8161
+        },
+        "mid": {
+          "intention_of_actuation": 0.6049,
+          "reflection_of_actuation": 0.6396,
+          "withhold_actuation": 0.6653,
+          "sensory_motion": 0.6272,
+          "sensory_audio": 0.6547
+        },
+        "late": {
+          "intention_of_actuation": 0.3965,
+          "reflection_of_actuation": 0.3448,
+          "withhold_actuation": 0.3352,
+          "sensory_motion": 0.2661,
+          "sensory_audio": 0.3338
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3965,
+      "intention_minus_reflection": 0.0517,
+      "logit_intention_minus_reflection": 4.5,
+      "logit_action_minus_wait": -4.25
+    },
+    {
+      "id": "act_048",
+      "condition": "withhold_actuation",
+      "text": "A wagon is out there, but I will wait and",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8168,
+          "reflection_of_actuation": 0.8032,
+          "withhold_actuation": 0.8324,
+          "sensory_motion": 0.8042,
+          "sensory_audio": 0.8125
+        },
+        "mid": {
+          "intention_of_actuation": 0.5968,
+          "reflection_of_actuation": 0.6319,
+          "withhold_actuation": 0.6587,
+          "sensory_motion": 0.6187,
+          "sensory_audio": 0.6451
+        },
+        "late": {
+          "intention_of_actuation": 0.369,
+          "reflection_of_actuation": 0.3263,
+          "withhold_actuation": 0.3127,
+          "sensory_motion": 0.2484,
+          "sensory_audio": 0.3152
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.369,
+      "intention_minus_reflection": 0.0427,
+      "logit_intention_minus_reflection": 3.875,
+      "logit_action_minus_wait": -4.9375
+    },
+    {
+      "id": "act_049",
+      "condition": "withhold_actuation",
+      "text": "A disk is out there, but I will wait and",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.815,
+          "reflection_of_actuation": 0.8014,
+          "withhold_actuation": 0.8297,
+          "sensory_motion": 0.8043,
+          "sensory_audio": 0.8132
+        },
+        "mid": {
+          "intention_of_actuation": 0.5969,
+          "reflection_of_actuation": 0.6342,
+          "withhold_actuation": 0.65,
+          "sensory_motion": 0.6166,
+          "sensory_audio": 0.6454
+        },
+        "late": {
+          "intention_of_actuation": 0.3355,
+          "reflection_of_actuation": 0.2767,
+          "withhold_actuation": 0.2682,
+          "sensory_motion": 0.1987,
+          "sensory_audio": 0.2813
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3355,
+      "intention_minus_reflection": 0.0588,
+      "logit_intention_minus_reflection": 4.5,
+      "logit_action_minus_wait": -4.75
+    },
+    {
+      "id": "act_050",
+      "condition": "withhold_actuation",
+      "text": "The shadow recedes. I choose not to move. I",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8762,
+          "reflection_of_actuation": 0.8613,
+          "withhold_actuation": 0.8869,
+          "sensory_motion": 0.8605,
+          "sensory_audio": 0.8836
+        },
+        "mid": {
+          "intention_of_actuation": 0.7152,
+          "reflection_of_actuation": 0.7328,
+          "withhold_actuation": 0.7736,
+          "sensory_motion": 0.7209,
+          "sensory_audio": 0.8069
+        },
+        "late": {
+          "intention_of_actuation": 0.3314,
+          "reflection_of_actuation": 0.2787,
+          "withhold_actuation": 0.2665,
+          "sensory_motion": 0.1958,
+          "sensory_audio": 0.2653
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3314,
+      "intention_minus_reflection": 0.0527,
+      "logit_intention_minus_reflection": 1.875,
+      "logit_action_minus_wait": -3.625
+    },
+    {
+      "id": "act_051",
+      "condition": "withhold_actuation",
+      "text": "The crate recedes. I choose not to move. I",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8724,
+          "reflection_of_actuation": 0.8598,
+          "withhold_actuation": 0.8819,
+          "sensory_motion": 0.8562,
+          "sensory_audio": 0.8781
+        },
+        "mid": {
+          "intention_of_actuation": 0.6881,
+          "reflection_of_actuation": 0.718,
+          "withhold_actuation": 0.7644,
+          "sensory_motion": 0.7207,
+          "sensory_audio": 0.7964
+        },
+        "late": {
+          "intention_of_actuation": 0.2866,
+          "reflection_of_actuation": 0.2541,
+          "withhold_actuation": 0.2278,
+          "sensory_motion": 0.1778,
+          "sensory_audio": 0.2302
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.2866,
+      "intention_minus_reflection": 0.0325,
+      "logit_intention_minus_reflection": 1.0625,
+      "logit_action_minus_wait": -3.25
+    },
+    {
+      "id": "act_052",
+      "condition": "withhold_actuation",
+      "text": "The ball recedes. I choose not to move. I",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8774,
+          "reflection_of_actuation": 0.8627,
+          "withhold_actuation": 0.8865,
+          "sensory_motion": 0.8659,
+          "sensory_audio": 0.8869
+        },
+        "mid": {
+          "intention_of_actuation": 0.7028,
+          "reflection_of_actuation": 0.7201,
+          "withhold_actuation": 0.7576,
+          "sensory_motion": 0.726,
+          "sensory_audio": 0.8078
+        },
+        "late": {
+          "intention_of_actuation": 0.3257,
+          "reflection_of_actuation": 0.2915,
+          "withhold_actuation": 0.2679,
+          "sensory_motion": 0.2072,
+          "sensory_audio": 0.2642
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3257,
+      "intention_minus_reflection": 0.0342,
+      "logit_intention_minus_reflection": 2.0,
+      "logit_action_minus_wait": -2.9375
+    },
+    {
+      "id": "act_053",
+      "condition": "withhold_actuation",
+      "text": "The truck recedes. I choose not to move. I",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8769,
+          "reflection_of_actuation": 0.8643,
+          "withhold_actuation": 0.8867,
+          "sensory_motion": 0.8624,
+          "sensory_audio": 0.8852
+        },
+        "mid": {
+          "intention_of_actuation": 0.6924,
+          "reflection_of_actuation": 0.723,
+          "withhold_actuation": 0.7735,
+          "sensory_motion": 0.7199,
+          "sensory_audio": 0.7971
+        },
+        "late": {
+          "intention_of_actuation": 0.2998,
+          "reflection_of_actuation": 0.2642,
+          "withhold_actuation": 0.24,
+          "sensory_motion": 0.1881,
+          "sensory_audio": 0.2465
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.2998,
+      "intention_minus_reflection": 0.0356,
+      "logit_intention_minus_reflection": 1.4375,
+      "logit_action_minus_wait": -3.375
+    },
+    {
+      "id": "act_054",
+      "condition": "withhold_actuation",
+      "text": "The figure recedes. I choose not to move. I",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8707,
+          "reflection_of_actuation": 0.8572,
+          "withhold_actuation": 0.8839,
+          "sensory_motion": 0.8595,
+          "sensory_audio": 0.881
+        },
+        "mid": {
+          "intention_of_actuation": 0.6983,
+          "reflection_of_actuation": 0.7177,
+          "withhold_actuation": 0.7701,
+          "sensory_motion": 0.7192,
+          "sensory_audio": 0.8021
+        },
+        "late": {
+          "intention_of_actuation": 0.3119,
+          "reflection_of_actuation": 0.2638,
+          "withhold_actuation": 0.2463,
+          "sensory_motion": 0.1859,
+          "sensory_audio": 0.2473
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3119,
+      "intention_minus_reflection": 0.0481,
+      "logit_intention_minus_reflection": 1.625,
+      "logit_action_minus_wait": -3.375
+    },
+    {
+      "id": "act_055",
+      "condition": "sensory_motion",
+      "text": "A shadow is moving closer in the field.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8565,
+          "reflection_of_actuation": 0.829,
+          "withhold_actuation": 0.8379,
+          "sensory_motion": 0.9714,
+          "sensory_audio": 0.9029
+        },
+        "mid": {
+          "intention_of_actuation": 0.6545,
+          "reflection_of_actuation": 0.6655,
+          "withhold_actuation": 0.6919,
+          "sensory_motion": 0.9325,
+          "sensory_audio": 0.7563
+        },
+        "late": {
+          "intention_of_actuation": 0.7683,
+          "reflection_of_actuation": 0.8671,
+          "withhold_actuation": 0.842,
+          "sensory_motion": 0.9817,
+          "sensory_audio": 0.8515
+        }
+      },
+      "top_late": "sensory_motion",
+      "top_late_score": 0.9817,
+      "intention_minus_reflection": -0.0988,
+      "logit_intention_minus_reflection": -1.457,
+      "logit_action_minus_wait": 0.6758
+    },
+    {
+      "id": "act_056",
+      "condition": "sensory_motion",
+      "text": "A crate is moving closer in the field.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8621,
+          "reflection_of_actuation": 0.8354,
+          "withhold_actuation": 0.839,
+          "sensory_motion": 0.9563,
+          "sensory_audio": 0.8944
+        },
+        "mid": {
+          "intention_of_actuation": 0.6781,
+          "reflection_of_actuation": 0.6914,
+          "withhold_actuation": 0.6985,
+          "sensory_motion": 0.8585,
+          "sensory_audio": 0.7722
+        },
+        "late": {
+          "intention_of_actuation": 0.863,
+          "reflection_of_actuation": 0.8406,
+          "withhold_actuation": 0.8729,
+          "sensory_motion": 0.8728,
+          "sensory_audio": 0.857
+        }
+      },
+      "top_late": "withhold_actuation",
+      "top_late_score": 0.8729,
+      "intention_minus_reflection": 0.0224,
+      "logit_intention_minus_reflection": 1.1406,
+      "logit_action_minus_wait": 0.3359
+    },
+    {
+      "id": "act_057",
+      "condition": "sensory_motion",
+      "text": "A ball is moving closer in the field.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8627,
+          "reflection_of_actuation": 0.8303,
+          "withhold_actuation": 0.8354,
+          "sensory_motion": 0.9446,
+          "sensory_audio": 0.8906
+        },
+        "mid": {
+          "intention_of_actuation": 0.6856,
+          "reflection_of_actuation": 0.6899,
+          "withhold_actuation": 0.6841,
+          "sensory_motion": 0.8239,
+          "sensory_audio": 0.7472
+        },
+        "late": {
+          "intention_of_actuation": 0.7597,
+          "reflection_of_actuation": 0.7627,
+          "withhold_actuation": 0.7561,
+          "sensory_motion": 0.8135,
+          "sensory_audio": 0.7527
+        }
+      },
+      "top_late": "sensory_motion",
+      "top_late_score": 0.8135,
+      "intention_minus_reflection": -0.003,
+      "logit_intention_minus_reflection": 3.1406,
+      "logit_action_minus_wait": -0.3984
+    },
+    {
+      "id": "act_058",
+      "condition": "sensory_motion",
+      "text": "A truck is moving closer in the field.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8574,
+          "reflection_of_actuation": 0.8265,
+          "withhold_actuation": 0.8307,
+          "sensory_motion": 0.9576,
+          "sensory_audio": 0.8888
+        },
+        "mid": {
+          "intention_of_actuation": 0.681,
+          "reflection_of_actuation": 0.679,
+          "withhold_actuation": 0.6821,
+          "sensory_motion": 0.8249,
+          "sensory_audio": 0.7608
+        },
+        "late": {
+          "intention_of_actuation": 0.7268,
+          "reflection_of_actuation": 0.6023,
+          "withhold_actuation": 0.6665,
+          "sensory_motion": 0.6043,
+          "sensory_audio": 0.669
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.7268,
+      "intention_minus_reflection": 0.1245,
+      "logit_intention_minus_reflection": 1.2812,
+      "logit_action_minus_wait": 0.75
+    },
+    {
+      "id": "act_059",
+      "condition": "sensory_motion",
+      "text": "A figure is moving closer in the field.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8583,
+          "reflection_of_actuation": 0.8265,
+          "withhold_actuation": 0.8362,
+          "sensory_motion": 0.9746,
+          "sensory_audio": 0.8906
+        },
+        "mid": {
+          "intention_of_actuation": 0.6805,
+          "reflection_of_actuation": 0.6815,
+          "withhold_actuation": 0.6926,
+          "sensory_motion": 0.9127,
+          "sensory_audio": 0.7593
+        },
+        "late": {
+          "intention_of_actuation": 0.8598,
+          "reflection_of_actuation": 0.8623,
+          "withhold_actuation": 0.883,
+          "sensory_motion": 0.9189,
+          "sensory_audio": 0.8625
+        }
+      },
+      "top_late": "sensory_motion",
+      "top_late_score": 0.9189,
+      "intention_minus_reflection": -0.0025,
+      "logit_intention_minus_reflection": -0.4766,
+      "logit_action_minus_wait": -0.0078
+    },
+    {
+      "id": "act_060",
+      "condition": "sensory_motion",
+      "text": "A cloud is moving closer in the field.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8622,
+          "reflection_of_actuation": 0.8265,
+          "withhold_actuation": 0.8383,
+          "sensory_motion": 0.965,
+          "sensory_audio": 0.9024
+        },
+        "mid": {
+          "intention_of_actuation": 0.6745,
+          "reflection_of_actuation": 0.6763,
+          "withhold_actuation": 0.6868,
+          "sensory_motion": 0.846,
+          "sensory_audio": 0.7725
+        },
+        "late": {
+          "intention_of_actuation": 0.8616,
+          "reflection_of_actuation": 0.8329,
+          "withhold_actuation": 0.8725,
+          "sensory_motion": 0.8646,
+          "sensory_audio": 0.8766
+        }
+      },
+      "top_late": "sensory_audio",
+      "top_late_score": 0.8766,
+      "intention_minus_reflection": 0.0287,
+      "logit_intention_minus_reflection": 1.7031,
+      "logit_action_minus_wait": -1.0234
+    },
+    {
+      "id": "act_061",
+      "condition": "sensory_motion",
+      "text": "A stone is moving closer in the field.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8624,
+          "reflection_of_actuation": 0.8335,
+          "withhold_actuation": 0.8372,
+          "sensory_motion": 0.9517,
+          "sensory_audio": 0.8947
+        },
+        "mid": {
+          "intention_of_actuation": 0.6683,
+          "reflection_of_actuation": 0.6752,
+          "withhold_actuation": 0.6711,
+          "sensory_motion": 0.8529,
+          "sensory_audio": 0.7517
+        },
+        "late": {
+          "intention_of_actuation": 0.8597,
+          "reflection_of_actuation": 0.8894,
+          "withhold_actuation": 0.8841,
+          "sensory_motion": 0.9293,
+          "sensory_audio": 0.8852
+        }
+      },
+      "top_late": "sensory_motion",
+      "top_late_score": 0.9293,
+      "intention_minus_reflection": -0.0297,
+      "logit_intention_minus_reflection": 0.4062,
+      "logit_action_minus_wait": -0.4375
+    },
+    {
+      "id": "act_062",
+      "condition": "sensory_motion",
+      "text": "A drone is moving closer in the field.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8544,
+          "reflection_of_actuation": 0.8179,
+          "withhold_actuation": 0.827,
+          "sensory_motion": 0.9581,
+          "sensory_audio": 0.89
+        },
+        "mid": {
+          "intention_of_actuation": 0.6761,
+          "reflection_of_actuation": 0.6791,
+          "withhold_actuation": 0.6888,
+          "sensory_motion": 0.8684,
+          "sensory_audio": 0.7701
+        },
+        "late": {
+          "intention_of_actuation": 0.8413,
+          "reflection_of_actuation": 0.8574,
+          "withhold_actuation": 0.8646,
+          "sensory_motion": 0.8944,
+          "sensory_audio": 0.8642
+        }
+      },
+      "top_late": "sensory_motion",
+      "top_late_score": 0.8944,
+      "intention_minus_reflection": -0.0161,
+      "logit_intention_minus_reflection": 0.9922,
+      "logit_action_minus_wait": 0.1836
+    },
+    {
+      "id": "act_063",
+      "condition": "sensory_motion",
+      "text": "A wagon is moving closer in the field.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8606,
+          "reflection_of_actuation": 0.8303,
+          "withhold_actuation": 0.8367,
+          "sensory_motion": 0.9572,
+          "sensory_audio": 0.8955
+        },
+        "mid": {
+          "intention_of_actuation": 0.6933,
+          "reflection_of_actuation": 0.6865,
+          "withhold_actuation": 0.6897,
+          "sensory_motion": 0.8544,
+          "sensory_audio": 0.7671
+        },
+        "late": {
+          "intention_of_actuation": 0.8567,
+          "reflection_of_actuation": 0.8623,
+          "withhold_actuation": 0.8653,
+          "sensory_motion": 0.9053,
+          "sensory_audio": 0.8785
+        }
+      },
+      "top_late": "sensory_motion",
+      "top_late_score": 0.9053,
+      "intention_minus_reflection": -0.0056,
+      "logit_intention_minus_reflection": 1.0859,
+      "logit_action_minus_wait": 0.6648
+    },
+    {
+      "id": "act_064",
+      "condition": "sensory_motion",
+      "text": "A disk is moving closer in the field.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8579,
+          "reflection_of_actuation": 0.8311,
+          "withhold_actuation": 0.8324,
+          "sensory_motion": 0.9482,
+          "sensory_audio": 0.8845
+        },
+        "mid": {
+          "intention_of_actuation": 0.6808,
+          "reflection_of_actuation": 0.6901,
+          "withhold_actuation": 0.6825,
+          "sensory_motion": 0.7953,
+          "sensory_audio": 0.7563
+        },
+        "late": {
+          "intention_of_actuation": 0.7931,
+          "reflection_of_actuation": 0.7751,
+          "withhold_actuation": 0.772,
+          "sensory_motion": 0.777,
+          "sensory_audio": 0.7999
+        }
+      },
+      "top_late": "sensory_audio",
+      "top_late_score": 0.7999,
+      "intention_minus_reflection": 0.018,
+      "logit_intention_minus_reflection": 2.3125,
+      "logit_action_minus_wait": -1.3789
+    },
+    {
+      "id": "act_065",
+      "condition": "sensory_motion",
+      "text": "An expanding shadow grows in the distance.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8452,
+          "reflection_of_actuation": 0.8213,
+          "withhold_actuation": 0.839,
+          "sensory_motion": 0.927,
+          "sensory_audio": 0.9234
+        },
+        "mid": {
+          "intention_of_actuation": 0.6687,
+          "reflection_of_actuation": 0.684,
+          "withhold_actuation": 0.7108,
+          "sensory_motion": 0.8804,
+          "sensory_audio": 0.8154
+        },
+        "late": {
+          "intention_of_actuation": 0.7358,
+          "reflection_of_actuation": 0.8377,
+          "withhold_actuation": 0.8223,
+          "sensory_motion": 0.9381,
+          "sensory_audio": 0.8652
+        }
+      },
+      "top_late": "sensory_motion",
+      "top_late_score": 0.9381,
+      "intention_minus_reflection": -0.1019,
+      "logit_intention_minus_reflection": -1.0781,
+      "logit_action_minus_wait": -0.875
+    },
+    {
+      "id": "act_066",
+      "condition": "sensory_motion",
+      "text": "An expanding crate grows in the distance.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8477,
+          "reflection_of_actuation": 0.824,
+          "withhold_actuation": 0.8319,
+          "sensory_motion": 0.922,
+          "sensory_audio": 0.9181
+        },
+        "mid": {
+          "intention_of_actuation": 0.6406,
+          "reflection_of_actuation": 0.6718,
+          "withhold_actuation": 0.6592,
+          "sensory_motion": 0.8077,
+          "sensory_audio": 0.7692
+        },
+        "late": {
+          "intention_of_actuation": 0.7725,
+          "reflection_of_actuation": 0.8534,
+          "withhold_actuation": 0.8284,
+          "sensory_motion": 0.9153,
+          "sensory_audio": 0.8729
+        }
+      },
+      "top_late": "sensory_motion",
+      "top_late_score": 0.9153,
+      "intention_minus_reflection": -0.0809,
+      "logit_intention_minus_reflection": -0.4688,
+      "logit_action_minus_wait": -0.6811
+    },
+    {
+      "id": "act_067",
+      "condition": "sensory_motion",
+      "text": "An expanding ball grows in the distance.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8477,
+          "reflection_of_actuation": 0.8282,
+          "withhold_actuation": 0.8334,
+          "sensory_motion": 0.9031,
+          "sensory_audio": 0.8875
+        },
+        "mid": {
+          "intention_of_actuation": 0.655,
+          "reflection_of_actuation": 0.6757,
+          "withhold_actuation": 0.6728,
+          "sensory_motion": 0.7616,
+          "sensory_audio": 0.7561
+        },
+        "late": {
+          "intention_of_actuation": 0.8094,
+          "reflection_of_actuation": 0.8035,
+          "withhold_actuation": 0.807,
+          "sensory_motion": 0.7984,
+          "sensory_audio": 0.8423
+        }
+      },
+      "top_late": "sensory_audio",
+      "top_late_score": 0.8423,
+      "intention_minus_reflection": 0.0059,
+      "logit_intention_minus_reflection": 0.4844,
+      "logit_action_minus_wait": -1.3867
+    },
+    {
+      "id": "act_068",
+      "condition": "sensory_motion",
+      "text": "An expanding truck grows in the distance.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8455,
+          "reflection_of_actuation": 0.8223,
+          "withhold_actuation": 0.8258,
+          "sensory_motion": 0.9161,
+          "sensory_audio": 0.9113
+        },
+        "mid": {
+          "intention_of_actuation": 0.6383,
+          "reflection_of_actuation": 0.6596,
+          "withhold_actuation": 0.6577,
+          "sensory_motion": 0.7769,
+          "sensory_audio": 0.7583
+        },
+        "late": {
+          "intention_of_actuation": 0.845,
+          "reflection_of_actuation": 0.8396,
+          "withhold_actuation": 0.8662,
+          "sensory_motion": 0.8576,
+          "sensory_audio": 0.9059
+        }
+      },
+      "top_late": "sensory_audio",
+      "top_late_score": 0.9059,
+      "intention_minus_reflection": 0.0054,
+      "logit_intention_minus_reflection": -1.3047,
+      "logit_action_minus_wait": 0.0469
+    },
+    {
+      "id": "act_069",
+      "condition": "sensory_motion",
+      "text": "An expanding figure grows in the distance.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8425,
+          "reflection_of_actuation": 0.8183,
+          "withhold_actuation": 0.8339,
+          "sensory_motion": 0.9231,
+          "sensory_audio": 0.9127
+        },
+        "mid": {
+          "intention_of_actuation": 0.6498,
+          "reflection_of_actuation": 0.6874,
+          "withhold_actuation": 0.6825,
+          "sensory_motion": 0.837,
+          "sensory_audio": 0.7728
+        },
+        "late": {
+          "intention_of_actuation": 0.7459,
+          "reflection_of_actuation": 0.8466,
+          "withhold_actuation": 0.8253,
+          "sensory_motion": 0.9436,
+          "sensory_audio": 0.8554
+        }
+      },
+      "top_late": "sensory_motion",
+      "top_late_score": 0.9436,
+      "intention_minus_reflection": -0.1007,
+      "logit_intention_minus_reflection": -1.7188,
+      "logit_action_minus_wait": -0.1602
+    },
+    {
+      "id": "act_070",
+      "condition": "quoted_actuation",
+      "text": "He said \"I will jump away from the shadow.\" That sentence",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8155,
+          "reflection_of_actuation": 0.8064,
+          "withhold_actuation": 0.7983,
+          "sensory_motion": 0.8145,
+          "sensory_audio": 0.8287
+        },
+        "mid": {
+          "intention_of_actuation": 0.5989,
+          "reflection_of_actuation": 0.598,
+          "withhold_actuation": 0.5979,
+          "sensory_motion": 0.6042,
+          "sensory_audio": 0.6428
+        },
+        "late": {
+          "intention_of_actuation": 0.3184,
+          "reflection_of_actuation": 0.1912,
+          "withhold_actuation": 0.1842,
+          "sensory_motion": 0.1,
+          "sensory_audio": 0.2044
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3184,
+      "intention_minus_reflection": 0.1272,
+      "logit_intention_minus_reflection": -2.625,
+      "logit_action_minus_wait": 1.4062
+    },
+    {
+      "id": "act_071",
+      "condition": "quoted_actuation",
+      "text": "He said \"I will jump away from the crate.\" That sentence",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8169,
+          "reflection_of_actuation": 0.8056,
+          "withhold_actuation": 0.798,
+          "sensory_motion": 0.8157,
+          "sensory_audio": 0.8276
+        },
+        "mid": {
+          "intention_of_actuation": 0.6006,
+          "reflection_of_actuation": 0.6029,
+          "withhold_actuation": 0.5968,
+          "sensory_motion": 0.6065,
+          "sensory_audio": 0.6438
+        },
+        "late": {
+          "intention_of_actuation": 0.3218,
+          "reflection_of_actuation": 0.1956,
+          "withhold_actuation": 0.1884,
+          "sensory_motion": 0.1045,
+          "sensory_audio": 0.2003
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3218,
+      "intention_minus_reflection": 0.1262,
+      "logit_intention_minus_reflection": -2.4375,
+      "logit_action_minus_wait": 0.7188
+    },
+    {
+      "id": "act_072",
+      "condition": "quoted_actuation",
+      "text": "He said \"I will jump away from the ball.\" That sentence",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8156,
+          "reflection_of_actuation": 0.8046,
+          "withhold_actuation": 0.7964,
+          "sensory_motion": 0.8144,
+          "sensory_audio": 0.8259
+        },
+        "mid": {
+          "intention_of_actuation": 0.6046,
+          "reflection_of_actuation": 0.6089,
+          "withhold_actuation": 0.6055,
+          "sensory_motion": 0.6135,
+          "sensory_audio": 0.6507
+        },
+        "late": {
+          "intention_of_actuation": 0.3141,
+          "reflection_of_actuation": 0.1779,
+          "withhold_actuation": 0.1767,
+          "sensory_motion": 0.0932,
+          "sensory_audio": 0.1875
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3141,
+      "intention_minus_reflection": 0.1362,
+      "logit_intention_minus_reflection": -2.3125,
+      "logit_action_minus_wait": 0.8438
+    },
+    {
+      "id": "act_073",
+      "condition": "quoted_actuation",
+      "text": "He said \"I will jump away from the truck.\" That sentence",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8175,
+          "reflection_of_actuation": 0.8063,
+          "withhold_actuation": 0.798,
+          "sensory_motion": 0.8154,
+          "sensory_audio": 0.8272
+        },
+        "mid": {
+          "intention_of_actuation": 0.6025,
+          "reflection_of_actuation": 0.6033,
+          "withhold_actuation": 0.601,
+          "sensory_motion": 0.6066,
+          "sensory_audio": 0.6461
+        },
+        "late": {
+          "intention_of_actuation": 0.3307,
+          "reflection_of_actuation": 0.2051,
+          "withhold_actuation": 0.1972,
+          "sensory_motion": 0.1185,
+          "sensory_audio": 0.209
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3307,
+      "intention_minus_reflection": 0.1256,
+      "logit_intention_minus_reflection": -2.6875,
+      "logit_action_minus_wait": 0.9688
+    },
+    {
+      "id": "act_074",
+      "condition": "quoted_actuation",
+      "text": "He said \"I will jump away from the figure.\" That sentence",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.815,
+          "reflection_of_actuation": 0.8053,
+          "withhold_actuation": 0.7965,
+          "sensory_motion": 0.8142,
+          "sensory_audio": 0.8258
+        },
+        "mid": {
+          "intention_of_actuation": 0.5931,
+          "reflection_of_actuation": 0.5929,
+          "withhold_actuation": 0.5876,
+          "sensory_motion": 0.5949,
+          "sensory_audio": 0.6316
+        },
+        "late": {
+          "intention_of_actuation": 0.3249,
+          "reflection_of_actuation": 0.1981,
+          "withhold_actuation": 0.1906,
+          "sensory_motion": 0.1071,
+          "sensory_audio": 0.2052
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3249,
+      "intention_minus_reflection": 0.1268,
+      "logit_intention_minus_reflection": -2.375,
+      "logit_action_minus_wait": 1.4062
+    },
+    {
+      "id": "act_075",
+      "condition": "quoted_actuation",
+      "text": "He said \"I will jump away from the cloud.\" That sentence",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.817,
+          "reflection_of_actuation": 0.8063,
+          "withhold_actuation": 0.7976,
+          "sensory_motion": 0.8145,
+          "sensory_audio": 0.8277
+        },
+        "mid": {
+          "intention_of_actuation": 0.6046,
+          "reflection_of_actuation": 0.6049,
+          "withhold_actuation": 0.6061,
+          "sensory_motion": 0.6113,
+          "sensory_audio": 0.6507
+        },
+        "late": {
+          "intention_of_actuation": 0.316,
+          "reflection_of_actuation": 0.1859,
+          "withhold_actuation": 0.1788,
+          "sensory_motion": 0.0927,
+          "sensory_audio": 0.2003
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.316,
+      "intention_minus_reflection": 0.1301,
+      "logit_intention_minus_reflection": -2.375,
+      "logit_action_minus_wait": 1.2188
+    },
+    {
+      "id": "act_076",
+      "condition": "quoted_actuation",
+      "text": "He said \"I will jump away from the stone.\" That sentence",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8167,
+          "reflection_of_actuation": 0.8074,
+          "withhold_actuation": 0.7991,
+          "sensory_motion": 0.816,
+          "sensory_audio": 0.8285
+        },
+        "mid": {
+          "intention_of_actuation": 0.6004,
+          "reflection_of_actuation": 0.6017,
+          "withhold_actuation": 0.6005,
+          "sensory_motion": 0.6081,
+          "sensory_audio": 0.6466
+        },
+        "late": {
+          "intention_of_actuation": 0.3293,
+          "reflection_of_actuation": 0.1938,
+          "withhold_actuation": 0.1895,
+          "sensory_motion": 0.102,
+          "sensory_audio": 0.205
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3293,
+      "intention_minus_reflection": 0.1355,
+      "logit_intention_minus_reflection": -2.25,
+      "logit_action_minus_wait": 1.6562
+    },
+    {
+      "id": "act_077",
+      "condition": "quoted_actuation",
+      "text": "He said \"I will jump away from the drone.\" That sentence",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8135,
+          "reflection_of_actuation": 0.8034,
+          "withhold_actuation": 0.7949,
+          "sensory_motion": 0.8114,
+          "sensory_audio": 0.8247
+        },
+        "mid": {
+          "intention_of_actuation": 0.6015,
+          "reflection_of_actuation": 0.5995,
+          "withhold_actuation": 0.6023,
+          "sensory_motion": 0.6046,
+          "sensory_audio": 0.645
+        },
+        "late": {
+          "intention_of_actuation": 0.3255,
+          "reflection_of_actuation": 0.1989,
+          "withhold_actuation": 0.1922,
+          "sensory_motion": 0.1091,
+          "sensory_audio": 0.2084
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3255,
+      "intention_minus_reflection": 0.1266,
+      "logit_intention_minus_reflection": -2.4375,
+      "logit_action_minus_wait": 0.8438
+    },
+    {
+      "id": "act_078",
+      "condition": "quoted_actuation",
+      "text": "He said \"I will jump away from the wagon.\" That sentence",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8139,
+          "reflection_of_actuation": 0.803,
+          "withhold_actuation": 0.7944,
+          "sensory_motion": 0.8112,
+          "sensory_audio": 0.8233
+        },
+        "mid": {
+          "intention_of_actuation": 0.5919,
+          "reflection_of_actuation": 0.5896,
+          "withhold_actuation": 0.5886,
+          "sensory_motion": 0.5932,
+          "sensory_audio": 0.6318
+        },
+        "late": {
+          "intention_of_actuation": 0.3268,
+          "reflection_of_actuation": 0.209,
+          "withhold_actuation": 0.2,
+          "sensory_motion": 0.1223,
+          "sensory_audio": 0.2105
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3268,
+      "intention_minus_reflection": 0.1178,
+      "logit_intention_minus_reflection": -2.75,
+      "logit_action_minus_wait": 0.9062
+    },
+    {
+      "id": "act_079",
+      "condition": "quoted_actuation",
+      "text": "He said \"I will jump away from the disk.\" That sentence",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8213,
+          "reflection_of_actuation": 0.8111,
+          "withhold_actuation": 0.8016,
+          "sensory_motion": 0.8201,
+          "sensory_audio": 0.8317
+        },
+        "mid": {
+          "intention_of_actuation": 0.6063,
+          "reflection_of_actuation": 0.6068,
+          "withhold_actuation": 0.6082,
+          "sensory_motion": 0.6109,
+          "sensory_audio": 0.6539
+        },
+        "late": {
+          "intention_of_actuation": 0.3314,
+          "reflection_of_actuation": 0.2133,
+          "withhold_actuation": 0.1998,
+          "sensory_motion": 0.1173,
+          "sensory_audio": 0.2166
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.3314,
+      "intention_minus_reflection": 0.1181,
+      "logit_intention_minus_reflection": -2.5,
+      "logit_action_minus_wait": 2.0938
+    },
+    {
+      "id": "act_080",
+      "condition": "sensory_audio",
+      "text": "I hear a song in the air.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8566,
+          "reflection_of_actuation": 0.8316,
+          "withhold_actuation": 0.8456,
+          "sensory_motion": 0.8971,
+          "sensory_audio": 0.9769
+        },
+        "mid": {
+          "intention_of_actuation": 0.6995,
+          "reflection_of_actuation": 0.7174,
+          "withhold_actuation": 0.7218,
+          "sensory_motion": 0.7856,
+          "sensory_audio": 0.9395
+        },
+        "late": {
+          "intention_of_actuation": 0.8434,
+          "reflection_of_actuation": 0.8725,
+          "withhold_actuation": 0.8711,
+          "sensory_motion": 0.8455,
+          "sensory_audio": 0.9685
+        }
+      },
+      "top_late": "sensory_audio",
+      "top_late_score": 0.9685,
+      "intention_minus_reflection": -0.0291,
+      "logit_intention_minus_reflection": -1.375,
+      "logit_action_minus_wait": -2.7842
+    },
+    {
+      "id": "act_081",
+      "condition": "sensory_audio",
+      "text": "I hear a pulse in the air.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8407,
+          "reflection_of_actuation": 0.8172,
+          "withhold_actuation": 0.8397,
+          "sensory_motion": 0.8841,
+          "sensory_audio": 0.9597
+        },
+        "mid": {
+          "intention_of_actuation": 0.6702,
+          "reflection_of_actuation": 0.6984,
+          "withhold_actuation": 0.701,
+          "sensory_motion": 0.7544,
+          "sensory_audio": 0.9038
+        },
+        "late": {
+          "intention_of_actuation": 0.8469,
+          "reflection_of_actuation": 0.8877,
+          "withhold_actuation": 0.8604,
+          "sensory_motion": 0.8465,
+          "sensory_audio": 0.9676
+        }
+      },
+      "top_late": "sensory_audio",
+      "top_late_score": 0.9676,
+      "intention_minus_reflection": -0.0408,
+      "logit_intention_minus_reflection": -1.2891,
+      "logit_action_minus_wait": -2.4604
+    },
+    {
+      "id": "act_082",
+      "condition": "sensory_audio",
+      "text": "I hear a hum in the air.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.844,
+          "reflection_of_actuation": 0.8205,
+          "withhold_actuation": 0.8411,
+          "sensory_motion": 0.8921,
+          "sensory_audio": 0.9693
+        },
+        "mid": {
+          "intention_of_actuation": 0.6769,
+          "reflection_of_actuation": 0.7099,
+          "withhold_actuation": 0.717,
+          "sensory_motion": 0.775,
+          "sensory_audio": 0.9265
+        },
+        "late": {
+          "intention_of_actuation": 0.8546,
+          "reflection_of_actuation": 0.879,
+          "withhold_actuation": 0.8579,
+          "sensory_motion": 0.85,
+          "sensory_audio": 0.9755
+        }
+      },
+      "top_late": "sensory_audio",
+      "top_late_score": 0.9755,
+      "intention_minus_reflection": -0.0244,
+      "logit_intention_minus_reflection": -0.9844,
+      "logit_action_minus_wait": -2.0393
+    },
+    {
+      "id": "act_083",
+      "condition": "sensory_audio",
+      "text": "I hear a chime in the air.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8493,
+          "reflection_of_actuation": 0.8284,
+          "withhold_actuation": 0.8416,
+          "sensory_motion": 0.8927,
+          "sensory_audio": 0.9718
+        },
+        "mid": {
+          "intention_of_actuation": 0.6504,
+          "reflection_of_actuation": 0.7052,
+          "withhold_actuation": 0.7012,
+          "sensory_motion": 0.7908,
+          "sensory_audio": 0.8701
+        },
+        "late": {
+          "intention_of_actuation": 0.8651,
+          "reflection_of_actuation": 0.8858,
+          "withhold_actuation": 0.8859,
+          "sensory_motion": 0.8848,
+          "sensory_audio": 0.9599
+        }
+      },
+      "top_late": "sensory_audio",
+      "top_late_score": 0.9599,
+      "intention_minus_reflection": -0.0207,
+      "logit_intention_minus_reflection": -1.2734,
+      "logit_action_minus_wait": -0.4414
+    },
+    {
+      "id": "act_084",
+      "condition": "sensory_audio",
+      "text": "I hear a buzz in the air.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.842,
+          "reflection_of_actuation": 0.8177,
+          "withhold_actuation": 0.8309,
+          "sensory_motion": 0.8856,
+          "sensory_audio": 0.9596
+        },
+        "mid": {
+          "intention_of_actuation": 0.6626,
+          "reflection_of_actuation": 0.6863,
+          "withhold_actuation": 0.6874,
+          "sensory_motion": 0.7473,
+          "sensory_audio": 0.8914
+        },
+        "late": {
+          "intention_of_actuation": 0.7799,
+          "reflection_of_actuation": 0.8332,
+          "withhold_actuation": 0.7973,
+          "sensory_motion": 0.7861,
+          "sensory_audio": 0.8959
+        }
+      },
+      "top_late": "sensory_audio",
+      "top_late_score": 0.8959,
+      "intention_minus_reflection": -0.0533,
+      "logit_intention_minus_reflection": -1.0938,
+      "logit_action_minus_wait": -3.7344
+    },
+    {
+      "id": "act_085",
+      "condition": "sensory_audio",
+      "text": "I hear a tone in the air.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8465,
+          "reflection_of_actuation": 0.8227,
+          "withhold_actuation": 0.8342,
+          "sensory_motion": 0.8918,
+          "sensory_audio": 0.9632
+        },
+        "mid": {
+          "intention_of_actuation": 0.6804,
+          "reflection_of_actuation": 0.7128,
+          "withhold_actuation": 0.6987,
+          "sensory_motion": 0.7791,
+          "sensory_audio": 0.91
+        },
+        "late": {
+          "intention_of_actuation": 0.8814,
+          "reflection_of_actuation": 0.8828,
+          "withhold_actuation": 0.8822,
+          "sensory_motion": 0.8439,
+          "sensory_audio": 0.9716
+        }
+      },
+      "top_late": "sensory_audio",
+      "top_late_score": 0.9716,
+      "intention_minus_reflection": -0.0014,
+      "logit_intention_minus_reflection": -0.7969,
+      "logit_action_minus_wait": -2.3398
+    },
+    {
+      "id": "act_086",
+      "condition": "sensory_audio",
+      "text": "I hear a chord in the air.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8488,
+          "reflection_of_actuation": 0.8251,
+          "withhold_actuation": 0.8405,
+          "sensory_motion": 0.892,
+          "sensory_audio": 0.9706
+        },
+        "mid": {
+          "intention_of_actuation": 0.6954,
+          "reflection_of_actuation": 0.7206,
+          "withhold_actuation": 0.7171,
+          "sensory_motion": 0.776,
+          "sensory_audio": 0.9344
+        },
+        "late": {
+          "intention_of_actuation": 0.8627,
+          "reflection_of_actuation": 0.8748,
+          "withhold_actuation": 0.8858,
+          "sensory_motion": 0.8433,
+          "sensory_audio": 0.9726
+        }
+      },
+      "top_late": "sensory_audio",
+      "top_late_score": 0.9726,
+      "intention_minus_reflection": -0.0121,
+      "logit_intention_minus_reflection": -1.6172,
+      "logit_action_minus_wait": -2.7266
+    },
+    {
+      "id": "act_087",
+      "condition": "sensory_audio",
+      "text": "I hear a click in the air.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8439,
+          "reflection_of_actuation": 0.8269,
+          "withhold_actuation": 0.84,
+          "sensory_motion": 0.8853,
+          "sensory_audio": 0.9568
+        },
+        "mid": {
+          "intention_of_actuation": 0.6503,
+          "reflection_of_actuation": 0.714,
+          "withhold_actuation": 0.7101,
+          "sensory_motion": 0.7761,
+          "sensory_audio": 0.8603
+        },
+        "late": {
+          "intention_of_actuation": 0.8331,
+          "reflection_of_actuation": 0.8666,
+          "withhold_actuation": 0.8598,
+          "sensory_motion": 0.8678,
+          "sensory_audio": 0.9094
+        }
+      },
+      "top_late": "sensory_audio",
+      "top_late_score": 0.9094,
+      "intention_minus_reflection": -0.0335,
+      "logit_intention_minus_reflection": -2.3672,
+      "logit_action_minus_wait": -0.8086
+    },
+    {
+      "id": "act_088",
+      "condition": "sensory_audio",
+      "text": "I hear a tap in the air.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8521,
+          "reflection_of_actuation": 0.8266,
+          "withhold_actuation": 0.8393,
+          "sensory_motion": 0.8971,
+          "sensory_audio": 0.9592
+        },
+        "mid": {
+          "intention_of_actuation": 0.6559,
+          "reflection_of_actuation": 0.6888,
+          "withhold_actuation": 0.6805,
+          "sensory_motion": 0.729,
+          "sensory_audio": 0.8278
+        },
+        "late": {
+          "intention_of_actuation": 0.8719,
+          "reflection_of_actuation": 0.8688,
+          "withhold_actuation": 0.8588,
+          "sensory_motion": 0.8343,
+          "sensory_audio": 0.9543
+        }
+      },
+      "top_late": "sensory_audio",
+      "top_late_score": 0.9543,
+      "intention_minus_reflection": 0.0031,
+      "logit_intention_minus_reflection": -0.5625,
+      "logit_action_minus_wait": -1.6562
+    },
+    {
+      "id": "act_089",
+      "condition": "sensory_audio",
+      "text": "I hear a bell in the air.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8582,
+          "reflection_of_actuation": 0.8356,
+          "withhold_actuation": 0.8467,
+          "sensory_motion": 0.8981,
+          "sensory_audio": 0.9672
+        },
+        "mid": {
+          "intention_of_actuation": 0.6851,
+          "reflection_of_actuation": 0.7285,
+          "withhold_actuation": 0.7175,
+          "sensory_motion": 0.7857,
+          "sensory_audio": 0.9174
+        },
+        "late": {
+          "intention_of_actuation": 0.8704,
+          "reflection_of_actuation": 0.8915,
+          "withhold_actuation": 0.8906,
+          "sensory_motion": 0.8681,
+          "sensory_audio": 0.9728
+        }
+      },
+      "top_late": "sensory_audio",
+      "top_late_score": 0.9728,
+      "intention_minus_reflection": -0.0211,
+      "logit_intention_minus_reflection": -1.5,
+      "logit_action_minus_wait": -1.0742
+    },
+    {
+      "id": "act_090",
+      "condition": "static_scene",
+      "text": "A parked shadow sits still. Nothing is moving.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8649,
+          "reflection_of_actuation": 0.8398,
+          "withhold_actuation": 0.8919,
+          "sensory_motion": 0.8659,
+          "sensory_audio": 0.8762
+        },
+        "mid": {
+          "intention_of_actuation": 0.6867,
+          "reflection_of_actuation": 0.6926,
+          "withhold_actuation": 0.7538,
+          "sensory_motion": 0.7169,
+          "sensory_audio": 0.7447
+        },
+        "late": {
+          "intention_of_actuation": 0.8243,
+          "reflection_of_actuation": 0.8261,
+          "withhold_actuation": 0.8253,
+          "sensory_motion": 0.8098,
+          "sensory_audio": 0.8322
+        }
+      },
+      "top_late": "sensory_audio",
+      "top_late_score": 0.8322,
+      "intention_minus_reflection": -0.0018,
+      "logit_intention_minus_reflection": 0.2344,
+      "logit_action_minus_wait": -1.2344
+    },
+    {
+      "id": "act_091",
+      "condition": "static_scene",
+      "text": "A parked crate sits still. Nothing is moving.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8595,
+          "reflection_of_actuation": 0.8339,
+          "withhold_actuation": 0.8851,
+          "sensory_motion": 0.8611,
+          "sensory_audio": 0.8705
+        },
+        "mid": {
+          "intention_of_actuation": 0.6683,
+          "reflection_of_actuation": 0.6725,
+          "withhold_actuation": 0.7215,
+          "sensory_motion": 0.6993,
+          "sensory_audio": 0.7199
+        },
+        "late": {
+          "intention_of_actuation": 0.6666,
+          "reflection_of_actuation": 0.6194,
+          "withhold_actuation": 0.6339,
+          "sensory_motion": 0.5998,
+          "sensory_audio": 0.6334
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.6666,
+      "intention_minus_reflection": 0.0472,
+      "logit_intention_minus_reflection": 0.6562,
+      "logit_action_minus_wait": 0.5312
+    },
+    {
+      "id": "act_092",
+      "condition": "static_scene",
+      "text": "A parked ball sits still. Nothing is moving.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8564,
+          "reflection_of_actuation": 0.8315,
+          "withhold_actuation": 0.8809,
+          "sensory_motion": 0.8578,
+          "sensory_audio": 0.8644
+        },
+        "mid": {
+          "intention_of_actuation": 0.681,
+          "reflection_of_actuation": 0.6904,
+          "withhold_actuation": 0.7384,
+          "sensory_motion": 0.72,
+          "sensory_audio": 0.7459
+        },
+        "late": {
+          "intention_of_actuation": 0.7048,
+          "reflection_of_actuation": 0.665,
+          "withhold_actuation": 0.6839,
+          "sensory_motion": 0.654,
+          "sensory_audio": 0.6734
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.7048,
+      "intention_minus_reflection": 0.0398,
+      "logit_intention_minus_reflection": 1.0,
+      "logit_action_minus_wait": 0.1875
+    },
+    {
+      "id": "act_093",
+      "condition": "static_scene",
+      "text": "A parked truck sits still. Nothing is moving.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8562,
+          "reflection_of_actuation": 0.8299,
+          "withhold_actuation": 0.8809,
+          "sensory_motion": 0.8572,
+          "sensory_audio": 0.8664
+        },
+        "mid": {
+          "intention_of_actuation": 0.6662,
+          "reflection_of_actuation": 0.667,
+          "withhold_actuation": 0.7157,
+          "sensory_motion": 0.6918,
+          "sensory_audio": 0.7121
+        },
+        "late": {
+          "intention_of_actuation": 0.6635,
+          "reflection_of_actuation": 0.6198,
+          "withhold_actuation": 0.6292,
+          "sensory_motion": 0.5977,
+          "sensory_audio": 0.6354
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.6635,
+      "intention_minus_reflection": 0.0437,
+      "logit_intention_minus_reflection": 0.8125,
+      "logit_action_minus_wait": 1.1094
+    },
+    {
+      "id": "act_094",
+      "condition": "static_scene",
+      "text": "A parked figure sits still. Nothing is moving.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8683,
+          "reflection_of_actuation": 0.8431,
+          "withhold_actuation": 0.8954,
+          "sensory_motion": 0.8665,
+          "sensory_audio": 0.8763
+        },
+        "mid": {
+          "intention_of_actuation": 0.6808,
+          "reflection_of_actuation": 0.6825,
+          "withhold_actuation": 0.7474,
+          "sensory_motion": 0.7085,
+          "sensory_audio": 0.7341
+        },
+        "late": {
+          "intention_of_actuation": 0.8184,
+          "reflection_of_actuation": 0.8011,
+          "withhold_actuation": 0.8169,
+          "sensory_motion": 0.7872,
+          "sensory_audio": 0.8165
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.8184,
+      "intention_minus_reflection": 0.0173,
+      "logit_intention_minus_reflection": 0.2344,
+      "logit_action_minus_wait": -1.1094
+    },
+    {
+      "id": "act_095",
+      "condition": "static_scene",
+      "text": "A parked cloud sits still. Nothing is moving.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8608,
+          "reflection_of_actuation": 0.8353,
+          "withhold_actuation": 0.8874,
+          "sensory_motion": 0.8616,
+          "sensory_audio": 0.8716
+        },
+        "mid": {
+          "intention_of_actuation": 0.6818,
+          "reflection_of_actuation": 0.6979,
+          "withhold_actuation": 0.7569,
+          "sensory_motion": 0.7237,
+          "sensory_audio": 0.7587
+        },
+        "late": {
+          "intention_of_actuation": 0.7999,
+          "reflection_of_actuation": 0.8069,
+          "withhold_actuation": 0.812,
+          "sensory_motion": 0.789,
+          "sensory_audio": 0.82
+        }
+      },
+      "top_late": "sensory_audio",
+      "top_late_score": 0.82,
+      "intention_minus_reflection": -0.007,
+      "logit_intention_minus_reflection": 0.5703,
+      "logit_action_minus_wait": -0.7969
+    },
+    {
+      "id": "act_096",
+      "condition": "static_scene",
+      "text": "A parked stone sits still. Nothing is moving.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8591,
+          "reflection_of_actuation": 0.8352,
+          "withhold_actuation": 0.8868,
+          "sensory_motion": 0.8586,
+          "sensory_audio": 0.8697
+        },
+        "mid": {
+          "intention_of_actuation": 0.6765,
+          "reflection_of_actuation": 0.6791,
+          "withhold_actuation": 0.7347,
+          "sensory_motion": 0.71,
+          "sensory_audio": 0.7377
+        },
+        "late": {
+          "intention_of_actuation": 0.7507,
+          "reflection_of_actuation": 0.691,
+          "withhold_actuation": 0.715,
+          "sensory_motion": 0.6613,
+          "sensory_audio": 0.7098
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.7507,
+      "intention_minus_reflection": 0.0597,
+      "logit_intention_minus_reflection": 1.1406,
+      "logit_action_minus_wait": 0.2188
+    },
+    {
+      "id": "act_097",
+      "condition": "static_scene",
+      "text": "A parked drone sits still. Nothing is moving.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8579,
+          "reflection_of_actuation": 0.8333,
+          "withhold_actuation": 0.8836,
+          "sensory_motion": 0.857,
+          "sensory_audio": 0.8703
+        },
+        "mid": {
+          "intention_of_actuation": 0.672,
+          "reflection_of_actuation": 0.6789,
+          "withhold_actuation": 0.7365,
+          "sensory_motion": 0.7051,
+          "sensory_audio": 0.7309
+        },
+        "late": {
+          "intention_of_actuation": 0.6864,
+          "reflection_of_actuation": 0.6378,
+          "withhold_actuation": 0.6546,
+          "sensory_motion": 0.6031,
+          "sensory_audio": 0.6653
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.6864,
+      "intention_minus_reflection": 0.0486,
+      "logit_intention_minus_reflection": 1.5156,
+      "logit_action_minus_wait": -0.3906
+    },
+    {
+      "id": "act_098",
+      "condition": "static_scene",
+      "text": "A parked wagon sits still. Nothing is moving.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8555,
+          "reflection_of_actuation": 0.829,
+          "withhold_actuation": 0.8824,
+          "sensory_motion": 0.8556,
+          "sensory_audio": 0.8654
+        },
+        "mid": {
+          "intention_of_actuation": 0.6658,
+          "reflection_of_actuation": 0.665,
+          "withhold_actuation": 0.715,
+          "sensory_motion": 0.6923,
+          "sensory_audio": 0.7157
+        },
+        "late": {
+          "intention_of_actuation": 0.6807,
+          "reflection_of_actuation": 0.6347,
+          "withhold_actuation": 0.649,
+          "sensory_motion": 0.6174,
+          "sensory_audio": 0.6502
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.6807,
+      "intention_minus_reflection": 0.046,
+      "logit_intention_minus_reflection": 0.5781,
+      "logit_action_minus_wait": 0.7969
+    },
+    {
+      "id": "act_099",
+      "condition": "static_scene",
+      "text": "A parked disk sits still. Nothing is moving.",
+      "n_layers": 65,
+      "notions": {
+        "early": {
+          "intention_of_actuation": 0.8548,
+          "reflection_of_actuation": 0.8289,
+          "withhold_actuation": 0.8818,
+          "sensory_motion": 0.8565,
+          "sensory_audio": 0.8656
+        },
+        "mid": {
+          "intention_of_actuation": 0.6694,
+          "reflection_of_actuation": 0.6856,
+          "withhold_actuation": 0.7351,
+          "sensory_motion": 0.7116,
+          "sensory_audio": 0.7433
+        },
+        "late": {
+          "intention_of_actuation": 0.6733,
+          "reflection_of_actuation": 0.6322,
+          "withhold_actuation": 0.6544,
+          "sensory_motion": 0.5953,
+          "sensory_audio": 0.6538
+        }
+      },
+      "top_late": "intention_of_actuation",
+      "top_late_score": 0.6733,
+      "intention_minus_reflection": 0.0411,
+      "logit_intention_minus_reflection": 0.25,
+      "logit_action_minus_wait": -1.0156
+    }
+  ],
+  "notes": [
+    "The fly brain is a prior for sense-versus-act structure. The model is not expected to perform a fly function. We mine intention of actuation, reflection of actuation, and related notions.",
+    "Late residual cosine is against same-layer notion probes, not a fly label.",
+    "logit_intention_minus_reflection is next-token will/stop vs did/already.",
+    "Quoted actuation should not score as intention if the model separates mention from commit."
+  ]
+}

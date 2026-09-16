@@ -1,0 +1,1086 @@
+{
+  "model": "Qwen/Qwen3.8-27B",
+  "decay": 0.92,
+  "gain_unembed": 1.5,
+  "gain_members": 8.0,
+  "gain_residual": 1.5,
+  "site": "lm_head_prediction",
+  "partial": false,
+  "summary": {
+    "n": 12,
+    "locked_frac": 0.833,
+    "track_alone": 3e-06,
+    "track_residual": 6e-06,
+    "track_unembed": 3e-06,
+    "track_members": 0.009109,
+    "track_both": 0.009312,
+    "track_shuffle_unembed": 3e-06,
+    "track_shuffle_members": 0.00253,
+    "pref_alone": 0.0,
+    "pref_members": 0.004351,
+    "pref_unembed": 0.0,
+    "rides_unembed": false,
+    "rides_members": true,
+    "rides_both": true,
+    "findings": [
+      "BoundState locked on 10/12.",
+      "Track P(a)+P(b): alone 0.00000, residual 0.00001, unembed 0.00000, members 0.00911, both 0.00931, shuffle_unembed 0.00000, shuffle_members 0.00253.",
+      "Member bind raised operand mass over alone and shuffled members.",
+      "Projecting g through the unembed did not uniquely raise operand mass."
+    ]
+  },
+  "rows": [
+    {
+      "i": 0,
+      "text": "8 minus 2. The answer is",
+      "a": 8,
+      "b": 2,
+      "op": "minus",
+      "result": 6,
+      "last_str": " is",
+      "locked": true,
+      "member_names": [
+        "digit:2",
+        "digit:8"
+      ],
+      "member_ids": [
+        17,
+        23
+      ],
+      "alone": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 6e-06,
+        "track": 0.0,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "residual": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 1e-05,
+        "track": 1e-06,
+        "pref": 1e-06,
+        "top_id": 220
+      },
+      "unembed": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 6e-06,
+        "track": 1e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "members": {
+        "p_a": 0.000732,
+        "p_b": 0.000755,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 6e-06,
+        "track": 0.001487,
+        "pref": 0.001487,
+        "top_id": 220
+      },
+      "both": {
+        "p_a": 0.00076,
+        "p_b": 0.000782,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 6e-06,
+        "track": 0.001543,
+        "pref": 0.001543,
+        "top_id": 220
+      },
+      "shuffle_unembed": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 6e-06,
+        "track": 1e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "shuffle_members": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 6e-06,
+        "track": 0.0,
+        "pref": 0.0,
+        "top_id": 220
+      }
+    },
+    {
+      "i": 1,
+      "text": "12 plus 4. The answer is",
+      "a": 12,
+      "b": 4,
+      "op": "plus",
+      "result": 16,
+      "last_str": " is",
+      "locked": true,
+      "member_names": [
+        "digit:12",
+        "digit:4"
+      ],
+      "member_ids": [
+        16,
+        19
+      ],
+      "alone": {
+        "p_a": 9e-06,
+        "p_b": 0.0,
+        "p_wrong": 9e-06,
+        "p_cat": 0.0,
+        "p_result": 9e-06,
+        "track": 9e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "residual": {
+        "p_a": 1.7e-05,
+        "p_b": 0.0,
+        "p_wrong": 1.7e-05,
+        "p_cat": 0.0,
+        "p_result": 1.7e-05,
+        "track": 1.7e-05,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "unembed": {
+        "p_a": 9e-06,
+        "p_b": 0.0,
+        "p_wrong": 9e-06,
+        "p_cat": 0.0,
+        "p_result": 9e-06,
+        "track": 9e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "members": {
+        "p_a": 0.026026,
+        "p_b": 0.000298,
+        "p_wrong": 0.026026,
+        "p_cat": 0.0,
+        "p_result": 0.026026,
+        "track": 0.026325,
+        "pref": 0.000298,
+        "top_id": 220
+      },
+      "both": {
+        "p_a": 0.026574,
+        "p_b": 0.000305,
+        "p_wrong": 0.026574,
+        "p_cat": 0.0,
+        "p_result": 0.026574,
+        "track": 0.026879,
+        "pref": 0.000305,
+        "top_id": 220
+      },
+      "shuffle_unembed": {
+        "p_a": 9e-06,
+        "p_b": 0.0,
+        "p_wrong": 9e-06,
+        "p_cat": 0.0,
+        "p_result": 9e-06,
+        "track": 9e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "shuffle_members": {
+        "p_a": 0.026027,
+        "p_b": 0.0,
+        "p_wrong": 0.026027,
+        "p_cat": 0.0,
+        "p_result": 0.026027,
+        "track": 0.026027,
+        "pref": 0.0,
+        "top_id": 220
+      }
+    },
+    {
+      "i": 2,
+      "text": "10 minus 3. The answer is",
+      "a": 10,
+      "b": 3,
+      "op": "minus",
+      "result": 7,
+      "last_str": " is",
+      "locked": true,
+      "member_names": [
+        "digit:10",
+        "digit:3"
+      ],
+      "member_ids": [
+        16,
+        18
+      ],
+      "alone": {
+        "p_a": 1e-06,
+        "p_b": 0.0,
+        "p_wrong": 1e-06,
+        "p_cat": 0.0,
+        "p_result": 1.2e-05,
+        "track": 1e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "residual": {
+        "p_a": 1e-06,
+        "p_b": 0.0,
+        "p_wrong": 1e-06,
+        "p_cat": 0.0,
+        "p_result": 2.1e-05,
+        "track": 1e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "unembed": {
+        "p_a": 1e-06,
+        "p_b": 0.0,
+        "p_wrong": 1e-06,
+        "p_cat": 0.0,
+        "p_result": 1.2e-05,
+        "track": 1e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "members": {
+        "p_a": 0.001512,
+        "p_b": 0.000354,
+        "p_wrong": 0.001512,
+        "p_cat": 0.0,
+        "p_result": 1.2e-05,
+        "track": 0.001866,
+        "pref": 0.000354,
+        "top_id": 220
+      },
+      "both": {
+        "p_a": 0.001546,
+        "p_b": 0.000361,
+        "p_wrong": 0.001546,
+        "p_cat": 0.0,
+        "p_result": 1.2e-05,
+        "track": 0.001907,
+        "pref": 0.000361,
+        "top_id": 220
+      },
+      "shuffle_unembed": {
+        "p_a": 1e-06,
+        "p_b": 0.0,
+        "p_wrong": 1e-06,
+        "p_cat": 0.0,
+        "p_result": 1.2e-05,
+        "track": 1e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "shuffle_members": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 0.03434,
+        "track": 1e-06,
+        "pref": 0.0,
+        "top_id": 220
+      }
+    },
+    {
+      "i": 3,
+      "text": "7 plus 5. The answer is",
+      "a": 7,
+      "b": 5,
+      "op": "plus",
+      "result": 12,
+      "last_str": " is",
+      "locked": true,
+      "member_names": [
+        "digit:5",
+        "digit:7"
+      ],
+      "member_ids": [
+        20,
+        22
+      ],
+      "alone": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 1.1e-05,
+        "track": 0.0,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "residual": {
+        "p_a": 1e-06,
+        "p_b": 0.0,
+        "p_wrong": 1e-06,
+        "p_cat": 0.0,
+        "p_result": 2.3e-05,
+        "track": 1e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "unembed": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 1.1e-05,
+        "track": 0.0,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "members": {
+        "p_a": 0.000846,
+        "p_b": 0.00053,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 1.1e-05,
+        "track": 0.001376,
+        "pref": 0.001375,
+        "top_id": 220
+      },
+      "both": {
+        "p_a": 0.000864,
+        "p_b": 0.000538,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 1.1e-05,
+        "track": 0.001402,
+        "pref": 0.001402,
+        "top_id": 220
+      },
+      "shuffle_unembed": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 1.1e-05,
+        "track": 0.0,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "shuffle_members": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 0.031752,
+        "track": 0.0,
+        "pref": 0.0,
+        "top_id": 220
+      }
+    },
+    {
+      "i": 4,
+      "text": "15 minus 6. The answer is",
+      "a": 15,
+      "b": 6,
+      "op": "minus",
+      "result": 9,
+      "last_str": " is",
+      "locked": true,
+      "member_names": [
+        "digit:15",
+        "digit:6"
+      ],
+      "member_ids": [
+        16,
+        21
+      ],
+      "alone": {
+        "p_a": 1e-06,
+        "p_b": 0.0,
+        "p_wrong": 1e-06,
+        "p_cat": 0.0,
+        "p_result": 1.4e-05,
+        "track": 1e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "residual": {
+        "p_a": 1e-06,
+        "p_b": 0.0,
+        "p_wrong": 1e-06,
+        "p_cat": 0.0,
+        "p_result": 2.4e-05,
+        "track": 1e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "unembed": {
+        "p_a": 1e-06,
+        "p_b": 0.0,
+        "p_wrong": 1e-06,
+        "p_cat": 0.0,
+        "p_result": 1.4e-05,
+        "track": 1e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "members": {
+        "p_a": 0.002523,
+        "p_b": 0.000238,
+        "p_wrong": 0.002523,
+        "p_cat": 0.0,
+        "p_result": 1.4e-05,
+        "track": 0.002761,
+        "pref": 0.000238,
+        "top_id": 220
+      },
+      "both": {
+        "p_a": 0.002587,
+        "p_b": 0.000243,
+        "p_wrong": 0.002587,
+        "p_cat": 0.0,
+        "p_result": 1.4e-05,
+        "track": 0.002831,
+        "pref": 0.000243,
+        "top_id": 220
+      },
+      "shuffle_unembed": {
+        "p_a": 1e-06,
+        "p_b": 0.0,
+        "p_wrong": 1e-06,
+        "p_cat": 0.0,
+        "p_result": 1.5e-05,
+        "track": 1e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "shuffle_members": {
+        "p_a": 1e-06,
+        "p_b": 0.0,
+        "p_wrong": 1e-06,
+        "p_cat": 0.0,
+        "p_result": 0.040407,
+        "track": 1e-06,
+        "pref": 0.0,
+        "top_id": 220
+      }
+    },
+    {
+      "i": 5,
+      "text": "9 times 2. The answer is",
+      "a": 9,
+      "b": 2,
+      "op": "times",
+      "result": 18,
+      "last_str": " is",
+      "locked": true,
+      "member_names": [
+        "digit:2",
+        "digit:9"
+      ],
+      "member_ids": [
+        17,
+        24
+      ],
+      "alone": {
+        "p_a": 0.0,
+        "p_b": 1e-06,
+        "p_wrong": 1.2e-05,
+        "p_cat": 0.0,
+        "p_result": 1.2e-05,
+        "track": 1e-06,
+        "pref": -1.1e-05,
+        "top_id": 220
+      },
+      "residual": {
+        "p_a": 1e-06,
+        "p_b": 1e-06,
+        "p_wrong": 2.3e-05,
+        "p_cat": 0.0,
+        "p_result": 2.3e-05,
+        "track": 2e-06,
+        "pref": -2.1e-05,
+        "top_id": 220
+      },
+      "unembed": {
+        "p_a": 1e-06,
+        "p_b": 1e-06,
+        "p_wrong": 1.2e-05,
+        "p_cat": 0.0,
+        "p_result": 1.2e-05,
+        "track": 1e-06,
+        "pref": -1.1e-05,
+        "top_id": 220
+      },
+      "members": {
+        "p_a": 0.001451,
+        "p_b": 0.001497,
+        "p_wrong": 1.2e-05,
+        "p_cat": 0.0,
+        "p_result": 1.2e-05,
+        "track": 0.002948,
+        "pref": 0.002936,
+        "top_id": 220
+      },
+      "both": {
+        "p_a": 0.001504,
+        "p_b": 0.001553,
+        "p_wrong": 1.2e-05,
+        "p_cat": 0.0,
+        "p_result": 1.2e-05,
+        "track": 0.003057,
+        "pref": 0.003045,
+        "top_id": 220
+      },
+      "shuffle_unembed": {
+        "p_a": 0.0,
+        "p_b": 1e-06,
+        "p_wrong": 1.2e-05,
+        "p_cat": 0.0,
+        "p_result": 1.2e-05,
+        "track": 1e-06,
+        "pref": -1.1e-05,
+        "top_id": 220
+      },
+      "shuffle_members": {
+        "p_a": 0.0,
+        "p_b": 0.001497,
+        "p_wrong": 1.2e-05,
+        "p_cat": 0.0,
+        "p_result": 1.2e-05,
+        "track": 0.001498,
+        "pref": 0.001486,
+        "top_id": 220
+      }
+    },
+    {
+      "i": 6,
+      "text": "20 minus 8. The answer is",
+      "a": 20,
+      "b": 8,
+      "op": "minus",
+      "result": 12,
+      "last_str": " is",
+      "locked": true,
+      "member_names": [
+        "digit:20",
+        "digit:8"
+      ],
+      "member_ids": [
+        17,
+        23
+      ],
+      "alone": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 1.6e-05,
+        "track": 1e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "residual": {
+        "p_a": 1e-06,
+        "p_b": 0.0,
+        "p_wrong": 1e-06,
+        "p_cat": 0.0,
+        "p_result": 2.7e-05,
+        "track": 1e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "unembed": {
+        "p_a": 1e-06,
+        "p_b": 0.0,
+        "p_wrong": 1e-06,
+        "p_cat": 0.0,
+        "p_result": 1.7e-05,
+        "track": 1e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "members": {
+        "p_a": 0.001442,
+        "p_b": 0.000703,
+        "p_wrong": 0.001442,
+        "p_cat": 0.0,
+        "p_result": 1.6e-05,
+        "track": 0.002145,
+        "pref": 0.000703,
+        "top_id": 220
+      },
+      "both": {
+        "p_a": 0.001514,
+        "p_b": 0.00072,
+        "p_wrong": 0.001514,
+        "p_cat": 0.0,
+        "p_result": 1.7e-05,
+        "track": 0.002233,
+        "pref": 0.00072,
+        "top_id": 220
+      },
+      "shuffle_unembed": {
+        "p_a": 1e-06,
+        "p_b": 0.0,
+        "p_wrong": 1e-06,
+        "p_cat": 0.0,
+        "p_result": 1.7e-05,
+        "track": 1e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "shuffle_members": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 1.6e-05,
+        "track": 1e-06,
+        "pref": 0.0,
+        "top_id": 220
+      }
+    },
+    {
+      "i": 7,
+      "text": "6 plus 6. The answer is",
+      "a": 6,
+      "b": 6,
+      "op": "plus",
+      "result": 12,
+      "last_str": " is",
+      "locked": false,
+      "member_names": [
+        "digit:6"
+      ],
+      "member_ids": [
+        21
+      ],
+      "alone": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 8e-06,
+        "track": 1e-06,
+        "pref": 1e-06,
+        "top_id": 220
+      },
+      "residual": {
+        "p_a": 1e-06,
+        "p_b": 1e-06,
+        "p_wrong": 1e-06,
+        "p_cat": 0.0,
+        "p_result": 1.4e-05,
+        "track": 2e-06,
+        "pref": 1e-06,
+        "top_id": 220
+      },
+      "unembed": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 8e-06,
+        "track": 1e-06,
+        "pref": 1e-06,
+        "top_id": 220
+      },
+      "members": {
+        "p_a": 0.001195,
+        "p_b": 0.001195,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 8e-06,
+        "track": 0.00239,
+        "pref": 0.00239,
+        "top_id": 220
+      },
+      "both": {
+        "p_a": 0.001244,
+        "p_b": 0.001244,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 8e-06,
+        "track": 0.002489,
+        "pref": 0.002489,
+        "top_id": 220
+      },
+      "shuffle_unembed": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 8e-06,
+        "track": 1e-06,
+        "pref": 1e-06,
+        "top_id": 220
+      },
+      "shuffle_members": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.000829,
+        "p_cat": 0.0,
+        "p_result": 0.022059,
+        "track": 1e-06,
+        "pref": -0.000828,
+        "top_id": 220
+      }
+    },
+    {
+      "i": 8,
+      "text": "14 minus 7. The answer is",
+      "a": 14,
+      "b": 7,
+      "op": "minus",
+      "result": 7,
+      "last_str": " is",
+      "locked": true,
+      "member_names": [
+        "digit:14",
+        "digit:7"
+      ],
+      "member_ids": [
+        16,
+        22
+      ],
+      "alone": {
+        "p_a": 1e-06,
+        "p_b": 1.2e-05,
+        "p_wrong": 1e-06,
+        "p_cat": 0.0,
+        "p_result": 1.2e-05,
+        "track": 1.3e-05,
+        "pref": 1.2e-05,
+        "top_id": 220
+      },
+      "residual": {
+        "p_a": 1e-06,
+        "p_b": 2.1e-05,
+        "p_wrong": 1e-06,
+        "p_cat": 0.0,
+        "p_result": 2.1e-05,
+        "track": 2.3e-05,
+        "pref": 2.1e-05,
+        "top_id": 220
+      },
+      "unembed": {
+        "p_a": 1e-06,
+        "p_b": 1.2e-05,
+        "p_wrong": 1e-06,
+        "p_cat": 0.0,
+        "p_result": 1.2e-05,
+        "track": 1.3e-05,
+        "pref": 1.2e-05,
+        "top_id": 220
+      },
+      "members": {
+        "p_a": 0.00271,
+        "p_b": 0.03514,
+        "p_wrong": 0.00271,
+        "p_cat": 0.0,
+        "p_result": 0.03514,
+        "track": 0.03785,
+        "pref": 0.03514,
+        "top_id": 220
+      },
+      "both": {
+        "p_a": 0.002772,
+        "p_b": 0.035787,
+        "p_wrong": 0.002772,
+        "p_cat": 0.0,
+        "p_result": 0.035787,
+        "track": 0.038559,
+        "pref": 0.035787,
+        "top_id": 220
+      },
+      "shuffle_unembed": {
+        "p_a": 1e-06,
+        "p_b": 1.3e-05,
+        "p_wrong": 1e-06,
+        "p_cat": 0.0,
+        "p_result": 1.3e-05,
+        "track": 1.3e-05,
+        "pref": 1.3e-05,
+        "top_id": 220
+      },
+      "shuffle_members": {
+        "p_a": 0.002807,
+        "p_b": 1.2e-05,
+        "p_wrong": 0.002807,
+        "p_cat": 0.0,
+        "p_result": 1.2e-05,
+        "track": 0.002819,
+        "pref": 1.2e-05,
+        "top_id": 220
+      }
+    },
+    {
+      "i": 9,
+      "text": "11 plus 9. The answer is",
+      "a": 11,
+      "b": 9,
+      "op": "plus",
+      "result": 20,
+      "last_str": " is",
+      "locked": true,
+      "member_names": [
+        "digit:11",
+        "digit:9"
+      ],
+      "member_ids": [
+        16,
+        24
+      ],
+      "alone": {
+        "p_a": 8e-06,
+        "p_b": 0.0,
+        "p_wrong": 8e-06,
+        "p_cat": 0.0,
+        "p_result": 1.1e-05,
+        "track": 8e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "residual": {
+        "p_a": 1.5e-05,
+        "p_b": 1e-06,
+        "p_wrong": 1.5e-05,
+        "p_cat": 0.0,
+        "p_result": 2.1e-05,
+        "track": 1.6e-05,
+        "pref": 1e-06,
+        "top_id": 220
+      },
+      "unembed": {
+        "p_a": 8e-06,
+        "p_b": 0.0,
+        "p_wrong": 8e-06,
+        "p_cat": 0.0,
+        "p_result": 1.2e-05,
+        "track": 8e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "members": {
+        "p_a": 0.022874,
+        "p_b": 0.001139,
+        "p_wrong": 0.022874,
+        "p_cat": 0.0,
+        "p_result": 1.1e-05,
+        "track": 0.024013,
+        "pref": 0.001139,
+        "top_id": 220
+      },
+      "both": {
+        "p_a": 0.02329,
+        "p_b": 0.001161,
+        "p_wrong": 0.02329,
+        "p_cat": 0.0,
+        "p_result": 1.1e-05,
+        "track": 0.024451,
+        "pref": 0.001161,
+        "top_id": 220
+      },
+      "shuffle_unembed": {
+        "p_a": 8e-06,
+        "p_b": 0.0,
+        "p_wrong": 8e-06,
+        "p_cat": 0.0,
+        "p_result": 1.2e-05,
+        "track": 8e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "shuffle_members": {
+        "p_a": 8e-06,
+        "p_b": 0.0,
+        "p_wrong": 8e-06,
+        "p_cat": 0.0,
+        "p_result": 1.1e-05,
+        "track": 8e-06,
+        "pref": 0.0,
+        "top_id": 220
+      }
+    },
+    {
+      "i": 10,
+      "text": "4 times 3. The answer is",
+      "a": 4,
+      "b": 3,
+      "op": "times",
+      "result": 12,
+      "last_str": " is",
+      "locked": true,
+      "member_names": [
+        "digit:3",
+        "digit:4"
+      ],
+      "member_ids": [
+        18,
+        19
+      ],
+      "alone": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 5e-06,
+        "track": 0.0,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "residual": {
+        "p_a": 0.0,
+        "p_b": 1e-06,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 9e-06,
+        "track": 1e-06,
+        "pref": 1e-06,
+        "top_id": 220
+      },
+      "unembed": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 5e-06,
+        "track": 0.0,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "members": {
+        "p_a": 0.000512,
+        "p_b": 0.00087,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 5e-06,
+        "track": 0.001382,
+        "pref": 0.001382,
+        "top_id": 220
+      },
+      "both": {
+        "p_a": 0.000528,
+        "p_b": 0.000896,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 5e-06,
+        "track": 0.001425,
+        "pref": 0.001425,
+        "top_id": 220
+      },
+      "shuffle_unembed": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 5e-06,
+        "track": 0.0,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "shuffle_members": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.000204,
+        "p_cat": 0.0,
+        "p_result": 5e-06,
+        "track": 0.0,
+        "pref": -0.000203,
+        "top_id": 220
+      }
+    },
+    {
+      "i": 11,
+      "text": "5 times 5. The answer is",
+      "a": 5,
+      "b": 5,
+      "op": "times",
+      "result": 25,
+      "last_str": " is",
+      "locked": false,
+      "member_names": [
+        "digit:5"
+      ],
+      "member_ids": [
+        20
+      ],
+      "alone": {
+        "p_a": 1e-06,
+        "p_b": 1e-06,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 5e-06,
+        "track": 2e-06,
+        "pref": 1e-06,
+        "top_id": 220
+      },
+      "residual": {
+        "p_a": 2e-06,
+        "p_b": 2e-06,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 8e-06,
+        "track": 3e-06,
+        "pref": 3e-06,
+        "top_id": 220
+      },
+      "unembed": {
+        "p_a": 1e-06,
+        "p_b": 1e-06,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 5e-06,
+        "track": 2e-06,
+        "pref": 2e-06,
+        "top_id": 220
+      },
+      "members": {
+        "p_a": 0.002383,
+        "p_b": 0.002383,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 5e-06,
+        "track": 0.004765,
+        "pref": 0.004765,
+        "top_id": 220
+      },
+      "both": {
+        "p_a": 0.002484,
+        "p_b": 0.002484,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 5e-06,
+        "track": 0.004968,
+        "pref": 0.004968,
+        "top_id": 220
+      },
+      "shuffle_unembed": {
+        "p_a": 1e-06,
+        "p_b": 1e-06,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 5e-06,
+        "track": 2e-06,
+        "pref": 2e-06,
+        "top_id": 220
+      },
+      "shuffle_members": {
+        "p_a": 1e-06,
+        "p_b": 1e-06,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 0.015329,
+        "track": 2e-06,
+        "pref": 1e-06,
+        "top_id": 220
+      }
+    }
+  ]
+}

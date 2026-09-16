@@ -46,6 +46,11 @@ class CandidateRegion:
     source: str = "inferred"
     strength: str = "candidate_association"
     notes: list[str] = field(default_factory=list)
+    v: list[float] | None = None
+
+    @property
+    def unit_indices(self) -> list[int]:
+        return [u.unit for u in self.units]
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -62,6 +67,8 @@ class CandidateRegion:
             "source": self.source,
             "strength": self.strength,
             "notes": list(self.notes),
+            "v_dim": len(self.v) if self.v is not None else 0,
+            "unit_indices": list(self.unit_indices),
             "claim": EvidenceClaim(
                 statement=(
                     f"Layer {self.layer} SVD component {self.component_index} "
@@ -92,15 +99,9 @@ def _ffn_down_specs(index: ModelIndex) -> list:
 
 
 def _get_module(model: Any, path: str) -> Any:
-    obj = model
-    # strip trailing .weight
-    parts = path.replace(".weight", "").split(".")
-    for part in parts:
-        if part.isdigit():
-            obj = obj[int(part)]
-        else:
-            obj = getattr(obj, part)
-    return obj
+    from llmintent.anatomy.weights import get_module
+
+    return get_module(model, path)
 
 
 def discover_from_weights(
@@ -114,11 +115,15 @@ def discover_from_weights(
     prior_layers: list[int] | None = None,
 ) -> list[CandidateRegion]:
     """Rank SVD components by task logit contrast, not by largest singular value alone."""
+    from llmintent.anatomy.tasks import family_action_tokens
+    from llmintent.anatomy.weights import WeightExtractionError, extract_dense_weight, logical_linear_shape
+    from llmintent.models import get_unembedding_matrix
+
     index = index_bundle(bundle)
     tok = bundle.tokenizer
-    pos_ids = _token_ids(tok, items[0].positive)
-    neg_ids = _token_ids(tok, items[0].negative)
-    from llmintent.models import get_unembedding_matrix
+    action, nonaction = family_action_tokens(items[0].family)
+    pos_ids = _token_ids(tok, action or items[0].positive)
+    neg_ids = _token_ids(tok, nonaction or items[0].negative)
 
     try:
         unembed = get_unembedding_matrix(bundle.model)
@@ -137,8 +142,9 @@ def discover_from_weights(
         layer = int(spec.component.layer or 0)
         try:
             mod = _get_module(bundle.model, spec.component.module_path)
-            weight = mod.data if hasattr(mod, "data") else mod.weight.data
-        except Exception:
+            expected = logical_linear_shape(mod) or (tuple(spec.shape) if spec.shape else None)
+            weight = extract_dense_weight(mod, expected_shape=expected)
+        except (WeightExtractionError, Exception):
             continue
         comps = decompose_ffn_down(
             weight,
@@ -148,6 +154,7 @@ def discover_from_weights(
             top_k=top_k,
         )
         for comp in comps:
+            vector = np.asarray(comp.v, dtype=np.float64).reshape(-1)
             for sign in (1, -1):
                 profile = signed_logit_profile(
                     sign * comp.u,
@@ -155,6 +162,8 @@ def discover_from_weights(
                     tok,
                     contrast_ids={"task_pos": pos_ids, "task_neg": neg_ids},
                 )
+                if profile.get("source") == "unavailable" or profile.get("status") == "unavailable":
+                    continue
                 contrasts = profile.get("contrasts") or {}
                 plus = float((contrasts.get("task_pos") or {}).get("plus", 0.0))
                 minus = float((contrasts.get("task_neg") or {}).get("plus", 0.0))
@@ -175,9 +184,11 @@ def discover_from_weights(
                         singular_value=comp.singular_value,
                         units=units,
                         logit_profile=profile,
+                        v=(sign * vector).tolist(),
                         notes=[
                             "Primary pipeline: SVD of W_down → signed W_vocab u contrast.",
-                            "Lower singular values retained within top_k.",
+                            "Packed quantized storage is dequantized before SVD.",
+                            "Unavailable logit profiles are dropped, not ranked at contrast 0.",
                             "Depth-band prior not applied unless prior_layers was passed.",
                         ],
                     )

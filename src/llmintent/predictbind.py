@@ -18,6 +18,7 @@ Residual add is not prediction. Decay is not trained.
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from typing import Any, Iterable, Sequence
 
@@ -466,3 +467,140 @@ def top_piece(bundle: Any, logits: torch.Tensor) -> str:
     tid = int(torch.argmax(logits.reshape(-1)).item())
     text = bundle.tokenizer.decode([tid], skip_special_tokens=True).strip()
     return text or f"id:{tid}"
+
+
+_REASON = re.compile(
+    r"\b(because|therefore|so |first|then|minus|plus|times|equals?|"
+    r"left|now|sum|product|difference|moves?|swaps?|gives?)\b",
+    re.I,
+)
+
+
+def _has_word(text: str, piece: str) -> bool:
+    if not piece:
+        return False
+    if piece.isdigit():
+        return re.search(rf"(?<!\d){re.escape(piece)}(?!\d)", text) is not None
+    return re.search(rf"\b{re.escape(piece)}\b", text, re.I) is not None
+
+
+def assess(text: str, item: dict) -> dict:
+    """Qualitative bind readout used by 27B eval scripts and tests."""
+    raw = text or ""
+    t = raw.strip()
+    expect = list(item.get("expect") or [])
+    ops = list(item.get("operands") or [])
+    wrote_result = any(_has_word(t, e) for e in expect)
+    wrote_ops = all(_has_word(t, o) for o in ops) if ops else False
+    first = t.split()[0] if t.split() else ""
+    first_clean = re.sub(r"[^\w]", "", first)
+    hijack = bool(t) and first_clean in set(ops) and not _REASON.search(t[:80])
+    return {
+        "empty": not t,
+        "n_chars": len(t),
+        "wrote_result": wrote_result,
+        "wrote_operands": wrote_ops,
+        "has_reason": bool(_REASON.search(t)),
+        "opens_with_operand": first_clean in set(ops),
+        "hijack": hijack,
+        "preview": t[:240],
+    }
+
+
+def verdict(alone: dict, bound: dict) -> str:
+    if bound.get("hijack") and not alone.get("hijack"):
+        if bound.get("wrote_result") and not alone.get("wrote_result"):
+            return "hijack_but_correct"
+        return "hijack"
+    if bound.get("wrote_result") and not alone.get("wrote_result"):
+        if bound.get("has_reason") or bound.get("n_chars", 0) >= 40:
+            return "improved"
+        return "correct_shorter"
+    if alone.get("wrote_result") and not bound.get("wrote_result"):
+        return "worse"
+    if alone.get("has_reason") and not bound.get("has_reason"):
+        return "worse_reason"
+    if bound.get("has_reason") and not alone.get("has_reason") and bound.get("wrote_result"):
+        return "improved"
+    return "same"
+
+
+def mine_qual(rows: list[dict]) -> dict:
+    n = len(rows) or 1
+    counts: dict[str, int] = {}
+    for row in rows:
+        label = row.get("verdict") or "same"
+        counts[label] = counts.get(label, 0) + 1
+    alone_ok = sum(1 for r in rows if (r.get("alone") or {}).get("wrote_result"))
+    bind_ok = sum(1 for r in rows if (r.get("members") or {}).get("wrote_result"))
+    return {
+        "n": len(rows),
+        "counts": counts,
+        "alone_ok": alone_ok / n,
+        "bind_ok": bind_ok / n,
+    }
+
+
+def mine_bind_tracks(rows: list[dict]) -> dict:
+    """Summarize operand-mass tracks from bind ablations."""
+
+    def mean(cond: str, key: str) -> float:
+        vals = [
+            r[cond][key]
+            for r in rows
+            if cond in r and isinstance(r.get(cond), dict) and key in r[cond]
+        ]
+        return float(sum(vals) / len(vals)) if vals else 0.0
+
+    n = len(rows) or 1
+    locked = sum(1 for r in rows if r.get("locked"))
+    alone = mean("alone", "track")
+    residual = mean("residual", "track")
+    unembed = mean("unembed", "track")
+    members = mean("members", "track")
+    both = mean("both", "track")
+    sh_u = mean("shuffle_unembed", "track")
+    sh_m = mean("shuffle_members", "track")
+    floor = 1e-5
+    rides_unembed = unembed > alone + floor and unembed > sh_u + floor
+    rides_members = members > alone + floor and members > sh_m + floor
+    rides_both = both > alone + floor and both > sh_m + floor
+    findings = [
+        f"BoundState locked on {locked}/{len(rows)}.",
+        (
+            f"Track P(a)+P(b): alone {alone:.5f}, residual {residual:.5f}, "
+            f"unembed {unembed:.5f}, members {members:.5f}, both {both:.5f}, "
+            f"shuffle_unembed {sh_u:.5f}, shuffle_members {sh_m:.5f}."
+        ),
+    ]
+    if rides_members:
+        findings.append("Member bind raised operand mass over alone and shuffled members.")
+    else:
+        findings.append("Member bind did not uniquely raise operand mass.")
+    if rides_unembed:
+        findings.append("Unembed bind raised operand mass over alone and shuffled g.")
+    else:
+        findings.append(
+            "Projecting g through the unembed did not uniquely raise operand mass."
+        )
+    return {
+        "n": len(rows),
+        "locked_frac": round(locked / n, 3),
+        "track_alone": round(alone, 6),
+        "track_residual": round(residual, 6),
+        "track_unembed": round(unembed, 6),
+        "track_members": round(members, 6),
+        "track_both": round(both, 6),
+        "track_shuffle_unembed": round(sh_u, 6),
+        "track_shuffle_members": round(sh_m, 6),
+        "pref_alone": round(mean("alone", "pref"), 6),
+        "pref_members": round(mean("members", "pref"), 6),
+        "pref_unembed": round(mean("unembed", "pref"), 6),
+        "rides_unembed": bool(rides_unembed),
+        "rides_members": bool(rides_members),
+        "rides_both": bool(rides_both),
+        "findings": findings,
+    }
+
+
+mine = mine_bind_tracks

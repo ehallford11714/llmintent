@@ -444,6 +444,17 @@ python -m llmintent models list
 
 Standalone extractable libs ([intent-isolates](https://github.com/ehallford11714/intent-isolates), LatentIntentInspect) may still be installed separately; the suite re-exports them when present.
 
+## Changelog (1.7.1)
+
+Review fixes for the 1.7.0 atlas path. Alignment now uses an escape-oriented `action_score` and reports correctness separately, so a correct “wait” on a receding object can no longer look like escape. Cascade intervenes on the nominated SVD units, measures B under A, and requires task disruption plus rescue. NF4 weights are dequantized before SVD. Unidentified residual layers no longer raise `layer.deception`. Confirmation uses held-out template groups. Fly assays label simulator mechanics as not biological validation. Bind eval helpers (`assess`, `verdict`, `mine`) live in `llmintent.predictbind`.
+
+**Actuation notions on Qwen 3.8-27B.** The fly prior names operations only; the model is not expected to perform a fly function. `function-mine` scores intention of actuation, reflection, withhold, and sensory scenes. On 100 prompts, late residual cosine does not dissociate intend vs reflect (Δ +0.044 vs +0.036); next-token logits do (+8.27 vs −6.23). Layer emergence on 20 “I am going to…” prompts: scene occupies layers 18–52; intention holds only at 61–64. Write-up and traces: [`examples/FINDINGS.md`](examples/FINDINGS.md), [`examples/artifacts/`](examples/artifacts/).
+
+```bash
+python -m llmintent function-mine --model qwen:27b
+```
+
+
 ## Changelog (1.7.0)
 
 **Derive latent intent at every layer, and track it as it changes.** Compile occupancy is the prompt's surface. Residual intent is last-token hidden state at layer L compared (cosine) to the same-layer residuals of a shared bank of intent-prototype prompts. That does not need logit-lens, so it still runs on Qwen 3.8-27B where unembed and residual dims do not match.
@@ -1344,6 +1355,8 @@ Viz outputs use consistent colors aligned with regime and module semantics:
 | `examples/hellaswag_benchmark.py` | HellaSwag SLM ablation + retrace store |
 | `examples/retracement_ablation.py` | Retracement Transformer perplexity ablation |
 | `examples/live_demo.py` | Live suite — analyze, heighten, generate on SLM |
+| `examples/FINDINGS.md` | 27B actuation-notion results (100 prompts + 65-layer emergence) |
+| `examples/artifacts/` | Traces: function_mine, layer_emergence, intent battery, atlas |
 
 ## Research lineage & citations
 

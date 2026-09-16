@@ -179,6 +179,16 @@ def add_suite_parsers(sub: argparse._SubParsersAction) -> None:
     atlas.add_argument("--top-k", type=int, default=4, dest="top_k")
     atlas.add_argument("--format", choices=["json", "markdown"], default="markdown", dest="fmt")
 
+    fmine = sub.add_parser(
+        "function-mine",
+        help="Mine intention vs reflection of actuation on 27B (100-prompt validation)",
+    )
+    fmine.add_argument("--model", default="qwen:27b")
+    fmine.add_argument("--4bit", action="store_true", dest="fourbit")
+    fmine.add_argument("--n", type=int, default=100)
+    fmine.add_argument("--out", default="artifacts/function_mine_27b")
+    fmine.add_argument("--format", choices=["json", "markdown"], default="markdown", dest="fmt")
+
     itrack = sub.add_parser(
         "intent-track",
         help="Derive latent intent at every layer and track how it changes",
@@ -258,6 +268,8 @@ def handle_suite_command(args: argparse.Namespace) -> int | None:
         return _cmd_anatomy(args)
     if cmd == "atlas":
         return _cmd_atlas(args)
+    if cmd == "function-mine":
+        return _cmd_function_mine(args)
     if cmd == "intent-track":
         return _cmd_intent_track(args)
     if cmd == "mcp":
@@ -405,6 +417,24 @@ def _cmd_atlas(args: argparse.Namespace) -> int:
     if getattr(args, "fmt", "markdown") == "json":
         return _emit(report, getattr(args, "out", None) and str(Path(args.out) / "atlas_experiment.json"))
     _safe_print(render_markdown(report))
+    return 0
+
+
+def _cmd_function_mine(args: argparse.Namespace) -> int:
+    from llmintent.anatomy.function_mine import run_function_mine
+
+    four = True if getattr(args, "fourbit", False) else None
+    report = run_function_mine(
+        model=getattr(args, "model", None) or "qwen:27b",
+        out_dir=getattr(args, "out", "artifacts/function_mine_27b"),
+        n_validate=int(getattr(args, "n", 100) or 100),
+        load_in_4bit=four,
+    )
+    if getattr(args, "fmt", "markdown") == "json":
+        return _emit(report, str(Path(args.out) / "function_mine.json"))
+    from llmintent.anatomy.function_mine import _markdown
+
+    _safe_print(_markdown(report))
     return 0
 
 

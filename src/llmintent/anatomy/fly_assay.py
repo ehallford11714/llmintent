@@ -121,6 +121,15 @@ class FlyFunctionalAssay:
             "stimulus_encoding": self.stimulus_encoding,
             "readout": self.readout,
             "validation_status": self.validation_status,
+            "simulator_mechanics": self.validation_status,
+            "biological_evidence": (
+                "established"
+                if self.living_fly or self.evidence_mode == "recording_reanalysis"
+                else "not_established"
+            ),
+            "validates_biology": bool(
+                self.living_fly or self.evidence_mode == "recording_reanalysis"
+            ),
             "living_fly": self.living_fly,
             "fit_conditions": self.fit_conditions,
             "eval_conditions": self.eval_conditions,
@@ -300,6 +309,7 @@ def run_looming_giant_fibre_assay(*, seed: int = 0) -> FlyFunctionalAssay:
         contributors=contributors,
         results=results,
         notes=[
+            "Passing this assay checks simulator mechanics, not independent biological function.",
             "Not a living-fly experiment. Silencing LPLC2 here is a simulation prediction.",
             "fly-brain vision.statistics is a pixel proxy, not this rate model.",
             "Lappalainen et al. 2024 optic-lobe network is not present in this workspace.",
@@ -443,6 +453,7 @@ def run_looming_malecns_assay() -> FlyFunctionalAssay:
         contributors=["LPLC2", "DNp01"] if selective else ["LPLC2"],
         results=results,
         notes=[
+            "Passing this assay checks simulator mechanics, not independent biological function.",
             "Weights and NTs are from the downloaded fly-brain MaleCNS tables.",
             "Expanding vs receding drive is still a literature prior; the EM volume has no spikes.",
             "Not a living-fly experiment. LPLC2 silence is a simulation on measured synapses.",
@@ -531,6 +542,7 @@ def run_dopamine_malecns_assay() -> FlyFunctionalAssay:
         contributors=["PAM", "PPL1"] if pam_up and ppl_down else [],
         results=results,
         notes=[
+            "Passing this assay checks simulator mechanics (gain vs extra ACh), not independent biological function.",
             "PAM and PPL1 are dopamine on MaleCNS. They are not modeled as extra excitatory synapses.",
             "GABA APL→KC is the signed inhibitory control (weight negative in the traced graph).",
             "Shared LLM operation: a value context should scale cue→outcome without being the cue, "

@@ -156,11 +156,7 @@ def test_bind_scores_members_only():
 
 
 def test_qual_verdict_improved_and_hijack():
-    import sys
-    from pathlib import Path
-
-    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-    from qual_bind_27b import assess, verdict
+    from llmintent.predictbind import assess, verdict
 
     item = {"expect": ["6"], "operands": ["8", "2"]}
     alone = assess("I need a calculator.", item)
@@ -171,11 +167,7 @@ def test_qual_verdict_improved_and_hijack():
 
 
 def test_ablation_mine_requires_member_over_shuffle():
-    import sys
-    from pathlib import Path
-
-    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-    from predict_bind_27b import mine
+    from llmintent.predictbind import mine
 
     rows = [
         {

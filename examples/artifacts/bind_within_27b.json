@@ -1,0 +1,647 @@
+{
+  "model": "Qwen/Qwen3.8-27B",
+  "gain": 1.5,
+  "decay": 0.92,
+  "site": "all_layers_member_and_tail",
+  "partial": false,
+  "summary": {
+    "n": 12,
+    "locked_frac": 0.833,
+    "track_alone": 3e-06,
+    "track_within": 3e-06,
+    "track_shuffle": 3e-06,
+    "pref_alone": 0.0,
+    "pref_within": 0.0,
+    "pref_shuffle": 0.0,
+    "rides_bind": false,
+    "findings": [
+      "BoundState locked on 10/12.",
+      "In-stream track P(a)+P(b): alone 0.00000, within 0.00000, shuffle 0.00000.",
+      "Writing the lock into the residual stream did not uniquely raise operand mass. The true flag was a 1e-8 rounding artifact; all three means are 3e-6."
+    ]
+  },
+  "rows": [
+    {
+      "i": 0,
+      "text": "8 minus 2. The answer is",
+      "a": 8,
+      "b": 2,
+      "last_str": " is",
+      "locked": true,
+      "members": [
+        "digit:2",
+        "digit:8"
+      ],
+      "positions": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "alone": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 6e-06,
+        "track": 0.0,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "within": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 5e-06,
+        "track": 0.0,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "shuffle": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 4e-06,
+        "track": 0.0,
+        "pref": 0.0,
+        "top_id": 220
+      }
+    },
+    {
+      "i": 1,
+      "text": "12 plus 4. The answer is",
+      "a": 12,
+      "b": 4,
+      "last_str": " is",
+      "locked": true,
+      "members": [
+        "digit:12",
+        "digit:4"
+      ],
+      "positions": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "alone": {
+        "p_a": 9e-06,
+        "p_b": 0.0,
+        "p_wrong": 9e-06,
+        "p_cat": 0.0,
+        "p_result": 9e-06,
+        "track": 9e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "within": {
+        "p_a": 8e-06,
+        "p_b": 0.0,
+        "p_wrong": 8e-06,
+        "p_cat": 0.0,
+        "p_result": 8e-06,
+        "track": 9e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "shuffle": {
+        "p_a": 9e-06,
+        "p_b": 0.0,
+        "p_wrong": 9e-06,
+        "p_cat": 0.0,
+        "p_result": 9e-06,
+        "track": 9e-06,
+        "pref": 0.0,
+        "top_id": 220
+      }
+    },
+    {
+      "i": 2,
+      "text": "10 minus 3. The answer is",
+      "a": 10,
+      "b": 3,
+      "last_str": " is",
+      "locked": true,
+      "members": [
+        "digit:10",
+        "digit:3"
+      ],
+      "positions": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "alone": {
+        "p_a": 1e-06,
+        "p_b": 0.0,
+        "p_wrong": 1e-06,
+        "p_cat": 0.0,
+        "p_result": 1.2e-05,
+        "track": 1e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "within": {
+        "p_a": 1e-06,
+        "p_b": 0.0,
+        "p_wrong": 1e-06,
+        "p_cat": 0.0,
+        "p_result": 1.3e-05,
+        "track": 1e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "shuffle": {
+        "p_a": 1e-06,
+        "p_b": 0.0,
+        "p_wrong": 1e-06,
+        "p_cat": 0.0,
+        "p_result": 1.3e-05,
+        "track": 1e-06,
+        "pref": 0.0,
+        "top_id": 220
+      }
+    },
+    {
+      "i": 3,
+      "text": "7 plus 5. The answer is",
+      "a": 7,
+      "b": 5,
+      "last_str": " is",
+      "locked": true,
+      "members": [
+        "digit:5",
+        "digit:7"
+      ],
+      "positions": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "alone": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 1.1e-05,
+        "track": 0.0,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "within": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 1.2e-05,
+        "track": 0.0,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "shuffle": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 1.2e-05,
+        "track": 0.0,
+        "pref": 0.0,
+        "top_id": 220
+      }
+    },
+    {
+      "i": 4,
+      "text": "15 minus 6. The answer is",
+      "a": 15,
+      "b": 6,
+      "last_str": " is",
+      "locked": true,
+      "members": [
+        "digit:15",
+        "digit:6"
+      ],
+      "positions": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "alone": {
+        "p_a": 1e-06,
+        "p_b": 0.0,
+        "p_wrong": 1e-06,
+        "p_cat": 0.0,
+        "p_result": 1.4e-05,
+        "track": 1e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "within": {
+        "p_a": 1e-06,
+        "p_b": 0.0,
+        "p_wrong": 1e-06,
+        "p_cat": 0.0,
+        "p_result": 1.3e-05,
+        "track": 1e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "shuffle": {
+        "p_a": 1e-06,
+        "p_b": 0.0,
+        "p_wrong": 1e-06,
+        "p_cat": 0.0,
+        "p_result": 1.3e-05,
+        "track": 1e-06,
+        "pref": 0.0,
+        "top_id": 220
+      }
+    },
+    {
+      "i": 5,
+      "text": "9 times 2. The answer is",
+      "a": 9,
+      "b": 2,
+      "last_str": " is",
+      "locked": true,
+      "members": [
+        "digit:2",
+        "digit:9"
+      ],
+      "positions": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "alone": {
+        "p_a": 0.0,
+        "p_b": 1e-06,
+        "p_wrong": 1.2e-05,
+        "p_cat": 0.0,
+        "p_result": 1.2e-05,
+        "track": 1e-06,
+        "pref": -1.1e-05,
+        "top_id": 220
+      },
+      "within": {
+        "p_a": 1e-06,
+        "p_b": 1e-06,
+        "p_wrong": 1.3e-05,
+        "p_cat": 0.0,
+        "p_result": 1.3e-05,
+        "track": 1e-06,
+        "pref": -1.2e-05,
+        "top_id": 220
+      },
+      "shuffle": {
+        "p_a": 0.0,
+        "p_b": 1e-06,
+        "p_wrong": 1.2e-05,
+        "p_cat": 0.0,
+        "p_result": 1.2e-05,
+        "track": 1e-06,
+        "pref": -1.1e-05,
+        "top_id": 220
+      }
+    },
+    {
+      "i": 6,
+      "text": "20 minus 8. The answer is",
+      "a": 20,
+      "b": 8,
+      "last_str": " is",
+      "locked": true,
+      "members": [
+        "digit:20",
+        "digit:8"
+      ],
+      "positions": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "alone": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 1.6e-05,
+        "track": 1e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "within": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 1.5e-05,
+        "track": 1e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "shuffle": {
+        "p_a": 1e-06,
+        "p_b": 0.0,
+        "p_wrong": 1e-06,
+        "p_cat": 0.0,
+        "p_result": 1.7e-05,
+        "track": 1e-06,
+        "pref": 0.0,
+        "top_id": 220
+      }
+    },
+    {
+      "i": 7,
+      "text": "6 plus 6. The answer is",
+      "a": 6,
+      "b": 6,
+      "last_str": " is",
+      "locked": false,
+      "members": [
+        "digit:6"
+      ],
+      "positions": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "alone": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 8e-06,
+        "track": 1e-06,
+        "pref": 1e-06,
+        "top_id": 220
+      },
+      "within": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 8e-06,
+        "track": 1e-06,
+        "pref": 1e-06,
+        "top_id": 220
+      },
+      "shuffle": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 7e-06,
+        "track": 1e-06,
+        "pref": 0.0,
+        "top_id": 220
+      }
+    },
+    {
+      "i": 8,
+      "text": "14 minus 7. The answer is",
+      "a": 14,
+      "b": 7,
+      "last_str": " is",
+      "locked": true,
+      "members": [
+        "digit:14",
+        "digit:7"
+      ],
+      "positions": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "alone": {
+        "p_a": 1e-06,
+        "p_b": 1.2e-05,
+        "p_wrong": 1e-06,
+        "p_cat": 0.0,
+        "p_result": 1.2e-05,
+        "track": 1.3e-05,
+        "pref": 1.2e-05,
+        "top_id": 220
+      },
+      "within": {
+        "p_a": 1e-06,
+        "p_b": 1.3e-05,
+        "p_wrong": 1e-06,
+        "p_cat": 0.0,
+        "p_result": 1.3e-05,
+        "track": 1.4e-05,
+        "pref": 1.3e-05,
+        "top_id": 220
+      },
+      "shuffle": {
+        "p_a": 1e-06,
+        "p_b": 1.2e-05,
+        "p_wrong": 1e-06,
+        "p_cat": 0.0,
+        "p_result": 1.2e-05,
+        "track": 1.2e-05,
+        "pref": 1.2e-05,
+        "top_id": 220
+      }
+    },
+    {
+      "i": 9,
+      "text": "11 plus 9. The answer is",
+      "a": 11,
+      "b": 9,
+      "last_str": " is",
+      "locked": true,
+      "members": [
+        "digit:11",
+        "digit:9"
+      ],
+      "positions": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "alone": {
+        "p_a": 8e-06,
+        "p_b": 0.0,
+        "p_wrong": 8e-06,
+        "p_cat": 0.0,
+        "p_result": 1.1e-05,
+        "track": 8e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "within": {
+        "p_a": 7e-06,
+        "p_b": 0.0,
+        "p_wrong": 7e-06,
+        "p_cat": 0.0,
+        "p_result": 1e-05,
+        "track": 7e-06,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "shuffle": {
+        "p_a": 8e-06,
+        "p_b": 0.0,
+        "p_wrong": 8e-06,
+        "p_cat": 0.0,
+        "p_result": 1.1e-05,
+        "track": 8e-06,
+        "pref": 0.0,
+        "top_id": 220
+      }
+    },
+    {
+      "i": 10,
+      "text": "4 times 3. The answer is",
+      "a": 4,
+      "b": 3,
+      "last_str": " is",
+      "locked": true,
+      "members": [
+        "digit:3",
+        "digit:4"
+      ],
+      "positions": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "alone": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 5e-06,
+        "track": 0.0,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "within": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 5e-06,
+        "track": 0.0,
+        "pref": 0.0,
+        "top_id": 220
+      },
+      "shuffle": {
+        "p_a": 0.0,
+        "p_b": 0.0,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 4e-06,
+        "track": 0.0,
+        "pref": 0.0,
+        "top_id": 220
+      }
+    },
+    {
+      "i": 11,
+      "text": "5 times 5. The answer is",
+      "a": 5,
+      "b": 5,
+      "last_str": " is",
+      "locked": false,
+      "members": [
+        "digit:5"
+      ],
+      "positions": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "alone": {
+        "p_a": 1e-06,
+        "p_b": 1e-06,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 5e-06,
+        "track": 2e-06,
+        "pref": 1e-06,
+        "top_id": 220
+      },
+      "within": {
+        "p_a": 1e-06,
+        "p_b": 1e-06,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 5e-06,
+        "track": 2e-06,
+        "pref": 2e-06,
+        "top_id": 220
+      },
+      "shuffle": {
+        "p_a": 1e-06,
+        "p_b": 1e-06,
+        "p_wrong": 0.0,
+        "p_cat": 0.0,
+        "p_result": 5e-06,
+        "track": 2e-06,
+        "pref": 2e-06,
+        "top_id": 220
+      }
+    }
+  ]
+}

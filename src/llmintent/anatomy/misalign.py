@@ -11,6 +11,7 @@ import sys
 from dataclasses import dataclass, field
 from typing import Sequence, TextIO
 
+from llmintent.anatomy.evidence import ACCEPTANCE_FLOOR
 from llmintent.anatomy.intents import (
     INTENT_BY_ID,
     full_scores,
@@ -233,11 +234,16 @@ def scan_negative_intent(
             )
 
     for row in layer_intents or ():
+        if not bool(row.get("identified", False)):
+            continue
         layer = int(row.get("layer", -1))
         band = str(row.get("band") or "")
+        top = str(row.get("top_intent") or "")
         intents = row.get("intents") or {}
         for iid, sc in intents.items():
-            if float(sc) <= 0:
+            if top and iid != top:
+                continue
+            if float(sc) < ACCEPTANCE_FLOOR:
                 continue
             spec = INTENT_BY_ID.get(iid)
             if spec is None or spec.polarity != "negative":

@@ -108,6 +108,8 @@ class LayerIntents:
     layer: int
     band: str
     intents: dict[str, float]
+    identified: bool = False
+    top_intent: str = "unidentified"
 
     @property
     def active(self) -> dict[str, float]:
@@ -118,6 +120,8 @@ class LayerIntents:
         return {
             "layer": self.layer,
             "band": self.band,
+            "identified": self.identified,
+            "top_intent": self.top_intent,
             "intents": {k: round(v, 4) for k, v in payload.items()},
             "active": [k for k, v in self.intents.items() if v > 0],
         }

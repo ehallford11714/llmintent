@@ -1,0 +1,477 @@
+{
+  "model": "Qwen/Qwen3.8-27B",
+  "site": "count_scale_experiment",
+  "partial": false,
+  "summary": {
+    "n": 8,
+    "alone_correct": 2,
+    "file_correct": 1,
+    "gate_correct": 4,
+    "by_item": {
+      "shell_n3": {
+        "alone": 1,
+        "file": 0,
+        "gate": 1
+      },
+      "shell_n7": {
+        "alone": 0,
+        "file": 0,
+        "gate": 0
+      },
+      "shell_n11": {
+        "alone": 0,
+        "file": 0,
+        "gate": 0
+      },
+      "count_n5": {
+        "alone": 1,
+        "file": 0,
+        "gate": 1
+      },
+      "count_n9": {
+        "alone": 0,
+        "file": 0,
+        "gate": 1
+      },
+      "count_n13": {
+        "alone": 0,
+        "file": 0,
+        "gate": 1
+      },
+      "give_n3": {
+        "alone": 0,
+        "file": 1,
+        "gate": 0
+      },
+      "give_n9": {
+        "alone": 0,
+        "file": 0,
+        "gate": 0
+      }
+    },
+    "reasoning_persists": true,
+    "findings": [
+      "Lead-correct: alone 2/8, file 1/8, gate 4/8.",
+      "Raise persists at higher count."
+    ],
+    "hand": {
+      "alone_ok": 2,
+      "file_ok": 2,
+      "gate_ok": 4,
+      "count_high": "vanilla 0/2 (n=9 writes 3, n=13 writes 1); gate 2/2 (6 and 9)",
+      "shell_high": "n=7 and n=11: no condition wrote the live cup as a lead",
+      "give": "file copies the live pair at n=3; at n=9 Ada 8 then Bea 5 on the next line",
+      "reasoning_persists": "count-gate only",
+      "findings": [
+        "First-line instruction made vanilla solve shell n=3 and count n=5. Those gate matches are not raises.",
+        "Count n=9 and n=13: vanilla dies (3, 1). Gate writes 6 and 9. That raise persists as count grows.",
+        "Shell n=7 and n=11: raise does not persist. File walks; gate thinks; nobody emits the live cup first.",
+        "File-in-prompt usually starts a walkthrough. Give is the exception: the mouth copies Ada/Bea from the live line."
+      ]
+    }
+  },
+  "rows": [
+    {
+      "id": "shell_n3",
+      "family": "shell",
+      "n": 3,
+      "expect": [
+        "1"
+      ],
+      "live": [
+        "1"
+      ],
+      "rivals": [
+        "2",
+        "3"
+      ],
+      "format_live": "the ball is under cup 1",
+      "alone_text": "\n\n1\nThe ball ends up under cup 1 after the sequence of swaps.<think>\nLet me trace through the swaps carefully.\n\nInitial state: Ball is under cup 1.\n- Cup 1: Ball\n- Cup 2: Empty",
+      "file_text": "\nStep 1: Swap cup 1 with cup 2.\n- The ball is under cup 1.\n- After swapping cup 1 and cup 2, the ball is now under cup 2.\nStep 2: Swap cup 2 with cup 3.\n- The ball is",
+      "gate_text": "\n\n1\nThe ball ends up under cup 1 after the sequence of swaps.<think>\nLet me trace through the swaps carefully.\n\nInitial state: Ball is under cup 1.\n- Cup 1: Ball\n- Cup 2: Empty",
+      "alone": {
+        "empty": false,
+        "n_chars": 176,
+        "lead": [
+          "1"
+        ],
+        "wrote_result": true,
+        "preview": "1\nThe ball ends up under cup 1 after the sequence of swaps.<think>\nLet me trace through the swaps carefully.\n\nInitial state: Ball is under cup 1.\n- Cup 1: Ball\n- Cup 2: Empty"
+      },
+      "file": {
+        "empty": false,
+        "n_chars": 166,
+        "lead": [],
+        "wrote_result": false,
+        "preview": "Step 1: Swap cup 1 with cup 2.\n- The ball is under cup 1.\n- After swapping cup 1 and cup 2, the ball is now under cup 2.\nStep 2: Swap cup 2 with cup 3.\n- The ball is"
+      },
+      "gate": {
+        "empty": false,
+        "n_chars": 176,
+        "lead": [
+          "1"
+        ],
+        "wrote_result": true,
+        "preview": "1\nThe ball ends up under cup 1 after the sequence of swaps.<think>\nLet me trace through the swaps carefully.\n\nInitial state: Ball is under cup 1.\n- Cup 1: Ball\n- Cup 2: Empty"
+      }
+    },
+    {
+      "id": "shell_n7",
+      "family": "shell",
+      "n": 7,
+      "expect": [
+        "2"
+      ],
+      "live": [
+        "2"
+      ],
+      "rivals": [
+        "1",
+        "3"
+      ],
+      "format_live": "the ball is under cup 2",
+      "alone_text": "\n\n<think>\nLet me track the ball through each swap.\n\nInitial: Ball is under cup 1.\n\n1. Swap cup 1 with cup 2: Ball moves to cup 2.\n2. Swap cup 2 with cup 3: Ball moves to cup 3.\n3. Swap",
+      "file_text": "\n\n1. Initial: Ball under cup 1.\n2. Swap 1 & 2: Ball under cup 2.\n3. Swap 2 & 3: Ball under cup 3.\n4. Swap 1 & 3: Ball under cup 1.\n5. Swap ",
+      "gate_text": "\n\n<think>\nLet me track the ball through each swap.\n\nInitial: Ball is under cup 2 (after first swap)\n\nWait, let me re-read. \"A ball starts under cup 2.\" No, \"A ball starts under cup 2.\" Let me re-read.\n\n\"A ball starts under",
+      "alone": {
+        "empty": false,
+        "n_chars": 184,
+        "lead": [],
+        "wrote_result": false,
+        "preview": "<think>\nLet me track the ball through each swap.\n\nInitial: Ball is under cup 1.\n\n1. Swap cup 1 with cup 2: Ball moves to cup 2.\n2. Swap cup 2 with cup 3: Ball moves to cup 3.\n3. Swap"
+      },
+      "file": {
+        "empty": false,
+        "n_chars": 139,
+        "lead": [
+          "1",
+          "1"
+        ],
+        "wrote_result": false,
+        "preview": "1. Initial: Ball under cup 1.\n2. Swap 1 & 2: Ball under cup 2.\n3. Swap 2 & 3: Ball under cup 3.\n4. Swap 1 & 3: Ball under cup 1.\n5. Swap"
+      },
+      "gate": {
+        "empty": false,
+        "n_chars": 222,
+        "lead": [],
+        "wrote_result": false,
+        "preview": "<think>\nLet me track the ball through each swap.\n\nInitial: Ball is under cup 2 (after first swap)\n\nWait, let me re-read. \"A ball starts under cup 2.\" No, \"A ball starts under cup 2.\" Let me re-read.\n\n\"A ball starts under"
+      }
+    },
+    {
+      "id": "shell_n11",
+      "family": "shell",
+      "n": 11,
+      "expect": [
+        "1"
+      ],
+      "live": [
+        "1"
+      ],
+      "rivals": [
+        "2",
+        "3"
+      ],
+      "format_live": "the ball is under cup 1",
+      "alone_text": "\n\n<think>\nLet me track the ball through each swap. The ball starts under cup 1.\n\nI'll track which cup the ball is under after each swap.\n\nStart: Ball is under cup 1.\n\n1. Swap cup 1 with cup 2: Ball moves to cup 2.\n",
+      "file_text": "\n1. Swap cup 1 with cup 2: ball is under cup 2.\n2. Swap cup 2 with cup 3: ball is under cup 3.\n3. Swap cup 1 with cup 3: ball is under cup 1.\n4. Swap cup 1",
+      "gate_text": "\n\n<think>\nLet me track the ball through each swap. The ball starts under cup 1.\n\nI'll track which cup the ball is under after each swap.\n\nStart: Ball is under cup 1.\n\n1. Swap cup 1 with cup 2: Ball moves to cup 2.\n",
+      "alone": {
+        "empty": false,
+        "n_chars": 214,
+        "lead": [],
+        "wrote_result": false,
+        "preview": "<think>\nLet me track the ball through each swap. The ball starts under cup 1.\n\nI'll track which cup the ball is under after each swap.\n\nStart: Ball is under cup 1.\n\n1. Swap cup 1 with cup 2: Ball moves to cup 2."
+      },
+      "file": {
+        "empty": false,
+        "n_chars": 155,
+        "lead": [],
+        "wrote_result": false,
+        "preview": "1. Swap cup 1 with cup 2: ball is under cup 2.\n2. Swap cup 2 with cup 3: ball is under cup 3.\n3. Swap cup 1 with cup 3: ball is under cup 1.\n4. Swap cup 1"
+      },
+      "gate": {
+        "empty": false,
+        "n_chars": 214,
+        "lead": [],
+        "wrote_result": false,
+        "preview": "<think>\nLet me track the ball through each swap. The ball starts under cup 1.\n\nI'll track which cup the ball is under after each swap.\n\nStart: Ball is under cup 1.\n\n1. Swap cup 1 with cup 2: Ball moves to cup 2."
+      }
+    },
+    {
+      "id": "count_n5",
+      "family": "count",
+      "n": 5,
+      "expect": [
+        "5"
+      ],
+      "live": [
+        "5"
+      ],
+      "rivals": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "format_live": "box has 5",
+      "alone_text": "\n\n5\nThe final count is five stones after adding and removing the specified amounts.",
+      "file_text": "\n3 + 2 = 5; 5 - 1 = 4; 4 + 4 = 8; 8 - 3 = 5.\n5\nThe box contains 5 stones.\n\nWait, the user said \"Answer with the number on the first line, then one",
+      "gate_text": "\n\n5\nThe final count is five stones after adding and removing the specified amounts.",
+      "alone": {
+        "empty": false,
+        "n_chars": 83,
+        "lead": [
+          "5"
+        ],
+        "wrote_result": true,
+        "preview": "5\nThe final count is five stones after adding and removing the specified amounts."
+      },
+      "file": {
+        "empty": false,
+        "n_chars": 146,
+        "lead": [
+          "3",
+          "2",
+          "5",
+          "5",
+          "1",
+          "4",
+          "4",
+          "4",
+          "8",
+          "8",
+          "3",
+          "5"
+        ],
+        "wrote_result": false,
+        "preview": "3 + 2 = 5; 5 - 1 = 4; 4 + 4 = 8; 8 - 3 = 5.\n5\nThe box contains 5 stones.\n\nWait, the user said \"Answer with the number on the first line, then one"
+      },
+      "gate": {
+        "empty": false,
+        "n_chars": 83,
+        "lead": [
+          "5"
+        ],
+        "wrote_result": true,
+        "preview": "5\nThe final count is five stones after adding and removing the specified amounts."
+      }
+    },
+    {
+      "id": "count_n9",
+      "family": "count",
+      "n": 9,
+      "expect": [
+        "6"
+      ],
+      "live": [
+        "6"
+      ],
+      "rivals": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "format_live": "box has 6",
+      "alone_text": "\n\n3\nThe stones are added and removed in sequence, leaving a final count of three in the box.<think>\nThe user wants me to track stones in a box through a series of operations.\n\nStart: 3 stones\nAdd 2: 3 + 2 = 5",
+      "file_text": "\nStep 1: add 2 \u2192 8.\nStep 2: take 1 \u2192 7.\nStep 3: add 4 \u2192 11.\nStep 4: take 3 \u2192 8.\nStep 5: add 6 \u2192 14.\nStep",
+      "gate_text": "\n\n6\nThe final count is six stones after performing all the additions and subtractions.Human:",
+      "alone": {
+        "empty": false,
+        "n_chars": 208,
+        "lead": [
+          "3"
+        ],
+        "wrote_result": false,
+        "preview": "3\nThe stones are added and removed in sequence, leaving a final count of three in the box.<think>\nThe user wants me to track stones in a box through a series of operations.\n\nStart: 3 stones\nAdd 2: 3 + 2 = 5"
+      },
+      "file": {
+        "empty": false,
+        "n_chars": 104,
+        "lead": [],
+        "wrote_result": false,
+        "preview": "Step 1: add 2 \u2192 8.\nStep 2: take 1 \u2192 7.\nStep 3: add 4 \u2192 11.\nStep 4: take 3 \u2192 8.\nStep 5: add 6 \u2192 14.\nStep"
+      },
+      "gate": {
+        "empty": false,
+        "n_chars": 92,
+        "lead": [
+          "6"
+        ],
+        "wrote_result": true,
+        "preview": "6\nThe final count is six stones after performing all the additions and subtractions.Human:"
+      }
+    },
+    {
+      "id": "count_n13",
+      "family": "count",
+      "n": 13,
+      "expect": [
+        "9"
+      ],
+      "live": [
+        "9"
+      ],
+      "rivals": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "format_live": "box has 9",
+      "alone_text": "\n\n1\nThere is one stone remaining in the box after completing all the additions and subtractions.Human:",
+      "file_text": "\n3+2=5; 5-1=4; 4+4=8; 8-3=5; 5+6=11; 11-2=9; 9+1=10; 10-4=6; 6+5",
+      "gate_text": "\n\n9\nThe final count of stones in the box is nine.Human:",
+      "alone": {
+        "empty": false,
+        "n_chars": 102,
+        "lead": [
+          "1"
+        ],
+        "wrote_result": false,
+        "preview": "1\nThere is one stone remaining in the box after completing all the additions and subtractions.Human:"
+      },
+      "file": {
+        "empty": false,
+        "n_chars": 64,
+        "lead": [
+          "3",
+          "2",
+          "5",
+          "5",
+          "1",
+          "4",
+          "4",
+          "4",
+          "8",
+          "8",
+          "3",
+          "5",
+          "5",
+          "6",
+          "11",
+          "11",
+          "2",
+          "9",
+          "9",
+          "1",
+          "10",
+          "10",
+          "4",
+          "6",
+          "6",
+          "5"
+        ],
+        "wrote_result": false,
+        "preview": "3+2=5; 5-1=4; 4+4=8; 8-3=5; 5+6=11; 11-2=9; 9+1=10; 10-4=6; 6+5"
+      },
+      "gate": {
+        "empty": false,
+        "n_chars": 55,
+        "lead": [
+          "9"
+        ],
+        "wrote_result": true,
+        "preview": "9\nThe final count of stones in the box is nine.Human:"
+      }
+    },
+    {
+      "id": "give_n3",
+      "family": "give",
+      "n": 3,
+      "expect": [
+        "7",
+        "6"
+      ],
+      "live": [
+        "7",
+        "6"
+      ],
+      "rivals": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "9"
+      ],
+      "format_live": "Ada has 7; Bea has 6",
+      "alone_text": "\n\n<think>\nLet me track the books step by step.\n\nInitial: Ada has 9, Bea has 4.\n\n1. Ada gives 3 to Bea: Ada has 9-3=6, Bea has 4+3=7.\n2. Bea gives 2 to Ada: Ada",
+      "file_text": "\n\n7, 6\nAda has 7 books and Bea has 6 books.",
+      "gate_text": "\n\n<think>\nLet me track the books step by step.\n\nInitial: Ada has 9, Bea has 4.\n\nStep 1: Ada gives 3 to Bea.\nAda: 9 - 3 = 6\nBea: 4 + 3 = 7\n\nStep 2",
+      "alone": {
+        "empty": false,
+        "n_chars": 159,
+        "lead": [],
+        "wrote_result": false,
+        "preview": "<think>\nLet me track the books step by step.\n\nInitial: Ada has 9, Bea has 4.\n\n1. Ada gives 3 to Bea: Ada has 9-3=6, Bea has 4+3=7.\n2. Bea gives 2 to Ada: Ada"
+      },
+      "file": {
+        "empty": false,
+        "n_chars": 43,
+        "lead": [
+          "7",
+          "6"
+        ],
+        "wrote_result": true,
+        "preview": "7, 6\nAda has 7 books and Bea has 6 books."
+      },
+      "gate": {
+        "empty": false,
+        "n_chars": 145,
+        "lead": [],
+        "wrote_result": false,
+        "preview": "<think>\nLet me track the books step by step.\n\nInitial: Ada has 9, Bea has 4.\n\nStep 1: Ada gives 3 to Bea.\nAda: 9 - 3 = 6\nBea: 4 + 3 = 7\n\nStep 2"
+      }
+    },
+    {
+      "id": "give_n9",
+      "family": "give",
+      "n": 9,
+      "expect": [
+        "8",
+        "5"
+      ],
+      "live": [
+        "8",
+        "5"
+      ],
+      "rivals": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "9"
+      ],
+      "format_live": "Ada has 8; Bea has 5",
+      "alone_text": "\n\n<think>\nLet me track the number of books Ada and Bea have through each transaction.\n\nStart: Ada = 9, Bea = 4\n\n1. Ada gives 3 to Bea: Ada = 6, Bea = 7\n2. Bea gives 2 to Ada: Ada = 8,",
+      "file_text": "\n\nAda: 8\nBea: 5\nAda has 8 books and Bea has 5 books..",
+      "gate_text": "\n\n<think>\nLet me track the number of books Ada and Bea have through each transaction.\n\nStart: Ada = 9, Bea = 4\n\n1. Ada gives 3 to Bea: Ada = 6, Bea = 7\n2. Bea gives 2 to Ada: Ada = 8,",
+      "alone": {
+        "empty": false,
+        "n_chars": 183,
+        "lead": [],
+        "wrote_result": false,
+        "preview": "<think>\nLet me track the number of books Ada and Bea have through each transaction.\n\nStart: Ada = 9, Bea = 4\n\n1. Ada gives 3 to Bea: Ada = 6, Bea = 7\n2. Bea gives 2 to Ada: Ada = 8,"
+      },
+      "file": {
+        "empty": false,
+        "n_chars": 53,
+        "lead": [
+          "8"
+        ],
+        "wrote_result": false,
+        "preview": "Ada: 8\nBea: 5\nAda has 8 books and Bea has 5 books.."
+      },
+      "gate": {
+        "empty": false,
+        "n_chars": 183,
+        "lead": [],
+        "wrote_result": false,
+        "preview": "<think>\nLet me track the number of books Ada and Bea have through each transaction.\n\nStart: Ada = 9, Bea = 4\n\n1. Ada gives 3 to Bea: Ada = 6, Bea = 7\n2. Bea gives 2 to Ada: Ada = 8,"
+      }
+    }
+  ]
+}

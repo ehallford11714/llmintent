@@ -1,0 +1,1329 @@
+{
+  "model": "Qwen/Qwen3.8-27B",
+  "decay": 0.92,
+  "gain": 1.5,
+  "trainable_params": 0,
+  "partial": false,
+  "summary": {
+    "n": 12,
+    "alone_written_frac": 0.0,
+    "join_mouth_written_frac": 0.0,
+    "join_mid_written_frac": 0.0,
+    "mouth_flip_frac": 0.0,
+    "random_mouth_flip_frac": 0.0,
+    "mid_flip_frac": 0.0,
+    "named_pair_frac": 1.0,
+    "mean_live_bindings": 5.5,
+    "mean_p_alone": 2e-05,
+    "mean_p_join_mouth": 2e-05,
+    "mean_p_join_mid": 1e-05,
+    "findings": [
+      "Alone wrote the result digit on 0/12 (0%).",
+      "Join-mouth wrote the result digit on 0/12 (0%). Mouth flipped vs alone on 0/12; random mouth flipped 0/12.",
+      "Named-entity pair (both operands) still co-live at the last token on 12/12.",
+      "Mean live bindings at last token: 5.5.",
+      "Join-mid wrote the result digit on 0/12 (0%); flipped vs alone on 0/12.",
+      "Joining the spike net at the mouth did not beat alone or random. The overlay is live; it is not a hidden number box."
+    ]
+  },
+  "rows": [
+    {
+      "i": 0,
+      "text": "8 minus 2. The answer is",
+      "a": 8,
+      "op": "minus",
+      "b": 2,
+      "result": 6,
+      "result_piece": "6",
+      "last_str": " is",
+      "n_spans": 2,
+      "spans": [
+        {
+          "token": "8",
+          "kind": "digit",
+          "position": 0
+        },
+        {
+          "token": "2",
+          "kind": "digit",
+          "position": 3
+        }
+      ],
+      "named_traces": {
+        "digit:8": 0.5578,
+        "digit:2": 0.7164
+      },
+      "n_live_bindings": 6,
+      "top_bindings": [
+        {
+          "left": "node:199",
+          "right": "node:215",
+          "potential": 18.5228,
+          "born_at": 2,
+          "last_spike": 8,
+          "cells": [
+            199,
+            215
+          ]
+        },
+        {
+          "left": "node:199",
+          "right": "digit:2",
+          "potential": 4.3591,
+          "born_at": 4,
+          "last_spike": 8,
+          "cells": [
+            199,
+            257
+          ]
+        },
+        {
+          "left": "node:199",
+          "right": "digit:8",
+          "potential": 3.3944,
+          "born_at": 1,
+          "last_spike": 8,
+          "cells": [
+            199,
+            256
+          ]
+        },
+        {
+          "left": "node:215",
+          "right": "digit:2",
+          "potential": 2.1808,
+          "born_at": 4,
+          "last_spike": 8,
+          "cells": [
+            215,
+            257
+          ]
+        },
+        {
+          "left": "node:215",
+          "right": "digit:8",
+          "potential": 1.6982,
+          "born_at": 2,
+          "last_spike": 8,
+          "cells": [
+            215,
+            256
+          ]
+        }
+      ],
+      "has_named_pair": true,
+      "binding_vector": true,
+      "clock": 8,
+      "alone": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 1e-05,
+        "written_correct": false
+      },
+      "join_mouth": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 9e-06,
+        "written_correct": false
+      },
+      "random_mouth": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 1e-05,
+        "written_correct": false
+      },
+      "join_mid": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 5e-06,
+        "written_correct": false
+      }
+    },
+    {
+      "i": 1,
+      "text": "12 plus 4. The answer is",
+      "a": 12,
+      "op": "plus",
+      "b": 4,
+      "result": 16,
+      "result_piece": "1",
+      "last_str": " is",
+      "n_spans": 2,
+      "spans": [
+        {
+          "token": "12",
+          "kind": "digit",
+          "position": 1
+        },
+        {
+          "token": "4",
+          "kind": "digit",
+          "position": 4
+        }
+      ],
+      "named_traces": {
+        "digit:12": 0.5578,
+        "digit:4": 0.7164
+      },
+      "n_live_bindings": 6,
+      "top_bindings": [
+        {
+          "left": "node:199",
+          "right": "node:215",
+          "potential": 23.2379,
+          "born_at": 2,
+          "last_spike": 9,
+          "cells": [
+            199,
+            215
+          ]
+        },
+        {
+          "left": "node:199",
+          "right": "digit:4",
+          "potential": 4.7267,
+          "born_at": 5,
+          "last_spike": 9,
+          "cells": [
+            199,
+            257
+          ]
+        },
+        {
+          "left": "node:199",
+          "right": "digit:12",
+          "potential": 3.6807,
+          "born_at": 2,
+          "last_spike": 9,
+          "cells": [
+            199,
+            256
+          ]
+        },
+        {
+          "left": "node:215",
+          "right": "digit:4",
+          "potential": 2.7425,
+          "born_at": 5,
+          "last_spike": 8,
+          "cells": [
+            215,
+            257
+          ]
+        },
+        {
+          "left": "node:215",
+          "right": "digit:12",
+          "potential": 2.1356,
+          "born_at": 2,
+          "last_spike": 8,
+          "cells": [
+            215,
+            256
+          ]
+        }
+      ],
+      "has_named_pair": true,
+      "binding_vector": true,
+      "clock": 9,
+      "alone": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 1.6e-05,
+        "written_correct": false
+      },
+      "join_mouth": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 1.5e-05,
+        "written_correct": false
+      },
+      "random_mouth": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 1.7e-05,
+        "written_correct": false
+      },
+      "join_mid": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 9e-06,
+        "written_correct": false
+      }
+    },
+    {
+      "i": 2,
+      "text": "10 minus 3. The answer is",
+      "a": 10,
+      "op": "minus",
+      "b": 3,
+      "result": 7,
+      "result_piece": "7",
+      "last_str": " is",
+      "n_spans": 2,
+      "spans": [
+        {
+          "token": "10",
+          "kind": "digit",
+          "position": 1
+        },
+        {
+          "token": "3",
+          "kind": "digit",
+          "position": 4
+        }
+      ],
+      "named_traces": {
+        "digit:10": 0.5578,
+        "digit:3": 0.7164
+      },
+      "n_live_bindings": 6,
+      "top_bindings": [
+        {
+          "left": "node:199",
+          "right": "node:215",
+          "potential": 23.7657,
+          "born_at": 2,
+          "last_spike": 9,
+          "cells": [
+            199,
+            215
+          ]
+        },
+        {
+          "left": "node:199",
+          "right": "digit:3",
+          "potential": 4.7267,
+          "born_at": 5,
+          "last_spike": 9,
+          "cells": [
+            199,
+            257
+          ]
+        },
+        {
+          "left": "node:199",
+          "right": "digit:10",
+          "potential": 3.6807,
+          "born_at": 2,
+          "last_spike": 9,
+          "cells": [
+            199,
+            256
+          ]
+        },
+        {
+          "left": "node:215",
+          "right": "digit:3",
+          "potential": 2.5804,
+          "born_at": 5,
+          "last_spike": 9,
+          "cells": [
+            215,
+            257
+          ]
+        },
+        {
+          "left": "node:215",
+          "right": "digit:10",
+          "potential": 2.0093,
+          "born_at": 2,
+          "last_spike": 9,
+          "cells": [
+            215,
+            256
+          ]
+        }
+      ],
+      "has_named_pair": true,
+      "binding_vector": true,
+      "clock": 9,
+      "alone": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 2e-05,
+        "written_correct": false
+      },
+      "join_mouth": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 1.9e-05,
+        "written_correct": false
+      },
+      "random_mouth": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 2.1e-05,
+        "written_correct": false
+      },
+      "join_mid": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 1.3e-05,
+        "written_correct": false
+      }
+    },
+    {
+      "i": 3,
+      "text": "7 plus 5. The answer is",
+      "a": 7,
+      "op": "plus",
+      "b": 5,
+      "result": 12,
+      "result_piece": "1",
+      "last_str": " is",
+      "n_spans": 2,
+      "spans": [
+        {
+          "token": "7",
+          "kind": "digit",
+          "position": 0
+        },
+        {
+          "token": "5",
+          "kind": "digit",
+          "position": 3
+        }
+      ],
+      "named_traces": {
+        "digit:7": 0.5578,
+        "digit:5": 0.7164
+      },
+      "n_live_bindings": 6,
+      "top_bindings": [
+        {
+          "left": "node:199",
+          "right": "node:215",
+          "potential": 18.036,
+          "born_at": 2,
+          "last_spike": 8,
+          "cells": [
+            199,
+            215
+          ]
+        },
+        {
+          "left": "node:199",
+          "right": "digit:5",
+          "potential": 4.3591,
+          "born_at": 4,
+          "last_spike": 8,
+          "cells": [
+            199,
+            257
+          ]
+        },
+        {
+          "left": "node:199",
+          "right": "digit:7",
+          "potential": 3.3944,
+          "born_at": 1,
+          "last_spike": 8,
+          "cells": [
+            199,
+            256
+          ]
+        },
+        {
+          "left": "node:215",
+          "right": "digit:5",
+          "potential": 2.3081,
+          "born_at": 4,
+          "last_spike": 7,
+          "cells": [
+            215,
+            257
+          ]
+        },
+        {
+          "left": "node:215",
+          "right": "digit:7",
+          "potential": 1.7973,
+          "born_at": 2,
+          "last_spike": 7,
+          "cells": [
+            215,
+            256
+          ]
+        }
+      ],
+      "has_named_pair": true,
+      "binding_vector": true,
+      "clock": 8,
+      "alone": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 2.3e-05,
+        "written_correct": false
+      },
+      "join_mouth": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 2.1e-05,
+        "written_correct": false
+      },
+      "random_mouth": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 2.3e-05,
+        "written_correct": false
+      },
+      "join_mid": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 1.2e-05,
+        "written_correct": false
+      }
+    },
+    {
+      "i": 4,
+      "text": "15 minus 6. The answer is",
+      "a": 15,
+      "op": "minus",
+      "b": 6,
+      "result": 9,
+      "result_piece": "9",
+      "last_str": " is",
+      "n_spans": 2,
+      "spans": [
+        {
+          "token": "15",
+          "kind": "digit",
+          "position": 1
+        },
+        {
+          "token": "6",
+          "kind": "digit",
+          "position": 4
+        }
+      ],
+      "named_traces": {
+        "digit:15": 0.5578,
+        "digit:6": 0.7164
+      },
+      "n_live_bindings": 6,
+      "top_bindings": [
+        {
+          "left": "node:199",
+          "right": "node:215",
+          "potential": 23.7657,
+          "born_at": 2,
+          "last_spike": 9,
+          "cells": [
+            199,
+            215
+          ]
+        },
+        {
+          "left": "node:199",
+          "right": "digit:6",
+          "potential": 4.7267,
+          "born_at": 5,
+          "last_spike": 9,
+          "cells": [
+            199,
+            257
+          ]
+        },
+        {
+          "left": "node:199",
+          "right": "digit:15",
+          "potential": 3.6807,
+          "born_at": 2,
+          "last_spike": 9,
+          "cells": [
+            199,
+            256
+          ]
+        },
+        {
+          "left": "node:215",
+          "right": "digit:6",
+          "potential": 2.5804,
+          "born_at": 5,
+          "last_spike": 9,
+          "cells": [
+            215,
+            257
+          ]
+        },
+        {
+          "left": "node:215",
+          "right": "digit:15",
+          "potential": 2.0093,
+          "born_at": 2,
+          "last_spike": 9,
+          "cells": [
+            215,
+            256
+          ]
+        }
+      ],
+      "has_named_pair": true,
+      "binding_vector": true,
+      "clock": 9,
+      "alone": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 2.3e-05,
+        "written_correct": false
+      },
+      "join_mouth": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 2.2e-05,
+        "written_correct": false
+      },
+      "random_mouth": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 2.3e-05,
+        "written_correct": false
+      },
+      "join_mid": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 1.4e-05,
+        "written_correct": false
+      }
+    },
+    {
+      "i": 5,
+      "text": "9 times 2. The answer is",
+      "a": 9,
+      "op": "times",
+      "b": 2,
+      "result": 18,
+      "result_piece": "1",
+      "last_str": " is",
+      "n_spans": 2,
+      "spans": [
+        {
+          "token": "9",
+          "kind": "digit",
+          "position": 0
+        },
+        {
+          "token": "2",
+          "kind": "digit",
+          "position": 3
+        }
+      ],
+      "named_traces": {
+        "digit:9": 0.5578,
+        "digit:2": 0.7164
+      },
+      "n_live_bindings": 6,
+      "top_bindings": [
+        {
+          "left": "node:199",
+          "right": "node:215",
+          "potential": 18.036,
+          "born_at": 2,
+          "last_spike": 8,
+          "cells": [
+            199,
+            215
+          ]
+        },
+        {
+          "left": "node:199",
+          "right": "digit:2",
+          "potential": 4.3591,
+          "born_at": 4,
+          "last_spike": 8,
+          "cells": [
+            199,
+            257
+          ]
+        },
+        {
+          "left": "node:199",
+          "right": "digit:9",
+          "potential": 3.3944,
+          "born_at": 1,
+          "last_spike": 8,
+          "cells": [
+            199,
+            256
+          ]
+        },
+        {
+          "left": "node:215",
+          "right": "digit:2",
+          "potential": 2.3081,
+          "born_at": 4,
+          "last_spike": 7,
+          "cells": [
+            215,
+            257
+          ]
+        },
+        {
+          "left": "node:215",
+          "right": "digit:9",
+          "potential": 1.7973,
+          "born_at": 2,
+          "last_spike": 7,
+          "cells": [
+            215,
+            256
+          ]
+        }
+      ],
+      "has_named_pair": true,
+      "binding_vector": true,
+      "clock": 8,
+      "alone": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 2.2e-05,
+        "written_correct": false
+      },
+      "join_mouth": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 2.1e-05,
+        "written_correct": false
+      },
+      "random_mouth": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 2.2e-05,
+        "written_correct": false
+      },
+      "join_mid": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 1.2e-05,
+        "written_correct": false
+      }
+    },
+    {
+      "i": 6,
+      "text": "20 minus 8. The answer is",
+      "a": 20,
+      "op": "minus",
+      "b": 8,
+      "result": 12,
+      "result_piece": "1",
+      "last_str": " is",
+      "n_spans": 2,
+      "spans": [
+        {
+          "token": "20",
+          "kind": "digit",
+          "position": 1
+        },
+        {
+          "token": "8",
+          "kind": "digit",
+          "position": 4
+        }
+      ],
+      "named_traces": {
+        "digit:20": 0.5578,
+        "digit:8": 0.7164
+      },
+      "n_live_bindings": 6,
+      "top_bindings": [
+        {
+          "left": "node:199",
+          "right": "node:215",
+          "potential": 23.7657,
+          "born_at": 2,
+          "last_spike": 9,
+          "cells": [
+            199,
+            215
+          ]
+        },
+        {
+          "left": "node:199",
+          "right": "digit:8",
+          "potential": 4.7267,
+          "born_at": 5,
+          "last_spike": 9,
+          "cells": [
+            199,
+            257
+          ]
+        },
+        {
+          "left": "node:199",
+          "right": "digit:20",
+          "potential": 3.6807,
+          "born_at": 2,
+          "last_spike": 9,
+          "cells": [
+            199,
+            256
+          ]
+        },
+        {
+          "left": "node:215",
+          "right": "digit:8",
+          "potential": 2.5804,
+          "born_at": 5,
+          "last_spike": 9,
+          "cells": [
+            215,
+            257
+          ]
+        },
+        {
+          "left": "node:215",
+          "right": "digit:20",
+          "potential": 2.0093,
+          "born_at": 2,
+          "last_spike": 9,
+          "cells": [
+            215,
+            256
+          ]
+        }
+      ],
+      "has_named_pair": true,
+      "binding_vector": true,
+      "clock": 9,
+      "alone": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 2.6e-05,
+        "written_correct": false
+      },
+      "join_mouth": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 2.4e-05,
+        "written_correct": false
+      },
+      "random_mouth": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 2.7e-05,
+        "written_correct": false
+      },
+      "join_mid": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 1.6e-05,
+        "written_correct": false
+      }
+    },
+    {
+      "i": 7,
+      "text": "6 plus 6. The answer is",
+      "a": 6,
+      "op": "plus",
+      "b": 6,
+      "result": 12,
+      "result_piece": "1",
+      "last_str": " is",
+      "n_spans": 2,
+      "spans": [
+        {
+          "token": "6",
+          "kind": "digit",
+          "position": 0
+        },
+        {
+          "token": "6",
+          "kind": "digit",
+          "position": 3
+        }
+      ],
+      "named_traces": {
+        "digit:6": 1.2742
+      },
+      "n_live_bindings": 3,
+      "top_bindings": [
+        {
+          "left": "node:199",
+          "right": "node:215",
+          "potential": 18.036,
+          "born_at": 2,
+          "last_spike": 8,
+          "cells": [
+            199,
+            215
+          ]
+        },
+        {
+          "left": "node:199",
+          "right": "digit:6",
+          "potential": 7.7534,
+          "born_at": 1,
+          "last_spike": 8,
+          "cells": [
+            199,
+            256
+          ]
+        },
+        {
+          "left": "node:215",
+          "right": "digit:6",
+          "potential": 4.1054,
+          "born_at": 2,
+          "last_spike": 7,
+          "cells": [
+            215,
+            256
+          ]
+        }
+      ],
+      "has_named_pair": true,
+      "binding_vector": true,
+      "clock": 8,
+      "alone": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 1.4e-05,
+        "written_correct": false
+      },
+      "join_mouth": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 1.3e-05,
+        "written_correct": false
+      },
+      "random_mouth": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 1.4e-05,
+        "written_correct": false
+      },
+      "join_mid": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 8e-06,
+        "written_correct": false
+      }
+    },
+    {
+      "i": 8,
+      "text": "14 minus 7. The answer is",
+      "a": 14,
+      "op": "minus",
+      "b": 7,
+      "result": 7,
+      "result_piece": "7",
+      "last_str": " is",
+      "n_spans": 2,
+      "spans": [
+        {
+          "token": "14",
+          "kind": "digit",
+          "position": 1
+        },
+        {
+          "token": "7",
+          "kind": "digit",
+          "position": 4
+        }
+      ],
+      "named_traces": {
+        "digit:14": 0.5578,
+        "digit:7": 0.7164
+      },
+      "n_live_bindings": 6,
+      "top_bindings": [
+        {
+          "left": "node:199",
+          "right": "node:215",
+          "potential": 23.7657,
+          "born_at": 2,
+          "last_spike": 9,
+          "cells": [
+            199,
+            215
+          ]
+        },
+        {
+          "left": "node:199",
+          "right": "digit:7",
+          "potential": 4.7267,
+          "born_at": 5,
+          "last_spike": 9,
+          "cells": [
+            199,
+            257
+          ]
+        },
+        {
+          "left": "node:199",
+          "right": "digit:14",
+          "potential": 3.6807,
+          "born_at": 2,
+          "last_spike": 9,
+          "cells": [
+            199,
+            256
+          ]
+        },
+        {
+          "left": "node:215",
+          "right": "digit:7",
+          "potential": 2.5804,
+          "born_at": 5,
+          "last_spike": 9,
+          "cells": [
+            215,
+            257
+          ]
+        },
+        {
+          "left": "node:215",
+          "right": "digit:14",
+          "potential": 2.0093,
+          "born_at": 2,
+          "last_spike": 9,
+          "cells": [
+            215,
+            256
+          ]
+        }
+      ],
+      "has_named_pair": true,
+      "binding_vector": true,
+      "clock": 9,
+      "alone": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 2.1e-05,
+        "written_correct": false
+      },
+      "join_mouth": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 1.9e-05,
+        "written_correct": false
+      },
+      "random_mouth": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 2.1e-05,
+        "written_correct": false
+      },
+      "join_mid": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 1.2e-05,
+        "written_correct": false
+      }
+    },
+    {
+      "i": 9,
+      "text": "11 plus 9. The answer is",
+      "a": 11,
+      "op": "plus",
+      "b": 9,
+      "result": 20,
+      "result_piece": "2",
+      "last_str": " is",
+      "n_spans": 2,
+      "spans": [
+        {
+          "token": "11",
+          "kind": "digit",
+          "position": 1
+        },
+        {
+          "token": "9",
+          "kind": "digit",
+          "position": 4
+        }
+      ],
+      "named_traces": {
+        "digit:11": 0.5578,
+        "digit:9": 0.7164
+      },
+      "n_live_bindings": 6,
+      "top_bindings": [
+        {
+          "left": "node:199",
+          "right": "node:215",
+          "potential": 23.2379,
+          "born_at": 2,
+          "last_spike": 9,
+          "cells": [
+            199,
+            215
+          ]
+        },
+        {
+          "left": "node:199",
+          "right": "digit:9",
+          "potential": 4.7267,
+          "born_at": 5,
+          "last_spike": 9,
+          "cells": [
+            199,
+            257
+          ]
+        },
+        {
+          "left": "node:199",
+          "right": "digit:11",
+          "potential": 3.6807,
+          "born_at": 2,
+          "last_spike": 9,
+          "cells": [
+            199,
+            256
+          ]
+        },
+        {
+          "left": "node:215",
+          "right": "digit:9",
+          "potential": 2.7425,
+          "born_at": 5,
+          "last_spike": 8,
+          "cells": [
+            215,
+            257
+          ]
+        },
+        {
+          "left": "node:215",
+          "right": "digit:11",
+          "potential": 2.1356,
+          "born_at": 2,
+          "last_spike": 8,
+          "cells": [
+            215,
+            256
+          ]
+        }
+      ],
+      "has_named_pair": true,
+      "binding_vector": true,
+      "clock": 9,
+      "alone": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 2.1e-05,
+        "written_correct": false
+      },
+      "join_mouth": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 1.9e-05,
+        "written_correct": false
+      },
+      "random_mouth": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 2.1e-05,
+        "written_correct": false
+      },
+      "join_mid": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 1.3e-05,
+        "written_correct": false
+      }
+    },
+    {
+      "i": 10,
+      "text": "4 times 3. The answer is",
+      "a": 4,
+      "op": "times",
+      "b": 3,
+      "result": 12,
+      "result_piece": "1",
+      "last_str": " is",
+      "n_spans": 2,
+      "spans": [
+        {
+          "token": "4",
+          "kind": "digit",
+          "position": 0
+        },
+        {
+          "token": "3",
+          "kind": "digit",
+          "position": 3
+        }
+      ],
+      "named_traces": {
+        "digit:4": 0.5578,
+        "digit:3": 0.7164
+      },
+      "n_live_bindings": 6,
+      "top_bindings": [
+        {
+          "left": "node:199",
+          "right": "node:215",
+          "potential": 18.036,
+          "born_at": 2,
+          "last_spike": 8,
+          "cells": [
+            199,
+            215
+          ]
+        },
+        {
+          "left": "node:199",
+          "right": "digit:3",
+          "potential": 4.3591,
+          "born_at": 4,
+          "last_spike": 8,
+          "cells": [
+            199,
+            257
+          ]
+        },
+        {
+          "left": "node:199",
+          "right": "digit:4",
+          "potential": 3.3944,
+          "born_at": 1,
+          "last_spike": 8,
+          "cells": [
+            199,
+            256
+          ]
+        },
+        {
+          "left": "node:215",
+          "right": "digit:3",
+          "potential": 2.3081,
+          "born_at": 4,
+          "last_spike": 7,
+          "cells": [
+            215,
+            257
+          ]
+        },
+        {
+          "left": "node:215",
+          "right": "digit:4",
+          "potential": 1.7973,
+          "born_at": 2,
+          "last_spike": 7,
+          "cells": [
+            215,
+            256
+          ]
+        }
+      ],
+      "has_named_pair": true,
+      "binding_vector": true,
+      "clock": 8,
+      "alone": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 9e-06,
+        "written_correct": false
+      },
+      "join_mouth": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 8e-06,
+        "written_correct": false
+      },
+      "random_mouth": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 9e-06,
+        "written_correct": false
+      },
+      "join_mid": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 5e-06,
+        "written_correct": false
+      }
+    },
+    {
+      "i": 11,
+      "text": "5 times 5. The answer is",
+      "a": 5,
+      "op": "times",
+      "b": 5,
+      "result": 25,
+      "result_piece": "2",
+      "last_str": " is",
+      "n_spans": 2,
+      "spans": [
+        {
+          "token": "5",
+          "kind": "digit",
+          "position": 0
+        },
+        {
+          "token": "5",
+          "kind": "digit",
+          "position": 3
+        }
+      ],
+      "named_traces": {
+        "digit:5": 1.2742
+      },
+      "n_live_bindings": 3,
+      "top_bindings": [
+        {
+          "left": "node:199",
+          "right": "node:215",
+          "potential": 18.036,
+          "born_at": 2,
+          "last_spike": 8,
+          "cells": [
+            199,
+            215
+          ]
+        },
+        {
+          "left": "node:199",
+          "right": "digit:5",
+          "potential": 7.7534,
+          "born_at": 1,
+          "last_spike": 8,
+          "cells": [
+            199,
+            256
+          ]
+        },
+        {
+          "left": "node:215",
+          "right": "digit:5",
+          "potential": 4.1054,
+          "born_at": 2,
+          "last_spike": 7,
+          "cells": [
+            215,
+            256
+          ]
+        }
+      ],
+      "has_named_pair": true,
+      "binding_vector": true,
+      "clock": 8,
+      "alone": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 8e-06,
+        "written_correct": false
+      },
+      "join_mouth": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 7e-06,
+        "written_correct": false
+      },
+      "random_mouth": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 8e-06,
+        "written_correct": false
+      },
+      "join_mid": {
+        "top": "",
+        "top_id": 220,
+        "p_result": 5e-06,
+        "written_correct": false
+      }
+    }
+  ]
+}

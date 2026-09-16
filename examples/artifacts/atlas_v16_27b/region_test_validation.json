@@ -1,0 +1,132 @@
+{
+  "executed": true,
+  "source": "synthetic",
+  "note": "Fixture scorers validate the shared-space comparison. They are not evidence about any pretrained model.",
+  "matched": {
+    "mode": "matched",
+    "alignment": 0.8169580829677175,
+    "shared_axes": [
+      "approach",
+      "recede",
+      "static"
+    ],
+    "fly_vector": {
+      "approach": 0.11301318482200003,
+      "recede": 0.038275719821999996,
+      "static": 0.00835759571,
+      "lexical_cue": null,
+      "contextual": null,
+      "perturbation": 0.09350260396400001
+    },
+    "llm_vector": {
+      "approach": 2.0,
+      "recede": -1.0,
+      "static": 0.0,
+      "lexical_cue": null,
+      "contextual": -0.4,
+      "perturbation": null
+    },
+    "source": "synthetic",
+    "n_items": 7
+  },
+  "shuffled": {
+    "mode": "shuffled",
+    "alignment": -0.9607212494900116,
+    "shared_axes": [
+      "approach",
+      "recede",
+      "static"
+    ],
+    "fly_vector": {
+      "approach": 0.11301318482200003,
+      "recede": 0.038275719821999996,
+      "static": 0.00835759571,
+      "lexical_cue": null,
+      "contextual": null,
+      "perturbation": 0.09350260396400001
+    },
+    "llm_vector": {
+      "approach": -0.2,
+      "recede": 2.0,
+      "static": 2.0,
+      "lexical_cue": null,
+      "contextual": -0.2,
+      "perturbation": null
+    },
+    "source": "synthetic",
+    "n_items": 7
+  },
+  "anti": {
+    "mode": "anti",
+    "alignment": -0.8169580829677175,
+    "shared_axes": [
+      "approach",
+      "recede",
+      "static"
+    ],
+    "fly_vector": {
+      "approach": 0.11301318482200003,
+      "recede": 0.038275719821999996,
+      "static": 0.00835759571,
+      "lexical_cue": null,
+      "contextual": null,
+      "perturbation": 0.09350260396400001
+    },
+    "llm_vector": {
+      "approach": -2.0,
+      "recede": 1.0,
+      "static": 0.0,
+      "lexical_cue": null,
+      "contextual": 0.4,
+      "perturbation": null
+    },
+    "source": "synthetic",
+    "n_items": 7
+  },
+  "mechanics_pass": true,
+  "no_checkpoint_region_test": {
+    "function_id": "feature_discrimination",
+    "fly_selectivity": 0.0747,
+    "llm_selectivity": null,
+    "alignment_score": null,
+    "split": "confirmation",
+    "n_items": 7,
+    "fly_source": "proposed_simulation",
+    "llm_source": "unavailable",
+    "prior_condition": "validation_no_checkpoint",
+    "notes": [
+      "Approaching-object evidence increases an action-selection readout; matched non-approach controls do not.",
+      "No cosine between fly synapse weights and LLM tensors.",
+      "Prior condition=validation_no_checkpoint",
+      "Alignment is Pearson correlation over shared functional axes, not tensor cosine.",
+      "Content selectivity (cue-word items) is scored separately from computational contribution.",
+      "LLM bundle unavailable; region test prepared, not executed on a checkpoint."
+    ],
+    "items": [],
+    "fly_vector": {
+      "approach": 0.11301318482200003,
+      "recede": 0.038275719821999996,
+      "static": 0.00835759571,
+      "lexical_cue": null,
+      "contextual": null,
+      "perturbation": 0.09350260396400001
+    },
+    "llm_vector": {
+      "approach": null,
+      "recede": null,
+      "static": null,
+      "lexical_cue": null,
+      "contextual": null,
+      "perturbation": null
+    },
+    "shared_axes": [],
+    "content_selectivity": null,
+    "computational_contribution": null
+  },
+  "fly_assay": {
+    "circuit_id": "malecns_lplc2_dnp01_looming_escape",
+    "evidence_mode": "proposed_simulation",
+    "living_fly": false,
+    "validation_status": "malecns_weights_reproduce_published_direction_on_held_out_speeds"
+  }
+}

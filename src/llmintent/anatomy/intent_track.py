@@ -56,11 +56,12 @@ def _band(index: int, n: int) -> str:
 
 
 def _cos(a: np.ndarray, b: np.ndarray) -> float:
-    n = min(int(a.size), int(b.size))
-    if n < 2:
+    x = np.asarray(a, dtype=np.float64).reshape(-1)
+    y = np.asarray(b, dtype=np.float64).reshape(-1)
+    if x.size != y.size:
+        raise ValueError(f"cosine dim mismatch {x.size} vs {y.size}")
+    if x.size < 2:
         return 0.0
-    x = np.asarray(a, dtype=np.float64).reshape(-1)[:n]
-    y = np.asarray(b, dtype=np.float64).reshape(-1)[:n]
     nx = float(np.linalg.norm(x))
     ny = float(np.linalg.norm(y))
     if nx < 1e-12 or ny < 1e-12:
@@ -202,11 +203,10 @@ def last_token_residuals(bundle: Any, text: str) -> np.ndarray:
         rows.append(np.asarray(h, dtype=np.float32).reshape(-1))
     if not rows:
         raise RuntimeError("forward returned no hidden states")
-    width = max(r.size for r in rows)
-    stacked = np.zeros((len(rows), width), dtype=np.float32)
-    for i, r in enumerate(rows):
-        stacked[i, : r.size] = r
-    return stacked
+    widths = {int(r.size) for r in rows}
+    if len(widths) != 1:
+        raise ValueError(f"residual width varies across layers: {sorted(widths)}")
+    return np.stack(rows, axis=0)
 
 
 def _try_logit_lens(bundle: Any, hidden: np.ndarray, *, top_k: int = 5) -> tuple[list[str], str]:
@@ -364,12 +364,29 @@ class IntentTrack:
         rows = []
         for row in self.layers:
             intents = {iid: 0.0 for iid in catalogue}
-            for iid, val in row.scores.items():
-                if iid in intents:
-                    intents[iid] = float(val)
-            rows.append(LayerIntents(layer=row.layer, band=row.band, intents=intents))
+            identified = bool(row.identified)
+            top = row.top_intent if identified else "unidentified"
+            if identified and row.top_intent in intents:
+                intents[row.top_intent] = float(row.scores.get(row.top_intent, 0.0))
+            rows.append(
+                LayerIntents(
+                    layer=row.layer,
+                    band=row.band,
+                    intents=intents,
+                    identified=identified,
+                    top_intent=top,
+                )
+            )
         if not rows:
-            rows = [LayerIntents(layer=0, band=_band(0, n), intents={iid: 0.0 for iid in catalogue})]
+            rows = [
+                LayerIntents(
+                    layer=0,
+                    band=_band(0, n),
+                    intents={iid: 0.0 for iid in catalogue},
+                    identified=False,
+                    top_intent="unidentified",
+                )
+            ]
         return rows
 
     def as_layer_thoughts(self) -> list[LayerThought]:
@@ -497,7 +514,12 @@ def score_layer(
     lens_tokens: Sequence[str] | None = None,
     lens_status: str = "unidentified",
 ) -> LayerLatent:
-    scores = {iid: _cos(prompt_row, vec) for iid, vec in probe_rows.items()}
+    scores = {}
+    for iid, vec in probe_rows.items():
+        try:
+            scores[iid] = _cos(prompt_row, vec)
+        except ValueError:
+            continue
     keys = list(scores)
     dist_vals = _softmax([scores[k] for k in keys]) if keys else np.asarray([])
     distribution = {k: float(dist_vals[i]) for i, k in enumerate(keys)}

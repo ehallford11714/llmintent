@@ -1,0 +1,1327 @@
+{
+  "schema": "llmintent.layer_emergence/v1",
+  "created_at": "2026-09-15T23:43:50.044968+00:00",
+  "model": "Qwen/Qwen3.8-27B",
+  "question": "At which layer does intention of actuation emerge on 27B?",
+  "emergence": {
+    "first_layer_intend_gt_reflect": 2,
+    "first_layer_majority_top_intention": 0,
+    "late_regime_starts": 61,
+    "mid_sensory_layers": [
+      3,
+      59
+    ],
+    "n_layers": 65
+  },
+  "curves": {
+    "intention_of_actuation": [
+      {
+        "layer": 0,
+        "mean_intention": 0.2417,
+        "mean_reflection": 0.2417,
+        "mean_sensory_motion": 0.2417,
+        "delta": 0.0,
+        "frac_top_intention": 1.0,
+        "top_mode": "intention_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 1,
+        "mean_intention": 0.9881,
+        "mean_reflection": 0.9881,
+        "mean_sensory_motion": 0.987,
+        "delta": 0.0,
+        "frac_top_intention": 0.0,
+        "top_mode": "withhold_actuation",
+        "n": 20
+      },
+      {
+        "layer": 2,
+        "mean_intention": 0.9807,
+        "mean_reflection": 0.9804,
+        "mean_sensory_motion": 0.9799,
+        "delta": 0.0003,
+        "frac_top_intention": 0.0,
+        "top_mode": "withhold_actuation",
+        "n": 20
+      },
+      {
+        "layer": 3,
+        "mean_intention": 0.9542,
+        "mean_reflection": 0.9505,
+        "mean_sensory_motion": 0.9563,
+        "delta": 0.0038,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 4,
+        "mean_intention": 0.9749,
+        "mean_reflection": 0.9731,
+        "mean_sensory_motion": 0.9727,
+        "delta": 0.0018,
+        "frac_top_intention": 1.0,
+        "top_mode": "intention_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 5,
+        "mean_intention": 0.9703,
+        "mean_reflection": 0.9686,
+        "mean_sensory_motion": 0.9708,
+        "delta": 0.0018,
+        "frac_top_intention": 0.15,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 6,
+        "mean_intention": 0.9564,
+        "mean_reflection": 0.9548,
+        "mean_sensory_motion": 0.9609,
+        "delta": 0.0016,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 7,
+        "mean_intention": 0.9119,
+        "mean_reflection": 0.9075,
+        "mean_sensory_motion": 0.9108,
+        "delta": 0.0044,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 8,
+        "mean_intention": 0.9209,
+        "mean_reflection": 0.9149,
+        "mean_sensory_motion": 0.9161,
+        "delta": 0.006,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 9,
+        "mean_intention": 0.9201,
+        "mean_reflection": 0.9169,
+        "mean_sensory_motion": 0.9175,
+        "delta": 0.0032,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 10,
+        "mean_intention": 0.9157,
+        "mean_reflection": 0.9097,
+        "mean_sensory_motion": 0.9034,
+        "delta": 0.0059,
+        "frac_top_intention": 0.5,
+        "top_mode": "intention_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 11,
+        "mean_intention": 0.9062,
+        "mean_reflection": 0.8952,
+        "mean_sensory_motion": 0.8872,
+        "delta": 0.011,
+        "frac_top_intention": 1.0,
+        "top_mode": "intention_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 12,
+        "mean_intention": 0.9134,
+        "mean_reflection": 0.903,
+        "mean_sensory_motion": 0.8947,
+        "delta": 0.0105,
+        "frac_top_intention": 1.0,
+        "top_mode": "intention_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 13,
+        "mean_intention": 0.9093,
+        "mean_reflection": 0.9015,
+        "mean_sensory_motion": 0.8929,
+        "delta": 0.0078,
+        "frac_top_intention": 1.0,
+        "top_mode": "intention_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 14,
+        "mean_intention": 0.8963,
+        "mean_reflection": 0.8714,
+        "mean_sensory_motion": 0.8747,
+        "delta": 0.0249,
+        "frac_top_intention": 1.0,
+        "top_mode": "intention_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 15,
+        "mean_intention": 0.8786,
+        "mean_reflection": 0.8507,
+        "mean_sensory_motion": 0.8627,
+        "delta": 0.0279,
+        "frac_top_intention": 1.0,
+        "top_mode": "intention_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 16,
+        "mean_intention": 0.8735,
+        "mean_reflection": 0.8424,
+        "mean_sensory_motion": 0.8663,
+        "delta": 0.0312,
+        "frac_top_intention": 0.65,
+        "top_mode": "intention_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 17,
+        "mean_intention": 0.8672,
+        "mean_reflection": 0.8418,
+        "mean_sensory_motion": 0.8659,
+        "delta": 0.0254,
+        "frac_top_intention": 0.1,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 18,
+        "mean_intention": 0.83,
+        "mean_reflection": 0.797,
+        "mean_sensory_motion": 0.8379,
+        "delta": 0.0331,
+        "frac_top_intention": 0.2,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 19,
+        "mean_intention": 0.7733,
+        "mean_reflection": 0.736,
+        "mean_sensory_motion": 0.7947,
+        "delta": 0.0373,
+        "frac_top_intention": 0.15,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 20,
+        "mean_intention": 0.6866,
+        "mean_reflection": 0.6399,
+        "mean_sensory_motion": 0.7103,
+        "delta": 0.0467,
+        "frac_top_intention": 0.25,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 21,
+        "mean_intention": 0.6076,
+        "mean_reflection": 0.5716,
+        "mean_sensory_motion": 0.6342,
+        "delta": 0.036,
+        "frac_top_intention": 0.3,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 22,
+        "mean_intention": 0.6124,
+        "mean_reflection": 0.5846,
+        "mean_sensory_motion": 0.64,
+        "delta": 0.0278,
+        "frac_top_intention": 0.35,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 23,
+        "mean_intention": 0.6205,
+        "mean_reflection": 0.5988,
+        "mean_sensory_motion": 0.6649,
+        "delta": 0.0217,
+        "frac_top_intention": 0.2,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 24,
+        "mean_intention": 0.5781,
+        "mean_reflection": 0.5696,
+        "mean_sensory_motion": 0.6305,
+        "delta": 0.0086,
+        "frac_top_intention": 0.15,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 25,
+        "mean_intention": 0.6074,
+        "mean_reflection": 0.5923,
+        "mean_sensory_motion": 0.6342,
+        "delta": 0.0151,
+        "frac_top_intention": 0.3,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 26,
+        "mean_intention": 0.6554,
+        "mean_reflection": 0.6452,
+        "mean_sensory_motion": 0.6865,
+        "delta": 0.0101,
+        "frac_top_intention": 0.3,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 27,
+        "mean_intention": 0.6835,
+        "mean_reflection": 0.6812,
+        "mean_sensory_motion": 0.7243,
+        "delta": 0.0023,
+        "frac_top_intention": 0.25,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 28,
+        "mean_intention": 0.6675,
+        "mean_reflection": 0.6741,
+        "mean_sensory_motion": 0.705,
+        "delta": -0.0065,
+        "frac_top_intention": 0.25,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 29,
+        "mean_intention": 0.6488,
+        "mean_reflection": 0.6593,
+        "mean_sensory_motion": 0.6893,
+        "delta": -0.0105,
+        "frac_top_intention": 0.25,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 30,
+        "mean_intention": 0.6462,
+        "mean_reflection": 0.6584,
+        "mean_sensory_motion": 0.6957,
+        "delta": -0.0122,
+        "frac_top_intention": 0.1,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 31,
+        "mean_intention": 0.6678,
+        "mean_reflection": 0.6823,
+        "mean_sensory_motion": 0.7145,
+        "delta": -0.0145,
+        "frac_top_intention": 0.1,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 32,
+        "mean_intention": 0.6416,
+        "mean_reflection": 0.6597,
+        "mean_sensory_motion": 0.7002,
+        "delta": -0.0181,
+        "frac_top_intention": 0.05,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 33,
+        "mean_intention": 0.6278,
+        "mean_reflection": 0.6484,
+        "mean_sensory_motion": 0.6953,
+        "delta": -0.0206,
+        "frac_top_intention": 0.05,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 34,
+        "mean_intention": 0.6211,
+        "mean_reflection": 0.6353,
+        "mean_sensory_motion": 0.6813,
+        "delta": -0.0142,
+        "frac_top_intention": 0.05,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 35,
+        "mean_intention": 0.5994,
+        "mean_reflection": 0.5945,
+        "mean_sensory_motion": 0.645,
+        "delta": 0.0049,
+        "frac_top_intention": 0.2,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 36,
+        "mean_intention": 0.5395,
+        "mean_reflection": 0.5113,
+        "mean_sensory_motion": 0.5969,
+        "delta": 0.0283,
+        "frac_top_intention": 0.1,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 37,
+        "mean_intention": 0.5053,
+        "mean_reflection": 0.5169,
+        "mean_sensory_motion": 0.5715,
+        "delta": -0.0116,
+        "frac_top_intention": 0.1,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 38,
+        "mean_intention": 0.5297,
+        "mean_reflection": 0.5206,
+        "mean_sensory_motion": 0.5795,
+        "delta": 0.0091,
+        "frac_top_intention": 0.1,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 39,
+        "mean_intention": 0.5712,
+        "mean_reflection": 0.5599,
+        "mean_sensory_motion": 0.6057,
+        "delta": 0.0113,
+        "frac_top_intention": 0.2,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 40,
+        "mean_intention": 0.5613,
+        "mean_reflection": 0.5439,
+        "mean_sensory_motion": 0.5995,
+        "delta": 0.0174,
+        "frac_top_intention": 0.1,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 41,
+        "mean_intention": 0.5912,
+        "mean_reflection": 0.5826,
+        "mean_sensory_motion": 0.6159,
+        "delta": 0.0086,
+        "frac_top_intention": 0.2,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 42,
+        "mean_intention": 0.6181,
+        "mean_reflection": 0.6041,
+        "mean_sensory_motion": 0.6405,
+        "delta": 0.014,
+        "frac_top_intention": 0.2,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 43,
+        "mean_intention": 0.6177,
+        "mean_reflection": 0.6205,
+        "mean_sensory_motion": 0.6374,
+        "delta": -0.0028,
+        "frac_top_intention": 0.25,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 44,
+        "mean_intention": 0.6319,
+        "mean_reflection": 0.6371,
+        "mean_sensory_motion": 0.6461,
+        "delta": -0.0051,
+        "frac_top_intention": 0.25,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 45,
+        "mean_intention": 0.6375,
+        "mean_reflection": 0.6369,
+        "mean_sensory_motion": 0.6374,
+        "delta": 0.0006,
+        "frac_top_intention": 0.4,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 46,
+        "mean_intention": 0.6273,
+        "mean_reflection": 0.6358,
+        "mean_sensory_motion": 0.6347,
+        "delta": -0.0085,
+        "frac_top_intention": 0.15,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 47,
+        "mean_intention": 0.603,
+        "mean_reflection": 0.6214,
+        "mean_sensory_motion": 0.6175,
+        "delta": -0.0184,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 48,
+        "mean_intention": 0.6002,
+        "mean_reflection": 0.6215,
+        "mean_sensory_motion": 0.6265,
+        "delta": -0.0213,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 49,
+        "mean_intention": 0.5883,
+        "mean_reflection": 0.5968,
+        "mean_sensory_motion": 0.6059,
+        "delta": -0.0084,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 50,
+        "mean_intention": 0.5379,
+        "mean_reflection": 0.5407,
+        "mean_sensory_motion": 0.5408,
+        "delta": -0.0028,
+        "frac_top_intention": 0.25,
+        "top_mode": "withhold_actuation",
+        "n": 20
+      },
+      {
+        "layer": 51,
+        "mean_intention": 0.504,
+        "mean_reflection": 0.4845,
+        "mean_sensory_motion": 0.5069,
+        "delta": 0.0195,
+        "frac_top_intention": 0.45,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 52,
+        "mean_intention": 0.5065,
+        "mean_reflection": 0.4758,
+        "mean_sensory_motion": 0.5089,
+        "delta": 0.0307,
+        "frac_top_intention": 0.4,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 53,
+        "mean_intention": 0.4776,
+        "mean_reflection": 0.4461,
+        "mean_sensory_motion": 0.4754,
+        "delta": 0.0315,
+        "frac_top_intention": 0.4,
+        "top_mode": "intention_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 54,
+        "mean_intention": 0.467,
+        "mean_reflection": 0.4459,
+        "mean_sensory_motion": 0.4422,
+        "delta": 0.0211,
+        "frac_top_intention": 0.5,
+        "top_mode": "intention_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 55,
+        "mean_intention": 0.5215,
+        "mean_reflection": 0.5059,
+        "mean_sensory_motion": 0.5309,
+        "delta": 0.0156,
+        "frac_top_intention": 0.3,
+        "top_mode": "withhold_actuation",
+        "n": 20
+      },
+      {
+        "layer": 56,
+        "mean_intention": 0.4834,
+        "mean_reflection": 0.4703,
+        "mean_sensory_motion": 0.4572,
+        "delta": 0.0131,
+        "frac_top_intention": 0.85,
+        "top_mode": "intention_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 57,
+        "mean_intention": 0.4939,
+        "mean_reflection": 0.4786,
+        "mean_sensory_motion": 0.4691,
+        "delta": 0.0154,
+        "frac_top_intention": 0.8,
+        "top_mode": "intention_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 58,
+        "mean_intention": 0.521,
+        "mean_reflection": 0.5021,
+        "mean_sensory_motion": 0.4977,
+        "delta": 0.0189,
+        "frac_top_intention": 0.85,
+        "top_mode": "intention_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 59,
+        "mean_intention": 0.6269,
+        "mean_reflection": 0.6129,
+        "mean_sensory_motion": 0.6413,
+        "delta": 0.0141,
+        "frac_top_intention": 0.3,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 60,
+        "mean_intention": 0.4953,
+        "mean_reflection": 0.4786,
+        "mean_sensory_motion": 0.4843,
+        "delta": 0.0167,
+        "frac_top_intention": 0.45,
+        "top_mode": "intention_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 61,
+        "mean_intention": 0.5467,
+        "mean_reflection": 0.5362,
+        "mean_sensory_motion": 0.5345,
+        "delta": 0.0105,
+        "frac_top_intention": 0.75,
+        "top_mode": "intention_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 62,
+        "mean_intention": 0.482,
+        "mean_reflection": 0.463,
+        "mean_sensory_motion": 0.4642,
+        "delta": 0.019,
+        "frac_top_intention": 0.9,
+        "top_mode": "intention_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 63,
+        "mean_intention": 0.4714,
+        "mean_reflection": 0.4487,
+        "mean_sensory_motion": 0.4557,
+        "delta": 0.0227,
+        "frac_top_intention": 0.75,
+        "top_mode": "intention_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 64,
+        "mean_intention": 0.3114,
+        "mean_reflection": 0.2674,
+        "mean_sensory_motion": 0.211,
+        "delta": 0.044,
+        "frac_top_intention": 1.0,
+        "top_mode": "intention_of_actuation",
+        "n": 20
+      }
+    ],
+    "reflection_of_actuation": [
+      {
+        "layer": 0,
+        "mean_intention": 0.1199,
+        "mean_reflection": 0.1199,
+        "mean_sensory_motion": 0.1199,
+        "delta": 0.0,
+        "frac_top_intention": 1.0,
+        "top_mode": "intention_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 1,
+        "mean_intention": 0.9881,
+        "mean_reflection": 0.9883,
+        "mean_sensory_motion": 0.9869,
+        "delta": -0.0002,
+        "frac_top_intention": 0.0,
+        "top_mode": "withhold_actuation",
+        "n": 20
+      },
+      {
+        "layer": 2,
+        "mean_intention": 0.9812,
+        "mean_reflection": 0.9815,
+        "mean_sensory_motion": 0.9802,
+        "delta": -0.0003,
+        "frac_top_intention": 0.0,
+        "top_mode": "withhold_actuation",
+        "n": 20
+      },
+      {
+        "layer": 3,
+        "mean_intention": 0.9573,
+        "mean_reflection": 0.9559,
+        "mean_sensory_motion": 0.9582,
+        "delta": 0.0014,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 4,
+        "mean_intention": 0.9763,
+        "mean_reflection": 0.9762,
+        "mean_sensory_motion": 0.9729,
+        "delta": 0.0001,
+        "frac_top_intention": 0.9,
+        "top_mode": "intention_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 5,
+        "mean_intention": 0.9717,
+        "mean_reflection": 0.9715,
+        "mean_sensory_motion": 0.971,
+        "delta": 0.0002,
+        "frac_top_intention": 0.65,
+        "top_mode": "intention_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 6,
+        "mean_intention": 0.9557,
+        "mean_reflection": 0.956,
+        "mean_sensory_motion": 0.9583,
+        "delta": -0.0002,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 7,
+        "mean_intention": 0.9166,
+        "mean_reflection": 0.9208,
+        "mean_sensory_motion": 0.916,
+        "delta": -0.0042,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 8,
+        "mean_intention": 0.9246,
+        "mean_reflection": 0.9263,
+        "mean_sensory_motion": 0.9176,
+        "delta": -0.0017,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 9,
+        "mean_intention": 0.9219,
+        "mean_reflection": 0.9261,
+        "mean_sensory_motion": 0.9187,
+        "delta": -0.0042,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 10,
+        "mean_intention": 0.9054,
+        "mean_reflection": 0.9136,
+        "mean_sensory_motion": 0.8997,
+        "delta": -0.0082,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 11,
+        "mean_intention": 0.8892,
+        "mean_reflection": 0.8953,
+        "mean_sensory_motion": 0.8781,
+        "delta": -0.0061,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 12,
+        "mean_intention": 0.8954,
+        "mean_reflection": 0.9,
+        "mean_sensory_motion": 0.883,
+        "delta": -0.0046,
+        "frac_top_intention": 0.0,
+        "top_mode": "reflection_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 13,
+        "mean_intention": 0.8879,
+        "mean_reflection": 0.8948,
+        "mean_sensory_motion": 0.878,
+        "delta": -0.0069,
+        "frac_top_intention": 0.0,
+        "top_mode": "reflection_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 14,
+        "mean_intention": 0.8732,
+        "mean_reflection": 0.8732,
+        "mean_sensory_motion": 0.8632,
+        "delta": -0.0001,
+        "frac_top_intention": 0.35,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 15,
+        "mean_intention": 0.8485,
+        "mean_reflection": 0.8492,
+        "mean_sensory_motion": 0.8473,
+        "delta": -0.0006,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 16,
+        "mean_intention": 0.8452,
+        "mean_reflection": 0.8405,
+        "mean_sensory_motion": 0.8508,
+        "delta": 0.0047,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 17,
+        "mean_intention": 0.8406,
+        "mean_reflection": 0.8412,
+        "mean_sensory_motion": 0.8531,
+        "delta": -0.0006,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 18,
+        "mean_intention": 0.8097,
+        "mean_reflection": 0.8036,
+        "mean_sensory_motion": 0.8216,
+        "delta": 0.0061,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 19,
+        "mean_intention": 0.7571,
+        "mean_reflection": 0.7584,
+        "mean_sensory_motion": 0.7751,
+        "delta": -0.0013,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_motion",
+        "n": 20
+      },
+      {
+        "layer": 20,
+        "mean_intention": 0.7021,
+        "mean_reflection": 0.7002,
+        "mean_sensory_motion": 0.7085,
+        "delta": 0.0019,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 21,
+        "mean_intention": 0.6383,
+        "mean_reflection": 0.6591,
+        "mean_sensory_motion": 0.6423,
+        "delta": -0.0208,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 22,
+        "mean_intention": 0.6585,
+        "mean_reflection": 0.6753,
+        "mean_sensory_motion": 0.6549,
+        "delta": -0.0168,
+        "frac_top_intention": 0.0,
+        "top_mode": "withhold_actuation",
+        "n": 20
+      },
+      {
+        "layer": 23,
+        "mean_intention": 0.6663,
+        "mean_reflection": 0.6899,
+        "mean_sensory_motion": 0.6838,
+        "delta": -0.0236,
+        "frac_top_intention": 0.0,
+        "top_mode": "withhold_actuation",
+        "n": 20
+      },
+      {
+        "layer": 24,
+        "mean_intention": 0.6393,
+        "mean_reflection": 0.6797,
+        "mean_sensory_motion": 0.6658,
+        "delta": -0.0404,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 25,
+        "mean_intention": 0.6524,
+        "mean_reflection": 0.6814,
+        "mean_sensory_motion": 0.6536,
+        "delta": -0.029,
+        "frac_top_intention": 0.0,
+        "top_mode": "withhold_actuation",
+        "n": 20
+      },
+      {
+        "layer": 26,
+        "mean_intention": 0.6752,
+        "mean_reflection": 0.7057,
+        "mean_sensory_motion": 0.6856,
+        "delta": -0.0304,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 27,
+        "mean_intention": 0.6924,
+        "mean_reflection": 0.7226,
+        "mean_sensory_motion": 0.7082,
+        "delta": -0.0301,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 28,
+        "mean_intention": 0.6814,
+        "mean_reflection": 0.7162,
+        "mean_sensory_motion": 0.6947,
+        "delta": -0.0347,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 29,
+        "mean_intention": 0.657,
+        "mean_reflection": 0.6997,
+        "mean_sensory_motion": 0.6767,
+        "delta": -0.0427,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 30,
+        "mean_intention": 0.6564,
+        "mean_reflection": 0.7,
+        "mean_sensory_motion": 0.6884,
+        "delta": -0.0436,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 31,
+        "mean_intention": 0.6719,
+        "mean_reflection": 0.7162,
+        "mean_sensory_motion": 0.7057,
+        "delta": -0.0443,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 32,
+        "mean_intention": 0.6477,
+        "mean_reflection": 0.694,
+        "mean_sensory_motion": 0.6987,
+        "delta": -0.0463,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 33,
+        "mean_intention": 0.6393,
+        "mean_reflection": 0.6857,
+        "mean_sensory_motion": 0.697,
+        "delta": -0.0463,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 34,
+        "mean_intention": 0.6284,
+        "mean_reflection": 0.6676,
+        "mean_sensory_motion": 0.6718,
+        "delta": -0.0392,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 35,
+        "mean_intention": 0.6075,
+        "mean_reflection": 0.6285,
+        "mean_sensory_motion": 0.6288,
+        "delta": -0.021,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 36,
+        "mean_intention": 0.5544,
+        "mean_reflection": 0.5542,
+        "mean_sensory_motion": 0.5864,
+        "delta": 0.0002,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 37,
+        "mean_intention": 0.5266,
+        "mean_reflection": 0.5667,
+        "mean_sensory_motion": 0.5613,
+        "delta": -0.0401,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 38,
+        "mean_intention": 0.5716,
+        "mean_reflection": 0.5849,
+        "mean_sensory_motion": 0.5972,
+        "delta": -0.0133,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 39,
+        "mean_intention": 0.6123,
+        "mean_reflection": 0.6249,
+        "mean_sensory_motion": 0.6281,
+        "delta": -0.0125,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 40,
+        "mean_intention": 0.6176,
+        "mean_reflection": 0.6186,
+        "mean_sensory_motion": 0.634,
+        "delta": -0.001,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 41,
+        "mean_intention": 0.6301,
+        "mean_reflection": 0.6405,
+        "mean_sensory_motion": 0.6425,
+        "delta": -0.0104,
+        "frac_top_intention": 0.0,
+        "top_mode": "sensory_audio",
+        "n": 20
+      },
+      {
+        "layer": 42,
+        "mean_intention": 0.639,
+        "mean_reflection": 0.6569,
+        "mean_sensory_motion": 0.6611,
+        "delta": -0.0179,
+        "frac_top_intention": 0.0,
+        "top_mode": "withhold_actuation",
+        "n": 20
+      },
+      {
+        "layer": 43,
+        "mean_intention": 0.6336,
+        "mean_reflection": 0.6696,
+        "mean_sensory_motion": 0.6549,
+        "delta": -0.036,
+        "frac_top_intention": 0.0,
+        "top_mode": "withhold_actuation",
+        "n": 20
+      },
+      {
+        "layer": 44,
+        "mean_intention": 0.6439,
+        "mean_reflection": 0.6806,
+        "mean_sensory_motion": 0.6665,
+        "delta": -0.0367,
+        "frac_top_intention": 0.0,
+        "top_mode": "withhold_actuation",
+        "n": 20
+      },
+      {
+        "layer": 45,
+        "mean_intention": 0.6526,
+        "mean_reflection": 0.6893,
+        "mean_sensory_motion": 0.6664,
+        "delta": -0.0367,
+        "frac_top_intention": 0.0,
+        "top_mode": "reflection_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 46,
+        "mean_intention": 0.6461,
+        "mean_reflection": 0.6908,
+        "mean_sensory_motion": 0.665,
+        "delta": -0.0447,
+        "frac_top_intention": 0.0,
+        "top_mode": "reflection_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 47,
+        "mean_intention": 0.6158,
+        "mean_reflection": 0.6698,
+        "mean_sensory_motion": 0.64,
+        "delta": -0.054,
+        "frac_top_intention": 0.0,
+        "top_mode": "reflection_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 48,
+        "mean_intention": 0.6105,
+        "mean_reflection": 0.6645,
+        "mean_sensory_motion": 0.6466,
+        "delta": -0.054,
+        "frac_top_intention": 0.0,
+        "top_mode": "reflection_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 49,
+        "mean_intention": 0.5857,
+        "mean_reflection": 0.6279,
+        "mean_sensory_motion": 0.6139,
+        "delta": -0.0422,
+        "frac_top_intention": 0.0,
+        "top_mode": "reflection_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 50,
+        "mean_intention": 0.5272,
+        "mean_reflection": 0.5721,
+        "mean_sensory_motion": 0.55,
+        "delta": -0.0448,
+        "frac_top_intention": 0.0,
+        "top_mode": "reflection_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 51,
+        "mean_intention": 0.4829,
+        "mean_reflection": 0.5159,
+        "mean_sensory_motion": 0.5154,
+        "delta": -0.033,
+        "frac_top_intention": 0.0,
+        "top_mode": "withhold_actuation",
+        "n": 20
+      },
+      {
+        "layer": 52,
+        "mean_intention": 0.4847,
+        "mean_reflection": 0.5098,
+        "mean_sensory_motion": 0.5102,
+        "delta": -0.0251,
+        "frac_top_intention": 0.0,
+        "top_mode": "withhold_actuation",
+        "n": 20
+      },
+      {
+        "layer": 53,
+        "mean_intention": 0.4455,
+        "mean_reflection": 0.4788,
+        "mean_sensory_motion": 0.4679,
+        "delta": -0.0333,
+        "frac_top_intention": 0.0,
+        "top_mode": "withhold_actuation",
+        "n": 20
+      },
+      {
+        "layer": 54,
+        "mean_intention": 0.4424,
+        "mean_reflection": 0.484,
+        "mean_sensory_motion": 0.441,
+        "delta": -0.0416,
+        "frac_top_intention": 0.0,
+        "top_mode": "reflection_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 55,
+        "mean_intention": 0.4821,
+        "mean_reflection": 0.5256,
+        "mean_sensory_motion": 0.4979,
+        "delta": -0.0436,
+        "frac_top_intention": 0.0,
+        "top_mode": "reflection_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 56,
+        "mean_intention": 0.4454,
+        "mean_reflection": 0.4947,
+        "mean_sensory_motion": 0.4352,
+        "delta": -0.0494,
+        "frac_top_intention": 0.0,
+        "top_mode": "reflection_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 57,
+        "mean_intention": 0.4606,
+        "mean_reflection": 0.507,
+        "mean_sensory_motion": 0.4522,
+        "delta": -0.0464,
+        "frac_top_intention": 0.0,
+        "top_mode": "reflection_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 58,
+        "mean_intention": 0.4817,
+        "mean_reflection": 0.523,
+        "mean_sensory_motion": 0.4749,
+        "delta": -0.0414,
+        "frac_top_intention": 0.0,
+        "top_mode": "reflection_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 59,
+        "mean_intention": 0.5314,
+        "mean_reflection": 0.5615,
+        "mean_sensory_motion": 0.5409,
+        "delta": -0.0301,
+        "frac_top_intention": 0.0,
+        "top_mode": "reflection_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 60,
+        "mean_intention": 0.4639,
+        "mean_reflection": 0.5031,
+        "mean_sensory_motion": 0.471,
+        "delta": -0.0392,
+        "frac_top_intention": 0.0,
+        "top_mode": "reflection_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 61,
+        "mean_intention": 0.5074,
+        "mean_reflection": 0.5484,
+        "mean_sensory_motion": 0.512,
+        "delta": -0.0409,
+        "frac_top_intention": 0.0,
+        "top_mode": "reflection_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 62,
+        "mean_intention": 0.4561,
+        "mean_reflection": 0.4952,
+        "mean_sensory_motion": 0.4539,
+        "delta": -0.0392,
+        "frac_top_intention": 0.0,
+        "top_mode": "reflection_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 63,
+        "mean_intention": 0.4123,
+        "mean_reflection": 0.4471,
+        "mean_sensory_motion": 0.413,
+        "delta": -0.0348,
+        "frac_top_intention": 0.0,
+        "top_mode": "reflection_of_actuation",
+        "n": 20
+      },
+      {
+        "layer": 64,
+        "mean_intention": 0.263,
+        "mean_reflection": 0.2267,
+        "mean_sensory_motion": 0.1317,
+        "delta": 0.0363,
+        "frac_top_intention": 0.95,
+        "top_mode": "intention_of_actuation",
+        "n": 20
+      }
+    ]
+  },
+  "notes": [
+    "Layer 0 is embeddings. Last layer is the residual just before the mouth.",
+    "Emergence = first majority-top intention that then holds to the end.",
+    "Mid sensory occupation is when the scene probe wins more often than intention."
+  ]
+}
