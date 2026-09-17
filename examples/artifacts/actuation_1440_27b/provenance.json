@@ -1,0 +1,316 @@
+{
+  "status": "all_jobs_on_pinned_qwen3.8-27b_nf4",
+  "pin": {
+    "hf_id": "Qwen/Qwen3.8-27B",
+    "revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+    "snapshot": "C:\\Users\\ehall\\.cache\\huggingface\\hub\\models--Qwen--Qwen3.8-27B\\snapshots\\1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+    "quantization": "bitsandbytes NF4 (load_in_4bit, double quant, bfloat16 compute)",
+    "text_blocks": 64,
+    "hidden_size": 5120,
+    "llmintent_git": "752512aeeb68fd08d53ca9cc5283f2caf31b9090",
+    "forbidden_substitutes_used": []
+  },
+  "collect": {
+    "pilot": {
+      "n": 24,
+      "accuracy": 0.9166666666666666,
+      "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+      "model_class": "Qwen3_5ForConditionalGeneration",
+      "n_blocks": 64,
+      "four_bit": true,
+      "pinned_snapshot": "C:\\Users\\ehall\\.cache\\huggingface\\hub\\models--Qwen--Qwen3.8-27B\\snapshots\\1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+      "llmintent_git": "752512aeeb68fd08d53ca9cc5283f2caf31b9090",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.17.0",
+        "llmintent": "1.7.1",
+        "bitsandbytes": "0.50.2"
+      },
+      "dataset_sha256": "db709fbb000adc557278de0c64bbf84733101eefb6068504f066a132ab94e5d0",
+      "identity_error": 0.0,
+      "activation_dim": 5120,
+      "final_norm": "Qwen3_5RMSNorm",
+      "matches_pin": true
+    },
+    "discovery": {
+      "n": 960,
+      "accuracy": 0.9447916666666667,
+      "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+      "model_class": "Qwen3_5ForConditionalGeneration",
+      "n_blocks": 64,
+      "four_bit": true,
+      "pinned_snapshot": "C:\\Users\\ehall\\.cache\\huggingface\\hub\\models--Qwen--Qwen3.8-27B\\snapshots\\1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+      "llmintent_git": "752512aeeb68fd08d53ca9cc5283f2caf31b9090",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.17.0",
+        "llmintent": "1.7.1",
+        "bitsandbytes": "0.50.2"
+      },
+      "dataset_sha256": "db709fbb000adc557278de0c64bbf84733101eefb6068504f066a132ab94e5d0",
+      "identity_error": 0.0,
+      "activation_dim": 5120,
+      "final_norm": "Qwen3_5RMSNorm",
+      "matches_pin": true
+    },
+    "calibration": {
+      "n": 240,
+      "accuracy": 0.8958333333333334,
+      "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+      "model_class": "Qwen3_5ForConditionalGeneration",
+      "n_blocks": 64,
+      "four_bit": true,
+      "pinned_snapshot": "C:\\Users\\ehall\\.cache\\huggingface\\hub\\models--Qwen--Qwen3.8-27B\\snapshots\\1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+      "llmintent_git": "752512aeeb68fd08d53ca9cc5283f2caf31b9090",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.17.0",
+        "llmintent": "1.7.1",
+        "bitsandbytes": "0.50.2"
+      },
+      "dataset_sha256": "db709fbb000adc557278de0c64bbf84733101eefb6068504f066a132ab94e5d0",
+      "identity_error": 0.0,
+      "activation_dim": 5120,
+      "final_norm": "Qwen3_5RMSNorm",
+      "matches_pin": true
+    },
+    "confirmation": {
+      "n": 240,
+      "accuracy": 0.9125,
+      "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+      "model_class": "Qwen3_5ForConditionalGeneration",
+      "n_blocks": 64,
+      "four_bit": true,
+      "pinned_snapshot": "C:\\Users\\ehall\\.cache\\huggingface\\hub\\models--Qwen--Qwen3.8-27B\\snapshots\\1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+      "llmintent_git": "752512aeeb68fd08d53ca9cc5283f2caf31b9090",
+      "packages": {
+        "torch": "2.11.0+cu128",
+        "transformers": "5.17.0",
+        "llmintent": "1.7.1",
+        "bitsandbytes": "0.50.2"
+      },
+      "dataset_sha256": "db709fbb000adc557278de0c64bbf84733101eefb6068504f066a132ab94e5d0",
+      "identity_error": 0.0,
+      "activation_dim": 5120,
+      "final_norm": "Qwen3_5RMSNorm",
+      "matches_pin": true
+    }
+  },
+  "probes": {
+    "discovery_run_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+    "calibration_run_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+    "confirmation_run_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+    "n_sites": 66,
+    "matches_pin": true
+  },
+  "patches": {
+    "n_jobs": 18,
+    "n_matching_pin": 18,
+    "jobs": [
+      {
+        "file": "runs\\patches\\calibration\\frame_block_31_out.json",
+        "split": "calibration",
+        "status": "complete",
+        "n": 24,
+        "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+        "n_blocks": 64,
+        "four_bit": true,
+        "model_class": "Qwen3_5ForConditionalGeneration",
+        "matches_pin": true
+      },
+      {
+        "file": "runs\\patches\\calibration\\frame_block_4_out.json",
+        "split": "calibration",
+        "status": "complete",
+        "n": 24,
+        "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+        "n_blocks": 64,
+        "four_bit": true,
+        "model_class": "Qwen3_5ForConditionalGeneration",
+        "matches_pin": true
+      },
+      {
+        "file": "runs\\patches\\calibration\\frame_block_60_out.json",
+        "split": "calibration",
+        "status": "complete",
+        "n": 24,
+        "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+        "n_blocks": 64,
+        "four_bit": true,
+        "model_class": "Qwen3_5ForConditionalGeneration",
+        "matches_pin": true
+      },
+      {
+        "file": "runs\\patches\\calibration\\policy_block_31_out.json",
+        "split": "calibration",
+        "status": "complete",
+        "n": 24,
+        "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+        "n_blocks": 64,
+        "four_bit": true,
+        "model_class": "Qwen3_5ForConditionalGeneration",
+        "matches_pin": true
+      },
+      {
+        "file": "runs\\patches\\calibration\\policy_block_4_out.json",
+        "split": "calibration",
+        "status": "complete",
+        "n": 24,
+        "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+        "n_blocks": 64,
+        "four_bit": true,
+        "model_class": "Qwen3_5ForConditionalGeneration",
+        "matches_pin": true
+      },
+      {
+        "file": "runs\\patches\\calibration\\policy_block_60_out.json",
+        "split": "calibration",
+        "status": "complete",
+        "n": 24,
+        "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+        "n_blocks": 64,
+        "four_bit": true,
+        "model_class": "Qwen3_5ForConditionalGeneration",
+        "matches_pin": true
+      },
+      {
+        "file": "runs\\patches\\calibration\\scene_block_31_out.json",
+        "split": "calibration",
+        "status": "complete",
+        "n": 24,
+        "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+        "n_blocks": 64,
+        "four_bit": true,
+        "model_class": "Qwen3_5ForConditionalGeneration",
+        "matches_pin": true
+      },
+      {
+        "file": "runs\\patches\\calibration\\scene_block_4_out.json",
+        "split": "calibration",
+        "status": "complete",
+        "n": 24,
+        "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+        "n_blocks": 64,
+        "four_bit": true,
+        "model_class": "Qwen3_5ForConditionalGeneration",
+        "matches_pin": true
+      },
+      {
+        "file": "runs\\patches\\calibration\\scene_block_60_out.json",
+        "split": "calibration",
+        "status": "complete",
+        "n": 24,
+        "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+        "n_blocks": 64,
+        "four_bit": true,
+        "model_class": "Qwen3_5ForConditionalGeneration",
+        "matches_pin": true
+      },
+      {
+        "file": "runs\\patches\\confirmation\\frame_block_31_out.json",
+        "split": "confirmation",
+        "status": "complete",
+        "n": 24,
+        "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+        "n_blocks": 64,
+        "four_bit": true,
+        "model_class": "Qwen3_5ForConditionalGeneration",
+        "matches_pin": true
+      },
+      {
+        "file": "runs\\patches\\confirmation\\frame_block_4_out.json",
+        "split": "confirmation",
+        "status": "complete",
+        "n": 24,
+        "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+        "n_blocks": 64,
+        "four_bit": true,
+        "model_class": "Qwen3_5ForConditionalGeneration",
+        "matches_pin": true
+      },
+      {
+        "file": "runs\\patches\\confirmation\\frame_block_60_out.json",
+        "split": "confirmation",
+        "status": "complete",
+        "n": 24,
+        "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+        "n_blocks": 64,
+        "four_bit": true,
+        "model_class": "Qwen3_5ForConditionalGeneration",
+        "matches_pin": true
+      },
+      {
+        "file": "runs\\patches\\confirmation\\policy_block_31_out.json",
+        "split": "confirmation",
+        "status": "complete",
+        "n": 24,
+        "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+        "n_blocks": 64,
+        "four_bit": true,
+        "model_class": "Qwen3_5ForConditionalGeneration",
+        "matches_pin": true
+      },
+      {
+        "file": "runs\\patches\\confirmation\\policy_block_4_out.json",
+        "split": "confirmation",
+        "status": "complete",
+        "n": 24,
+        "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+        "n_blocks": 64,
+        "four_bit": true,
+        "model_class": "Qwen3_5ForConditionalGeneration",
+        "matches_pin": true
+      },
+      {
+        "file": "runs\\patches\\confirmation\\policy_block_60_out.json",
+        "split": "confirmation",
+        "status": "complete",
+        "n": 24,
+        "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+        "n_blocks": 64,
+        "four_bit": true,
+        "model_class": "Qwen3_5ForConditionalGeneration",
+        "matches_pin": true
+      },
+      {
+        "file": "runs\\patches\\confirmation\\scene_block_31_out.json",
+        "split": "confirmation",
+        "status": "complete",
+        "n": 24,
+        "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+        "n_blocks": 64,
+        "four_bit": true,
+        "model_class": "Qwen3_5ForConditionalGeneration",
+        "matches_pin": true
+      },
+      {
+        "file": "runs\\patches\\confirmation\\scene_block_4_out.json",
+        "split": "confirmation",
+        "status": "complete",
+        "n": 24,
+        "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+        "n_blocks": 64,
+        "four_bit": true,
+        "model_class": "Qwen3_5ForConditionalGeneration",
+        "matches_pin": true
+      },
+      {
+        "file": "runs\\patches\\confirmation\\scene_block_60_out.json",
+        "split": "confirmation",
+        "status": "complete",
+        "n": 24,
+        "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+        "n_blocks": 64,
+        "four_bit": true,
+        "model_class": "Qwen3_5ForConditionalGeneration",
+        "matches_pin": true
+      }
+    ]
+  },
+  "substitutes_absent": {
+    "gpt2": true,
+    "unsloth": true,
+    "synthetic_activations": true,
+    "non_four_bit": true
+  }
+}

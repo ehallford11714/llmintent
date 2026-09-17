@@ -1,0 +1,8 @@
+{
+  "hf_id": "Qwen/Qwen3.8-27B",
+  "snapshot": "C:\\Users\\ehall\\.cache\\huggingface\\hub\\models--Qwen--Qwen3.8-27B\\snapshots\\1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+  "revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+  "quantization": "bitsandbytes NF4 (load_in_4bit, double quant, bfloat16 compute)",
+  "forbidden_substitutes": ["gpt2", "GPT-2", "unsloth 4bit checkpoint as replacement", "synthetic activations"],
+  "notes": "Use --model with the snapshot path and --four-bit on every collect/patch run. Do not use the unsloth bnb-4bit repo."
+}

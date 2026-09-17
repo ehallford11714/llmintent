@@ -1,0 +1,40 @@
+{
+  "model_argument": "C:\\Users\\ehall\\.cache\\huggingface\\hub\\models--Qwen--Qwen3.8-27B\\snapshots\\1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+  "four_bit": true,
+  "dataset_sha256": "db709fbb000adc557278de0c64bbf84733101eefb6068504f066a132ab94e5d0",
+  "runner_sha256": "5e8cf462ae6e01765441bf3ac382c091ec7905fc0596e8c89568a57b115b45f9",
+  "split": "calibration",
+  "limit": null,
+  "n": 240,
+  "pinned_snapshot": "C:\\Users\\ehall\\.cache\\huggingface\\hub\\models--Qwen--Qwen3.8-27B\\snapshots\\1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+  "model_class": "Qwen3_5ForConditionalGeneration",
+  "model_name": "C:\\Users\\ehall\\.cache\\huggingface\\hub\\models--Qwen--Qwen3.8-27B\\snapshots\\1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+  "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+  "n_blocks": 64,
+  "code_ids": {
+    "A": 357,
+    "B": 417,
+    "C": 351,
+    "D": 414,
+    "E": 458,
+    "F": 426
+  },
+  "packages": {
+    "torch": "2.11.0+cu128",
+    "transformers": "5.17.0",
+    "llmintent": "1.7.1",
+    "bitsandbytes": "0.50.2"
+  },
+  "llmintent_git": "752512aeeb68fd08d53ca9cc5283f2caf31b9090",
+  "llmintent_src": "C:\\Users\\ehall\\Desktop\\research\\llmintent\\src",
+  "site_convention": "block.i.out is raw output of zero-based block i; final_norm.pre/post are explicit hooks",
+  "capture_position": "last token of encoded prompt, before any generated answer; common assistant prefix may occupy this site",
+  "hidden_size": 5120,
+  "num_hidden_layers": 64,
+  "quantization": {
+    "quant_method": "bitsandbytes",
+    "load_in_4bit": true,
+    "bnb_4bit_quant_type": "nf4",
+    "bnb_4bit_compute_dtype": "bfloat16"
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "split": "confirmation",
+  "model_argument": "C:\\Users\\ehall\\.cache\\huggingface\\hub\\models--Qwen--Qwen3.8-27B\\snapshots\\1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+  "model_class": "Qwen3_5ForConditionalGeneration",
+  "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+  "four_bit": true,
+  "n": 240,
+  "accuracy": 0.9125,
+  "by_track": {
+    "frame": {
+      "n": 144,
+      "accuracy": 0.8680555555555556
+    },
+    "policy": {
+      "n": 96,
+      "accuracy": 0.9791666666666666
+    }
+  },
+  "by_frame": {
+    "commit": {
+      "n": 24,
+      "accuracy": 1.0
+    },
+    "conditional": {
+      "n": 24,
+      "accuracy": 0.75
+    },
+    "policy": {
+      "n": 96,
+      "accuracy": 0.9791666666666666
+    },
+    "quote": {
+      "n": 24,
+      "accuracy": 1.0
+    },
+    "reflect": {
+      "n": 24,
+      "accuracy": 0.4583333333333333
+    },
+    "scene_only": {
+      "n": 24,
+      "accuracy": 1.0
+    },
+    "withhold": {
+      "n": 24,
+      "accuracy": 1.0
+    }
+  },
+  "by_motion": {
+    "away from": {
+      "n": 120,
+      "accuracy": 0.9166666666666666
+    },
+    "toward": {
+      "n": 120,
+      "accuracy": 0.9083333333333333
+    }
+  },
+  "by_answer_semantic": {
+    "STEP": {
+      "n": 48,
+      "accuracy": 0.9791666666666666
+    },
+    "WAIT": {
+      "n": 48,
+      "accuracy": 0.9791666666666666
+    },
+    "commit": {
+      "n": 24,
+      "accuracy": 1.0
+    },
+    "conditional": {
+      "n": 24,
+      "accuracy": 0.75
+    },
+    "quote": {
+      "n": 24,
+      "accuracy": 1.0
+    },
+    "reflect": {
+      "n": 24,
+      "accuracy": 0.4583333333333333
+    },
+    "scene_only": {
+      "n": 24,
+      "accuracy": 1.0
+    },
+    "withhold": {
+      "n": 24,
+      "accuracy": 1.0
+    }
+  },
+  "by_template": {
+    "t10": {
+      "n": 80,
+      "accuracy": 0.875
+    },
+    "t11": {
+      "n": 80,
+      "accuracy": 0.9375
+    },
+    "t9": {
+      "n": 80,
+      "accuracy": 0.925
+    }
+  },
+  "by_object": {
+    "bag": {
+      "n": 60,
+      "accuracy": 0.9333333333333333
+    },
+    "bin": {
+      "n": 60,
+      "accuracy": 0.9
+    },
+    "case": {
+      "n": 60,
+      "accuracy": 0.8666666666666667
+    },
+    "package": {
+      "n": 60,
+      "accuracy": 0.95
+    }
+  },
+  "by_mapping": {
+    "0": {
+      "n": 48,
+      "accuracy": 0.9791666666666666
+    },
+    "1": {
+      "n": 48,
+      "accuracy": 0.9791666666666666
+    }
+  },
+  "notes": []
+}

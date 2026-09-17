@@ -1,0 +1,164 @@
+{
+  "split": "discovery",
+  "model_argument": "C:\\Users\\ehall\\.cache\\huggingface\\hub\\models--Qwen--Qwen3.8-27B\\snapshots\\1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+  "model_class": "Qwen3_5ForConditionalGeneration",
+  "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+  "four_bit": true,
+  "n": 960,
+  "accuracy": 0.9447916666666667,
+  "by_track": {
+    "frame": {
+      "n": 576,
+      "accuracy": 0.9079861111111112
+    },
+    "policy": {
+      "n": 384,
+      "accuracy": 1.0
+    }
+  },
+  "by_frame": {
+    "commit": {
+      "n": 96,
+      "accuracy": 0.9791666666666666
+    },
+    "conditional": {
+      "n": 96,
+      "accuracy": 0.875
+    },
+    "policy": {
+      "n": 384,
+      "accuracy": 1.0
+    },
+    "quote": {
+      "n": 96,
+      "accuracy": 0.7395833333333334
+    },
+    "reflect": {
+      "n": 96,
+      "accuracy": 0.9270833333333334
+    },
+    "scene_only": {
+      "n": 96,
+      "accuracy": 0.9791666666666666
+    },
+    "withhold": {
+      "n": 96,
+      "accuracy": 0.9479166666666666
+    }
+  },
+  "by_motion": {
+    "away from": {
+      "n": 480,
+      "accuracy": 0.9520833333333333
+    },
+    "toward": {
+      "n": 480,
+      "accuracy": 0.9375
+    }
+  },
+  "by_answer_semantic": {
+    "STEP": {
+      "n": 192,
+      "accuracy": 1.0
+    },
+    "WAIT": {
+      "n": 192,
+      "accuracy": 1.0
+    },
+    "commit": {
+      "n": 96,
+      "accuracy": 0.9791666666666666
+    },
+    "conditional": {
+      "n": 96,
+      "accuracy": 0.875
+    },
+    "quote": {
+      "n": 96,
+      "accuracy": 0.7395833333333334
+    },
+    "reflect": {
+      "n": 96,
+      "accuracy": 0.9270833333333334
+    },
+    "scene_only": {
+      "n": 96,
+      "accuracy": 0.9791666666666666
+    },
+    "withhold": {
+      "n": 96,
+      "accuracy": 0.9479166666666666
+    }
+  },
+  "by_template": {
+    "t0": {
+      "n": 160,
+      "accuracy": 0.94375
+    },
+    "t1": {
+      "n": 160,
+      "accuracy": 0.85625
+    },
+    "t2": {
+      "n": 160,
+      "accuracy": 0.9375
+    },
+    "t3": {
+      "n": 160,
+      "accuracy": 0.9625
+    },
+    "t4": {
+      "n": 160,
+      "accuracy": 1.0
+    },
+    "t5": {
+      "n": 160,
+      "accuracy": 0.96875
+    }
+  },
+  "by_object": {
+    "ball": {
+      "n": 120,
+      "accuracy": 0.9333333333333333
+    },
+    "barrel": {
+      "n": 120,
+      "accuracy": 0.9333333333333333
+    },
+    "cart": {
+      "n": 120,
+      "accuracy": 0.9583333333333334
+    },
+    "crate": {
+      "n": 120,
+      "accuracy": 0.95
+    },
+    "drone": {
+      "n": 120,
+      "accuracy": 0.9583333333333334
+    },
+    "robot": {
+      "n": 120,
+      "accuracy": 0.9416666666666667
+    },
+    "trolley": {
+      "n": 120,
+      "accuracy": 0.9416666666666667
+    },
+    "wagon": {
+      "n": 120,
+      "accuracy": 0.9416666666666667
+    }
+  },
+  "by_mapping": {
+    "0": {
+      "n": 192,
+      "accuracy": 1.0
+    },
+    "1": {
+      "n": 192,
+      "accuracy": 1.0
+    }
+  },
+  "notes": []
+}

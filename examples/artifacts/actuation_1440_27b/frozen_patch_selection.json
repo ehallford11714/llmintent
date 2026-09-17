@@ -1,0 +1,13 @@
+{
+  "selection_split": "calibration",
+  "site": "block.60.out",
+  "rescue_site": null,
+  "contrast": "policy",
+  "frame_pair": ["commit", "reflect"],
+  "max_pairs": 24,
+  "random_controls": 5,
+  "seed": 20260916,
+  "shortlist_sites": ["block.4.out", "block.31.out", "block.60.out"],
+  "contrasts": ["scene", "policy", "frame"],
+  "rationale": "Frozen from discovery/calibration only, before confirmation patches. block.4.out: early motion peak (cal balanced acc 0.9917) and action already 0.854. block.31.out: frame-status onset (0.535 vs ~0.3 early). block.60.out: late action-perfect (1.0) and strong frame (0.889). Policy baseline is 100% on calibration so causal tests of action selection are interpretable; quote-frame baseline is 0.625 so commit-vs-quote is not a primary frozen contrast. Motion lexical baseline is 1.0, so early scene decoding may be surface words; policy/action lexical baseline is 0.5."
+}

@@ -444,6 +444,15 @@ python -m llmintent models list
 
 Standalone extractable libs ([intent-isolates](https://github.com/ehallford11714/intent-isolates), LatentIntentInspect) may still be installed separately; the suite re-exports them when present.
 
+## Changelog (1.8.0)
+
+**1,440-case held-out actuation study on Qwen 3.8-27B NF4.** Letter classification plus activation patching, with confirmation on new templates and objects. Scene direction is readable early because the words are in the prompt. Commit/reflect and STEP/WAIT become readable late and stay readable through final norm. Swapping residuals at `block.60.out` moves those answers; the same swap at `block.4.out` or `block.31.out` does not. Specific FFN units and a fly-prior selector were not tested. Compact traces: [`examples/artifacts/actuation_1440_27b/`](examples/artifacts/actuation_1440_27b/).
+
+```bash
+# measured artifacts (no 27B weights, no per-token activations)
+# examples/artifacts/actuation_1440_27b/
+```
+
 ## Changelog (1.7.1)
 
 Review fixes for the 1.7.0 atlas path. Alignment now uses an escape-oriented `action_score` and reports correctness separately, so a correct “wait” on a receding object can no longer look like escape. Cascade intervenes on the nominated SVD units, measures B under A, and requires task disruption plus rescue. NF4 weights are dequantized before SVD. Unidentified residual layers no longer raise `layer.deception`. Confirmation uses held-out template groups. Fly assays label simulator mechanics as not biological validation. Bind eval helpers (`assess`, `verdict`, `mine`) live in `llmintent.predictbind`.
@@ -1355,7 +1364,8 @@ Viz outputs use consistent colors aligned with regime and module semantics:
 | `examples/hellaswag_benchmark.py` | HellaSwag SLM ablation + retrace store |
 | `examples/retracement_ablation.py` | Retracement Transformer perplexity ablation |
 | `examples/live_demo.py` | Live suite — analyze, heighten, generate on SLM |
-| `examples/FINDINGS.md` | 27B actuation-notion results (100 prompts + 65-layer emergence) |
+| `examples/FINDINGS.md` | 27B actuation results (1,440-case causal confirmation + 100-prompt cosine pass) |
+| `examples/artifacts/actuation_1440_27b/` | Held-out probes, patches, benchmark, provenance |
 | `examples/artifacts/` | Traces: function_mine, layer_emergence, intent battery, atlas |
 
 ## Research lineage & citations

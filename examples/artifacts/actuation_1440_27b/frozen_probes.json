@@ -1,0 +1,1794 @@
+{
+  "sites": [
+    "block.0.out",
+    "block.1.out",
+    "block.2.out",
+    "block.3.out",
+    "block.4.out",
+    "block.5.out",
+    "block.6.out",
+    "block.7.out",
+    "block.8.out",
+    "block.9.out",
+    "block.10.out",
+    "block.11.out",
+    "block.12.out",
+    "block.13.out",
+    "block.14.out",
+    "block.15.out",
+    "block.16.out",
+    "block.17.out",
+    "block.18.out",
+    "block.19.out",
+    "block.20.out",
+    "block.21.out",
+    "block.22.out",
+    "block.23.out",
+    "block.24.out",
+    "block.25.out",
+    "block.26.out",
+    "block.27.out",
+    "block.28.out",
+    "block.29.out",
+    "block.30.out",
+    "block.31.out",
+    "block.32.out",
+    "block.33.out",
+    "block.34.out",
+    "block.35.out",
+    "block.36.out",
+    "block.37.out",
+    "block.38.out",
+    "block.39.out",
+    "block.40.out",
+    "block.41.out",
+    "block.42.out",
+    "block.43.out",
+    "block.44.out",
+    "block.45.out",
+    "block.46.out",
+    "block.47.out",
+    "block.48.out",
+    "block.49.out",
+    "block.50.out",
+    "block.51.out",
+    "block.52.out",
+    "block.53.out",
+    "block.54.out",
+    "block.55.out",
+    "block.56.out",
+    "block.57.out",
+    "block.58.out",
+    "block.59.out",
+    "block.60.out",
+    "block.61.out",
+    "block.62.out",
+    "block.63.out",
+    "final_norm.pre",
+    "final_norm.post"
+  ],
+  "targets": {
+    "frame": {
+      "sites": {
+        "block.0.out": {
+          "calibration_balanced_accuracy": 0.40277777777777773,
+          "C": null,
+          "file": "frame__block.0.out.joblib",
+          "sha256": "36f8486bcfc63ac99c364f56e37ffee53b393c680685a886331a2092d07b2dc9",
+          "resumed": true
+        },
+        "block.1.out": {
+          "calibration_balanced_accuracy": 0.3055555555555556,
+          "C": null,
+          "file": "frame__block.1.out.joblib",
+          "sha256": "bd3d35b0b720c2a69cf848a54b05c89f2555d721d70045f16caead2eba15c775",
+          "resumed": true
+        },
+        "block.2.out": {
+          "calibration_balanced_accuracy": 0.40277777777777773,
+          "C": null,
+          "file": "frame__block.2.out.joblib",
+          "sha256": "5037bb195deac264008ec4b244be8f44965f7a56656008a9a284c0fbee466c53",
+          "resumed": true
+        },
+        "block.3.out": {
+          "calibration_balanced_accuracy": 0.46527777777777773,
+          "C": null,
+          "file": "frame__block.3.out.joblib",
+          "sha256": "f09503c7a502bc14865589de236011a812303794a7ccfc3723d6ffd37fd5cace",
+          "resumed": true
+        },
+        "block.4.out": {
+          "calibration_balanced_accuracy": 0.4305555555555556,
+          "C": null,
+          "file": "frame__block.4.out.joblib",
+          "sha256": "a166557483e02407229a6bfa44dd62ef95e4f70ca0ad949c958a24a2369d7974",
+          "resumed": true
+        },
+        "block.5.out": {
+          "calibration_balanced_accuracy": 0.4513888888888889,
+          "C": null,
+          "file": "frame__block.5.out.joblib",
+          "sha256": "c20e4039f979fe3259487b11fd73b5ce1ac8b29f8558f079319c8c21163ad46c",
+          "resumed": true
+        },
+        "block.6.out": {
+          "calibration_balanced_accuracy": 0.40277777777777773,
+          "C": null,
+          "file": "frame__block.6.out.joblib",
+          "sha256": "c9e5ee4441f5c31abccace84c561f21dc41fd54fd1a8329eab5c3a0210509bda",
+          "resumed": true
+        },
+        "block.7.out": {
+          "calibration_balanced_accuracy": 0.375,
+          "C": null,
+          "file": "frame__block.7.out.joblib",
+          "sha256": "f7035a4434435673f4024519b4eb37167f1dc5a568b69c8cb468b89086e5869d",
+          "resumed": true
+        },
+        "block.8.out": {
+          "calibration_balanced_accuracy": 0.29166666666666663,
+          "C": null,
+          "file": "frame__block.8.out.joblib",
+          "sha256": "ed892b93cc5b9dc6922a90ba6649ec0aae53935a3f3d63382ff23f2217a75d16",
+          "resumed": true
+        },
+        "block.9.out": {
+          "calibration_balanced_accuracy": 0.3055555555555556,
+          "C": null,
+          "file": "frame__block.9.out.joblib",
+          "sha256": "0ebb10c1a7b1e809c427bbb033e8966f9a42dafd3b7af7f441f792a98b2dc0d1",
+          "resumed": true
+        },
+        "block.10.out": {
+          "calibration_balanced_accuracy": 0.2638888888888889,
+          "C": null,
+          "file": "frame__block.10.out.joblib",
+          "sha256": "1472ba5517673ddad835f5880401773ae539b0064cc0feacc17b1b935bc1715f",
+          "resumed": true
+        },
+        "block.11.out": {
+          "calibration_balanced_accuracy": 0.3263888888888889,
+          "C": null,
+          "file": "frame__block.11.out.joblib",
+          "sha256": "4107d58bb5753f034198ad957f0837fd558f693344d75e66857143c8f48d17de",
+          "resumed": true
+        },
+        "block.12.out": {
+          "calibration_balanced_accuracy": 0.3680555555555555,
+          "C": null,
+          "file": "frame__block.12.out.joblib",
+          "sha256": "97e9ebdc88596f7f9b267679776550b55e65b315e84bea2384dee5f6ac370219",
+          "resumed": true
+        },
+        "block.13.out": {
+          "calibration_balanced_accuracy": 0.3333333333333333,
+          "C": null,
+          "file": "frame__block.13.out.joblib",
+          "sha256": "e74fde6e93d8cff06ded9d0e3784c47a5728cfbd0b9a25f7b641d68df4e2a44b",
+          "resumed": true
+        },
+        "block.14.out": {
+          "calibration_balanced_accuracy": 0.3333333333333333,
+          "C": null,
+          "file": "frame__block.14.out.joblib",
+          "sha256": "46bc7de155f995c3079f059cf47a7e281837563a77c82890fbcdcc9c1bf7e1c5",
+          "resumed": true
+        },
+        "block.15.out": {
+          "calibration_balanced_accuracy": 0.3194444444444444,
+          "C": null,
+          "file": "frame__block.15.out.joblib",
+          "sha256": "b5c58523153badbe827ac4fbe585653aa1eb273d9103f339f28952d0388139d7",
+          "resumed": true
+        },
+        "block.16.out": {
+          "calibration_balanced_accuracy": 0.3541666666666667,
+          "C": null,
+          "file": "frame__block.16.out.joblib",
+          "sha256": "769172956c855ab40803a1a461cd75bc37cd00781848bac8e0018c3704402274",
+          "resumed": true
+        },
+        "block.17.out": {
+          "calibration_balanced_accuracy": 0.39583333333333326,
+          "C": null,
+          "file": "frame__block.17.out.joblib",
+          "sha256": "e45afee2090c4b792c27627a2b2d44a2d66b528baca2295994434c7cdb8359b0",
+          "resumed": true
+        },
+        "block.18.out": {
+          "calibration_balanced_accuracy": 0.4583333333333333,
+          "C": null,
+          "file": "frame__block.18.out.joblib",
+          "sha256": "1cbf8af2a9d644dd995fb7097e482344bdcfd8a6e3f8e60c37a7c7f242d1e597",
+          "resumed": true
+        },
+        "block.19.out": {
+          "calibration_balanced_accuracy": 0.4375,
+          "C": null,
+          "file": "frame__block.19.out.joblib",
+          "sha256": "335ee59fa0739dc065bcb709a7efef5016314c953cf750cfb773542604f9b500",
+          "resumed": true
+        },
+        "block.20.out": {
+          "calibration_balanced_accuracy": 0.47222222222222227,
+          "C": null,
+          "file": "frame__block.20.out.joblib",
+          "sha256": "e41b415819d214f288000b33e9d8ca2e9ba09039409ff9e720b2ee460903baa5",
+          "resumed": true
+        },
+        "block.21.out": {
+          "calibration_balanced_accuracy": 0.4791666666666667,
+          "C": 0.1,
+          "file": "frame__block.21.out.joblib",
+          "sha256": "523d8311137afae013e4a22764cf82a1eb0af62d7e966ff15efabbfeb0278f16"
+        },
+        "block.22.out": {
+          "calibration_balanced_accuracy": 0.4513888888888889,
+          "C": 0.1,
+          "file": "frame__block.22.out.joblib",
+          "sha256": "b8de684af5d2cbedf9bded3343fb955b301e0419f12397ef5ec55ec2a8eac815"
+        },
+        "block.23.out": {
+          "calibration_balanced_accuracy": 0.4513888888888889,
+          "C": 0.1,
+          "file": "frame__block.23.out.joblib",
+          "sha256": "182f909099eb728881f242319de9580422902816495c6f9bfad24aa9b61b5f65"
+        },
+        "block.24.out": {
+          "calibration_balanced_accuracy": 0.40972222222222215,
+          "C": 0.01,
+          "file": "frame__block.24.out.joblib",
+          "sha256": "1044cae67d185eac746c3ff2b3f2533f14eb7cb248a79a1a0e4df75b2c4cbe79"
+        },
+        "block.25.out": {
+          "calibration_balanced_accuracy": 0.4305555555555555,
+          "C": 0.01,
+          "file": "frame__block.25.out.joblib",
+          "sha256": "67d5c427d7fbc11a8caef169a53aa86386bcd5e15982d0b7c0766c34fcdd7f49"
+        },
+        "block.26.out": {
+          "calibration_balanced_accuracy": 0.42361111111111116,
+          "C": 1.0,
+          "file": "frame__block.26.out.joblib",
+          "sha256": "4dd64074e1c682a7c836fbd10a1ab973da65df9e2f40b1e94b57e057da0afeb8"
+        },
+        "block.27.out": {
+          "calibration_balanced_accuracy": 0.4444444444444444,
+          "C": 1.0,
+          "file": "frame__block.27.out.joblib",
+          "sha256": "71b00db5803f269648bddd3756e6ca340c7121e02c19bf4e47e0192934f379c8"
+        },
+        "block.28.out": {
+          "calibration_balanced_accuracy": 0.43749999999999994,
+          "C": 1.0,
+          "file": "frame__block.28.out.joblib",
+          "sha256": "1a37ef10dfdff127b560e423c2dcd087c2c6fc75cafbf9c9cf15eda799bb8d84"
+        },
+        "block.29.out": {
+          "calibration_balanced_accuracy": 0.42361111111111116,
+          "C": 0.1,
+          "file": "frame__block.29.out.joblib",
+          "sha256": "919a056c7bf33f067f5ccd11106773a45fb930fe8d7960e43157413ff09beead"
+        },
+        "block.30.out": {
+          "calibration_balanced_accuracy": 0.47222222222222227,
+          "C": 1.0,
+          "file": "frame__block.30.out.joblib",
+          "sha256": "26031643557f670f4f5c806246fefbb59a8aa956e95b98d9b13e5f327d22a5de"
+        },
+        "block.31.out": {
+          "calibration_balanced_accuracy": 0.5347222222222222,
+          "C": 0.01,
+          "file": "frame__block.31.out.joblib",
+          "sha256": "4acbb9d68af5743d1fabf67d31cbcbfd63a5bb0546518a409e3f2f460d4c4704"
+        },
+        "block.32.out": {
+          "calibration_balanced_accuracy": 0.5694444444444444,
+          "C": 1.0,
+          "file": "frame__block.32.out.joblib",
+          "sha256": "5e27545854d68fbbb0cd7cfa5a69d0f327c904f4c031e2351577da7ce289db1c"
+        },
+        "block.33.out": {
+          "calibration_balanced_accuracy": 0.7013888888888888,
+          "C": 0.01,
+          "file": "frame__block.33.out.joblib",
+          "sha256": "61084481be7c85046a73c91855e54597c57fd9c3096479775273c8d83ff3d071"
+        },
+        "block.34.out": {
+          "calibration_balanced_accuracy": 0.7152777777777777,
+          "C": 1.0,
+          "file": "frame__block.34.out.joblib",
+          "sha256": "fdd73b041d1089ef855d0f942e5845ffcdfb8477492bc550c758fef5132cf591"
+        },
+        "block.35.out": {
+          "calibration_balanced_accuracy": 0.8819444444444445,
+          "C": 0.1,
+          "file": "frame__block.35.out.joblib",
+          "sha256": "42e99606767c9d5444bd4888b17ed43fe632f2c2eba16d6a9b4a5afa931f873a"
+        },
+        "block.36.out": {
+          "calibration_balanced_accuracy": 0.875,
+          "C": 0.1,
+          "file": "frame__block.36.out.joblib",
+          "sha256": "5bc297319b36749dc153be0d57ffbc0c82e470c74bc08c1ec2fa906620ea6bd6"
+        },
+        "block.37.out": {
+          "calibration_balanced_accuracy": 0.8472222222222222,
+          "C": 1.0,
+          "file": "frame__block.37.out.joblib",
+          "sha256": "582cebc737e8f0e8a1e9d17a44016eb250026765bda5cd98a5b528a2a567a1fc"
+        },
+        "block.38.out": {
+          "calibration_balanced_accuracy": 0.875,
+          "C": 0.01,
+          "file": "frame__block.38.out.joblib",
+          "sha256": "f2c71d250cb0453ee6ed792191782c817a9bc0ba06cf245a77923a99b3c63848"
+        },
+        "block.39.out": {
+          "calibration_balanced_accuracy": 0.8888888888888888,
+          "C": 0.01,
+          "file": "frame__block.39.out.joblib",
+          "sha256": "935b69e771a8bf471dbd6fd36224f6233d8e1fe5e01326cae73e1852c102b91c"
+        },
+        "block.40.out": {
+          "calibration_balanced_accuracy": 0.8888888888888888,
+          "C": 1.0,
+          "file": "frame__block.40.out.joblib",
+          "sha256": "fb7f1ff8b4c67c0e664df28682673664b982f4aed1975155e97693561fa052cf"
+        },
+        "block.41.out": {
+          "calibration_balanced_accuracy": 0.8819444444444445,
+          "C": 1.0,
+          "file": "frame__block.41.out.joblib",
+          "sha256": "0a9759dfcaf80f41291efe0c9908db0605aa01ce8ffabb44bb81284d4b2ec84d"
+        },
+        "block.42.out": {
+          "calibration_balanced_accuracy": 0.875,
+          "C": 0.1,
+          "file": "frame__block.42.out.joblib",
+          "sha256": "ece407da2be29ff15b07a72f1788a1b61ab141c1bc62db3c3f939241b71a7383"
+        },
+        "block.43.out": {
+          "calibration_balanced_accuracy": 0.8680555555555557,
+          "C": 1.0,
+          "file": "frame__block.43.out.joblib",
+          "sha256": "1310d3d255845cde29404852d2b136f941b858a3b7e6f5eb2afad8cf7bd72adf"
+        },
+        "block.44.out": {
+          "calibration_balanced_accuracy": 0.8541666666666666,
+          "C": 0.01,
+          "file": "frame__block.44.out.joblib",
+          "sha256": "94df9323eff5d236554a58cc07cad65088bc9a1ff88b85cb6ca57578a68b84f4"
+        },
+        "block.45.out": {
+          "calibration_balanced_accuracy": 0.8541666666666666,
+          "C": 0.1,
+          "file": "frame__block.45.out.joblib",
+          "sha256": "14bfbd71de9ea6f4778e7004b98554f80cf22aa0dfe29719c16342949c403811"
+        },
+        "block.46.out": {
+          "calibration_balanced_accuracy": 0.8611111111111112,
+          "C": 0.1,
+          "file": "frame__block.46.out.joblib",
+          "sha256": "29fc98d96ee0f0cfd709ee5d767d00761f9e896ae0b7112ec2c131c936d5875a"
+        },
+        "block.47.out": {
+          "calibration_balanced_accuracy": 0.8958333333333334,
+          "C": 0.1,
+          "file": "frame__block.47.out.joblib",
+          "sha256": "6696e44629190a538a75352f4838c87c42c820ebb1b73ec011b7776d8585658d"
+        },
+        "block.48.out": {
+          "calibration_balanced_accuracy": 0.9027777777777777,
+          "C": 1.0,
+          "file": "frame__block.48.out.joblib",
+          "sha256": "837b228688a5df2c575bcdcaca72aa17d2fcde5923a0f8ca07d82d3bc6d13fdd"
+        },
+        "block.49.out": {
+          "calibration_balanced_accuracy": 0.9097222222222222,
+          "C": 1.0,
+          "file": "frame__block.49.out.joblib",
+          "sha256": "7eb4dfe60f554fa2899f4da7bb002882df0be83d4aacf0ac52b6c5434f6f837c"
+        },
+        "block.50.out": {
+          "calibration_balanced_accuracy": 0.9166666666666666,
+          "C": 0.1,
+          "file": "frame__block.50.out.joblib",
+          "sha256": "bbbfa8b4026b87a5b90606fdb7aad900c9d0028a520dad7907733f4cda9e2721"
+        },
+        "block.51.out": {
+          "calibration_balanced_accuracy": 0.9097222222222222,
+          "C": 0.1,
+          "file": "frame__block.51.out.joblib",
+          "sha256": "4bd862adf474890561c2c95f9f5852a953b6e11f2e03873406ccdc63bd1ddcfe"
+        },
+        "block.52.out": {
+          "calibration_balanced_accuracy": 0.9097222222222222,
+          "C": 1.0,
+          "file": "frame__block.52.out.joblib",
+          "sha256": "688ccb49325e99bc37d5df19335983953827c0044a3b389f952a1ab8f99f2732"
+        },
+        "block.53.out": {
+          "calibration_balanced_accuracy": 0.9097222222222222,
+          "C": 0.01,
+          "file": "frame__block.53.out.joblib",
+          "sha256": "ea18e0697be7737015c16a991dea55f63f36edcb3eabdf6cc23590c960c3b132"
+        },
+        "block.54.out": {
+          "calibration_balanced_accuracy": 0.8958333333333334,
+          "C": 0.1,
+          "file": "frame__block.54.out.joblib",
+          "sha256": "b675455c3c7d58c9ae397f43e6bc92f1b3c94a12b3e1c9377f7864bb8f21ef3e"
+        },
+        "block.55.out": {
+          "calibration_balanced_accuracy": 0.9027777777777777,
+          "C": 1.0,
+          "file": "frame__block.55.out.joblib",
+          "sha256": "5d0ddadfa1a3845ff6626bf68b8964dad336901eec4ed1bb5f96fe6208089bff"
+        },
+        "block.56.out": {
+          "calibration_balanced_accuracy": 0.9027777777777777,
+          "C": 1.0,
+          "file": "frame__block.56.out.joblib",
+          "sha256": "53db8fa93cc1d94d13fcbd2b07929c1d08d1d4c8ca4c67ba5cb13e5c6d13b5c4"
+        },
+        "block.57.out": {
+          "calibration_balanced_accuracy": 0.9027777777777777,
+          "C": 1.0,
+          "file": "frame__block.57.out.joblib",
+          "sha256": "0b2e0c295e7932a07d9dd9022f2f66b1d990f22cdb7dd8d8ef6be0ee26af27f4"
+        },
+        "block.58.out": {
+          "calibration_balanced_accuracy": 0.8888888888888888,
+          "C": 0.01,
+          "file": "frame__block.58.out.joblib",
+          "sha256": "40bbe19dc58affefedbfe7465e8127dd81244fce6498ba059c8745f491e5de65"
+        },
+        "block.59.out": {
+          "calibration_balanced_accuracy": 0.8958333333333334,
+          "C": 0.1,
+          "file": "frame__block.59.out.joblib",
+          "sha256": "81bb1738751b45d7af5381cdbcff0d1ad1ba8d62074a205ea42e3d75b3262925"
+        },
+        "block.60.out": {
+          "calibration_balanced_accuracy": 0.8888888888888888,
+          "C": 0.01,
+          "file": "frame__block.60.out.joblib",
+          "sha256": "22ad742d17f3d55b63ac9c3798c85d3c3f7cd6b9c78539b0dfa001e63af6776f"
+        },
+        "block.61.out": {
+          "calibration_balanced_accuracy": 0.8958333333333334,
+          "C": 0.1,
+          "file": "frame__block.61.out.joblib",
+          "sha256": "5ab70c2b5f314d617248b3a691b0c7af63f2b7f4c07e9bc576bd2a480a56b9a3"
+        },
+        "block.62.out": {
+          "calibration_balanced_accuracy": 0.9097222222222222,
+          "C": 0.1,
+          "file": "frame__block.62.out.joblib",
+          "sha256": "82df3fffda50b67ea5797b7b3c691f36a79f3d8c04c28a20a67178d053825f4e"
+        },
+        "block.63.out": {
+          "calibration_balanced_accuracy": 0.9097222222222222,
+          "C": 1.0,
+          "file": "frame__block.63.out.joblib",
+          "sha256": "ba072a47802a49010a092c590f28fed5fe57e7cff675ffce10654172eed0e372"
+        },
+        "final_norm.pre": {
+          "calibration_balanced_accuracy": 0.9097222222222222,
+          "C": 1.0,
+          "file": "frame__final_norm.pre.joblib",
+          "sha256": "ba072a47802a49010a092c590f28fed5fe57e7cff675ffce10654172eed0e372"
+        },
+        "final_norm.post": {
+          "calibration_balanced_accuracy": 0.9097222222222222,
+          "C": 0.1,
+          "file": "frame__final_norm.post.joblib",
+          "sha256": "b66a54cef72074db6741233e6fabb367f77d47398415f271a7a652d8e6628d47"
+        }
+      },
+      "selected_site": "block.50.out",
+      "lexical_file": "frame__lexical.joblib",
+      "lexical_sha256": "4e5a1df9693411a153da668065cb4ba1b704d6cbec21d9f1fe8e10093a21c9b3",
+      "lexical_calibration_balanced_accuracy": 0.5555555555555555
+    },
+    "motion": {
+      "sites": {
+        "block.0.out": {
+          "calibration_balanced_accuracy": 0.9208333333333334,
+          "C": 1.0,
+          "file": "motion__block.0.out.joblib",
+          "sha256": "2e25b5e8a310c5ee6ec9999d1b98a8e7d6b62db143cfb1d1e06c250b15374cb5"
+        },
+        "block.1.out": {
+          "calibration_balanced_accuracy": 0.9791666666666666,
+          "C": 0.1,
+          "file": "motion__block.1.out.joblib",
+          "sha256": "27e3106ef27bbc98d52de6d21ec4fc14739721add330b42c4cfca665d5b03356"
+        },
+        "block.2.out": {
+          "calibration_balanced_accuracy": 0.9791666666666666,
+          "C": 0.1,
+          "file": "motion__block.2.out.joblib",
+          "sha256": "16032a03cc314d11d27a8f90111fc140d699e8e180f7998cf9a0751879645d6a"
+        },
+        "block.3.out": {
+          "calibration_balanced_accuracy": 0.8916666666666666,
+          "C": 1.0,
+          "file": "motion__block.3.out.joblib",
+          "sha256": "bea40a3bea8673b4b1dcb63448e20035b773978b8b3b14d322327b0c0e9dd1c7"
+        },
+        "block.4.out": {
+          "calibration_balanced_accuracy": 0.9916666666666667,
+          "C": 0.01,
+          "file": "motion__block.4.out.joblib",
+          "sha256": "8e260539ac1bf7c00865989ac87d373f2416f8f1428695c6ab0569491355d939"
+        },
+        "block.5.out": {
+          "calibration_balanced_accuracy": 0.9833333333333334,
+          "C": 1.0,
+          "file": "motion__block.5.out.joblib",
+          "sha256": "c1426a0b4ad92d1a5859d907d957c44e256e90470c7efc7910b82e1a4b0c5d9b"
+        },
+        "block.6.out": {
+          "calibration_balanced_accuracy": 0.9416666666666667,
+          "C": 1.0,
+          "file": "motion__block.6.out.joblib",
+          "sha256": "3f9b1f2d4fd5658aedf29de2bdfe440c7a534e494916efdde62de46e6b758719"
+        },
+        "block.7.out": {
+          "calibration_balanced_accuracy": 0.8708333333333333,
+          "C": 0.01,
+          "file": "motion__block.7.out.joblib",
+          "sha256": "37d31c5a8f4e13988993f392776a07de4966512a198056be6a28aa07f07604b3"
+        },
+        "block.8.out": {
+          "calibration_balanced_accuracy": 0.8791666666666667,
+          "C": 1.0,
+          "file": "motion__block.8.out.joblib",
+          "sha256": "0d879c3ce805de4602bc278d82ea672f48c37215eed853decad31a0ff6846e1b"
+        },
+        "block.9.out": {
+          "calibration_balanced_accuracy": 0.8708333333333333,
+          "C": 0.1,
+          "file": "motion__block.9.out.joblib",
+          "sha256": "4adfeaa29e68402796336757035e702126d1182276b4e8fec67fcd77e7f80d71"
+        },
+        "block.10.out": {
+          "calibration_balanced_accuracy": 0.8583333333333334,
+          "C": 0.01,
+          "file": "motion__block.10.out.joblib",
+          "sha256": "9c0d160c90758f51324b0b05376334ecc4c2d312cea9fa9cf744333e0126f00e"
+        },
+        "block.11.out": {
+          "calibration_balanced_accuracy": 0.8791666666666667,
+          "C": 1.0,
+          "file": "motion__block.11.out.joblib",
+          "sha256": "fc95d7e6665874f28bca8341ce794ed1e9919f634b4bcf746c963490f5cd9f80"
+        },
+        "block.12.out": {
+          "calibration_balanced_accuracy": 0.8958333333333333,
+          "C": 0.01,
+          "file": "motion__block.12.out.joblib",
+          "sha256": "608abd098ef91520d8d4678ea3ebe658183fe42b831334684806219d0c4ce361"
+        },
+        "block.13.out": {
+          "calibration_balanced_accuracy": 0.8625,
+          "C": 1.0,
+          "file": "motion__block.13.out.joblib",
+          "sha256": "edab9066753acbe9fcfa3192af6e3487ca1ac30998bd60afbf941cedd50fc732"
+        },
+        "block.14.out": {
+          "calibration_balanced_accuracy": 0.8916666666666666,
+          "C": 1.0,
+          "file": "motion__block.14.out.joblib",
+          "sha256": "f1f0d0a9f6fe8d3147c2f063ee27a477d8efc9575989dfeac3be5f08986582c2"
+        },
+        "block.15.out": {
+          "calibration_balanced_accuracy": 0.9125,
+          "C": 1.0,
+          "file": "motion__block.15.out.joblib",
+          "sha256": "ef64bdadb193958f6264009f9434f2c4d4758395023033f80b2ec8f40813c9b4"
+        },
+        "block.16.out": {
+          "calibration_balanced_accuracy": 0.9083333333333333,
+          "C": 1.0,
+          "file": "motion__block.16.out.joblib",
+          "sha256": "0f21ad4c4199129ada41250bf9ded919361abad6e640792318c9fc12d31924f3"
+        },
+        "block.17.out": {
+          "calibration_balanced_accuracy": 0.925,
+          "C": 1.0,
+          "file": "motion__block.17.out.joblib",
+          "sha256": "bb7d3ec53a82cf9db6f86538b22ce5402f97a34b81c8428f837b82fecaebccfe"
+        },
+        "block.18.out": {
+          "calibration_balanced_accuracy": 0.9416666666666667,
+          "C": 0.1,
+          "file": "motion__block.18.out.joblib",
+          "sha256": "b6dda8972d23cbee54b52b81b73f62bbbb156bac5c52752ae2c9e1f5bab99a71"
+        },
+        "block.19.out": {
+          "calibration_balanced_accuracy": 0.9708333333333333,
+          "C": 1.0,
+          "file": "motion__block.19.out.joblib",
+          "sha256": "dacad0433cb48d918fae6a9825482121ebe34b89c94c0ede4658d43f34d4a512"
+        },
+        "block.20.out": {
+          "calibration_balanced_accuracy": 0.9666666666666667,
+          "C": 1.0,
+          "file": "motion__block.20.out.joblib",
+          "sha256": "6eaf70f48d2062e2774bfa04836a86e2a161fadf57624f8a03741fcdc79a112d"
+        },
+        "block.21.out": {
+          "calibration_balanced_accuracy": 0.9583333333333334,
+          "C": 1.0,
+          "file": "motion__block.21.out.joblib",
+          "sha256": "3e4dea6594529af4c10d612b7550865bf37bffa05c1d6b549c3511d63beb2f79"
+        },
+        "block.22.out": {
+          "calibration_balanced_accuracy": 0.9416666666666667,
+          "C": 1.0,
+          "file": "motion__block.22.out.joblib",
+          "sha256": "db7b5b84de0c6a98214dc3912509ceb749d597e483653e5920bc997c91337d1f"
+        },
+        "block.23.out": {
+          "calibration_balanced_accuracy": 0.9375,
+          "C": 1.0,
+          "file": "motion__block.23.out.joblib",
+          "sha256": "73ab2d8be715690d09659451faf9d8b024e0cff8252af05d51463dc9e3bc97fa"
+        },
+        "block.24.out": {
+          "calibration_balanced_accuracy": 0.9666666666666667,
+          "C": 1.0,
+          "file": "motion__block.24.out.joblib",
+          "sha256": "c2bad1fa5758afbedc99e7c4ebbc8c7189a3ec3a2f34a973a7f79a68f25d4be9"
+        },
+        "block.25.out": {
+          "calibration_balanced_accuracy": 0.925,
+          "C": 1.0,
+          "file": "motion__block.25.out.joblib",
+          "sha256": "3937a5a2955fc6ab7d29d7114f5ad74dc6f32f1486d3555b850d4458f852dbbc"
+        },
+        "block.26.out": {
+          "calibration_balanced_accuracy": 0.8999999999999999,
+          "C": 1.0,
+          "file": "motion__block.26.out.joblib",
+          "sha256": "4b0d4fad2885624be57cb0a0e37de9a7478235ebfde7411d0e80587b9072dde1"
+        },
+        "block.27.out": {
+          "calibration_balanced_accuracy": 0.9083333333333333,
+          "C": 1.0,
+          "file": "motion__block.27.out.joblib",
+          "sha256": "2f3250435cc41da986bb0fb1f80a47aef3941f4e81125bbd5c80aaff4186da31"
+        },
+        "block.28.out": {
+          "calibration_balanced_accuracy": 0.8416666666666667,
+          "C": 0.1,
+          "file": "motion__block.28.out.joblib",
+          "sha256": "85472e0810fa3e4562d32630cffeeae4021a6370e0c0bb8d1e6a9d83d1fdb285"
+        },
+        "block.29.out": {
+          "calibration_balanced_accuracy": 0.8291666666666666,
+          "C": 1.0,
+          "file": "motion__block.29.out.joblib",
+          "sha256": "d8b76282e8537e2f0171816d06fb9b0567c65f3f1c7666a1df8213c4dd7e3ce8"
+        },
+        "block.30.out": {
+          "calibration_balanced_accuracy": 0.85,
+          "C": 1.0,
+          "file": "motion__block.30.out.joblib",
+          "sha256": "651d863e953342e44e0b9afc9adbb3b177224e6de06aeed59f7eefd7a02b0ad7"
+        },
+        "block.31.out": {
+          "calibration_balanced_accuracy": 0.8208333333333333,
+          "C": 1.0,
+          "file": "motion__block.31.out.joblib",
+          "sha256": "aa4f055fe6b5fcd5b1d1567361268bbe4d347c7784fff14be06f6ba56212af43"
+        },
+        "block.32.out": {
+          "calibration_balanced_accuracy": 0.8333333333333333,
+          "C": 0.1,
+          "file": "motion__block.32.out.joblib",
+          "sha256": "74596af84594cc37a074fa0fd37f87668c9548ebf97ca2b667a4d29e659a3d22"
+        },
+        "block.33.out": {
+          "calibration_balanced_accuracy": 0.8583333333333334,
+          "C": 1.0,
+          "file": "motion__block.33.out.joblib",
+          "sha256": "f666c99fd2bb55be943e4c8bf8f8a4683f3db20ba14e6333655848c345a0d3ec"
+        },
+        "block.34.out": {
+          "calibration_balanced_accuracy": 0.8458333333333333,
+          "C": 1.0,
+          "file": "motion__block.34.out.joblib",
+          "sha256": "2469d2316681c8dba5450236bf6bbf56ed8c4b2e45e2a11f318c2ebff9dbcdd4"
+        },
+        "block.35.out": {
+          "calibration_balanced_accuracy": 0.8541666666666666,
+          "C": 0.1,
+          "file": "motion__block.35.out.joblib",
+          "sha256": "43463ce520fd4f84135a7c3ac9b322f893684344ba72fc1c2274b4b3d8658b56"
+        },
+        "block.36.out": {
+          "calibration_balanced_accuracy": 0.8583333333333334,
+          "C": 0.01,
+          "file": "motion__block.36.out.joblib",
+          "sha256": "5c09347f9e74193516df3bc888e1a3cc3abe4b7218c878c7f22f4149732461cb"
+        },
+        "block.37.out": {
+          "calibration_balanced_accuracy": 0.8541666666666667,
+          "C": 0.01,
+          "file": "motion__block.37.out.joblib",
+          "sha256": "97497141944a9f98c42265f271bd48d9f86e22a3ddd0d1bef634c866f9fb0fd1"
+        },
+        "block.38.out": {
+          "calibration_balanced_accuracy": 0.8583333333333334,
+          "C": 0.1,
+          "file": "motion__block.38.out.joblib",
+          "sha256": "32af3d030676eee839f59e7a6eaaef5616a10c0da6495fcc192443f5f70c02d8"
+        },
+        "block.39.out": {
+          "calibration_balanced_accuracy": 0.8500000000000001,
+          "C": 1.0,
+          "file": "motion__block.39.out.joblib",
+          "sha256": "71d3c7385c8cf49528be96353e899b2590587198d9519731afe7117846fd20ad"
+        },
+        "block.40.out": {
+          "calibration_balanced_accuracy": 0.8416666666666667,
+          "C": 1.0,
+          "file": "motion__block.40.out.joblib",
+          "sha256": "6b3457c971c931c32ccc789d89dbdb637a77b458980a85b37099df127d865fd5"
+        },
+        "block.41.out": {
+          "calibration_balanced_accuracy": 0.8416666666666667,
+          "C": 0.1,
+          "file": "motion__block.41.out.joblib",
+          "sha256": "d387cf606fda2ea3aad63de262c445e8f88107aed2afcc044dcbfa75ae257409"
+        },
+        "block.42.out": {
+          "calibration_balanced_accuracy": 0.85,
+          "C": 1.0,
+          "file": "motion__block.42.out.joblib",
+          "sha256": "245d8e8de9421072f2f09597426cbec9cc57854f9dd4f565085115c7458181f0"
+        },
+        "block.43.out": {
+          "calibration_balanced_accuracy": 0.8666666666666667,
+          "C": 1.0,
+          "file": "motion__block.43.out.joblib",
+          "sha256": "d7076335003eee38f8fc66537477d911dc107703b48aa2cca47f00fea3dc4e43"
+        },
+        "block.44.out": {
+          "calibration_balanced_accuracy": 0.8458333333333333,
+          "C": 0.01,
+          "file": "motion__block.44.out.joblib",
+          "sha256": "d600ef38aa6fe42ab7e5623e7690fb6014eac9ad929d027ec61d69d62d3d8b32"
+        },
+        "block.45.out": {
+          "calibration_balanced_accuracy": 0.8541666666666666,
+          "C": 0.1,
+          "file": "motion__block.45.out.joblib",
+          "sha256": "dbbf225120bd84cc578a2717881027bb57ce42ab09fdd5fbbd4da16434be1057"
+        },
+        "block.46.out": {
+          "calibration_balanced_accuracy": 0.8541666666666667,
+          "C": 1.0,
+          "file": "motion__block.46.out.joblib",
+          "sha256": "25594c03643c0dcda7882ae2834099ec42794454600c01cac2dee25ec8c1bfa7"
+        },
+        "block.47.out": {
+          "calibration_balanced_accuracy": 0.8333333333333334,
+          "C": 1.0,
+          "file": "motion__block.47.out.joblib",
+          "sha256": "a6aa4c5945cfd08d19a917b7b04be9ee5287340d035b75d5010dcf5a7a4659bd"
+        },
+        "block.48.out": {
+          "calibration_balanced_accuracy": 0.825,
+          "C": 0.01,
+          "file": "motion__block.48.out.joblib",
+          "sha256": "a152550a7128070b0f4645ad8b56faff6ddfe8aa670e325ade203e58cf3e7deb"
+        },
+        "block.49.out": {
+          "calibration_balanced_accuracy": 0.825,
+          "C": 1.0,
+          "file": "motion__block.49.out.joblib",
+          "sha256": "dfd9488a114994c8a1a8da019246b1fa1017f9b370c39f5f6fe7d5762631c73f"
+        },
+        "block.50.out": {
+          "calibration_balanced_accuracy": 0.8125,
+          "C": 1.0,
+          "file": "motion__block.50.out.joblib",
+          "sha256": "62d23ad6d9122ecc14783836467f899e4678e4d15e3926371bcda12641a28e19"
+        },
+        "block.51.out": {
+          "calibration_balanced_accuracy": 0.8041666666666667,
+          "C": 0.01,
+          "file": "motion__block.51.out.joblib",
+          "sha256": "d7ebb50625fbb825d238e6e146acada3bd9b8489534a3e901f32a8f491642342"
+        },
+        "block.52.out": {
+          "calibration_balanced_accuracy": 0.7916666666666667,
+          "C": 0.01,
+          "file": "motion__block.52.out.joblib",
+          "sha256": "2336a8ea549a4633b8cf0b562e62a22c39b407dbbc0ea8a70d11ab908a3b6e85"
+        },
+        "block.53.out": {
+          "calibration_balanced_accuracy": 0.7666666666666666,
+          "C": 0.01,
+          "file": "motion__block.53.out.joblib",
+          "sha256": "789fc0bd7e017151290e2914e648d449924840090740809a50ee28f715fdb414"
+        },
+        "block.54.out": {
+          "calibration_balanced_accuracy": 0.7708333333333333,
+          "C": 1.0,
+          "file": "motion__block.54.out.joblib",
+          "sha256": "e32157514c0f1fe839d07b5cd7b6ee3867f07d9bacd4e0a4b800553c5c693e66"
+        },
+        "block.55.out": {
+          "calibration_balanced_accuracy": 0.7958333333333334,
+          "C": 0.1,
+          "file": "motion__block.55.out.joblib",
+          "sha256": "d53696d521ca2a8833823562ee7fb867b4896d2190adffaf9cb909adca6bc344"
+        },
+        "block.56.out": {
+          "calibration_balanced_accuracy": 0.7749999999999999,
+          "C": 0.01,
+          "file": "motion__block.56.out.joblib",
+          "sha256": "355aab4db5d725870f39cc853f88658981df34bb4d9207e6ef3d24b9e5f59514"
+        },
+        "block.57.out": {
+          "calibration_balanced_accuracy": 0.7791666666666667,
+          "C": 0.01,
+          "file": "motion__block.57.out.joblib",
+          "sha256": "940b47c1b9a702e2ddb2d42563ec55fc0cb720f625ebdc39958830d7a521e841"
+        },
+        "block.58.out": {
+          "calibration_balanced_accuracy": 0.7958333333333334,
+          "C": 0.1,
+          "file": "motion__block.58.out.joblib",
+          "sha256": "a9170c6b67ecacc9ca72bd39c5bc31bdbdde166c40c9b11cf9987a5271a926b8"
+        },
+        "block.59.out": {
+          "calibration_balanced_accuracy": 0.7916666666666667,
+          "C": 0.01,
+          "file": "motion__block.59.out.joblib",
+          "sha256": "1cc32a288f5e86b2da96a29eb05d2f07054e4eda75879f3cb2978338fa5855e5"
+        },
+        "block.60.out": {
+          "calibration_balanced_accuracy": 0.7958333333333334,
+          "C": 1.0,
+          "file": "motion__block.60.out.joblib",
+          "sha256": "03432ad94981eb7ce6e873bcd5d218d7853d704e94e92751f77116684b180f1a"
+        },
+        "block.61.out": {
+          "calibration_balanced_accuracy": 0.7833333333333333,
+          "C": 1.0,
+          "file": "motion__block.61.out.joblib",
+          "sha256": "f447772d63986ce889df0e218594e5f3c219d45e46a15c25a17bf4274b632871"
+        },
+        "block.62.out": {
+          "calibration_balanced_accuracy": 0.7791666666666666,
+          "C": 0.01,
+          "file": "motion__block.62.out.joblib",
+          "sha256": "abc9a93af7da84725cee836cf27b12632bb53df85b8ef9564ee31e388bb4df90"
+        },
+        "block.63.out": {
+          "calibration_balanced_accuracy": 0.8,
+          "C": 1.0,
+          "file": "motion__block.63.out.joblib",
+          "sha256": "72434daa09fa23b87e3f05f8c42c96559edde112b20f6cc5a65dbd850f622f4e"
+        },
+        "final_norm.pre": {
+          "calibration_balanced_accuracy": 0.8,
+          "C": 1.0,
+          "file": "motion__final_norm.pre.joblib",
+          "sha256": "72434daa09fa23b87e3f05f8c42c96559edde112b20f6cc5a65dbd850f622f4e"
+        },
+        "final_norm.post": {
+          "calibration_balanced_accuracy": 0.8,
+          "C": 1.0,
+          "file": "motion__final_norm.post.joblib",
+          "sha256": "88915e47870963364a9ded305348f04b49c1ce6dae84db7edbc94b36684e0c4a"
+        }
+      },
+      "selected_site": "block.4.out",
+      "lexical_file": "motion__lexical.joblib",
+      "lexical_sha256": "59d3c565e63d39df5ffc7cec715ecf98efae981bc055475d3091e7dbb682fad2",
+      "lexical_calibration_balanced_accuracy": 1.0
+    },
+    "action": {
+      "sites": {
+        "block.0.out": {
+          "calibration_balanced_accuracy": 0.53125,
+          "C": 1.0,
+          "file": "action__block.0.out.joblib",
+          "sha256": "baf0d4628aed39d7a63127968578e5d71954f6caf26c81bee310110284cd233c"
+        },
+        "block.1.out": {
+          "calibration_balanced_accuracy": 0.5,
+          "C": 0.01,
+          "file": "action__block.1.out.joblib",
+          "sha256": "81c21e16944a8cb5a5bb937716306f2637fab4ff9d7d5bcdc723a41840eadf5a"
+        },
+        "block.2.out": {
+          "calibration_balanced_accuracy": 0.5,
+          "C": 0.01,
+          "file": "action__block.2.out.joblib",
+          "sha256": "457a5d0db09700411335b485e71eaf245068801fc39323fee4b85a98c6d5276e"
+        },
+        "block.3.out": {
+          "calibration_balanced_accuracy": 0.8229166666666667,
+          "C": 1.0,
+          "file": "action__block.3.out.joblib",
+          "sha256": "b2a4cab80d9b4c8b47dfc7e7510da74ab502c35a6bd608f1bcb9edf14639e88a"
+        },
+        "block.4.out": {
+          "calibration_balanced_accuracy": 0.8541666666666667,
+          "C": 1.0,
+          "file": "action__block.4.out.joblib",
+          "sha256": "8327283e68a356e14e062cfc31d9ee289d0b0ad21ebe9b83b078bde1054ce772"
+        },
+        "block.5.out": {
+          "calibration_balanced_accuracy": 0.8020833333333333,
+          "C": 0.1,
+          "file": "action__block.5.out.joblib",
+          "sha256": "c036014ef17cad59d35471afe137b440c972498bd9e54f1ac6e537626b43df43"
+        },
+        "block.6.out": {
+          "calibration_balanced_accuracy": 0.7708333333333333,
+          "C": 0.1,
+          "file": "action__block.6.out.joblib",
+          "sha256": "d26afab8659506bce6e1e442dd1dea621b8f455d96c9b81432d4f589657ce9ef"
+        },
+        "block.7.out": {
+          "calibration_balanced_accuracy": 0.6354166666666666,
+          "C": 0.1,
+          "file": "action__block.7.out.joblib",
+          "sha256": "3aacb70ade1dbe8b829069907e75bc186665b69faa9920cce09e6f54f2d907b3"
+        },
+        "block.8.out": {
+          "calibration_balanced_accuracy": 0.6666666666666666,
+          "C": 1.0,
+          "file": "action__block.8.out.joblib",
+          "sha256": "9c06fb8d3d70185f2cb636154ad67f7bab4e58c27dd350667d143bb846a19c0c"
+        },
+        "block.9.out": {
+          "calibration_balanced_accuracy": 0.625,
+          "C": 1.0,
+          "file": "action__block.9.out.joblib",
+          "sha256": "fc2babbd541059d340142a5d7a8d8ac87740530dc038371f7bd3ef8c5746a834"
+        },
+        "block.10.out": {
+          "calibration_balanced_accuracy": 0.6458333333333334,
+          "C": 1.0,
+          "file": "action__block.10.out.joblib",
+          "sha256": "408a5d3b91854c086e96fddbd190e2d36ad08618a65a6c8773a6c112a28711b6"
+        },
+        "block.11.out": {
+          "calibration_balanced_accuracy": 0.5625,
+          "C": 1.0,
+          "file": "action__block.11.out.joblib",
+          "sha256": "b981bd9b4d371898d527fd4c6ce28fc7847296202b1faacda7244d31120a0730"
+        },
+        "block.12.out": {
+          "calibration_balanced_accuracy": 0.5625,
+          "C": 1.0,
+          "file": "action__block.12.out.joblib",
+          "sha256": "0b64341444d5b235b20fc3c879fbdde8343bd18e919ee10d3df37e8e30063d7a"
+        },
+        "block.13.out": {
+          "calibration_balanced_accuracy": 0.6145833333333334,
+          "C": 1.0,
+          "file": "action__block.13.out.joblib",
+          "sha256": "31028c8a7274dab0d77f5adc891f77c6744c2ee44bfe140370dd495790806eb8"
+        },
+        "block.14.out": {
+          "calibration_balanced_accuracy": 0.59375,
+          "C": 1.0,
+          "file": "action__block.14.out.joblib",
+          "sha256": "5ad6b317a1fa2ba949004d397335d66c5cb236bddd72d34947ff53b35ac01cb4"
+        },
+        "block.15.out": {
+          "calibration_balanced_accuracy": 0.7604166666666667,
+          "C": 1.0,
+          "file": "action__block.15.out.joblib",
+          "sha256": "f00931a2c5e53bc5006f22fe25fc2fadb9fcc8754e0e2ed7a1b0f20253a35f6c"
+        },
+        "block.16.out": {
+          "calibration_balanced_accuracy": 0.8229166666666666,
+          "C": 1.0,
+          "file": "action__block.16.out.joblib",
+          "sha256": "f4ec5e94a679d5d89ff5878cd9eb271963463d8dc5977fe010770f35f1f94ee7"
+        },
+        "block.17.out": {
+          "calibration_balanced_accuracy": 0.8645833333333333,
+          "C": 1.0,
+          "file": "action__block.17.out.joblib",
+          "sha256": "d6484f59ddb0cec6c470d7ed01d8e503fb1369d8cb2f19bbfcf4a01322d8e08d"
+        },
+        "block.18.out": {
+          "calibration_balanced_accuracy": 0.9270833333333334,
+          "C": 0.01,
+          "file": "action__block.18.out.joblib",
+          "sha256": "889f94d540e77aae898ecb6d3d4313afe2d091326d728158b151ceae38aaf765"
+        },
+        "block.19.out": {
+          "calibration_balanced_accuracy": 0.8958333333333334,
+          "C": 1.0,
+          "file": "action__block.19.out.joblib",
+          "sha256": "565ea84503ea73eb59f0c81233b3193f35dcdcecbe7f8edf161d0d5d07c0a5bf"
+        },
+        "block.20.out": {
+          "calibration_balanced_accuracy": 0.8229166666666667,
+          "C": 1.0,
+          "file": "action__block.20.out.joblib",
+          "sha256": "ca95c2751102c9c6497248ce31a2605df9fb93ee290d03ff788f030d8ea98694"
+        },
+        "block.21.out": {
+          "calibration_balanced_accuracy": 0.78125,
+          "C": 1.0,
+          "file": "action__block.21.out.joblib",
+          "sha256": "198a47a7f9e4b740eb1e54494cb03f3509efafae4a90c75c17fc5f066dc046ce"
+        },
+        "block.22.out": {
+          "calibration_balanced_accuracy": 0.6770833333333333,
+          "C": 0.1,
+          "file": "action__block.22.out.joblib",
+          "sha256": "43fc22262ac464b1a03d59a0e877ad77e108f5bdd472ae2df01c93b35b2714a4"
+        },
+        "block.23.out": {
+          "calibration_balanced_accuracy": 0.6666666666666666,
+          "C": 0.1,
+          "file": "action__block.23.out.joblib",
+          "sha256": "470b858a4a57bbeaef40bc26d9db586c81bdc9fe848d77f256973013e4c5a8b4"
+        },
+        "block.24.out": {
+          "calibration_balanced_accuracy": 0.7395833333333333,
+          "C": 0.1,
+          "file": "action__block.24.out.joblib",
+          "sha256": "9b064d644b8da418f9643323ce3e81e159f7dc188d10bcb9cf5bae2c99dfec7e"
+        },
+        "block.25.out": {
+          "calibration_balanced_accuracy": 0.6770833333333334,
+          "C": 0.1,
+          "file": "action__block.25.out.joblib",
+          "sha256": "6c364dd25d31445f6b0a1795f362a319a7b68941340492bc8cab596a25bd76e6"
+        },
+        "block.26.out": {
+          "calibration_balanced_accuracy": 0.71875,
+          "C": 0.1,
+          "file": "action__block.26.out.joblib",
+          "sha256": "6c441f89ed6bc3f66eb4836d37d0a91788b3e75b700444e6afe39db30a1be620"
+        },
+        "block.27.out": {
+          "calibration_balanced_accuracy": 0.7291666666666667,
+          "C": 0.1,
+          "file": "action__block.27.out.joblib",
+          "sha256": "d69788fa303efda2241bb1a01dcaac9b560d6122107dae293139ce61e3b0f7ee"
+        },
+        "block.28.out": {
+          "calibration_balanced_accuracy": 0.7083333333333334,
+          "C": 0.1,
+          "file": "action__block.28.out.joblib",
+          "sha256": "5e4011c0642598c658becaa22b172b789c501ceea46a58b1f17432875042d1d1"
+        },
+        "block.29.out": {
+          "calibration_balanced_accuracy": 0.7083333333333333,
+          "C": 1.0,
+          "file": "action__block.29.out.joblib",
+          "sha256": "cdaa5d4f2e21229845879e214a95e860cfc43b89eb07b283fe78d4d3f43bfef0"
+        },
+        "block.30.out": {
+          "calibration_balanced_accuracy": 0.7916666666666666,
+          "C": 1.0,
+          "file": "action__block.30.out.joblib",
+          "sha256": "bbead0b096a7f1e66e99a99415a94f1e36d4f0bb033d4f55513027dce5211b35"
+        },
+        "block.31.out": {
+          "calibration_balanced_accuracy": 0.7916666666666666,
+          "C": 1.0,
+          "file": "action__block.31.out.joblib",
+          "sha256": "079ebc6aedb708119d0aa649e32d3391616ac09408a70b48d9c04b834b0560b1"
+        },
+        "block.32.out": {
+          "calibration_balanced_accuracy": 0.9791666666666667,
+          "C": 0.01,
+          "file": "action__block.32.out.joblib",
+          "sha256": "757e31c183b206bfccb4232397ad4ddbf9cde207c01f1434837b9fd79393fa16"
+        },
+        "block.33.out": {
+          "calibration_balanced_accuracy": 1.0,
+          "C": 0.01,
+          "file": "action__block.33.out.joblib",
+          "sha256": "88ece9c0d7abddad07646014fd4d771d8fd5a6d3a81aa6e62ba3028bec9c7710"
+        },
+        "block.34.out": {
+          "calibration_balanced_accuracy": 1.0,
+          "C": 0.01,
+          "file": "action__block.34.out.joblib",
+          "sha256": "5f32eaf5dcdedd1f24efcc45a3ff189cef43668d06324109667e58863ad8e9b5"
+        },
+        "block.35.out": {
+          "calibration_balanced_accuracy": 0.9895833333333333,
+          "C": 0.01,
+          "file": "action__block.35.out.joblib",
+          "sha256": "18813c50df8fab869f17868b3479ee7040a26ceade91b5d39a172a0b0026f586"
+        },
+        "block.36.out": {
+          "calibration_balanced_accuracy": 0.9791666666666667,
+          "C": 0.01,
+          "file": "action__block.36.out.joblib",
+          "sha256": "13f84a259cf4aa4c5848d08b1b6746e7af196ac0fd9fd92823445c9e2902b653"
+        },
+        "block.37.out": {
+          "calibration_balanced_accuracy": 0.9791666666666667,
+          "C": 0.01,
+          "file": "action__block.37.out.joblib",
+          "sha256": "9a0528aa1add23e9dd064b567a3d2638b329e483a9b0d3fc589ff50197510174"
+        },
+        "block.38.out": {
+          "calibration_balanced_accuracy": 0.9791666666666667,
+          "C": 0.01,
+          "file": "action__block.38.out.joblib",
+          "sha256": "a11df0a823deb44aa3c93958ef8a0199f26a8021dd4227c3614a1c5fd24cd2f9"
+        },
+        "block.39.out": {
+          "calibration_balanced_accuracy": 0.9895833333333333,
+          "C": 0.01,
+          "file": "action__block.39.out.joblib",
+          "sha256": "9034395c1665b47a7abe9080067fda183b4c0d909dd632f42d5427941297fbd3"
+        },
+        "block.40.out": {
+          "calibration_balanced_accuracy": 1.0,
+          "C": 0.01,
+          "file": "action__block.40.out.joblib",
+          "sha256": "100f00ad5225316b32e9a2def3184fdc87694525a7a3a48d9b2a74f37a85868a"
+        },
+        "block.41.out": {
+          "calibration_balanced_accuracy": 1.0,
+          "C": 0.01,
+          "file": "action__block.41.out.joblib",
+          "sha256": "8c3a48def4d481abb4731315bd6b73b1c2a00e87358a6c196bc02989323e7ef7"
+        },
+        "block.42.out": {
+          "calibration_balanced_accuracy": 1.0,
+          "C": 0.01,
+          "file": "action__block.42.out.joblib",
+          "sha256": "81dabc75956cb0dba8aa4fdf0248093a4b73322839c2cf46e0da365f16dfca7d"
+        },
+        "block.43.out": {
+          "calibration_balanced_accuracy": 1.0,
+          "C": 0.01,
+          "file": "action__block.43.out.joblib",
+          "sha256": "03eec1bf0ea4a9d1d9337224ad130e153683d529954e188a01eed84581bfa974"
+        },
+        "block.44.out": {
+          "calibration_balanced_accuracy": 1.0,
+          "C": 0.01,
+          "file": "action__block.44.out.joblib",
+          "sha256": "28ba702a3a80e3750568a7a7f74d34d76e6db2d3fbead793453c18098265e474"
+        },
+        "block.45.out": {
+          "calibration_balanced_accuracy": 1.0,
+          "C": 0.01,
+          "file": "action__block.45.out.joblib",
+          "sha256": "b22d29125f3031165f15fe9c3607f80fe18559f0670395ba97aab2009a816b51"
+        },
+        "block.46.out": {
+          "calibration_balanced_accuracy": 1.0,
+          "C": 0.01,
+          "file": "action__block.46.out.joblib",
+          "sha256": "509f06084d366e03e4cb5d2e5a5060d64f993557d969355b4ca839aee0a58b51"
+        },
+        "block.47.out": {
+          "calibration_balanced_accuracy": 1.0,
+          "C": 0.01,
+          "file": "action__block.47.out.joblib",
+          "sha256": "3116c8d2e6d4cc23713cf12257b3b203751ea3c4670075834e5f268b5aad6e4c"
+        },
+        "block.48.out": {
+          "calibration_balanced_accuracy": 1.0,
+          "C": 0.01,
+          "file": "action__block.48.out.joblib",
+          "sha256": "f8fbdb0660ddce3510434a6ede13028307e809af5f9d4bfa9c99806a5fc902ff"
+        },
+        "block.49.out": {
+          "calibration_balanced_accuracy": 1.0,
+          "C": 0.01,
+          "file": "action__block.49.out.joblib",
+          "sha256": "da727977bd0f32a25fbba5603b08356d6f0b99dc62af9c145c6afac8e798536c"
+        },
+        "block.50.out": {
+          "calibration_balanced_accuracy": 1.0,
+          "C": 0.01,
+          "file": "action__block.50.out.joblib",
+          "sha256": "3b2a3d6ec387604a65093f35128233b14cad94ee96534b6d856ad8191279b9ff"
+        },
+        "block.51.out": {
+          "calibration_balanced_accuracy": 1.0,
+          "C": 0.01,
+          "file": "action__block.51.out.joblib",
+          "sha256": "9109a2987051bd3ddb0b495d01d973f7980032f29ff2b45fdd6a0b05f0fba3cd"
+        },
+        "block.52.out": {
+          "calibration_balanced_accuracy": 1.0,
+          "C": 0.01,
+          "file": "action__block.52.out.joblib",
+          "sha256": "8552ae48574bef5eb158afbe84aaab66ae58fc4a87c65aba68f405afdd403091"
+        },
+        "block.53.out": {
+          "calibration_balanced_accuracy": 1.0,
+          "C": 0.01,
+          "file": "action__block.53.out.joblib",
+          "sha256": "dd274fb3f1575b3c57b8f33bd77dae8d8223b8567473a00df69654950769bc6f"
+        },
+        "block.54.out": {
+          "calibration_balanced_accuracy": 1.0,
+          "C": 0.01,
+          "file": "action__block.54.out.joblib",
+          "sha256": "a142bcd23b0974f8940303dc7bb8f10597e45e9614cba1041bc62e81df84b8bb"
+        },
+        "block.55.out": {
+          "calibration_balanced_accuracy": 1.0,
+          "C": 0.01,
+          "file": "action__block.55.out.joblib",
+          "sha256": "ccb8a05084390f0077f6f464dd97228164aada9201e88ddb8313f5d301d198f3"
+        },
+        "block.56.out": {
+          "calibration_balanced_accuracy": 1.0,
+          "C": 0.01,
+          "file": "action__block.56.out.joblib",
+          "sha256": "f771a53ed4042cb4cba5be64fc99222284783860b95076dbcae1510b8fb3d104"
+        },
+        "block.57.out": {
+          "calibration_balanced_accuracy": 1.0,
+          "C": 0.01,
+          "file": "action__block.57.out.joblib",
+          "sha256": "73ffb1f6557f2e2a1a610bbd4b36280423f65f9e202e192b1b15fb06d62c11cb"
+        },
+        "block.58.out": {
+          "calibration_balanced_accuracy": 1.0,
+          "C": 0.01,
+          "file": "action__block.58.out.joblib",
+          "sha256": "e2f9a04f6bfc8d63efe857eaa3f79a480ff12095448929f6ff88462bde67eb6b"
+        },
+        "block.59.out": {
+          "calibration_balanced_accuracy": 1.0,
+          "C": 0.01,
+          "file": "action__block.59.out.joblib",
+          "sha256": "44dbf32c217d8fd4e874a8bfa73087bebe8a2e66b06fdf61e5ba0673d5f51593"
+        },
+        "block.60.out": {
+          "calibration_balanced_accuracy": 1.0,
+          "C": 0.01,
+          "file": "action__block.60.out.joblib",
+          "sha256": "dc0c7a828637b3a3517f6eced16fc6e457f0cd93a88802653e102fc3075a04fa"
+        },
+        "block.61.out": {
+          "calibration_balanced_accuracy": 1.0,
+          "C": 0.01,
+          "file": "action__block.61.out.joblib",
+          "sha256": "81ba7a434142e034b42acc2d1c38430102f23d1b3afb9f0b168e507dd23904de"
+        },
+        "block.62.out": {
+          "calibration_balanced_accuracy": 1.0,
+          "C": 0.01,
+          "file": "action__block.62.out.joblib",
+          "sha256": "fcb4f248e379a29a668cff320e2c7590093e4084dfed5458593a00f0fdbe35f2"
+        },
+        "block.63.out": {
+          "calibration_balanced_accuracy": 1.0,
+          "C": 0.01,
+          "file": "action__block.63.out.joblib",
+          "sha256": "ec147746fc359b311e360bdecab11c0fee90ed8a413d7062276e5c48701c2aaf"
+        },
+        "final_norm.pre": {
+          "calibration_balanced_accuracy": 1.0,
+          "C": 0.01,
+          "file": "action__final_norm.pre.joblib",
+          "sha256": "ec147746fc359b311e360bdecab11c0fee90ed8a413d7062276e5c48701c2aaf"
+        },
+        "final_norm.post": {
+          "calibration_balanced_accuracy": 1.0,
+          "C": 0.01,
+          "file": "action__final_norm.post.joblib",
+          "sha256": "170bc1a3079a79569f472a9935b30df03582eaaa5b6eada2277ce75c64204bf7"
+        }
+      },
+      "selected_site": "block.33.out",
+      "lexical_file": "action__lexical.joblib",
+      "lexical_sha256": "44e862ea4c95b74ae943f0b43a806f51b41a7de91b7f1d75dfedcc9ba0e93c8c",
+      "lexical_calibration_balanced_accuracy": 0.5
+    }
+  },
+  "discovery_run": {
+    "model_argument": "C:\\Users\\ehall\\.cache\\huggingface\\hub\\models--Qwen--Qwen3.8-27B\\snapshots\\1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+    "four_bit": true,
+    "dataset_sha256": "db709fbb000adc557278de0c64bbf84733101eefb6068504f066a132ab94e5d0",
+    "runner_sha256": "5e8cf462ae6e01765441bf3ac382c091ec7905fc0596e8c89568a57b115b45f9",
+    "split": "discovery",
+    "track": null,
+    "limit": null,
+    "n": 960,
+    "created_unix": 1789569096.1621513,
+    "resume": false,
+    "pinned_snapshot": "C:\\Users\\ehall\\.cache\\huggingface\\hub\\models--Qwen--Qwen3.8-27B\\snapshots\\1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+    "model_class": "Qwen3_5ForConditionalGeneration",
+    "model_name": "C:\\Users\\ehall\\.cache\\huggingface\\hub\\models--Qwen--Qwen3.8-27B\\snapshots\\1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+    "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+    "config": {
+      "transformers_version": "5.17.0",
+      "architectures": [
+        "Qwen3_5ForConditionalGeneration"
+      ],
+      "output_hidden_states": false,
+      "return_dict": true,
+      "dtype": "bfloat16",
+      "chunk_size_feed_forward": 0,
+      "is_encoder_decoder": false,
+      "id2label": {
+        "0": "LABEL_0",
+        "1": "LABEL_1"
+      },
+      "label2id": {
+        "LABEL_0": 0,
+        "LABEL_1": 1
+      },
+      "problem_type": null,
+      "text_config": {
+        "architectures": null,
+        "output_hidden_states": false,
+        "return_dict": true,
+        "dtype": "bfloat16",
+        "chunk_size_feed_forward": 0,
+        "is_encoder_decoder": false,
+        "id2label": {
+          "0": "LABEL_0",
+          "1": "LABEL_1"
+        },
+        "label2id": {
+          "LABEL_0": 0,
+          "LABEL_1": 1
+        },
+        "problem_type": null,
+        "vocab_size": 248320,
+        "hidden_size": 5120,
+        "intermediate_size": 17408,
+        "num_hidden_layers": 64,
+        "num_attention_heads": 24,
+        "num_key_value_heads": 4,
+        "hidden_act": "silu",
+        "max_position_embeddings": 262144,
+        "initializer_range": 0.02,
+        "rms_norm_eps": 1e-06,
+        "use_cache": true,
+        "tie_word_embeddings": false,
+        "rope_parameters": {
+          "mrope_interleaved": true,
+          "mrope_section": [
+            11,
+            11,
+            10
+          ],
+          "partial_rotary_factor": 0.25,
+          "rope_theta": 10000000,
+          "rope_type": "default"
+        },
+        "attention_bias": false,
+        "attention_dropout": 0.0,
+        "head_dim": 256,
+        "linear_conv_kernel_dim": 4,
+        "linear_key_head_dim": 128,
+        "linear_value_head_dim": 128,
+        "linear_num_key_heads": 16,
+        "linear_num_value_heads": 48,
+        "layer_types": [
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention"
+        ],
+        "pad_token_id": null,
+        "bos_token_id": 248044,
+        "eos_token_id": 248044,
+        "_name_or_path": "",
+        "attn_output_gate": true,
+        "full_attention_interval": 4,
+        "mamba_ssm_dtype": "float32",
+        "model_type": "qwen3_5_text",
+        "mtp_num_hidden_layers": 1,
+        "mtp_use_dedicated_embeddings": false,
+        "output_gate_type": "swish",
+        "partial_rotary_factor": 0.25,
+        "output_attentions": false
+      },
+      "vision_config": {
+        "architectures": null,
+        "output_hidden_states": false,
+        "return_dict": true,
+        "dtype": "bfloat16",
+        "chunk_size_feed_forward": 0,
+        "is_encoder_decoder": false,
+        "id2label": {
+          "0": "LABEL_0",
+          "1": "LABEL_1"
+        },
+        "label2id": {
+          "LABEL_0": 0,
+          "LABEL_1": 1
+        },
+        "problem_type": null,
+        "depth": 27,
+        "hidden_size": 1152,
+        "hidden_act": "gelu_pytorch_tanh",
+        "intermediate_size": 4304,
+        "num_heads": 16,
+        "in_channels": 3,
+        "patch_size": 16,
+        "spatial_merge_size": 2,
+        "temporal_patch_size": 2,
+        "out_hidden_size": 5120,
+        "num_position_embeddings": 2304,
+        "initializer_range": 0.02,
+        "rope_parameters": {
+          "rope_theta": 10000.0,
+          "rope_type": "axial"
+        },
+        "_name_or_path": "",
+        "deepstack_visual_indexes": [],
+        "model_type": "qwen3_5_vision",
+        "output_attentions": false
+      },
+      "image_token_id": 248056,
+      "video_token_id": 248057,
+      "vision_start_token_id": 248053,
+      "vision_end_token_id": 248054,
+      "tie_word_embeddings": false,
+      "_name_or_path": "C:\\Users\\ehall\\.cache\\huggingface\\hub\\models--Qwen--Qwen3.8-27B\\snapshots\\1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+      "language_model_only": false,
+      "model_type": "qwen3_5",
+      "quantization_config": {
+        "quant_method": "bitsandbytes",
+        "_load_in_8bit": false,
+        "_load_in_4bit": true,
+        "llm_int8_threshold": 6.0,
+        "llm_int8_skip_modules": null,
+        "llm_int8_enable_fp32_cpu_offload": false,
+        "llm_int8_has_fp16_weight": false,
+        "bnb_4bit_quant_type": "nf4",
+        "bnb_4bit_use_double_quant": true,
+        "bnb_4bit_compute_dtype": "bfloat16",
+        "bnb_4bit_quant_storage": "uint8",
+        "load_in_4bit": true,
+        "load_in_8bit": false
+      },
+      "output_attentions": false
+    },
+    "n_blocks": 64,
+    "code_ids": {
+      "A": 357,
+      "B": 417,
+      "C": 351,
+      "D": 414,
+      "E": 458,
+      "F": 426
+    },
+    "packages": {
+      "torch": "2.11.0+cu128",
+      "transformers": "5.17.0",
+      "llmintent": "1.7.1",
+      "bitsandbytes": "0.50.2"
+    },
+    "llmintent_git": "752512aeeb68fd08d53ca9cc5283f2caf31b9090",
+    "llmintent_src": "C:\\Users\\ehall\\Desktop\\research\\llmintent\\src",
+    "site_convention": "block.i.out is raw output of zero-based block i; final_norm.pre/post are explicit hooks",
+    "capture_position": "last token of encoded prompt, before any generated answer; common assistant prefix may occupy this site"
+  },
+  "calibration_run": {
+    "model_argument": "C:\\Users\\ehall\\.cache\\huggingface\\hub\\models--Qwen--Qwen3.8-27B\\snapshots\\1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+    "four_bit": true,
+    "dataset_sha256": "db709fbb000adc557278de0c64bbf84733101eefb6068504f066a132ab94e5d0",
+    "runner_sha256": "5e8cf462ae6e01765441bf3ac382c091ec7905fc0596e8c89568a57b115b45f9",
+    "split": "calibration",
+    "track": null,
+    "limit": null,
+    "n": 240,
+    "created_unix": 1789570477.9136553,
+    "resume": false,
+    "pinned_snapshot": "C:\\Users\\ehall\\.cache\\huggingface\\hub\\models--Qwen--Qwen3.8-27B\\snapshots\\1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+    "model_class": "Qwen3_5ForConditionalGeneration",
+    "model_name": "C:\\Users\\ehall\\.cache\\huggingface\\hub\\models--Qwen--Qwen3.8-27B\\snapshots\\1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+    "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+    "config": {
+      "transformers_version": "5.17.0",
+      "architectures": [
+        "Qwen3_5ForConditionalGeneration"
+      ],
+      "output_hidden_states": false,
+      "return_dict": true,
+      "dtype": "bfloat16",
+      "chunk_size_feed_forward": 0,
+      "is_encoder_decoder": false,
+      "id2label": {
+        "0": "LABEL_0",
+        "1": "LABEL_1"
+      },
+      "label2id": {
+        "LABEL_0": 0,
+        "LABEL_1": 1
+      },
+      "problem_type": null,
+      "text_config": {
+        "architectures": null,
+        "output_hidden_states": false,
+        "return_dict": true,
+        "dtype": "bfloat16",
+        "chunk_size_feed_forward": 0,
+        "is_encoder_decoder": false,
+        "id2label": {
+          "0": "LABEL_0",
+          "1": "LABEL_1"
+        },
+        "label2id": {
+          "LABEL_0": 0,
+          "LABEL_1": 1
+        },
+        "problem_type": null,
+        "vocab_size": 248320,
+        "hidden_size": 5120,
+        "intermediate_size": 17408,
+        "num_hidden_layers": 64,
+        "num_attention_heads": 24,
+        "num_key_value_heads": 4,
+        "hidden_act": "silu",
+        "max_position_embeddings": 262144,
+        "initializer_range": 0.02,
+        "rms_norm_eps": 1e-06,
+        "use_cache": true,
+        "tie_word_embeddings": false,
+        "rope_parameters": {
+          "mrope_interleaved": true,
+          "mrope_section": [
+            11,
+            11,
+            10
+          ],
+          "partial_rotary_factor": 0.25,
+          "rope_theta": 10000000,
+          "rope_type": "default"
+        },
+        "attention_bias": false,
+        "attention_dropout": 0.0,
+        "head_dim": 256,
+        "linear_conv_kernel_dim": 4,
+        "linear_key_head_dim": 128,
+        "linear_value_head_dim": 128,
+        "linear_num_key_heads": 16,
+        "linear_num_value_heads": 48,
+        "layer_types": [
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention",
+          "linear_attention",
+          "linear_attention",
+          "linear_attention",
+          "full_attention"
+        ],
+        "pad_token_id": null,
+        "bos_token_id": 248044,
+        "eos_token_id": 248044,
+        "_name_or_path": "",
+        "attn_output_gate": true,
+        "full_attention_interval": 4,
+        "mamba_ssm_dtype": "float32",
+        "model_type": "qwen3_5_text",
+        "mtp_num_hidden_layers": 1,
+        "mtp_use_dedicated_embeddings": false,
+        "output_gate_type": "swish",
+        "partial_rotary_factor": 0.25,
+        "output_attentions": false
+      },
+      "vision_config": {
+        "architectures": null,
+        "output_hidden_states": false,
+        "return_dict": true,
+        "dtype": "bfloat16",
+        "chunk_size_feed_forward": 0,
+        "is_encoder_decoder": false,
+        "id2label": {
+          "0": "LABEL_0",
+          "1": "LABEL_1"
+        },
+        "label2id": {
+          "LABEL_0": 0,
+          "LABEL_1": 1
+        },
+        "problem_type": null,
+        "depth": 27,
+        "hidden_size": 1152,
+        "hidden_act": "gelu_pytorch_tanh",
+        "intermediate_size": 4304,
+        "num_heads": 16,
+        "in_channels": 3,
+        "patch_size": 16,
+        "spatial_merge_size": 2,
+        "temporal_patch_size": 2,
+        "out_hidden_size": 5120,
+        "num_position_embeddings": 2304,
+        "initializer_range": 0.02,
+        "rope_parameters": {
+          "rope_theta": 10000.0,
+          "rope_type": "axial"
+        },
+        "_name_or_path": "",
+        "deepstack_visual_indexes": [],
+        "model_type": "qwen3_5_vision",
+        "output_attentions": false
+      },
+      "image_token_id": 248056,
+      "video_token_id": 248057,
+      "vision_start_token_id": 248053,
+      "vision_end_token_id": 248054,
+      "tie_word_embeddings": false,
+      "_name_or_path": "C:\\Users\\ehall\\.cache\\huggingface\\hub\\models--Qwen--Qwen3.8-27B\\snapshots\\1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+      "language_model_only": false,
+      "model_type": "qwen3_5",
+      "quantization_config": {
+        "quant_method": "bitsandbytes",
+        "_load_in_8bit": false,
+        "_load_in_4bit": true,
+        "llm_int8_threshold": 6.0,
+        "llm_int8_skip_modules": null,
+        "llm_int8_enable_fp32_cpu_offload": false,
+        "llm_int8_has_fp16_weight": false,
+        "bnb_4bit_quant_type": "nf4",
+        "bnb_4bit_use_double_quant": true,
+        "bnb_4bit_compute_dtype": "bfloat16",
+        "bnb_4bit_quant_storage": "uint8",
+        "load_in_4bit": true,
+        "load_in_8bit": false
+      },
+      "output_attentions": false
+    },
+    "n_blocks": 64,
+    "code_ids": {
+      "A": 357,
+      "B": 417,
+      "C": 351,
+      "D": 414,
+      "E": 458,
+      "F": 426
+    },
+    "packages": {
+      "torch": "2.11.0+cu128",
+      "transformers": "5.17.0",
+      "llmintent": "1.7.1",
+      "bitsandbytes": "0.50.2"
+    },
+    "llmintent_git": "752512aeeb68fd08d53ca9cc5283f2caf31b9090",
+    "llmintent_src": "C:\\Users\\ehall\\Desktop\\research\\llmintent\\src",
+    "site_convention": "block.i.out is raw output of zero-based block i; final_norm.pre/post are explicit hooks",
+    "capture_position": "last token of encoded prompt, before any generated answer; common assistant prefix may occupy this site"
+  },
+  "selection_split": "calibration",
+  "controls": "Five independent discovery-label shuffles; diagnostic, not a significance test.",
+  "probe_estimator": "OneVsRestClassifier(LogisticRegression liblinear) n_jobs=-1; isolated 27B harness change"
+}

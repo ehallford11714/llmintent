@@ -1,0 +1,21 @@
+{
+  "benchmark_integrity": {
+    "n": 1440,
+    "counts": {
+      "discovery": 960,
+      "calibration": 240,
+      "confirmation": 240
+    },
+    "tracks": {
+      "frame": 864,
+      "policy": 576
+    },
+    "split_template_overlap": false,
+    "split_object_overlap": false
+  },
+  "pair_integrity": "passed",
+  "motion_action_balance": "passed",
+  "model_forward": "not_executed",
+  "model_patch_hooks": "not_executed",
+  "reason": "No Torch/Transformers/GPU in authoring runtime"
+}

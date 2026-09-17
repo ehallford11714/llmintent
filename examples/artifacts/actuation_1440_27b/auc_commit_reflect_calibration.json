@@ -1,0 +1,271 @@
+{
+  "claim": "Binary AUC for commit vs reflect using frozen six-way or binary probe scores. Not a causal result.",
+  "split": "calibration",
+  "n": 48,
+  "sites": {
+    "block.0.out": {
+      "auc_commit_vs_reflect": 0.47222222222222215,
+      "calibration_balanced_accuracy": 0.40277777777777773
+    },
+    "block.1.out": {
+      "auc_commit_vs_reflect": 0.6041666666666666,
+      "calibration_balanced_accuracy": 0.3055555555555556
+    },
+    "block.2.out": {
+      "auc_commit_vs_reflect": 0.5798611111111112,
+      "calibration_balanced_accuracy": 0.40277777777777773
+    },
+    "block.3.out": {
+      "auc_commit_vs_reflect": 0.5069444444444444,
+      "calibration_balanced_accuracy": 0.46527777777777773
+    },
+    "block.4.out": {
+      "auc_commit_vs_reflect": 0.5381944444444444,
+      "calibration_balanced_accuracy": 0.4305555555555556
+    },
+    "block.5.out": {
+      "auc_commit_vs_reflect": 0.5746527777777778,
+      "calibration_balanced_accuracy": 0.4513888888888889
+    },
+    "block.6.out": {
+      "auc_commit_vs_reflect": 0.6006944444444444,
+      "calibration_balanced_accuracy": 0.40277777777777773
+    },
+    "block.7.out": {
+      "auc_commit_vs_reflect": 0.4618055555555555,
+      "calibration_balanced_accuracy": 0.375
+    },
+    "block.8.out": {
+      "auc_commit_vs_reflect": 0.4131944444444445,
+      "calibration_balanced_accuracy": 0.29166666666666663
+    },
+    "block.9.out": {
+      "auc_commit_vs_reflect": 0.4270833333333333,
+      "calibration_balanced_accuracy": 0.3055555555555556
+    },
+    "block.10.out": {
+      "auc_commit_vs_reflect": 0.4322916666666667,
+      "calibration_balanced_accuracy": 0.2638888888888889
+    },
+    "block.11.out": {
+      "auc_commit_vs_reflect": 0.5052083333333334,
+      "calibration_balanced_accuracy": 0.3263888888888889
+    },
+    "block.12.out": {
+      "auc_commit_vs_reflect": 0.4444444444444444,
+      "calibration_balanced_accuracy": 0.3680555555555555
+    },
+    "block.13.out": {
+      "auc_commit_vs_reflect": 0.390625,
+      "calibration_balanced_accuracy": 0.3333333333333333
+    },
+    "block.14.out": {
+      "auc_commit_vs_reflect": 0.4826388888888889,
+      "calibration_balanced_accuracy": 0.3333333333333333
+    },
+    "block.15.out": {
+      "auc_commit_vs_reflect": 0.5677083333333333,
+      "calibration_balanced_accuracy": 0.3194444444444444
+    },
+    "block.16.out": {
+      "auc_commit_vs_reflect": 0.484375,
+      "calibration_balanced_accuracy": 0.3541666666666667
+    },
+    "block.17.out": {
+      "auc_commit_vs_reflect": 0.4600694444444444,
+      "calibration_balanced_accuracy": 0.39583333333333326
+    },
+    "block.18.out": {
+      "auc_commit_vs_reflect": 0.37673611111111105,
+      "calibration_balanced_accuracy": 0.4583333333333333
+    },
+    "block.19.out": {
+      "auc_commit_vs_reflect": 0.33159722222222227,
+      "calibration_balanced_accuracy": 0.4375
+    },
+    "block.20.out": {
+      "auc_commit_vs_reflect": 0.4149305555555556,
+      "calibration_balanced_accuracy": 0.47222222222222227
+    },
+    "block.21.out": {
+      "auc_commit_vs_reflect": 0.2934027777777778,
+      "calibration_balanced_accuracy": 0.4791666666666667
+    },
+    "block.22.out": {
+      "auc_commit_vs_reflect": 0.3715277777777778,
+      "calibration_balanced_accuracy": 0.4513888888888889
+    },
+    "block.23.out": {
+      "auc_commit_vs_reflect": 0.3836805555555555,
+      "calibration_balanced_accuracy": 0.4513888888888889
+    },
+    "block.24.out": {
+      "auc_commit_vs_reflect": 0.38888888888888884,
+      "calibration_balanced_accuracy": 0.40972222222222215
+    },
+    "block.25.out": {
+      "auc_commit_vs_reflect": 0.3784722222222222,
+      "calibration_balanced_accuracy": 0.4305555555555555
+    },
+    "block.26.out": {
+      "auc_commit_vs_reflect": 0.3125,
+      "calibration_balanced_accuracy": 0.42361111111111116
+    },
+    "block.27.out": {
+      "auc_commit_vs_reflect": 0.2951388888888889,
+      "calibration_balanced_accuracy": 0.4444444444444444
+    },
+    "block.28.out": {
+      "auc_commit_vs_reflect": 0.3211805555555556,
+      "calibration_balanced_accuracy": 0.43749999999999994
+    },
+    "block.29.out": {
+      "auc_commit_vs_reflect": 0.3125,
+      "calibration_balanced_accuracy": 0.42361111111111116
+    },
+    "block.30.out": {
+      "auc_commit_vs_reflect": 0.3211805555555556,
+      "calibration_balanced_accuracy": 0.47222222222222227
+    },
+    "block.31.out": {
+      "auc_commit_vs_reflect": 0.4375,
+      "calibration_balanced_accuracy": 0.5347222222222222
+    },
+    "block.32.out": {
+      "auc_commit_vs_reflect": 0.4479166666666666,
+      "calibration_balanced_accuracy": 0.5694444444444444
+    },
+    "block.33.out": {
+      "auc_commit_vs_reflect": 0.5659722222222222,
+      "calibration_balanced_accuracy": 0.7013888888888888
+    },
+    "block.34.out": {
+      "auc_commit_vs_reflect": 0.6527777777777778,
+      "calibration_balanced_accuracy": 0.7152777777777777
+    },
+    "block.35.out": {
+      "auc_commit_vs_reflect": 0.6475694444444444,
+      "calibration_balanced_accuracy": 0.8819444444444445
+    },
+    "block.36.out": {
+      "auc_commit_vs_reflect": 0.6996527777777778,
+      "calibration_balanced_accuracy": 0.875
+    },
+    "block.37.out": {
+      "auc_commit_vs_reflect": 0.6996527777777778,
+      "calibration_balanced_accuracy": 0.8472222222222222
+    },
+    "block.38.out": {
+      "auc_commit_vs_reflect": 0.6996527777777778,
+      "calibration_balanced_accuracy": 0.875
+    },
+    "block.39.out": {
+      "auc_commit_vs_reflect": 0.7326388888888891,
+      "calibration_balanced_accuracy": 0.8888888888888888
+    },
+    "block.40.out": {
+      "auc_commit_vs_reflect": 0.7100694444444444,
+      "calibration_balanced_accuracy": 0.8888888888888888
+    },
+    "block.41.out": {
+      "auc_commit_vs_reflect": 0.7135416666666667,
+      "calibration_balanced_accuracy": 0.8819444444444445
+    },
+    "block.42.out": {
+      "auc_commit_vs_reflect": 0.751736111111111,
+      "calibration_balanced_accuracy": 0.875
+    },
+    "block.43.out": {
+      "auc_commit_vs_reflect": 0.7517361111111112,
+      "calibration_balanced_accuracy": 0.8680555555555557
+    },
+    "block.44.out": {
+      "auc_commit_vs_reflect": 0.7829861111111112,
+      "calibration_balanced_accuracy": 0.8541666666666666
+    },
+    "block.45.out": {
+      "auc_commit_vs_reflect": 0.8038194444444445,
+      "calibration_balanced_accuracy": 0.8541666666666666
+    },
+    "block.46.out": {
+      "auc_commit_vs_reflect": 0.795138888888889,
+      "calibration_balanced_accuracy": 0.8611111111111112
+    },
+    "block.47.out": {
+      "auc_commit_vs_reflect": 0.9010416666666667,
+      "calibration_balanced_accuracy": 0.8958333333333334
+    },
+    "block.48.out": {
+      "auc_commit_vs_reflect": 0.8993055555555556,
+      "calibration_balanced_accuracy": 0.9027777777777777
+    },
+    "block.49.out": {
+      "auc_commit_vs_reflect": 0.8940972222222223,
+      "calibration_balanced_accuracy": 0.9097222222222222
+    },
+    "block.50.out": {
+      "auc_commit_vs_reflect": 0.8871527777777778,
+      "calibration_balanced_accuracy": 0.9166666666666666
+    },
+    "block.51.out": {
+      "auc_commit_vs_reflect": 0.8645833333333333,
+      "calibration_balanced_accuracy": 0.9097222222222222
+    },
+    "block.52.out": {
+      "auc_commit_vs_reflect": 0.8663194444444444,
+      "calibration_balanced_accuracy": 0.9097222222222222
+    },
+    "block.53.out": {
+      "auc_commit_vs_reflect": 0.8871527777777777,
+      "calibration_balanced_accuracy": 0.9097222222222222
+    },
+    "block.54.out": {
+      "auc_commit_vs_reflect": 0.888888888888889,
+      "calibration_balanced_accuracy": 0.8958333333333334
+    },
+    "block.55.out": {
+      "auc_commit_vs_reflect": 0.8940972222222223,
+      "calibration_balanced_accuracy": 0.9027777777777777
+    },
+    "block.56.out": {
+      "auc_commit_vs_reflect": 0.8993055555555556,
+      "calibration_balanced_accuracy": 0.9027777777777777
+    },
+    "block.57.out": {
+      "auc_commit_vs_reflect": 0.8975694444444444,
+      "calibration_balanced_accuracy": 0.9027777777777777
+    },
+    "block.58.out": {
+      "auc_commit_vs_reflect": 0.8784722222222222,
+      "calibration_balanced_accuracy": 0.8888888888888888
+    },
+    "block.59.out": {
+      "auc_commit_vs_reflect": 0.857638888888889,
+      "calibration_balanced_accuracy": 0.8958333333333334
+    },
+    "block.60.out": {
+      "auc_commit_vs_reflect": 0.8402777777777777,
+      "calibration_balanced_accuracy": 0.8888888888888888
+    },
+    "block.61.out": {
+      "auc_commit_vs_reflect": 0.8159722222222223,
+      "calibration_balanced_accuracy": 0.8958333333333334
+    },
+    "block.62.out": {
+      "auc_commit_vs_reflect": 0.8281250000000001,
+      "calibration_balanced_accuracy": 0.9097222222222222
+    },
+    "block.63.out": {
+      "auc_commit_vs_reflect": 0.7829861111111112,
+      "calibration_balanced_accuracy": 0.9097222222222222
+    },
+    "final_norm.pre": {
+      "auc_commit_vs_reflect": 0.7829861111111112,
+      "calibration_balanced_accuracy": 0.9097222222222222
+    },
+    "final_norm.post": {
+      "auc_commit_vs_reflect": 0.7916666666666666,
+      "calibration_balanced_accuracy": 0.9097222222222222
+    }
+  }
+}

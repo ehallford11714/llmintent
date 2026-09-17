@@ -2,6 +2,30 @@
 
 The fly connectome is a **prior for operations** (sense vs act, withhold vs commit). It is not a claim that the model performs a fly function.
 
+## 1,440-case held-out confirmation (1.8.0)
+
+Full letter-classification + activation-patching study on the local 27B NF4 snapshot. Confirmation used new sentence families and objects. Sites were frozen before confirmation.
+
+**Plain English:** toward/away is readable early because those words are in the prompt. Commit vs reflect and STEP vs WAIT become readable late. Swapping residuals at block 60 moves the answers; swapping at blocks 4 or 31 does not. This is “available early as wording, used late,” not a neuron circuit or fly homology.
+
+| Result | Held-out confirmation |
+|---|---|
+| Baseline accuracy | 0.912 (policy 0.979; reflect 0.458) |
+| Frame probe at `block.50.out` | 0.938 vs lexical 0.708 / shuffle 0.175 |
+| Motion probe at `block.4.out` | 0.867 vs **lexical 1.0** (surface words) |
+| Action probe at `block.60.out` | 0.979 vs lexical 0.50 |
+| Causal patch at `block.60.out` | frame 5.00 / policy 5.90 / scene 5.71 log-prob gap |
+| Causal patch at `block.4` / `block.31` | ~0 for all three contrasts |
+| Specific units / fly-prior selector | **untested** |
+
+Write-up and compact traces: [`artifacts/actuation_1440_27b/`](artifacts/actuation_1440_27b/). The 100-prompt cosine study below is the earlier observational pass; it is not the causal result.
+
+---
+
+# 100-prompt observational pass (1.7.1)
+
+The fly connectome is a **prior for operations** (sense vs act, withhold vs commit). It is not a claim that the model performs a fly function.
+
 Target notions:
 
 1. **Intention of actuation** — commit to an act that has not happened

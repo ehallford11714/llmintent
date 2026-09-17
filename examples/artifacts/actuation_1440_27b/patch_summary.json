@@ -1,0 +1,366 @@
+{
+  "calibration": [
+    {
+      "file": "C:\\Users\\ehall\\Desktop\\research\\actuation_run\\runs\\patches\\calibration\\frame_block_31_out.json",
+      "status": "complete",
+      "n": 24,
+      "n_both_correct": 15,
+      "mean_effect": -0.03906253973642985,
+      "median_effect": -0.03125,
+      "mean_effect_both_correct": -0.05000003178914388,
+      "mean_normalized_transfer": -0.007393258170774987,
+      "max_identity_error": 0.0,
+      "mean_random_effect": -0.009895908832550048,
+      "mean_same_label": -0.014204686338251287,
+      "n_same_label": 22,
+      "settings": {
+        "site": "block.31.out",
+        "contrast": "frame",
+        "max_pairs": 24,
+        "freeze": null
+      }
+    },
+    {
+      "file": "C:\\Users\\ehall\\Desktop\\research\\actuation_run\\runs\\patches\\calibration\\frame_block_4_out.json",
+      "status": "complete",
+      "n": 24,
+      "n_both_correct": 15,
+      "mean_effect": -1.9868214925130207e-08,
+      "median_effect": 0.0,
+      "mean_effect_both_correct": 0.008333301544189453,
+      "mean_normalized_transfer": -0.0010266646708240012,
+      "max_identity_error": 0.0,
+      "mean_random_effect": -0.016666700442632038,
+      "mean_same_label": -0.0340910174629905,
+      "n_same_label": 22,
+      "settings": {
+        "site": "block.4.out",
+        "contrast": "frame",
+        "max_pairs": 24,
+        "freeze": null
+      }
+    },
+    {
+      "file": "C:\\Users\\ehall\\Desktop\\research\\actuation_run\\runs\\patches\\calibration\\frame_block_60_out.json",
+      "status": "complete",
+      "n": 24,
+      "n_both_correct": 15,
+      "mean_effect": 5.53906246026357,
+      "median_effect": 5.9375,
+      "mean_effect_both_correct": 6.070833301544189,
+      "mean_normalized_transfer": 0.8142874124744636,
+      "max_identity_error": 0.0,
+      "mean_random_effect": -0.026562577486038207,
+      "mean_same_label": 0.1562499783255837,
+      "n_same_label": 22,
+      "settings": {
+        "site": "block.60.out",
+        "contrast": "frame",
+        "max_pairs": 24,
+        "freeze": null
+      }
+    },
+    {
+      "file": "C:\\Users\\ehall\\Desktop\\research\\actuation_run\\runs\\patches\\calibration\\policy_block_31_out.json",
+      "status": "complete",
+      "n": 24,
+      "n_both_correct": 24,
+      "mean_effect": -0.04947913686434428,
+      "median_effect": -0.06250011920928955,
+      "mean_effect_both_correct": -0.04947913686434428,
+      "mean_normalized_transfer": -0.004851271440819688,
+      "max_identity_error": 0.0,
+      "mean_random_effect": -0.017187454303105674,
+      "mean_same_label": -0.03385408719380697,
+      "n_same_label": 24,
+      "settings": {
+        "site": "block.31.out",
+        "contrast": "policy",
+        "max_pairs": 24,
+        "freeze": null
+      }
+    },
+    {
+      "file": "C:\\Users\\ehall\\Desktop\\research\\actuation_run\\runs\\patches\\calibration\\policy_block_4_out.json",
+      "status": "complete",
+      "n": 24,
+      "n_both_correct": 24,
+      "mean_effect": -0.015625009934107464,
+      "median_effect": -1.1920928955078125e-07,
+      "mean_effect_both_correct": -0.015625009934107464,
+      "mean_normalized_transfer": -0.0013914417970552213,
+      "max_identity_error": 0.0,
+      "mean_random_effect": -0.014062462250391643,
+      "mean_same_label": -0.023437599341074627,
+      "n_same_label": 24,
+      "settings": {
+        "site": "block.4.out",
+        "contrast": "policy",
+        "max_pairs": 24,
+        "freeze": null
+      }
+    },
+    {
+      "file": "C:\\Users\\ehall\\Desktop\\research\\actuation_run\\runs\\patches\\calibration\\policy_block_60_out.json",
+      "status": "complete",
+      "n": 24,
+      "n_both_correct": 24,
+      "mean_effect": 9.203125059604645,
+      "median_effect": 9.4375,
+      "mean_effect_both_correct": 9.203125059604645,
+      "mean_normalized_transfer": 0.8060681857246287,
+      "max_identity_error": 0.0,
+      "mean_random_effect": -0.0494791050752004,
+      "mean_same_label": 0.07552095254262288,
+      "n_same_label": 24,
+      "settings": {
+        "site": "block.60.out",
+        "contrast": "policy",
+        "max_pairs": 24,
+        "freeze": null
+      }
+    },
+    {
+      "file": "C:\\Users\\ehall\\Desktop\\research\\actuation_run\\runs\\patches\\calibration\\scene_block_31_out.json",
+      "status": "complete",
+      "n": 24,
+      "n_both_correct": 24,
+      "mean_effect": -0.015624900658925375,
+      "median_effect": 0.0,
+      "mean_effect_both_correct": -0.015624900658925375,
+      "mean_normalized_transfer": -0.001086448408132143,
+      "max_identity_error": 0.0,
+      "mean_random_effect": 0.006250041723251343,
+      "mean_same_label": -0.03645826379458109,
+      "n_same_label": 24,
+      "settings": {
+        "site": "block.31.out",
+        "contrast": "scene",
+        "max_pairs": 24,
+        "freeze": null
+      }
+    },
+    {
+      "file": "C:\\Users\\ehall\\Desktop\\research\\actuation_run\\runs\\patches\\calibration\\scene_block_4_out.json",
+      "status": "complete",
+      "n": 24,
+      "n_both_correct": 24,
+      "mean_effect": 0.0026043355464935303,
+      "median_effect": 1.1920928955078125e-07,
+      "mean_effect_both_correct": 0.0026043355464935303,
+      "mean_normalized_transfer": 9.122120048308064e-05,
+      "max_identity_error": 0.0,
+      "mean_random_effect": -0.003645773728688558,
+      "mean_same_label": -0.013020883003870646,
+      "n_same_label": 24,
+      "settings": {
+        "site": "block.4.out",
+        "contrast": "scene",
+        "max_pairs": 24,
+        "freeze": null
+      }
+    },
+    {
+      "file": "C:\\Users\\ehall\\Desktop\\research\\actuation_run\\runs\\patches\\calibration\\scene_block_60_out.json",
+      "status": "complete",
+      "n": 24,
+      "n_both_correct": 24,
+      "mean_effect": 8.955729176600775,
+      "median_effect": 9.03125,
+      "mean_effect_both_correct": 8.955729176600775,
+      "mean_normalized_transfer": 0.8052487523132573,
+      "max_identity_error": 0.0,
+      "mean_random_effect": -0.0619791328907013,
+      "mean_same_label": -0.2682291368643443,
+      "n_same_label": 24,
+      "settings": {
+        "site": "block.60.out",
+        "contrast": "scene",
+        "max_pairs": 24,
+        "freeze": null
+      }
+    }
+  ],
+  "confirmation": [
+    {
+      "file": "C:\\Users\\ehall\\Desktop\\research\\actuation_run\\runs\\patches\\confirmation\\frame_block_31_out.json",
+      "status": "complete",
+      "n": 24,
+      "n_both_correct": 13,
+      "mean_effect": 0.0546875,
+      "median_effect": 0.03124988079071045,
+      "mean_effect_both_correct": 0.07692309526296762,
+      "mean_normalized_transfer": 0.009096097935623375,
+      "max_identity_error": 0.0,
+      "mean_random_effect": 0.013020851214726766,
+      "mean_same_label": 0.05989577372868856,
+      "n_same_label": 24,
+      "settings": {
+        "site": "block.31.out",
+        "contrast": "frame",
+        "max_pairs": 24,
+        "freeze": "C:\\Users\\ehall\\Desktop\\research\\actuation_run\\runs\\freezes\\frame_block_31_out.json"
+      }
+    },
+    {
+      "file": "C:\\Users\\ehall\\Desktop\\research\\actuation_run\\runs\\patches\\confirmation\\frame_block_4_out.json",
+      "status": "complete",
+      "n": 24,
+      "n_both_correct": 13,
+      "mean_effect": 0.0156250794728597,
+      "median_effect": 2.384185791015625e-07,
+      "mean_effect_both_correct": 0.01923084259033203,
+      "mean_normalized_transfer": 0.0022990150297451184,
+      "max_identity_error": 0.0,
+      "mean_random_effect": 0.023958343267440795,
+      "mean_same_label": 0.013020942608515421,
+      "n_same_label": 24,
+      "settings": {
+        "site": "block.4.out",
+        "contrast": "frame",
+        "max_pairs": 24,
+        "freeze": "C:\\Users\\ehall\\Desktop\\research\\actuation_run\\runs\\freezes\\frame_block_4_out.json"
+      }
+    },
+    {
+      "file": "C:\\Users\\ehall\\Desktop\\research\\actuation_run\\runs\\patches\\confirmation\\frame_block_60_out.json",
+      "status": "complete",
+      "n": 24,
+      "n_both_correct": 13,
+      "mean_effect": 5.002604216337204,
+      "median_effect": 5.375000476837158,
+      "mean_effect_both_correct": 6.985576941416814,
+      "mean_normalized_transfer": 0.7431425330456207,
+      "max_identity_error": 0.0,
+      "mean_random_effect": 0.0322916845480601,
+      "mean_same_label": -0.036458343267440796,
+      "n_same_label": 24,
+      "settings": {
+        "site": "block.60.out",
+        "contrast": "frame",
+        "max_pairs": 24,
+        "freeze": "C:\\Users\\ehall\\Desktop\\research\\actuation_run\\runs\\freezes\\frame_block_60_out.json"
+      }
+    },
+    {
+      "file": "C:\\Users\\ehall\\Desktop\\research\\actuation_run\\runs\\patches\\confirmation\\policy_block_31_out.json",
+      "status": "complete",
+      "n": 24,
+      "n_both_correct": 22,
+      "mean_effect": -0.007812430461247762,
+      "median_effect": 0.0,
+      "mean_effect_both_correct": -0.008522651412270286,
+      "mean_normalized_transfer": 0.0005620824247497881,
+      "max_identity_error": 0.0,
+      "mean_random_effect": 0.006770869096120198,
+      "mean_same_label": -0.06250006953875224,
+      "n_same_label": 24,
+      "settings": {
+        "site": "block.31.out",
+        "contrast": "policy",
+        "max_pairs": 24,
+        "freeze": "C:\\Users\\ehall\\Desktop\\research\\actuation_run\\runs\\freezes\\policy_block_31_out.json"
+      }
+    },
+    {
+      "file": "C:\\Users\\ehall\\Desktop\\research\\actuation_run\\runs\\patches\\confirmation\\policy_block_4_out.json",
+      "status": "complete",
+      "n": 24,
+      "n_both_correct": 22,
+      "mean_effect": 7.947285970052083e-08,
+      "median_effect": 0.0,
+      "mean_effect_both_correct": 0.00568190487948331,
+      "mean_normalized_transfer": 0.0022439395725936495,
+      "max_identity_error": 0.0,
+      "mean_random_effect": 0.006770835320154826,
+      "mean_same_label": 0.020833303531010944,
+      "n_same_label": 24,
+      "settings": {
+        "site": "block.4.out",
+        "contrast": "policy",
+        "max_pairs": 24,
+        "freeze": "C:\\Users\\ehall\\Desktop\\research\\actuation_run\\runs\\freezes\\policy_block_4_out.json"
+      }
+    },
+    {
+      "file": "C:\\Users\\ehall\\Desktop\\research\\actuation_run\\runs\\patches\\confirmation\\policy_block_60_out.json",
+      "status": "complete",
+      "n": 24,
+      "n_both_correct": 22,
+      "mean_effect": 5.898437490065892,
+      "median_effect": 6.218749761581421,
+      "mean_effect_both_correct": 6.258522705598311,
+      "mean_normalized_transfer": 0.7829355317396562,
+      "max_identity_error": 0.0,
+      "mean_random_effect": -0.09635414878527324,
+      "mean_same_label": 0.45052088300387066,
+      "n_same_label": 24,
+      "settings": {
+        "site": "block.60.out",
+        "contrast": "policy",
+        "max_pairs": 24,
+        "freeze": "C:\\Users\\ehall\\Desktop\\research\\actuation_run\\runs\\freezes\\policy_block_60_out.json"
+      }
+    },
+    {
+      "file": "C:\\Users\\ehall\\Desktop\\research\\actuation_run\\runs\\patches\\confirmation\\scene_block_31_out.json",
+      "status": "complete",
+      "n": 24,
+      "n_both_correct": 23,
+      "mean_effect": 0.0052083929379781084,
+      "median_effect": 2.384185791015625e-07,
+      "mean_effect_both_correct": 0.010869648145592731,
+      "mean_normalized_transfer": 0.0021377885242292436,
+      "max_identity_error": 0.0,
+      "mean_random_effect": 0.017708349227905273,
+      "mean_same_label": -0.03906251986821493,
+      "n_same_label": 24,
+      "settings": {
+        "site": "block.31.out",
+        "contrast": "scene",
+        "max_pairs": 24,
+        "freeze": "C:\\Users\\ehall\\Desktop\\research\\actuation_run\\runs\\freezes\\scene_block_31_out.json"
+      }
+    },
+    {
+      "file": "C:\\Users\\ehall\\Desktop\\research\\actuation_run\\runs\\patches\\confirmation\\scene_block_4_out.json",
+      "status": "complete",
+      "n": 24,
+      "n_both_correct": 23,
+      "mean_effect": 0.015625009934107464,
+      "median_effect": 0.0,
+      "mean_effect_both_correct": 0.016304368558137314,
+      "mean_normalized_transfer": 0.004292010775772172,
+      "max_identity_error": 0.0,
+      "mean_random_effect": 0.009375025828679403,
+      "mean_same_label": 0.0390625,
+      "n_same_label": 24,
+      "settings": {
+        "site": "block.4.out",
+        "contrast": "scene",
+        "max_pairs": 24,
+        "freeze": "C:\\Users\\ehall\\Desktop\\research\\actuation_run\\runs\\freezes\\scene_block_4_out.json"
+      }
+    },
+    {
+      "file": "C:\\Users\\ehall\\Desktop\\research\\actuation_run\\runs\\patches\\confirmation\\scene_block_60_out.json",
+      "status": "complete",
+      "n": 24,
+      "n_both_correct": 23,
+      "mean_effect": 5.7109375695387525,
+      "median_effect": 5.78125,
+      "mean_effect_both_correct": 5.96467399597168,
+      "mean_normalized_transfer": 0.7938316856695767,
+      "max_identity_error": 0.0,
+      "mean_random_effect": -0.10104159514109294,
+      "mean_same_label": -0.018229057391484577,
+      "n_same_label": 24,
+      "settings": {
+        "site": "block.60.out",
+        "contrast": "scene",
+        "max_pairs": 24,
+        "freeze": "C:\\Users\\ehall\\Desktop\\research\\actuation_run\\runs\\freezes\\scene_block_60_out.json"
+      }
+    }
+  ]
+}

@@ -1,0 +1,825 @@
+{
+  "claim": "Held-out linear decodability; not causal contribution",
+  "frozen_manifest_sha256": "632a32fcd2d1feb7a4fe8862e269058b09ae6511c55d979dc8e05413ca20a1dd",
+  "confirmation_run": {
+    "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+    "model_class": "Qwen3_5ForConditionalGeneration",
+    "n_blocks": 64,
+    "four_bit": true,
+    "n": 240,
+    "dataset_sha256": "db709fbb000adc557278de0c64bbf84733101eefb6068504f066a132ab94e5d0",
+    "llmintent_git": "752512aeeb68fd08d53ca9cc5283f2caf31b9090"
+  },
+  "targets": {
+    "frame": {
+      "selected_site": "block.50.out",
+      "lexical_balanced_accuracy": 0.7083333333333334,
+      "sites": {
+        "block.0.out": {
+          "balanced_accuracy": 0.4583333333333333,
+          "shuffle_mean": 0.18888888888888888
+        },
+        "block.1.out": {
+          "balanced_accuracy": 0.48611111111111116,
+          "shuffle_mean": 0.14305555555555555
+        },
+        "block.2.out": {
+          "balanced_accuracy": 0.47222222222222227,
+          "shuffle_mean": 0.17916666666666664
+        },
+        "block.3.out": {
+          "balanced_accuracy": 0.3819444444444445,
+          "shuffle_mean": 0.14444444444444443
+        },
+        "block.4.out": {
+          "balanced_accuracy": 0.4305555555555555,
+          "shuffle_mean": 0.13611111111111113
+        },
+        "block.5.out": {
+          "balanced_accuracy": 0.4930555555555556,
+          "shuffle_mean": 0.14305555555555555
+        },
+        "block.6.out": {
+          "balanced_accuracy": 0.3888888888888889,
+          "shuffle_mean": 0.1611111111111111
+        },
+        "block.7.out": {
+          "balanced_accuracy": 0.4583333333333333,
+          "shuffle_mean": 0.1486111111111111
+        },
+        "block.8.out": {
+          "balanced_accuracy": 0.46527777777777773,
+          "shuffle_mean": 0.14305555555555555
+        },
+        "block.9.out": {
+          "balanced_accuracy": 0.46527777777777785,
+          "shuffle_mean": 0.13194444444444445
+        },
+        "block.10.out": {
+          "balanced_accuracy": 0.46527777777777773,
+          "shuffle_mean": 0.15694444444444444
+        },
+        "block.11.out": {
+          "balanced_accuracy": 0.513888888888889,
+          "shuffle_mean": 0.14444444444444443
+        },
+        "block.12.out": {
+          "balanced_accuracy": 0.46527777777777773,
+          "shuffle_mean": 0.15833333333333335
+        },
+        "block.13.out": {
+          "balanced_accuracy": 0.4513888888888889,
+          "shuffle_mean": 0.16666666666666666
+        },
+        "block.14.out": {
+          "balanced_accuracy": 0.5138888888888888,
+          "shuffle_mean": 0.16666666666666666
+        },
+        "block.15.out": {
+          "balanced_accuracy": 0.4930555555555556,
+          "shuffle_mean": 0.17222222222222222
+        },
+        "block.16.out": {
+          "balanced_accuracy": 0.48611111111111116,
+          "shuffle_mean": 0.1486111111111111
+        },
+        "block.17.out": {
+          "balanced_accuracy": 0.4513888888888889,
+          "shuffle_mean": 0.15277777777777776
+        },
+        "block.18.out": {
+          "balanced_accuracy": 0.4930555555555555,
+          "shuffle_mean": 0.1375
+        },
+        "block.19.out": {
+          "balanced_accuracy": 0.4444444444444444,
+          "shuffle_mean": 0.14583333333333334
+        },
+        "block.20.out": {
+          "balanced_accuracy": 0.4305555555555555,
+          "shuffle_mean": 0.13472222222222222
+        },
+        "block.21.out": {
+          "balanced_accuracy": 0.4236111111111111,
+          "shuffle_mean": 0.17083333333333334
+        },
+        "block.22.out": {
+          "balanced_accuracy": 0.4583333333333333,
+          "shuffle_mean": 0.15
+        },
+        "block.23.out": {
+          "balanced_accuracy": 0.4583333333333333,
+          "shuffle_mean": 0.1388888888888889
+        },
+        "block.24.out": {
+          "balanced_accuracy": 0.4375,
+          "shuffle_mean": 0.1527777777777778
+        },
+        "block.25.out": {
+          "balanced_accuracy": 0.4375,
+          "shuffle_mean": 0.16111111111111112
+        },
+        "block.26.out": {
+          "balanced_accuracy": 0.4930555555555556,
+          "shuffle_mean": 0.1472222222222222
+        },
+        "block.27.out": {
+          "balanced_accuracy": 0.40277777777777785,
+          "shuffle_mean": 0.12916666666666668
+        },
+        "block.28.out": {
+          "balanced_accuracy": 0.4444444444444444,
+          "shuffle_mean": 0.14861111111111108
+        },
+        "block.29.out": {
+          "balanced_accuracy": 0.4305555555555556,
+          "shuffle_mean": 0.1638888888888889
+        },
+        "block.30.out": {
+          "balanced_accuracy": 0.4166666666666667,
+          "shuffle_mean": 0.1388888888888889
+        },
+        "block.31.out": {
+          "balanced_accuracy": 0.4236111111111111,
+          "shuffle_mean": 0.17222222222222222
+        },
+        "block.32.out": {
+          "balanced_accuracy": 0.47222222222222227,
+          "shuffle_mean": 0.14027777777777778
+        },
+        "block.33.out": {
+          "balanced_accuracy": 0.5625,
+          "shuffle_mean": 0.15833333333333333
+        },
+        "block.34.out": {
+          "balanced_accuracy": 0.6180555555555556,
+          "shuffle_mean": 0.15833333333333333
+        },
+        "block.35.out": {
+          "balanced_accuracy": 0.6180555555555555,
+          "shuffle_mean": 0.1625
+        },
+        "block.36.out": {
+          "balanced_accuracy": 0.6458333333333334,
+          "shuffle_mean": 0.18333333333333332
+        },
+        "block.37.out": {
+          "balanced_accuracy": 0.6875,
+          "shuffle_mean": 0.1638888888888889
+        },
+        "block.38.out": {
+          "balanced_accuracy": 0.6388888888888888,
+          "shuffle_mean": 0.16805555555555557
+        },
+        "block.39.out": {
+          "balanced_accuracy": 0.6666666666666666,
+          "shuffle_mean": 0.1736111111111111
+        },
+        "block.40.out": {
+          "balanced_accuracy": 0.6666666666666666,
+          "shuffle_mean": 0.15833333333333335
+        },
+        "block.41.out": {
+          "balanced_accuracy": 0.638888888888889,
+          "shuffle_mean": 0.14027777777777778
+        },
+        "block.42.out": {
+          "balanced_accuracy": 0.6319444444444445,
+          "shuffle_mean": 0.16805555555555557
+        },
+        "block.43.out": {
+          "balanced_accuracy": 0.7013888888888888,
+          "shuffle_mean": 0.1625
+        },
+        "block.44.out": {
+          "balanced_accuracy": 0.7222222222222222,
+          "shuffle_mean": 0.17222222222222222
+        },
+        "block.45.out": {
+          "balanced_accuracy": 0.7152777777777778,
+          "shuffle_mean": 0.1736111111111111
+        },
+        "block.46.out": {
+          "balanced_accuracy": 0.7708333333333334,
+          "shuffle_mean": 0.175
+        },
+        "block.47.out": {
+          "balanced_accuracy": 0.9305555555555557,
+          "shuffle_mean": 0.18194444444444444
+        },
+        "block.48.out": {
+          "balanced_accuracy": 0.8819444444444445,
+          "shuffle_mean": 0.16527777777777777
+        },
+        "block.49.out": {
+          "balanced_accuracy": 0.8888888888888888,
+          "shuffle_mean": 0.18611111111111112
+        },
+        "block.50.out": {
+          "balanced_accuracy": 0.9375,
+          "shuffle_mean": 0.17500000000000002
+        },
+        "block.51.out": {
+          "balanced_accuracy": 0.9375,
+          "shuffle_mean": 0.175
+        },
+        "block.52.out": {
+          "balanced_accuracy": 0.9375,
+          "shuffle_mean": 0.16111111111111112
+        },
+        "block.53.out": {
+          "balanced_accuracy": 0.9375,
+          "shuffle_mean": 0.18194444444444444
+        },
+        "block.54.out": {
+          "balanced_accuracy": 0.9375,
+          "shuffle_mean": 0.175
+        },
+        "block.55.out": {
+          "balanced_accuracy": 0.9375,
+          "shuffle_mean": 0.15277777777777776
+        },
+        "block.56.out": {
+          "balanced_accuracy": 0.923611111111111,
+          "shuffle_mean": 0.15694444444444447
+        },
+        "block.57.out": {
+          "balanced_accuracy": 0.9305555555555555,
+          "shuffle_mean": 0.14305555555555555
+        },
+        "block.58.out": {
+          "balanced_accuracy": 0.923611111111111,
+          "shuffle_mean": 0.15138888888888888
+        },
+        "block.59.out": {
+          "balanced_accuracy": 0.9375,
+          "shuffle_mean": 0.18888888888888888
+        },
+        "block.60.out": {
+          "balanced_accuracy": 0.9305555555555555,
+          "shuffle_mean": 0.1611111111111111
+        },
+        "block.61.out": {
+          "balanced_accuracy": 0.9236111111111112,
+          "shuffle_mean": 0.1472222222222222
+        },
+        "block.62.out": {
+          "balanced_accuracy": 0.9236111111111112,
+          "shuffle_mean": 0.15277777777777776
+        },
+        "block.63.out": {
+          "balanced_accuracy": 0.9305555555555555,
+          "shuffle_mean": 0.15277777777777776
+        },
+        "final_norm.pre": {
+          "balanced_accuracy": 0.9305555555555555,
+          "shuffle_mean": 0.15277777777777776
+        },
+        "final_norm.post": {
+          "balanced_accuracy": 0.9305555555555555,
+          "shuffle_mean": 0.15277777777777776
+        }
+      }
+    },
+    "motion": {
+      "selected_site": "block.4.out",
+      "lexical_balanced_accuracy": 1.0,
+      "sites": {
+        "block.0.out": {
+          "balanced_accuracy": 0.925,
+          "shuffle_mean": 0.47333333333333333
+        },
+        "block.1.out": {
+          "balanced_accuracy": 0.8541666666666666,
+          "shuffle_mean": 0.5066666666666666
+        },
+        "block.2.out": {
+          "balanced_accuracy": 0.8416666666666667,
+          "shuffle_mean": 0.49333333333333335
+        },
+        "block.3.out": {
+          "balanced_accuracy": 0.9208333333333334,
+          "shuffle_mean": 0.49333333333333335
+        },
+        "block.4.out": {
+          "balanced_accuracy": 0.8666666666666667,
+          "shuffle_mean": 0.5158333333333334
+        },
+        "block.5.out": {
+          "balanced_accuracy": 0.8416666666666667,
+          "shuffle_mean": 0.4916666666666667
+        },
+        "block.6.out": {
+          "balanced_accuracy": 0.7625,
+          "shuffle_mean": 0.49916666666666665
+        },
+        "block.7.out": {
+          "balanced_accuracy": 0.7416666666666667,
+          "shuffle_mean": 0.51
+        },
+        "block.8.out": {
+          "balanced_accuracy": 0.7208333333333333,
+          "shuffle_mean": 0.4991666666666667
+        },
+        "block.9.out": {
+          "balanced_accuracy": 0.7458333333333333,
+          "shuffle_mean": 0.5033333333333333
+        },
+        "block.10.out": {
+          "balanced_accuracy": 0.7416666666666667,
+          "shuffle_mean": 0.4991666666666667
+        },
+        "block.11.out": {
+          "balanced_accuracy": 0.7416666666666667,
+          "shuffle_mean": 0.4966666666666667
+        },
+        "block.12.out": {
+          "balanced_accuracy": 0.7458333333333333,
+          "shuffle_mean": 0.5116666666666666
+        },
+        "block.13.out": {
+          "balanced_accuracy": 0.7666666666666667,
+          "shuffle_mean": 0.5158333333333334
+        },
+        "block.14.out": {
+          "balanced_accuracy": 0.7291666666666666,
+          "shuffle_mean": 0.5158333333333334
+        },
+        "block.15.out": {
+          "balanced_accuracy": 0.7666666666666666,
+          "shuffle_mean": 0.49000000000000005
+        },
+        "block.16.out": {
+          "balanced_accuracy": 0.7875,
+          "shuffle_mean": 0.5
+        },
+        "block.17.out": {
+          "balanced_accuracy": 0.8208333333333333,
+          "shuffle_mean": 0.5116666666666667
+        },
+        "block.18.out": {
+          "balanced_accuracy": 0.8291666666666666,
+          "shuffle_mean": 0.52
+        },
+        "block.19.out": {
+          "balanced_accuracy": 0.8374999999999999,
+          "shuffle_mean": 0.5033333333333333
+        },
+        "block.20.out": {
+          "balanced_accuracy": 0.7875,
+          "shuffle_mean": 0.5358333333333334
+        },
+        "block.21.out": {
+          "balanced_accuracy": 0.7625,
+          "shuffle_mean": 0.5225
+        },
+        "block.22.out": {
+          "balanced_accuracy": 0.7416666666666667,
+          "shuffle_mean": 0.49333333333333335
+        },
+        "block.23.out": {
+          "balanced_accuracy": 0.7625,
+          "shuffle_mean": 0.5191666666666667
+        },
+        "block.24.out": {
+          "balanced_accuracy": 0.8166666666666667,
+          "shuffle_mean": 0.5008333333333334
+        },
+        "block.25.out": {
+          "balanced_accuracy": 0.7958333333333334,
+          "shuffle_mean": 0.5141666666666667
+        },
+        "block.26.out": {
+          "balanced_accuracy": 0.7416666666666667,
+          "shuffle_mean": 0.5066666666666666
+        },
+        "block.27.out": {
+          "balanced_accuracy": 0.75,
+          "shuffle_mean": 0.5016666666666667
+        },
+        "block.28.out": {
+          "balanced_accuracy": 0.7291666666666666,
+          "shuffle_mean": 0.5041666666666667
+        },
+        "block.29.out": {
+          "balanced_accuracy": 0.7375,
+          "shuffle_mean": 0.5258333333333333
+        },
+        "block.30.out": {
+          "balanced_accuracy": 0.6833333333333333,
+          "shuffle_mean": 0.5041666666666667
+        },
+        "block.31.out": {
+          "balanced_accuracy": 0.7,
+          "shuffle_mean": 0.51
+        },
+        "block.32.out": {
+          "balanced_accuracy": 0.6875,
+          "shuffle_mean": 0.5075
+        },
+        "block.33.out": {
+          "balanced_accuracy": 0.7125,
+          "shuffle_mean": 0.5075000000000001
+        },
+        "block.34.out": {
+          "balanced_accuracy": 0.7041666666666666,
+          "shuffle_mean": 0.4925
+        },
+        "block.35.out": {
+          "balanced_accuracy": 0.7083333333333334,
+          "shuffle_mean": 0.4916666666666666
+        },
+        "block.36.out": {
+          "balanced_accuracy": 0.6916666666666667,
+          "shuffle_mean": 0.49916666666666665
+        },
+        "block.37.out": {
+          "balanced_accuracy": 0.6916666666666667,
+          "shuffle_mean": 0.5041666666666667
+        },
+        "block.38.out": {
+          "balanced_accuracy": 0.7041666666666666,
+          "shuffle_mean": 0.4991666666666667
+        },
+        "block.39.out": {
+          "balanced_accuracy": 0.7125,
+          "shuffle_mean": 0.5133333333333333
+        },
+        "block.40.out": {
+          "balanced_accuracy": 0.7041666666666666,
+          "shuffle_mean": 0.5091666666666667
+        },
+        "block.41.out": {
+          "balanced_accuracy": 0.6875,
+          "shuffle_mean": 0.505
+        },
+        "block.42.out": {
+          "balanced_accuracy": 0.7041666666666666,
+          "shuffle_mean": 0.5191666666666667
+        },
+        "block.43.out": {
+          "balanced_accuracy": 0.7,
+          "shuffle_mean": 0.5025000000000001
+        },
+        "block.44.out": {
+          "balanced_accuracy": 0.6791666666666667,
+          "shuffle_mean": 0.5175
+        },
+        "block.45.out": {
+          "balanced_accuracy": 0.6916666666666667,
+          "shuffle_mean": 0.5191666666666667
+        },
+        "block.46.out": {
+          "balanced_accuracy": 0.7083333333333334,
+          "shuffle_mean": 0.5149999999999999
+        },
+        "block.47.out": {
+          "balanced_accuracy": 0.7041666666666666,
+          "shuffle_mean": 0.5083333333333333
+        },
+        "block.48.out": {
+          "balanced_accuracy": 0.6791666666666667,
+          "shuffle_mean": 0.5266666666666666
+        },
+        "block.49.out": {
+          "balanced_accuracy": 0.7041666666666667,
+          "shuffle_mean": 0.535
+        },
+        "block.50.out": {
+          "balanced_accuracy": 0.7166666666666667,
+          "shuffle_mean": 0.5341666666666666
+        },
+        "block.51.out": {
+          "balanced_accuracy": 0.7,
+          "shuffle_mean": 0.5608333333333333
+        },
+        "block.52.out": {
+          "balanced_accuracy": 0.6791666666666667,
+          "shuffle_mean": 0.5316666666666666
+        },
+        "block.53.out": {
+          "balanced_accuracy": 0.6625,
+          "shuffle_mean": 0.535
+        },
+        "block.54.out": {
+          "balanced_accuracy": 0.6791666666666667,
+          "shuffle_mean": 0.5116666666666666
+        },
+        "block.55.out": {
+          "balanced_accuracy": 0.7458333333333333,
+          "shuffle_mean": 0.5283333333333333
+        },
+        "block.56.out": {
+          "balanced_accuracy": 0.7375,
+          "shuffle_mean": 0.5291666666666666
+        },
+        "block.57.out": {
+          "balanced_accuracy": 0.7166666666666667,
+          "shuffle_mean": 0.5233333333333333
+        },
+        "block.58.out": {
+          "balanced_accuracy": 0.7375,
+          "shuffle_mean": 0.5058333333333334
+        },
+        "block.59.out": {
+          "balanced_accuracy": 0.7,
+          "shuffle_mean": 0.5041666666666667
+        },
+        "block.60.out": {
+          "balanced_accuracy": 0.7041666666666666,
+          "shuffle_mean": 0.52
+        },
+        "block.61.out": {
+          "balanced_accuracy": 0.75,
+          "shuffle_mean": 0.5258333333333334
+        },
+        "block.62.out": {
+          "balanced_accuracy": 0.7583333333333333,
+          "shuffle_mean": 0.5058333333333334
+        },
+        "block.63.out": {
+          "balanced_accuracy": 0.7875,
+          "shuffle_mean": 0.5133333333333333
+        },
+        "final_norm.pre": {
+          "balanced_accuracy": 0.7875,
+          "shuffle_mean": 0.5133333333333333
+        },
+        "final_norm.post": {
+          "balanced_accuracy": 0.7833333333333333,
+          "shuffle_mean": 0.5183333333333333
+        }
+      }
+    },
+    "action": {
+      "selected_site": "block.33.out",
+      "lexical_balanced_accuracy": 0.5,
+      "sites": {
+        "block.0.out": {
+          "balanced_accuracy": 0.7708333333333333,
+          "shuffle_mean": 0.53125
+        },
+        "block.1.out": {
+          "balanced_accuracy": 0.6458333333333334,
+          "shuffle_mean": 0.5083333333333333
+        },
+        "block.2.out": {
+          "balanced_accuracy": 0.6875,
+          "shuffle_mean": 0.5104166666666667
+        },
+        "block.3.out": {
+          "balanced_accuracy": 0.6875,
+          "shuffle_mean": 0.5020833333333333
+        },
+        "block.4.out": {
+          "balanced_accuracy": 0.625,
+          "shuffle_mean": 0.4833333333333333
+        },
+        "block.5.out": {
+          "balanced_accuracy": 0.6770833333333333,
+          "shuffle_mean": 0.5
+        },
+        "block.6.out": {
+          "balanced_accuracy": 0.6979166666666667,
+          "shuffle_mean": 0.5041666666666667
+        },
+        "block.7.out": {
+          "balanced_accuracy": 0.6770833333333333,
+          "shuffle_mean": 0.50625
+        },
+        "block.8.out": {
+          "balanced_accuracy": 0.6875,
+          "shuffle_mean": 0.5041666666666667
+        },
+        "block.9.out": {
+          "balanced_accuracy": 0.7395833333333333,
+          "shuffle_mean": 0.5041666666666667
+        },
+        "block.10.out": {
+          "balanced_accuracy": 0.75,
+          "shuffle_mean": 0.49375
+        },
+        "block.11.out": {
+          "balanced_accuracy": 0.7083333333333333,
+          "shuffle_mean": 0.4958333333333334
+        },
+        "block.12.out": {
+          "balanced_accuracy": 0.7083333333333334,
+          "shuffle_mean": 0.5020833333333333
+        },
+        "block.13.out": {
+          "balanced_accuracy": 0.7291666666666667,
+          "shuffle_mean": 0.5166666666666667
+        },
+        "block.14.out": {
+          "balanced_accuracy": 0.7291666666666666,
+          "shuffle_mean": 0.5083333333333334
+        },
+        "block.15.out": {
+          "balanced_accuracy": 0.7083333333333333,
+          "shuffle_mean": 0.5104166666666667
+        },
+        "block.16.out": {
+          "balanced_accuracy": 0.8229166666666666,
+          "shuffle_mean": 0.49375
+        },
+        "block.17.out": {
+          "balanced_accuracy": 0.8645833333333333,
+          "shuffle_mean": 0.5041666666666667
+        },
+        "block.18.out": {
+          "balanced_accuracy": 0.875,
+          "shuffle_mean": 0.5083333333333334
+        },
+        "block.19.out": {
+          "balanced_accuracy": 0.8333333333333334,
+          "shuffle_mean": 0.50625
+        },
+        "block.20.out": {
+          "balanced_accuracy": 0.9166666666666667,
+          "shuffle_mean": 0.5041666666666667
+        },
+        "block.21.out": {
+          "balanced_accuracy": 0.71875,
+          "shuffle_mean": 0.5104166666666666
+        },
+        "block.22.out": {
+          "balanced_accuracy": 0.78125,
+          "shuffle_mean": 0.5
+        },
+        "block.23.out": {
+          "balanced_accuracy": 0.84375,
+          "shuffle_mean": 0.50625
+        },
+        "block.24.out": {
+          "balanced_accuracy": 0.8645833333333333,
+          "shuffle_mean": 0.4875
+        },
+        "block.25.out": {
+          "balanced_accuracy": 0.84375,
+          "shuffle_mean": 0.4916666666666667
+        },
+        "block.26.out": {
+          "balanced_accuracy": 0.84375,
+          "shuffle_mean": 0.5104166666666667
+        },
+        "block.27.out": {
+          "balanced_accuracy": 0.8020833333333333,
+          "shuffle_mean": 0.50625
+        },
+        "block.28.out": {
+          "balanced_accuracy": 0.6458333333333334,
+          "shuffle_mean": 0.5
+        },
+        "block.29.out": {
+          "balanced_accuracy": 0.7708333333333333,
+          "shuffle_mean": 0.4979166666666667
+        },
+        "block.30.out": {
+          "balanced_accuracy": 0.7708333333333333,
+          "shuffle_mean": 0.5083333333333333
+        },
+        "block.31.out": {
+          "balanced_accuracy": 0.6979166666666666,
+          "shuffle_mean": 0.5
+        },
+        "block.32.out": {
+          "balanced_accuracy": 0.7708333333333333,
+          "shuffle_mean": 0.48125
+        },
+        "block.33.out": {
+          "balanced_accuracy": 0.8125,
+          "shuffle_mean": 0.4875
+        },
+        "block.34.out": {
+          "balanced_accuracy": 0.78125,
+          "shuffle_mean": 0.5125
+        },
+        "block.35.out": {
+          "balanced_accuracy": 0.7916666666666667,
+          "shuffle_mean": 0.51875
+        },
+        "block.36.out": {
+          "balanced_accuracy": 0.8333333333333333,
+          "shuffle_mean": 0.49375
+        },
+        "block.37.out": {
+          "balanced_accuracy": 0.8333333333333333,
+          "shuffle_mean": 0.5
+        },
+        "block.38.out": {
+          "balanced_accuracy": 0.8541666666666667,
+          "shuffle_mean": 0.49375
+        },
+        "block.39.out": {
+          "balanced_accuracy": 0.8229166666666667,
+          "shuffle_mean": 0.4958333333333334
+        },
+        "block.40.out": {
+          "balanced_accuracy": 0.8229166666666667,
+          "shuffle_mean": 0.5125
+        },
+        "block.41.out": {
+          "balanced_accuracy": 0.8125,
+          "shuffle_mean": 0.5
+        },
+        "block.42.out": {
+          "balanced_accuracy": 0.8333333333333333,
+          "shuffle_mean": 0.4979166666666666
+        },
+        "block.43.out": {
+          "balanced_accuracy": 0.8333333333333333,
+          "shuffle_mean": 0.53125
+        },
+        "block.44.out": {
+          "balanced_accuracy": 0.8229166666666666,
+          "shuffle_mean": 0.5395833333333334
+        },
+        "block.45.out": {
+          "balanced_accuracy": 0.8229166666666666,
+          "shuffle_mean": 0.51875
+        },
+        "block.46.out": {
+          "balanced_accuracy": 0.8229166666666666,
+          "shuffle_mean": 0.4979166666666667
+        },
+        "block.47.out": {
+          "balanced_accuracy": 0.84375,
+          "shuffle_mean": 0.5229166666666667
+        },
+        "block.48.out": {
+          "balanced_accuracy": 0.84375,
+          "shuffle_mean": 0.5125
+        },
+        "block.49.out": {
+          "balanced_accuracy": 0.9479166666666667,
+          "shuffle_mean": 0.5229166666666666
+        },
+        "block.50.out": {
+          "balanced_accuracy": 0.9375,
+          "shuffle_mean": 0.53125
+        },
+        "block.51.out": {
+          "balanced_accuracy": 0.9166666666666666,
+          "shuffle_mean": 0.5145833333333333
+        },
+        "block.52.out": {
+          "balanced_accuracy": 0.8333333333333333,
+          "shuffle_mean": 0.4958333333333333
+        },
+        "block.53.out": {
+          "balanced_accuracy": 0.84375,
+          "shuffle_mean": 0.4875
+        },
+        "block.54.out": {
+          "balanced_accuracy": 0.8541666666666666,
+          "shuffle_mean": 0.5
+        },
+        "block.55.out": {
+          "balanced_accuracy": 0.8541666666666667,
+          "shuffle_mean": 0.48125
+        },
+        "block.56.out": {
+          "balanced_accuracy": 0.8541666666666667,
+          "shuffle_mean": 0.4791666666666667
+        },
+        "block.57.out": {
+          "balanced_accuracy": 0.8541666666666667,
+          "shuffle_mean": 0.4979166666666667
+        },
+        "block.58.out": {
+          "balanced_accuracy": 0.8854166666666667,
+          "shuffle_mean": 0.5041666666666667
+        },
+        "block.59.out": {
+          "balanced_accuracy": 0.9791666666666667,
+          "shuffle_mean": 0.5333333333333334
+        },
+        "block.60.out": {
+          "balanced_accuracy": 0.9791666666666667,
+          "shuffle_mean": 0.5041666666666667
+        },
+        "block.61.out": {
+          "balanced_accuracy": 0.9791666666666667,
+          "shuffle_mean": 0.5166666666666667
+        },
+        "block.62.out": {
+          "balanced_accuracy": 0.9791666666666667,
+          "shuffle_mean": 0.50625
+        },
+        "block.63.out": {
+          "balanced_accuracy": 0.9791666666666667,
+          "shuffle_mean": 0.51875
+        },
+        "final_norm.pre": {
+          "balanced_accuracy": 0.9791666666666667,
+          "shuffle_mean": 0.51875
+        },
+        "final_norm.post": {
+          "balanced_accuracy": 0.9791666666666667,
+          "shuffle_mean": 0.5166666666666666
+        }
+      }
+    }
+  }
+}

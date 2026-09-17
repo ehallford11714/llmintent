@@ -1,0 +1,126 @@
+{
+  "snapshot": "C:\\Users\\ehall\\.cache\\huggingface\\hub\\models--Qwen--Qwen3.8-27B\\snapshots\\1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+  "name_or_path": "C:\\Users\\ehall\\.cache\\huggingface\\hub\\models--Qwen--Qwen3.8-27B\\snapshots\\1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+  "vocab_size": 248044,
+  "eos_token_id": 248046,
+  "pad_token_id": 248044,
+  "has_chat_template": true,
+  "codes": {
+    "A": {
+      "space_ids": [
+        357
+      ],
+      "space_tokens": [
+        "\\u0120A"
+      ],
+      "raw_ids": [
+        32
+      ],
+      "raw_tokens": [
+        "A"
+      ],
+      "space_single": true
+    },
+    "B": {
+      "space_ids": [
+        417
+      ],
+      "space_tokens": [
+        "\\u0120B"
+      ],
+      "raw_ids": [
+        33
+      ],
+      "raw_tokens": [
+        "B"
+      ],
+      "space_single": true
+    },
+    "C": {
+      "space_ids": [
+        351
+      ],
+      "space_tokens": [
+        "\\u0120C"
+      ],
+      "raw_ids": [
+        34
+      ],
+      "raw_tokens": [
+        "C"
+      ],
+      "space_single": true
+    },
+    "D": {
+      "space_ids": [
+        414
+      ],
+      "space_tokens": [
+        "\\u0120D"
+      ],
+      "raw_ids": [
+        35
+      ],
+      "raw_tokens": [
+        "D"
+      ],
+      "space_single": true
+    },
+    "E": {
+      "space_ids": [
+        458
+      ],
+      "space_tokens": [
+        "\\u0120E"
+      ],
+      "raw_ids": [
+        36
+      ],
+      "raw_tokens": [
+        "E"
+      ],
+      "space_single": true
+    },
+    "F": {
+      "space_ids": [
+        426
+      ],
+      "space_tokens": [
+        "\\u0120F"
+      ],
+      "raw_ids": [
+        37
+      ],
+      "raw_tokens": [
+        "F"
+      ],
+      "space_single": true
+    }
+  },
+  "codes_all_single_spaced": true,
+  "codes_unique_spaced": true,
+  "prompt_tokens": 28,
+  "capture_token_id": 271,
+  "capture_token_escaped": "\\u010a\\u010a",
+  "last8_ids": [
+    198,
+    248045,
+    74455,
+    198,
+    248068,
+    271,
+    248069,
+    271
+  ],
+  "last8_escaped": [
+    "\\u010a",
+    "<|im_start|>",
+    "assistant",
+    "\\u010a",
+    "<think>",
+    "\\u010a\\u010a",
+    "</think>",
+    "\\u010a\\u010a"
+  ],
+  "decoded_tail": " cart is moving toward Casey.\nReply with one letter only. Answer:<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n"
+}

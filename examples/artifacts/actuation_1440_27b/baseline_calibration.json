@@ -1,0 +1,136 @@
+{
+  "split": "calibration",
+  "model_argument": "C:\\Users\\ehall\\.cache\\huggingface\\hub\\models--Qwen--Qwen3.8-27B\\snapshots\\1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+  "model_class": "Qwen3_5ForConditionalGeneration",
+  "model_revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+  "four_bit": true,
+  "n": 240,
+  "accuracy": 0.8958333333333334,
+  "by_track": {
+    "frame": {
+      "n": 144,
+      "accuracy": 0.8263888888888888
+    },
+    "policy": {
+      "n": 96,
+      "accuracy": 1.0
+    }
+  },
+  "by_frame": {
+    "commit": {
+      "n": 24,
+      "accuracy": 0.7916666666666666
+    },
+    "conditional": {
+      "n": 24,
+      "accuracy": 0.9583333333333334
+    },
+    "policy": {
+      "n": 96,
+      "accuracy": 1.0
+    },
+    "quote": {
+      "n": 24,
+      "accuracy": 0.625
+    },
+    "reflect": {
+      "n": 24,
+      "accuracy": 0.75
+    },
+    "scene_only": {
+      "n": 24,
+      "accuracy": 0.875
+    },
+    "withhold": {
+      "n": 24,
+      "accuracy": 0.9583333333333334
+    }
+  },
+  "by_motion": {
+    "away from": {
+      "n": 120,
+      "accuracy": 0.8833333333333333
+    },
+    "toward": {
+      "n": 120,
+      "accuracy": 0.9083333333333333
+    }
+  },
+  "by_answer_semantic": {
+    "STEP": {
+      "n": 48,
+      "accuracy": 1.0
+    },
+    "WAIT": {
+      "n": 48,
+      "accuracy": 1.0
+    },
+    "commit": {
+      "n": 24,
+      "accuracy": 0.7916666666666666
+    },
+    "conditional": {
+      "n": 24,
+      "accuracy": 0.9583333333333334
+    },
+    "quote": {
+      "n": 24,
+      "accuracy": 0.625
+    },
+    "reflect": {
+      "n": 24,
+      "accuracy": 0.75
+    },
+    "scene_only": {
+      "n": 24,
+      "accuracy": 0.875
+    },
+    "withhold": {
+      "n": 24,
+      "accuracy": 0.9583333333333334
+    }
+  },
+  "by_template": {
+    "t6": {
+      "n": 80,
+      "accuracy": 1.0
+    },
+    "t7": {
+      "n": 80,
+      "accuracy": 0.8375
+    },
+    "t8": {
+      "n": 80,
+      "accuracy": 0.85
+    }
+  },
+  "by_object": {
+    "box": {
+      "n": 60,
+      "accuracy": 0.85
+    },
+    "disk": {
+      "n": 60,
+      "accuracy": 0.9333333333333333
+    },
+    "parcel": {
+      "n": 60,
+      "accuracy": 0.9
+    },
+    "vehicle": {
+      "n": 60,
+      "accuracy": 0.9
+    }
+  },
+  "by_mapping": {
+    "0": {
+      "n": 48,
+      "accuracy": 1.0
+    },
+    "1": {
+      "n": 48,
+      "accuracy": 1.0
+    }
+  },
+  "notes": []
+}
